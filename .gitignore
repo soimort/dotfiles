@@ -1,0 +1,21 @@
+*
+!.config/
+!.config/chromium/
+!.config/chromium/Default/
+!.config/chromium/Default/User StyleSheets/
+!.config/chromium/Default/User StyleSheets/Custom.css
+!.config/tint2/
+!.config/tint2/tint2rc
+!.ssh/
+!.ssh/id_rsa.pub
+!.gemrc
+!.gitconfig
+!.gitignore
+!.gvimrc
+!.rvmrc
+!.vimrc
+!.xinitrc
+!.Xmodmap
+!.xprofile
+!.zshrc
+!.zshrc_extensions

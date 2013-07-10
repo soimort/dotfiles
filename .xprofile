@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#
+# ~/.xprofile
+#
+# Executed by gdm at login
+#
+
+tint2 &

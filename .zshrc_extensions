@@ -1,0 +1,47 @@
+
+export proxy_default='http://127.0.0.1:8087/'
+
+assignProxy() {
+    local -a PROXY_ENV
+    PROXY_ENV=('http_proxy' 'HTTP_PROXY' 'https_proxy' 'HTTPS_PROXY' 'ftp_proxy' 'FTP_PROXY' 'rsync_proxy' 'RSYNC_PROXY' 'all_proxy' 'ALL_PROXY')
+    for envVar in $PROXY_ENV; do
+        export $envVar=$1
+    done
+}
+
+setProxy() {
+    assignProxy $proxy_default
+    export no_proxy='localhost,127.0.0.1'
+    export NO_PROXY=$no_proxy
+    
+    echo -e "\nProxy environment variable set."
+}
+
+unsetProxy() {
+    assignProxy ''
+}
+
+goagentd() {
+    python2 ~/Programs/goagent/local/proxy.py &>! /dev/null &
+}
+
+fixUnsavedHTML() {
+    i=
+    for i in .org.chromium.*; do
+        echo -ne "$i : "
+        f=`grep -o '"./[^"]*_files/' $i | uniq 2>/dev/null`
+        if [ -n "$f" ]; then
+            j=${f:3:-7}.html
+            mv -f $i $j
+            echo "moved to \"$j\""
+        else
+            rm -f $i
+            echo "removed"
+        fi
+    done 2>/dev/null
+}
+
+read_password() {
+    echo -ne 'Password: '
+    read -s password && echo
+}
