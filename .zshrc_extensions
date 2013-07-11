@@ -1,5 +1,6 @@
 
 export proxy_default='http://127.0.0.1:8087/'
+export backup_media='Titania'
 
 assignProxy() {
     local -a PROXY_ENV
@@ -44,4 +45,25 @@ fixUnsavedHTML() {
 read_password() {
     echo -ne 'Password: '
     read -s password && echo
+}
+
+backup() {
+    local src="/home/$USER/$1"
+    local dest="/run/media/$USER/$backup_media/$1"
+    local destp="/run/media/$USER/$backup_media/$1/.."
+    if [[ -r $src && -d $dest ]]; then
+        src=$(cd $src; pwd)
+        dest=$(cd $dest; pwd)
+        echo "Backup data $src => $dest"
+        echo -ne "Destination will be overwritten. Continue? [Y/n] "
+        local choice
+        read choice
+        if [ $choice = 'Y' ]; then
+            if [ ${src##*/} != ${dest##*/} ]; then
+                echo "Source and dest do not share a common name. Sync prevented."
+            else
+                rsync -r -t -v --progress --delete -s $src $destp
+            fi
+        fi
+    fi
 }
