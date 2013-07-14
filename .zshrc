@@ -21,7 +21,7 @@ alias rm="rm -i"
 
 alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias mygeoip="geoiplookup `myip`"
+alias mygeoip='geoiplookup $(myip)'
 
 alias vi="vim"
 alias gv="gvim"
