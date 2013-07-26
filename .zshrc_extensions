@@ -15,11 +15,13 @@ setProxy() {
     export no_proxy='localhost,127.0.0.1'
     export NO_PROXY=$no_proxy
     
-    echo -e "\nProxy environment variable set."
+    echo -e "Proxy environment variable set."
 }
 
 unsetProxy() {
     assignProxy ''
+    
+    echo -e "Proxy environment variable unset."
 }
 
 goagentd() {
