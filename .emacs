@@ -13,7 +13,7 @@
  )
 
 (global-linum-mode t)
-
+(global-set-key "\C-m" 'newline-and-indent)
 (tool-bar-mode -1)
 
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
