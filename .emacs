@@ -19,6 +19,15 @@
 ; Hide the tool-bar
 (tool-bar-mode -1)
 
+; Keyboard scroll one line at a time
+(setq scroll-step 1)
+; Scrolling down the view
+(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
+(global-set-key (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
+; Scrolling up the view
+(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+(global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
+
 ; Disable auto-save
 (setq auto-save-default nil)
 ; Disable the creation of backup files

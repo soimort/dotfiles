@@ -9,5 +9,4 @@
 ibus-daemon -x -d
 tint2 &
 devilspie2 &
-emacs --daemon
 exec ck-launch-session dbus-launch --sh-syntax --exit-with-session openbox-session
