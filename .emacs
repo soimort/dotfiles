@@ -16,6 +16,11 @@
 (global-linum-mode t)
 (tool-bar-mode -1)
 
+; Disable backup
+(setq backup-inhibited nil)
+; Disable auto-save
+(setq auto-save-default nil)
+
 (setq c-default-style
       '((java-mode . "java")
 	(awk-mode . "awk")
