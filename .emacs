@@ -12,8 +12,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (global-linum-mode t)
-(global-set-key "\C-m" 'newline-and-indent)
 (tool-bar-mode -1)
 
 (setq c-default-style
