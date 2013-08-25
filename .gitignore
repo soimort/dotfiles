@@ -4,6 +4,8 @@
 !.config/chromium/Default/
 !.config/chromium/Default/User StyleSheets/
 !.config/chromium/Default/User StyleSheets/Custom.css
+!.config/devilspie2/
+!.config/devilspie2/*.lua
 !.config/tint2/
 !.config/tint2/tint2rc
 !.ssh/
