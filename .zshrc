@@ -26,6 +26,7 @@ alias mygeoip='geoiplookup $(myip)'
 alias vi="vim"
 alias gv="gvim"
 alias em="emacs -nw"
+alias e="setsid emacs"
 alias sc="scite"
 
 alias py="python3"
