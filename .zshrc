@@ -12,6 +12,8 @@ unsetopt share_history
 
 EDITOR=vim
 
+fork() { (setsid "$@" &); }
+
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
