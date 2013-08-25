@@ -16,6 +16,11 @@
 (global-set-key "\C-m" 'newline-and-indent)
 (tool-bar-mode -1)
 
+(setq c-default-style
+      '((java-mode . "java")
+	(awk-mode . "awk")
+	(other . "k&r")))
+
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
 
