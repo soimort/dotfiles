@@ -16,8 +16,6 @@
 (define-key global-map (kbd "RET") 'newline-and-indent)
 ; Show line number
 (global-linum-mode t)
-; Hide the menu-bar
-(menu-bar-mode -1)
 ; Hide the tool-bar
 (tool-bar-mode -1)
 
