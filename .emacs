@@ -14,6 +14,8 @@
 
 ; Auto-indentation
 (define-key global-map (kbd "RET") 'newline-and-indent)
+; No tabs
+(setq-default indent-tabs-mode nil)
 ; Show line number
 (global-linum-mode t)
 ; Hide the tool-bar
