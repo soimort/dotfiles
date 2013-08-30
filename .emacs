@@ -12,23 +12,14 @@
  ;; If there is more than one, they won't work right.
  )
 
-; Auto-indentation
-(define-key global-map (kbd "RET") 'newline-and-indent)
-; No tabs
-(setq-default indent-tabs-mode nil)
-; Show line number
-(global-linum-mode t)
 ; Hide the tool-bar
 (tool-bar-mode -1)
-
-; Keyboard scroll one line at a time
-(setq scroll-step 1)
-; Scrolling down the view
-(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
-(global-set-key (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
-; Scrolling up the view
-(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
-(global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
+; Hide the menu-bar
+(menu-bar-mode -1)
+; Hide the tooltip
+(tooltip-mode -1)
+; Show line number
+(global-linum-mode t)
 
 ; Disable auto-save
 (setq auto-save-default nil)
@@ -42,10 +33,29 @@
   (kill-emacs))
 (global-set-key (kbd "C-x C-c") 'my-kill-emacs)
 
+; Auto-indentation
+(define-key global-map (kbd "RET") 'newline-and-indent)
+; No tabs
+(setq-default indent-tabs-mode nil)
+
+; Use K&R style
 (setq c-default-style
       '((java-mode . "java")
 	(awk-mode . "awk")
 	(other . "k&r")))
+
+; Enable ElScreen
+(load "elscreen" "ElScreen" t)
+(elscreen-start)
+
+; Keyboard scroll one line at a time
+(setq scroll-step 1)
+; Scrolling down the view
+(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
+(global-set-key (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
+; Scrolling up the view
+(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+(global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
 
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
