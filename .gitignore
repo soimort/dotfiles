@@ -16,6 +16,7 @@
 !.gitignore
 !.gvimrc
 !.rvmrc
+!.tmux.conf
 !.vimrc
 !.xinitrc
 !.Xmodmap
