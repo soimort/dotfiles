@@ -47,6 +47,7 @@
 ; Enable ElScreen
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
+(setq elscreen-tab-display-kill-screen nil)
 (global-set-key (kbd "<C-tab>") 'elscreen-next)
 (global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
 (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
