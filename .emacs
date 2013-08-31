@@ -62,6 +62,9 @@
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
 (global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
 
+; Use /bin/zsh as explicit shell
+(setq explicit-shell-file-name "/bin/zsh")
+
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
 
