@@ -48,7 +48,9 @@
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
 (global-set-key (kbd "<C-tab>") 'elscreen-next)
+(global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
 (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
+(global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
 
 ; Keyboard scroll one line at a time
 (setq scroll-step 1)
