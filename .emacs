@@ -44,15 +44,6 @@
 	(awk-mode . "awk")
 	(other . "k&r")))
 
-; Enable ElScreen
-(load "elscreen" "ElScreen" t)
-(elscreen-start)
-(setq elscreen-tab-display-kill-screen nil)
-(global-set-key (kbd "<C-tab>") 'elscreen-next)
-(global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
-(global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
-(global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
-
 ; Keyboard scroll one line at a time
 (setq scroll-step 1)
 ; Scrolling down the view
@@ -64,6 +55,26 @@
 
 ; Use /bin/zsh as explicit shell
 (setq explicit-shell-file-name "/bin/zsh")
+
+; Enable ElScreen
+(load "elscreen" "ElScreen" t)
+(elscreen-start)
+(setq elscreen-tab-display-kill-screen nil)
+(global-set-key (kbd "<C-tab>") 'elscreen-next)
+(global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
+(global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
+(global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
+
+; Open all buffers in individual screens
+(defun all-buffers-elscreen ()
+  (interactive)
+  (setq temp-list (buffer-list))
+  (while temp-list
+    (setq file-name (buffer-file-name (car temp-list)))
+    (if file-name
+        (elscreen-find-file file-name))
+    (setq temp-list (cdr temp-list))))
+(global-set-key (kbd "C-z SPC") 'all-buffers-elscreen)
 
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
