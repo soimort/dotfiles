@@ -65,6 +65,7 @@
 (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
 (global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
 
+; C-z SPC
 ; Open all buffers in individual screens
 (defun all-buffers-elscreen ()
   (interactive)
@@ -75,6 +76,11 @@
         (elscreen-find-file file-name))
     (setq temp-list (cdr temp-list))))
 (global-set-key (kbd "C-z SPC") 'all-buffers-elscreen)
+
+; Enable ElScreen-dnd
+; With ElScreen-dnd, new screens are automatically created for each file drag&dropped
+(load "elscreen-dnd")
+(setq elscreen-dnp-drag-n-drop t)
 
 (setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
 (setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
