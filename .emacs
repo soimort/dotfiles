@@ -82,14 +82,21 @@
 (load "elscreen-dnd")
 (setq elscreen-dnp-drag-n-drop t)
 
-(setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
-(setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
+; Load Markdown Mode
+(autoload 'markdown-mode "markdown-mode" "Markdown mode" t)
+(setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\.markdown" . markdown-mode) auto-mode-alist))
 
+; Load Lua Mode
+(setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+
+; Load Python Mode
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
-(setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
-(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
+(setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
 
 (setq auto-mode-alist (cons '("\.ws$" . whitespace-mode) auto-mode-alist))
 (autoload 'whitespace-mode "~/.emacs.d/whitespace-mode.el" "Whitespace editing mode." t)
