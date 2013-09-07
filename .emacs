@@ -87,6 +87,10 @@
 (setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\.markdown" . markdown-mode) auto-mode-alist))
 
+; Load Haskell Mode
+(require 'haskell-mode-autoloads)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+
 ; Load Lua Mode
 (setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
