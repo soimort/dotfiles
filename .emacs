@@ -87,6 +87,10 @@
 (setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\.markdown" . markdown-mode) auto-mode-alist))
 
+; Load YAML Mode
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\.yml\'" . yaml-mode))
+
 ; Load Haskell Mode
 (require 'haskell-mode-autoloads)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
