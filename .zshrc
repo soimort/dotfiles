@@ -34,10 +34,6 @@ alias sc="scite"
 alias py="python3"
 alias py2="python2"
 
-alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
-
-alias becat="${HOME}/Projects/becat/becat"
-
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
 MOSML_PATH="/opt/mosml"
@@ -61,3 +57,9 @@ source $HOME/.zshrc_extensions
 
 # Load private environment variables
 source $HOME/.zshrc_private
+
+alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
+
+alias becat="${HOME}/Projects/becat/becat"
+
+alias br2html="${HOME}/Projects/breakdown/br2html.awk"
