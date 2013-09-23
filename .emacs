@@ -57,6 +57,7 @@
 (setq explicit-shell-file-name "/bin/zsh")
 
 ; Enable ElScreen
+; [AUR] emacs-elscreen-emacs24-git
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
 (setq elscreen-tab-display-kill-screen nil)
@@ -82,29 +83,45 @@
 (load "elscreen-dnd")
 (setq elscreen-dnp-drag-n-drop t)
 
-; Load Markdown Mode
-(autoload 'markdown-mode "markdown-mode" "Markdown mode" t)
-(setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
-(setq auto-mode-alist (cons '("\.markdown" . markdown-mode) auto-mode-alist))
-
-; Load YAML Mode
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\.yml\'" . yaml-mode))
-
 ; Load Haskell Mode
+; [Arch] emacs-haskell-mode
 (require 'haskell-mode-autoloads)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 
 ; Load Lua Mode
-(setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
+; [Arch] emacs-lua-mode
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
 
 ; Load Python Mode
+; [Arch] emacs-python-mode
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
-(setenv "PATH" (concat "/usr/lib/smlnj/bin:" (getenv "PATH")))
-(setq exec-path (cons "/usr/lib/smlnj/bin" exec-path))
+; Load Clojure Mode
+; [AUR] emacs-clojure-mode-git
+(require 'clojure-mode)
 
+; Load Idris Mode
+; [AUR] emacs-idris-mode-git
+(require 'idris-mode)
+
+; Load Markdown Mode
+; [AUR] emacs-markdown-mode
+(autoload 'markdown-mode "markdown-mode" "Markdown mode" t)
+(setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist (cons '("\.markdown" . markdown-mode) auto-mode-alist))
+
+; Load SML Mode
+; [AUR] emacs-sml-mode
+(require 'sml-mode)
+
+; Load Whitespace Mode
+; [AUR] emacs-whitespace-mode
+(autoload 'whitespace-mode "whitespace-mode.el" "Whitespace editing mode." t)
 (setq auto-mode-alist (cons '("\.ws$" . whitespace-mode) auto-mode-alist))
-(autoload 'whitespace-mode "~/.emacs.d/whitespace-mode.el" "Whitespace editing mode." t)
+
+; Load YAML Mode
+; [AUR] emacs-yaml-mode
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\.yml\'" . yaml-mode))
