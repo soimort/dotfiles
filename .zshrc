@@ -47,7 +47,8 @@ GAE_PATH="${HOME}/Programs/google_appengine"
 HEROKU_PATH="/usr/local/heroku"
 
 # Set PATH
-export PATH="${PATH}:${HOME}/Programs/bin:${J_PATH}/bin:${MOSML_PATH}/bin:${CABAL_HOME}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
+export PATH="${CABAL_HOME}/bin:${PATH}"
+export PATH="${PATH}:${HOME}/Programs/bin:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
 
 # Import RVM after PATH is set
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
