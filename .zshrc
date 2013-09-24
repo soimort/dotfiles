@@ -10,20 +10,15 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct_all
 unsetopt share_history
 
-EDITOR=vim
+EDITOR=emacs
 
-fork() { (setsid "$@" &); }
-
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshconfig="$EDITOR $HOME/.zshrc"
+alias ohmyzsh="$EDITOR $ZSH/oh-my-zsh.sh"
+alias .,=". $HOME/.zshrc"
 
 alias cp="cp -i"
 alias mv="mv -i"
 alias rm="rm -i"
-
-alias i="ping -c 3 www.google.com"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias mygeoip='geoiplookup $(myip)'
 
 alias vi="vim"
 alias gv="gvim"
@@ -33,6 +28,17 @@ alias sc="scite"
 
 alias py="python3"
 alias py2="python2"
+alias rb="ruby"
+alias grsh="groovysh"
+
+alias i="ping -c 3 www.google.com"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias mygeoip="geoiplookup $(myip)"
+
+# Set aliases for local programs
+alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
+alias becat="${HOME}/Projects/becat/becat"
+alias br2html="${HOME}/Projects/breakdown/br2html.awk"
 
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
@@ -46,21 +52,19 @@ GEM_HOME="${HOME}/.gem/ruby/1.9.1"
 GAE_PATH="${HOME}/Programs/google_appengine"
 HEROKU_PATH="/usr/local/heroku"
 
-# Set PATH
+# Set PATH for local programs
 export PATH="${CABAL_HOME}/bin:${PATH}"
 export PATH="${PATH}:${HOME}/Programs/bin:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
 
-# Import RVM after PATH is set
+# Import RVM (must be put after PATH setting)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
-# Load extension functions
-source $HOME/.zshrc_extensions
+# Bootstrap ~/.zsh
+for i in $HOME/.zsh/*.sh; do
+    source $i
+done
 
-# Load private environment variables
-source $HOME/.zshrc_private
-
-alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
-
-alias becat="${HOME}/Projects/becat/becat"
-
-alias br2html="${HOME}/Projects/breakdown/br2html.awk"
+# Bootstrap ~/src
+for i in $HOME/src/*.sh; do
+    source $i
+done

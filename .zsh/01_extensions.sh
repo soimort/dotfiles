@@ -1,6 +1,12 @@
-
 export proxy_default='http://127.0.0.1:8087/'
 export backup_media='Titania'
+
+fork() { (setsid "$@" &); }
+
+read_password() {
+    echo -ne 'Password: '
+    read -s password && echo
+}
 
 assignProxy() {
     local -a PROXY_ENV
@@ -14,13 +20,11 @@ setProxy() {
     assignProxy $proxy_default
     export no_proxy='localhost,127.0.0.1'
     export NO_PROXY=$no_proxy
-    
     echo -e "Proxy environment variable set."
 }
 
 unsetProxy() {
     assignProxy ''
-    
     echo -e "Proxy environment variable unset."
 }
 
@@ -46,11 +50,6 @@ fixUnsavedHTML() {
             echo "removed"
         fi
     done 2>/dev/null
-}
-
-read_password() {
-    echo -ne 'Password: '
-    read -s password && echo
 }
 
 backup() {

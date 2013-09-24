@@ -22,4 +22,5 @@
 !.Xmodmap
 !.xprofile
 !.zshrc
-!.zshrc_extensions
+!.zsh/
+!.zsh/[^_]*
