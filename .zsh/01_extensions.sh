@@ -1,4 +1,5 @@
 export proxy_default='http://127.0.0.1:8087/'
+export dev_port_default='8000'
 export backup_media='Titania'
 
 fork() { (setsid "$@" &); }
@@ -11,12 +12,12 @@ read_password() {
 server() {
     ruby -run -e httpd . -p "$@"
 }
-alias serv="server 8000"
+alias serv="server $dev_port_default"
 
 py_server() {
     python -m http.server "$@"
 }
-alias pyserv="py_server 8000"
+alias pyserv="py_server $dev_port_default"
 
 assignProxy() {
     local -a PROXY_ENV
