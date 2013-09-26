@@ -102,6 +102,11 @@
 ; [AUR] emacs-clojure-mode-git
 (require 'clojure-mode)
 
+; Load Emmet Mode
+; [AUR] emacs-emmet-mode-git
+(require 'emmet-mode)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+
 ; Load Idris Mode
 ; [AUR] emacs-idris-mode-git
 (require 'idris-mode)
