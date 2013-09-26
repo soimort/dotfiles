@@ -8,6 +8,16 @@ read_password() {
     read -s password && echo
 }
 
+server() {
+    ruby -run -e httpd . -p "$@"
+}
+alias serv="server 8000"
+
+py_server() {
+    python -m http.server "$@"
+}
+alias pyserv="py_server 8000"
+
 assignProxy() {
     local -a PROXY_ENV
     PROXY_ENV=('http_proxy' 'HTTP_PROXY' 'https_proxy' 'HTTPS_PROXY' 'ftp_proxy' 'FTP_PROXY' 'rsync_proxy' 'RSYNC_PROXY' 'all_proxy' 'ALL_PROXY')
