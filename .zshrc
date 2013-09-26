@@ -33,7 +33,7 @@ alias grsh="groovysh"
 
 alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias mygeoip="geoiplookup $(myip)"
+alias mygeoip='geoiplookup $(myip)'
 
 # Set aliases for local programs
 alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
