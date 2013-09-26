@@ -106,6 +106,7 @@
 ; [AUR] emacs-emmet-mode-git
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
 
 ; Load Idris Mode
 ; [AUR] emacs-idris-mode-git
