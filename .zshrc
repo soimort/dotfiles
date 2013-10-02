@@ -35,11 +35,6 @@ alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
 
-# Set aliases for local programs
-alias jpcsp="(cd ${HOME}/Programs/jpcsp-linux-amd64;./start-linux-amd64.sh)"
-alias becat="${HOME}/Projects/becat/becat"
-alias br2html="${HOME}/Projects/breakdown/br2html.awk"
-
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
 MOSML_PATH="/opt/mosml"
