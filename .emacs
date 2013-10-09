@@ -134,3 +134,6 @@
 
 ; Load Gem Specification files (*.gemspec) in ruby-mode
 (add-to-list 'auto-mode-alist '("\.gemspec$" . ruby-mode))
+
+; Load ronn files (*.ronn) in markdown-mode
+(add-to-list 'auto-mode-alist '("\.ronn$" . markdown-mode))
