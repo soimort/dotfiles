@@ -131,3 +131,6 @@
 ; [AUR] emacs-yaml-mode
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\.yml\'" . yaml-mode))
+
+; Load Gem Specification files (*.gemspec) in ruby-mode
+(add-to-list 'auto-mode-alist '("\.gemspec$" . ruby-mode))
