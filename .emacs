@@ -137,3 +137,7 @@
 
 ; Load ronn files (*.ronn) in markdown-mode
 (add-to-list 'auto-mode-alist '("\.ronn$" . markdown-mode))
+
+; Load Arch PKGBUILD files in sh-mode
+(add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
+(add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
