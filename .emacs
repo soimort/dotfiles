@@ -98,6 +98,12 @@
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
+; Load Android Mode
+; [AUR] emacs-android-git
+(require 'android-mode)
+(setq android-mode-sdk-dir "/opt/android-sdk/")
+(setq android-mode-avd "My_Galaxy_Nexus")
+
 ; Load Clojure Mode
 ; [AUR] emacs-clojure-mode-git
 (require 'clojure-mode)
