@@ -151,3 +151,13 @@
 ;; Load Arch PKGBUILD files in sh-mode
 (add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
 (add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
+
+;; Redefine android-start-emulator to use KVM and GPU acceleration
+(defun android-start-emulator ()
+  "Launch Android emulator."
+  (interactive)
+  (let ((avd (or (and (not (string= android-mode-avd "")) android-mode-avd)
+                 (completing-read "Android Virtual Device: " (android-list-avd)))))
+    (unless (android-start-exclusive-command (concat "*android-emulator-" avd "*")
+                                             (concat (android-tool-path "emulator") " -avd " avd " -gpu on -qemu -m 512 -enable-kvm"))
+      (message (concat "emulator " avd " already running")))))
