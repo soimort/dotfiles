@@ -87,6 +87,11 @@
 (load "elscreen-dnd")
 (setq elscreen-dnp-drag-n-drop t)
 
+;; Load MELPA
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 ;; Load Haskell Mode
 ;; [Arch] emacs-haskell-mode
 (require 'haskell-mode-autoloads)
