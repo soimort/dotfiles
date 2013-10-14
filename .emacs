@@ -21,6 +21,9 @@
 ;; Show line number
 (global-linum-mode t)
 
+;; Highlight parentheses
+(show-paren-mode 1)
+
 ;; Disable auto-save
 (setq auto-save-default nil)
 ;; Disable the creation of backup files
