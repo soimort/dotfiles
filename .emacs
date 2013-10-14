@@ -166,3 +166,7 @@
     (unless (android-start-exclusive-command (concat "*android-emulator-" avd "*")
                                              (concat (android-tool-path "emulator") " -avd " avd " -gpu on -qemu -m 512 -enable-kvm"))
       (message (concat "emulator " avd " already running")))))
+
+;; Processing configuration
+(setq processing-location "/usr/bin/processing-java")
+(setq processing-sketchbook-dir "~/sketch")
