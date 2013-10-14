@@ -21,7 +21,7 @@
 ;; Show line number
 (global-linum-mode t)
 
-;; Highlight parentheses
+;; Show paren mode
 (show-paren-mode 1)
 
 ;; Disable auto-save
