@@ -90,6 +90,14 @@
 (load "elscreen-dnd")
 (setq elscreen-dnp-drag-n-drop t)
 
+;; Enable Powerline
+;; [AUR] emacs-powerline-git
+(require 'powerline)
+(powerline-default-theme)
+(custom-set-faces
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
+
 ;; Load MELPA
 (require 'package)
 (add-to-list 'package-archives
