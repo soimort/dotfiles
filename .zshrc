@@ -25,6 +25,7 @@ alias gv="gvim"
 alias em="emacs -nw"
 alias e="setsid emacs"
 alias sc="scite"
+alias sudoe="sudo emacs -u $USER"
 
 alias py="python3"
 alias py2="python2"
