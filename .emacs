@@ -99,12 +99,13 @@
 (setq elscreen-dnp-drag-n-drop t)
 
 ;; Location for saving Elscreen tabs / desktop sessions
-(setq desktop-dirname "./"
+(setq pwd (concat (getenv "PWD") "/"))
+(setq desktop-dirname pwd
       desktop-path (list desktop-dirname)
       desktop-save t)
 (desktop-save-mode 0)
 (defvar emacs-configuration-directory
-    "./"
+    pwd
     "The directory where the emacs configuration files are stored.")
 (defvar elscreen-tab-configuration-store-filename
     (concat emacs-configuration-directory ".emacs.elscreen")
