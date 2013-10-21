@@ -90,7 +90,57 @@
 (load "elscreen-dnd")
 (setq elscreen-dnp-drag-n-drop t)
 
-;; Enable Powerline
+;; Location for saving Elscreen tabs / desktop sessions
+(setq desktop-dirname "./"
+      desktop-path (list desktop-dirname)
+      desktop-save t)
+(desktop-save-mode 0)
+(defvar emacs-configuration-directory
+    "./"
+    "The directory where the emacs configuration files are stored.")
+(defvar elscreen-tab-configuration-store-filename
+    (concat emacs-configuration-directory ".emacs.elscreen")
+    "The file where the elscreen tab configuration is stored.")
+
+;; Store Elscreen tabs / desktop sessions
+(defun elscreen-store ()
+  "Store the elscreen tab configuration."
+  (interactive)
+  (if (desktop-save emacs-configuration-directory)
+      (with-temp-file elscreen-tab-configuration-store-filename
+        (insert (prin1-to-string (elscreen-get-screen-to-name-alist))))))
+(global-set-key (kbd "C-z e") 'elscreen-store)
+;; Automatic store
+(if (and (= 1 (length command-line-args))
+         (file-exists-p elscreen-tab-configuration-store-filename))
+    (push #'elscreen-store kill-emacs-hook))
+
+;; Restore Elscreen tabs / desktop sessions
+(defun elscreen-restore ()
+  "Restore the elscreen tab configuration."
+  (interactive)
+  (if (eq (type-of (desktop-read)) 'symbol)
+      (let ((screens (reverse
+                      (read
+                       (with-temp-buffer
+                         (insert-file-contents elscreen-tab-configuration-store-filename)
+                         (buffer-string))))))
+        (while screens
+          (setq screen (car (car screens)))
+          (setq buffers (split-string (cdr (car screens)) ":"))
+          (if (eq screen 0)
+              (switch-to-buffer (car buffers))
+            (elscreen-find-and-goto-by-buffer (car buffers) t t))
+          (while (cdr buffers)
+            (switch-to-buffer-other-window (car (cdr buffers)))
+            (setq buffers (cdr buffers)))
+          (setq screens (cdr screens))))))
+;; Automatic restore
+(if (and (= 1 (length command-line-args))
+         (file-readable-p elscreen-tab-configuration-store-filename))
+    (elscreen-restore))
+
+;; Load Powerline
 ;; [AUR] emacs-powerline-git
 (require 'powerline)
 (powerline-default-theme)
