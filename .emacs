@@ -36,6 +36,14 @@
   (kill-emacs))
 (global-set-key (kbd "C-x C-c") 'my-kill-emacs)
 
+;; Delete whole line without putting it into kill-ring
+(defun delete-line (&optional arg)
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-whole-line arg)
+  (setq kill-ring (cdr kill-ring)))
+(global-set-key (kbd "<C-S-backspace>") 'delete-line)
+
 ;; Auto-indentation
 (define-key global-map (kbd "RET") 'newline-and-indent)
 ;; No tabs
