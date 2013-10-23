@@ -179,6 +179,12 @@
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (setq auto-mode-alist (cons '("\.lua$" . lua-mode) auto-mode-alist))
 
+;; Load PKGBUILD Mode
+;; [Arch] emacs-pkgbuild-mode
+(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
+
 ;; Load Python Mode
 ;; [Arch] emacs-python-mode
 (autoload 'python-mode "python-mode.el" "Python mode." t)
@@ -234,10 +240,6 @@
 
 ;; Load ronn files (*.ronn) in markdown-mode
 (add-to-list 'auto-mode-alist '("\.ronn$" . markdown-mode))
-
-;; Load Arch PKGBUILD files in sh-mode
-(add-to-list 'auto-mode-alist '("PKGBUILD" . sh-mode))
-(add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
 
 ;; Redefine android-start-emulator to use KVM and GPU acceleration
 (defun android-start-emulator ()
