@@ -55,14 +55,29 @@
 	(awk-mode . "awk")
 	(other . "k&r")))
 
-;; Keyboard scroll one line at a time
-(setq scroll-step 1)
-;; Scrolling down the view
+;; Scrolling down the view (1 line)
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
+(eval-after-load 'markdown-mode
+  '(define-key markdown-mode-map
+     (kbd "M-n") (lambda () (interactive) (scroll-up 1))))
+
+;; Scrolling down the view
 (global-set-key (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
-;; Scrolling up the view
+(eval-after-load 'markdown-mode
+  '(define-key markdown-mode-map
+     (kbd "M-<down>") (lambda () (interactive) (scroll-up 4))))
+
+;; Scrolling up the view (1 line)
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+(eval-after-load 'markdown-mode
+  '(define-key markdown-mode-map
+      (kbd "M-p") (lambda () (interactive) (scroll-down 1))))
+
+;; Scrolling up the view
 (global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
+(eval-after-load 'markdown-mode
+  '(define-key markdown-mode-map
+     (kbd "M-<up>") (lambda () (interactive) (scroll-down 4))))
 
 ;; Enable mouse scroll-wheel scaling
 (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
