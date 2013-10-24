@@ -24,6 +24,11 @@
 ;; Show paren mode
 (show-paren-mode 1)
 
+;; Highlight current line
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#3e4446")
+(set-face-foreground 'highlight nil)
+
 ;; Disable auto-save
 (setq auto-save-default nil)
 ;; Disable the creation of backup files
