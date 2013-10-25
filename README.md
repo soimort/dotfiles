@@ -13,7 +13,7 @@
     $ echo '.emacs*' > .gitignore
     $ e .gitignore
 
-In Emacs, use `M-s e` to save the current session into `./.emacs.desktop` and `./.emacs.elscreen` before exit.
+In Emacs, use `M-s r` to save the current session into `./.emacs.desktop` and `./.emacs.elscreen` before exit.
 
 #### Start hacking on an existing project
 
@@ -22,7 +22,7 @@ In Emacs, use `M-s e` to save the current session into `./.emacs.desktop` and `.
 
 Emacs will try to restore the last session from `./.emacs.desktop` and `./.emacs.elscreen`, and save current session back into them on exiting. Automatically.
 
-Editing certain files by initializing `emacs` with explicit parameters will not cause Emacs to restore and save sessions automatically: (unless `M-s e` is invoked)
+Editing certain files by initializing `emacs` with explicit parameters will not cause Emacs to restore and save sessions automatically: (unless `M-s r` is invoked)
 
     $ e README.md src/hello.c
 
@@ -192,7 +192,7 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ### Customized ElScreen commands
 
-`M-s e` Save current session & tabs
+`M-s r` Remember (save current session)
 
 `M-s <SPC>` Open all buffers in individual screens
 

@@ -138,7 +138,7 @@
   (if (desktop-save emacs-configuration-directory)
       (with-temp-file elscreen-tab-configuration-store-filename
         (insert (prin1-to-string (elscreen-get-screen-to-name-alist))))))
-(global-set-key (kbd "M-s e") 'elscreen-store)
+(global-set-key (kbd "M-s r") 'elscreen-store)
 
 ;; Restore Elscreen tabs / desktop sessions
 (defun elscreen-restore ()
