@@ -98,13 +98,15 @@
 ;; [AUR] emacs-elscreen-emacs24-git
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
+(global-unset-key "\M-s")
+(elscreen-set-prefix-key "\M-s")
 (setq elscreen-tab-display-kill-screen nil)
 (global-set-key (kbd "<C-tab>") 'elscreen-next)
 (global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
 (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
 (global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
 
-;; C-z SPC
+;; M-s SPC
 ;; Open all buffers in individual screens
 (defun all-buffers-elscreen ()
   (interactive)
@@ -114,12 +116,7 @@
     (if file-name
         (elscreen-find-file file-name))
     (setq temp-list (cdr temp-list))))
-(global-set-key (kbd "C-z SPC") 'all-buffers-elscreen)
-
-;; Enable ElScreen-dnd
-;; With ElScreen-dnd, new screens are automatically created for each file drag&dropped
-(load "elscreen-dnd")
-(setq elscreen-dnp-drag-n-drop t)
+(global-set-key (kbd "M-s SPC") 'all-buffers-elscreen)
 
 ;; Location for saving Elscreen tabs / desktop sessions
 (setq pwd (concat (getenv "PWD") "/"))
@@ -141,7 +138,7 @@
   (if (desktop-save emacs-configuration-directory)
       (with-temp-file elscreen-tab-configuration-store-filename
         (insert (prin1-to-string (elscreen-get-screen-to-name-alist))))))
-(global-set-key (kbd "C-z e") 'elscreen-store)
+(global-set-key (kbd "M-s e") 'elscreen-store)
 
 ;; Restore Elscreen tabs / desktop sessions
 (defun elscreen-restore ()
@@ -163,6 +160,11 @@
             (switch-to-buffer-other-window (car (cdr buffers)))
             (setq buffers (cdr buffers)))
           (setq screens (cdr screens))))))
+
+;; Enable ElScreen-dnd
+;; With ElScreen-dnd, new screens are automatically created for each file drag&dropped
+(load "elscreen-dnd")
+(setq elscreen-dnp-drag-n-drop t)
 
 ;; Load Powerline
 ;; [AUR] emacs-powerline-git
