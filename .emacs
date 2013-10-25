@@ -29,6 +29,9 @@
 (set-face-background 'hl-line "#3e4446")
 (set-face-foreground 'highlight nil)
 
+;; Common User Access (CUA) mode
+(cua-mode 1)
+
 ;; Disable auto-save
 (setq auto-save-default nil)
 ;; Disable the creation of backup files
