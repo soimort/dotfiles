@@ -2,9 +2,31 @@
 
 ## Emacs
 
-### Basic commands
+### Project workflow
 
-`C-x C-c` Quit
+#### Initialize a new project
+
+    $ md my_project
+    $ cd my_project/
+    $ git init
+    $ git flow init -d
+    $ echo '.emacs*' > .gitignore
+    $ e .gitignore
+
+In Emacs, use `M-s e` to save the current session into `./.emacs.desktop` and `./.emacs.elscreen` before exit.
+
+#### Start hacking on an existing project
+
+    $ cd my_project/
+    $ e
+
+Emacs will try to restore the last session from `./.emacs.desktop` and `./.emacs.elscreen`, and save current session back into them on exiting. Automatically.
+
+Editing certain files by initializing `emacs` with explicit parameters will not cause Emacs to restore and save sessions automatically: (unless `M-s e` is invoked)
+
+    $ e README.md src/hello.c
+
+### Basic commands
 
 `C-x C-f` Find file
 
@@ -26,7 +48,7 @@
 
 `C-x 3` Split window vertically
 
-`C-SPC` Begin text selection
+`C-<SPC>` Begin text selection
 
 `C-g` Cancel
 
@@ -34,13 +56,13 @@
 
 `M-d` Kill word
 
-`M-delete` Kill word backwards
+`M-<delete>` Kill word backwards
 
-`C-w` Cut
+`C-w` Cut (kill)
 
 `M-w` Copy
 
-`M-y` Paste
+`M-y` Paste (yank)
 
 `M-h` Select current paragraph
 
@@ -84,17 +106,13 @@
 
 `M-}` Move cursor down-by-paragraph
 
-`C-v` Page down
-
-`M-v` Page up
-
 `M-<` Go to top of buffer
 
 `M->` Go to end of buffer
 
-`M-g M-g n` Go to line number n
+`M-g M-g` Go to line number
 
-`M-x foo-mode` Change mode
+`M-x` Change mode
 
 `M-x !` Run shell command
 
@@ -106,7 +124,11 @@
 
 ### Customized commands
 
-`C-S-backspace` Delete whole line (without putting it into kill-ring)
+`<RET>` Newline and indent
+
+`C-x C-c` Quit (without asking for saving buffer)
+
+`C-S-<backspace>` Delete whole line (without putting it into kill-ring)
 
 `M-n` Scroll view down (1 line)
 
@@ -118,65 +140,75 @@
 
 ### ElScreen commands
 
-`C-z c` `C-z C-c` Create a new screen and switch to it
+`M-s c` `M-s C-c` Create a new screen and switch to it
 
-`C-z C` Create a new screen with the window-configuration of the current screen
+`M-s C` Create a new screen with the window-configuration of the current screen
 
-`C-z d` Create a new screen and run dired
+`M-s d` Create a new screen and run dired
 
-`C-z C-f` Find file in new screen
+`M-s C-f` Find file in new screen
 
-`C-z C-r` Find file in new screen (read-only)
+`M-s C-r` Find file in new screen (read-only)
 
-`C-z k` `C-z M-k` Kill current screen
+`M-s k` `M-s C-k` Kill current screen
 
-`C-z M-k` Kill current screen and buffers
+`M-s M-k` Kill current screen and buffers
 
-`C-z K` Kill other screens
+`M-s K` Kill other screens
 
-`C-tab` `C-z n` `C-z C-n` Next screen
+`C-<tab>` `M-s n` `M-s C-n` Next screen
 
-`C-S-tab` `C-z p` `C-z C-p` Previous screen
+`C-S-<tab>` `M-s p` `M-s C-p` Previous screen
 
-`C-z a` `C-z C-a` Toggle to the screen selected previously
+`M-s a` `M-s C-a` Toggle to the screen selected previously
 
-`C-z '` Prompt for a screen number to switch to
+`M-s '` Prompt for a screen number to switch to
 
-`C-z "` Present a list of all screens for selection
+`M-s "` Present a list of all screens for selection
 
-`C-z 0..9` Jump to the screen number 0-9
+`M-s [0-9]` Jump to the screen number 0-9
 
-`C-z C-s` Swap current screen with previous one
+`M-s C-s` Swap current screen with previous one
 
-`C-z w` `C-z C-w` Show a list of screens
+`M-s w` `M-s C-w` Show a list of screens
 
-`C-z A` Allow the user to enter a name for the current screen
+`M-s A` Allow the user to enter a name for the current screen
 
-`C-z m` `C-z C-m` Repeat the last message displayed in the mini-buffer
+`M-s m` `M-s C-m` Repeat the last message displayed in the mini-buffer
 
-`C-z t` `C-z C-t` Display date/time
+`M-s t` `M-s C-t` Display date/time
 
-`C-z M-x` Read function name, then call it with new screen
+`M-s M-x` Read function name, then call it with new screen
 
-`C-z i` Show/hide the screen number in the mode line
+`M-s i` Show/hide the screen number in the mode line
 
-`C-z T` Show/hide the tab on the top of each frame
+`M-s T` Show/hide the tab on the top of each frame
 
-`C-z v` Display ElScreen version
+`M-s v` Display ElScreen version
 
-`C-z b` Switch to the screen in which specified buffer is displayed
+`M-s b` Switch to the screen in which specified buffer is displayed
 
-`C-z ?` Show key bindings of ElScreen and Add-On softwares
+`M-s ?` Show key bindings of ElScreen and Add-On softwares
 
 ### Customized ElScreen commands
 
-`C-z e` Save current session & tabs
+`M-s e` Save current session & tabs
 
-`C-z SPC` Open all buffers in individual screens
+`M-s <SPC>` Open all buffers in individual screens
 
-### Miscellany
+### cua-mode
 
-`C-j` Expand (emmet-mode)
+`C-x` (Active region) Cut (kill)
+
+`C-c` (Active region) Copy
+
+`C-v` Paste (yank)
+
+`C-z` Undo
+
+### emmet-mode
+
+`C-j` Expand
 
 
 
@@ -184,56 +216,106 @@
 
 ### Split window / Create pane
 
-`M-r h` `M-r <` Split window horizontally
+`M-s h` `M-s <` Split window horizontally
 
-`M-r v` `M-r /` Split window vertically
+`M-s v` `M-s /` Split window vertically
 
-`M-r t` Display time
+`M-s t` Display time
 
-`M-r q` Display pane number
+`M-s q` Display pane number
 
-`M-r x` Kill current pane
+`M-s x` Kill current pane
 
 ### Select pane
 
-`M-Up` Select up-side pane
+`M-<up>` Select up-side pane
 
-`M-Down` Select down-side pane
+`M-<down>` Select down-side pane
 
-`M-Left` Select left-side pane
+`M-<left>` Select left-side pane
 
-`M-Right` Select right-side pane
+`M-<right>` Select right-side pane
 
-`M-r ;` Select last pane
+`M-s ;` Select last pane
 
 ### Resize pane
 
-`M-r Up` Resize pane up-side
+`M-s <up>` Resize pane up-side
 
-`M-r Down` Resize pane down-side
+`M-s <down>` Resize pane down-side
 
-`M-r Left` Resize pane left-side
+`M-s <left>` Resize pane left-side
 
-`M-r Right` Resize pane right-side
+`M-s <right>` Resize pane right-side
 
 ### Create window
 
-`M-r c` Create new window
+`M-s c` Create new window
 
-`M-r &` Kill current window
+`M-s &` Kill current window
 
-`M-r k` Kill current window (no prompt)
+`M-s k` Kill current window (no prompt)
 
 ### Select window
 
-`C-Up` Select previous window
+`C-<up>` Select previous window
 
-`C-Down` Select next window
+`C-<down>` Select next window
 
-`M-r 0..9` Select window number 0-9
+`M-s [0-9]` Select the window number 0-9
 
 ### Miscellany
 
-`M-r ?` Show key bindings of Tmux
+`M-s ?` Show key bindings of Tmux
 
-`M-r r` Reload configuration (`.tmux.conf`)
+`M-s r` Reload configuration (`.tmux.conf`)
+
+
+
+## Git
+
+### Git-flow commands
+
+`git flow init -d` Initialize a new repo with the default branch structure
+
+`git flow feature` List feature branches
+
+`git flow feature start <name>` Start a feature branch
+
+`git flow feature finish <name>` Finish a feature branch
+
+`git flow feature publish <name>` Push a feature branch to the remote repo
+
+`git flow feature pull <remote> <name>` Pull a feature branch from the remote repo
+
+`git flow release` List release branches
+
+`git flow release start <release>` Start a release branch
+
+`git flow release finish <release>` Finish a release branch
+
+`git flow hotfix` List hotfix branches
+
+`git flow hotfix start <release>` Start a hotfix branch
+
+`git flow hotfix finish <release>` Finish a hotfix branch
+
+`git flow support` List support branches
+
+`git flow support start <release> <base>` Start a support branch
+
+### Aliases
+
+`git co` = `git checkout`
+
+`git br` = `git branch`
+
+`git ci` = `git commit`
+
+`git st` = `git status`
+
+`git unstage` = `git reset HEAD --`
+
+`git last` = `git log -1 HEAD`
+
+`git ll` Show fancy Git log
