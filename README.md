@@ -319,3 +319,5 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 `git last` = `git log -1 HEAD`
 
 `git ll` Show fancy Git log
+
+`git d` = `git diff HEAD --`
