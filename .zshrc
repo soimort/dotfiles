@@ -37,6 +37,9 @@ alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
 
+alias get-shit-done="sudo get-shit-done work"
+alias shit-done="sudo get-shit-done play"
+
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
 MOSML_PATH="/opt/mosml"
