@@ -25,6 +25,9 @@
 ;; Show line number
 (global-linum-mode t)
 
+;; Set frame title
+(setq frame-title-format "%b")
+
 ;; Set default font family / size
 (set-default-font "Inconsolata 13")
 
