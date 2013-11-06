@@ -12,6 +12,10 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; Set window transparency
+(set-frame-parameter (selected-frame) 'alpha '(88 88))
+(add-to-list 'default-frame-alist '(alpha 88 88))
+
 ;; Hide the tool-bar
 (tool-bar-mode -1)
 ;; Hide the menu-bar
@@ -21,12 +25,24 @@
 ;; Show line number
 (global-linum-mode t)
 
+;; Set default font family / size
+(set-default-font "Inconsolata 13")
+
+;; Set basic colors
+(set-background-color "#000f00")
+(set-face-background 'region "#103f10")
+(set-cursor-color "#107f10")
+
 ;; Show paren mode
 (show-paren-mode 1)
+;; Highlight parentheses
+(set-face-background 'show-paren-match-face (face-background 'default))
+(set-face-foreground 'show-paren-match-face "#ffff00")
+(set-face-attribute 'show-paren-match-face nil :weight 'extra-bold)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#3e4446")
+(set-face-background 'hl-line "#101f10")
 (set-face-foreground 'highlight nil)
 
 ;; Common User Access (CUA) mode
