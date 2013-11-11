@@ -13,8 +13,8 @@
  )
 
 ;; Set window transparency
-(set-frame-parameter (selected-frame) 'alpha '(88 88))
-(add-to-list 'default-frame-alist '(alpha 88 88))
+(set-frame-parameter (selected-frame) 'alpha '(90 90))
+(add-to-list 'default-frame-alist '(alpha 90 90))
 
 ;; Hide the tool-bar
 (tool-bar-mode -1)
