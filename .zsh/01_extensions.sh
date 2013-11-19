@@ -88,7 +88,7 @@ backup() {
 
 connect() {
     COOKIE=`mktemp`
-    curl -c $COOKIE --data 'username=mort.yao%40gmail.com&password=qwer4321' https://service.thecloud.net/service-platform/login/
-    curl -b $COOKIE https://service.thecloud.net/service-platform/connect/
+    curl -c $COOKIE --data 'username=mort.yao%40gmail.com&password=qwer4321' -k https://service.thecloud.net/service-platform/login/
+    curl -b $COOKIE -k https://service.thecloud.net/service-platform/connect/
     rm -f $COOKIE
 }
