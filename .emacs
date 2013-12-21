@@ -4,7 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (tango-dark)))
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(agda2-highlight-level (quote non-interactive))
+ '(agda2-include-dirs (quote ("." "/home/soimort/Source/agda-stdlib-0.7/src"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -200,6 +202,12 @@
 (require 'package)
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+;; Load Agda Mode
+(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
+(setq exec-path (append exec-path '("~/.cabal/bin")))
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
 
 ;; Load Haskell Mode
 ;; [Arch] emacs-haskell-mode
