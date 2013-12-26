@@ -63,6 +63,10 @@ fixUnsavedHTML() {
     done 2>/dev/null
 }
 
+rsyncp() {
+    rsync -r -t -v --progress --delete -s $@
+}
+
 backup() {
     if [ -n "$1" ]; then
         local src="/home/$USER/$1"
