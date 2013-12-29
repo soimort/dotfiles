@@ -270,6 +270,11 @@
 ;; [AUR] emacs-idris-mode-git
 (require 'idris-mode)
 
+;; Load LESS CSS Mode
+;; [AUR] emacs-less-css-mode-git
+(require 'less-css-mode)
+(setq less-css-compile-at-save t)
+
 ;; Load Markdown Mode
 ;; [AUR] emacs-markdown-mode
 (autoload 'markdown-mode "markdown-mode" "Markdown mode" t)
