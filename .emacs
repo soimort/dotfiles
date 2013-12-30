@@ -245,6 +245,13 @@
 ;; [AUR] emacs-clojure-mode-git
 (require 'clojure-mode)
 
+;; Load CoffeeScript Mode
+;; [AUR] emacs-coffeescript-mode
+(require 'coffee-mode)
+(add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+(add-hook 'coffee-mode-hook 'coffee-cos-mode)
+
 ;; Load Emmet Mode
 ;; [AUR] emacs-emmet-mode-git
 (require 'emmet-mode)
