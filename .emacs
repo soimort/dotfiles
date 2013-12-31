@@ -84,6 +84,9 @@
 	(awk-mode . "awk")
 	(other . "k&r")))
 
+;; CSS Mode indent offset 2
+(setq css-indent-offset 2)
+
 ;; Scrolling down the view (1 line)
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
 (eval-after-load 'markdown-mode
