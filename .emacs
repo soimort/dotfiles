@@ -215,7 +215,7 @@
 ;; Load Haskell Mode
 ;; [Arch] emacs-haskell-mode
 (require 'haskell-mode-autoloads)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 ;; Load Lua Mode
 ;; [Arch] emacs-lua-mode
