@@ -118,6 +118,9 @@
 ;; Use /bin/zsh as explicit shell
 (setq explicit-shell-file-name "/bin/zsh")
 
+;; Remove trailing whitespace when saving
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; Enable ElScreen
 ;; [AUR] emacs-elscreen-emacs24-git
 (load "elscreen" "ElScreen" t)
