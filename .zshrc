@@ -42,6 +42,8 @@ alias shit-done="sudo get-shit-done play"
 
 alias you-play="you-get -p vlc"
 
+alias tweet="earthquake -c"
+
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
 MOSML_PATH="/opt/mosml"
