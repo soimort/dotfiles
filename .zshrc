@@ -44,6 +44,8 @@ alias you-play="you-get -p vlc"
 
 alias tweet="earthquake -c"
 
+alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
+
 # PATH for Languages
 J_PATH="${HOME}/Programs/j64-701"
 MOSML_PATH="/opt/mosml"
