@@ -76,3 +76,6 @@ done
 for i in $HOME/src/*.sh; do
     source $i
 done
+
+# ~/Scripts
+export PATH="${PATH}:${HOME}/Scripts"
