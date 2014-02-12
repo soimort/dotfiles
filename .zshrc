@@ -37,12 +37,16 @@ alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
 
+alias difr="diff -r"
+
 alias get-shit-done="sudo get-shit-done work"
 alias shit-done="sudo get-shit-done play"
 
 alias you-play="you-get -p vlc"
 
 alias tweet="earthquake -c"
+
+alias import-certs="mozroots --import --ask-remove"
 
 alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
 
