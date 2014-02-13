@@ -71,6 +71,10 @@ export PATH="${PATH}:${HOME}/Programs/bin:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_
 # Import RVM (must be put after PATH setting)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
+# linuxbrew
+export PATH="$HOME/.linuxbrew/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+
 # Bootstrap ~/.zsh
 for i in $HOME/.zsh/*.sh; do
     source $i
