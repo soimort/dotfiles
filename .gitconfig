@@ -18,3 +18,5 @@
 	prompt = false
 [merge]
 	tool = vimdiff
+[core]
+	editor = emacs
