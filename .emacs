@@ -82,7 +82,11 @@
 (setq c-default-style
       '((java-mode . "java")
 	(awk-mode . "awk")
-	(other . "k&r")))
+	(other . "k&r"))
+      c-basic-offset 4)
+
+(c-set-offset 'substatement-open 0)
+(c-set-offset 'inline-open 0)
 
 ;; CSS Mode indent offset 2
 (setq css-indent-offset 2)
