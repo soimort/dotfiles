@@ -1,7 +1,21 @@
 
+## GNOME
+
+### Run a GNOME application written in CoffeeScript
+
+```sh
+gcoffee script.coffee
+```
+
+### Hello World
+
+```sh
+hello-world
+```
+
 ## Script-Fu
 
-### Open Script-Fu interactive console
+### Open Script-Fu interactive console (TinyScheme interpreter)
 
 ```sh
 script-fu

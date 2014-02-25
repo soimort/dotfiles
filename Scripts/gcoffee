@@ -1,0 +1,3 @@
+#!/bin/bash
+
+coffee -p $1 | xargs -0 gjs -c

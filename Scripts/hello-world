@@ -1,0 +1,19 @@
+#!/usr/bin/env gcoffee
+
+Gtk = imports.gi.Gtk
+GLib = imports.gi.GLib
+
+Gtk.init(null, 0)
+
+mwindow = new Gtk.Window type : Gtk.WindowType.TOPLEVEL
+label = new Gtk.Label label : "Hello World"
+
+mwindow.title = "Hello World!"
+mwindow.connect("destroy", () -> Gtk.main_quit());
+
+mwindow.add label
+
+label.show()
+mwindow.show()
+
+Gtk.main()
