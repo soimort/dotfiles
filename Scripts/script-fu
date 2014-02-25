@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -n "$1" ]; then
+    gimp -i -b "$@" -b '(gimp-quit 0)' 2>/dev/null
+else
+    gimp -i -b - 2>/dev/null
+fi

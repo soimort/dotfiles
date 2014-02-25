@@ -8,6 +8,10 @@
 !.config/devilspie2/*.lua
 !.config/tint2/
 !.config/tint2/tint2rc
+!.gimp-2.8/scripts
+!.gimp-2.8/scripts/*.scm
+!Scripts/
+!Scripts/*
 !.ssh/
 !.ssh/id_rsa.pub
 !.emacs
