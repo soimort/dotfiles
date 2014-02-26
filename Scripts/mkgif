@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ -n "$1" ]; then
+    if [ -n "$2" ]; then
+        RESIZE="-resize $2"
+    fi
+    if [ -n "$3" ]; then
+        DELAY="-delay $3"
+    fi
+    convert -colors 128 -loop 0 $RESIZE $DELAY $1/*.png $1.gif
+fi

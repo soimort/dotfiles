@@ -13,6 +13,14 @@ gcoffee script.coffee
 hello-world
 ```
 
+## ImageMagick
+
+### Make `data.gif` (400 pixels wide)
+
+```sh
+mkgif data 400
+```
+
 ## Script-Fu
 
 ### Open Script-Fu interactive console (TinyScheme interpreter)
