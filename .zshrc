@@ -66,7 +66,7 @@ HEROKU_PATH="/usr/local/heroku"
 
 # Set PATH for local programs
 export PATH="${CABAL_HOME}/bin:${PATH}"
-export PATH="${PATH}:${HOME}/Programs/bin:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
+export PATH="${PATH}:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
 
 # Import RVM (must be put after PATH setting)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
