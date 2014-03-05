@@ -208,10 +208,15 @@
  '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
  '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
-;; Load MELPA
+;; Initialize MELPA
 (require 'package)
 (add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(unless package-archive-contents (package-refresh-contents))
+(package-initialize)
+
+;; Load FSharp Mode
+(require 'fsharp-mode)
 
 ;; Load Agda Mode
 (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
