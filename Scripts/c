@@ -1,0 +1,7 @@
+#!/bin/bash
+
+CC=c99
+SRC_FILENAME=$1
+OUT_FILENAME=${SRC_FILENAME%.c}.out
+shift
+$CC -o $OUT_FILENAME $SRC_FILENAME $@
