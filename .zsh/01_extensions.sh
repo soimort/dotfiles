@@ -39,14 +39,6 @@ unsetProxy() {
     echo -e "Proxy environment variable unset."
 }
 
-goagent() {
-    python2 ~/Programs/goagent/local/proxy.py
-}
-
-goagentd() {
-    python2 ~/Programs/goagent/local/proxy.py &>! /dev/null &
-}
-
 fixUnsavedHTML() {
     i=
     for i in .org.chromium.*; do

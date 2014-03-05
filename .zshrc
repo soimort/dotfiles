@@ -10,8 +10,6 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct_all
 unsetopt share_history
 
-EDITOR=emacs
-
 alias zshconfig="$EDITOR $HOME/.zshrc"
 alias ohmyzsh="$EDITOR $ZSH/oh-my-zsh.sh"
 alias .,=". $HOME/.zshrc"
@@ -20,6 +18,7 @@ alias cp="cp -i"
 alias mv="mv -i"
 alias rm="rm -i"
 
+EDITOR=emacs
 alias vi="vim"
 alias gv="gvim"
 alias em="emacs -nw"
@@ -39,51 +38,63 @@ alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
 
 alias difr="diff -r"
 
+alias tweet="earthquake -c"
+
 alias get-shit-done="sudo get-shit-done work"
 alias shit-done="sudo get-shit-done play"
-
-alias you-play="you-get -p vlc"
-
-alias tweet="earthquake -c"
 
 alias import-certs="mozroots --import --ask-remove"
 
 alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
 
-alias ncc="mono /opt/nemerle/ncc.exe"
+alias clean-zcompdump='rm -f ~/.zcompdump*'
 
-# PATH for Languages
-J_PATH="${HOME}/Programs/j64-701"
-MOSML_PATH="/opt/mosml"
-
-# PATH for Package managers
+# Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
-GEM_HOME="${HOME}/.gem/ruby/1.9.1"
-
-# PATH for PaaS SDKs
-GAE_PATH="${HOME}/Programs/google_appengine"
-HEROKU_PATH="/usr/local/heroku"
-
-# Set PATH for local programs
 export PATH="${CABAL_HOME}/bin:${PATH}"
-export PATH="${PATH}:${J_PATH}/bin:${MOSML_PATH}/bin:${GEM_HOME}/bin:${GAE_PATH}/bin:${HEROKU_PATH}/bin"
 
-# Import RVM (must be put after PATH setting)
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+# Gem (Ruby package manager)
+GEM_HOME="${HOME}/.gem/ruby/1.9.1"
+export PATH="${PATH}:${GEM_HOME}/bin"
 
-# linuxbrew
+# Linuxbrew package manager
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+
+# Clean programming language
+export PATH="/opt/clean/bin:${PATH}"
+
+# ATS2 programming language
+export PATSHOME="/usr/lib/ats2-postiats-0.0.5"
+
+# Hope programming language
+export HOPEPATH="/usr/share/hope/lib"
+
+# Heroku
+export PATH="${PATH}:/usr/local/heroku/bin"
+
+# My ~/Scripts
+export PATH="${HOME}/Scripts:${PATH}"
 
 # Bootstrap ~/.zsh
 for i in $HOME/.zsh/*.sh; do
     source $i
 done
 
-# Bootstrap ~/src
-for i in $HOME/src/*.sh; do
+# Bootstrap ~/Programs
+for i in $HOME/Programs/*.sh; do
     source $i
 done
 
-# ~/Scripts
-export PATH="${PATH}:${HOME}/Scripts"
+# Bootstrap ~/Sources
+for i in $HOME/Source/*.sh; do
+    source $i
+done
+
+# Bootstrap ~/Projects
+for i in $HOME/Projects/*.sh; do
+    source $i
+done
+
+# Import RVM (must be put after PATH setting)
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
