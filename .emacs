@@ -304,6 +304,10 @@
 (setq auto-mode-alist (cons '("\.md$" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\.markdown$" . markdown-mode) auto-mode-alist))
 
+;; Load Mozart/Oz Mode
+;; [AUR] emacs-oz-mode
+(require 'oz)
+
 ;; Load SML Mode
 ;; [AUR] emacs-sml-mode
 (require 'sml-mode)
