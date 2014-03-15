@@ -61,9 +61,6 @@ export PATH="${PATH}:${GEM_HOME}/bin"
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
 
-# Clean programming language
-export PATH="/opt/clean/bin:${PATH}"
-
 # ATS2 programming language
 export PATSHOME="/usr/lib/ats2-postiats-0.0.5"
 
