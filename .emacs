@@ -256,6 +256,9 @@
 ;;;(autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
 ;;;(add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
 
+;; Load ATS Mode
+(require 'ats-mode)
+
 ;; Load Clojure Mode
 ;; [AUR] emacs-clojure-mode-git
 (require 'clojure-mode)
