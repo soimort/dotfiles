@@ -355,9 +355,6 @@
 (setq processing-location "/usr/bin/processing-java")
 (setq processing-sketchbook-dir "~/sketch")
 
-;; Load ACL2 Mode
-(load-file "/opt/acl2/emacs/emacs-acl2.el")
-
 ;; Automatic store
 (if (and (= 1 (length command-line-args))
          (file-exists-p elscreen-tab-configuration-store-filename))
