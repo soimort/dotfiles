@@ -247,14 +247,14 @@
 
 ;; Load Android Mode
 ;; [AUR] emacs-android-git
-(require 'android-mode)
-(setq android-mode-sdk-dir "/opt/android-sdk/")
-(setq android-mode-avd "My_Galaxy_Nexus")
+;;;(require 'android-mode)
+;;;(setq android-mode-sdk-dir "/opt/android-sdk/")
+;;;(setq android-mode-avd "My_Galaxy_Nexus")
 
 ;; Load Arduino Mode
 ;; [AUR] emacs-arduino-mode-git
-(autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
-(add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
+;;;(autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
+;;;(add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
 
 ;; Load Clojure Mode
 ;; [AUR] emacs-clojure-mode-git
