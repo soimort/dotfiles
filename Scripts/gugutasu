@@ -1,0 +1,248 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'google/api_client'
+require 'json'
+require 'net/http'
+require 'optparse'
+require 'tzinfo'
+
+module Gugutasu
+
+  NAME = 'gugutasu'
+  VERSION = '2014.03.25'
+
+  def self.api_key
+    @@api_key
+  end
+
+  def self.api_key=(api_key)
+    @@client.key = @@api_key = api_key
+  end
+
+  def self.register_client(api_key)
+    @@client =
+      Google::APIClient.new(:application_name => 'GooglePlusArchiver',
+                            :application_version => VERSION)
+    @@api_key = @@client.key = api_key
+    @@request_num = 0
+    begin
+      @@plus = @@client.discovered_api('plus')
+    rescue Exception => e
+      puts e
+    end
+  end
+
+  def self.client_registered?
+    defined? @@plus
+  end
+
+  def self.get_full_image_url(url)
+    if url =~ /https:\/\/\w+\.googleusercontent\.com/
+      if url =~ /\/s\d+\/[^\/]+$/ or url =~ /\/w\d+-h\d+\/[^\/]+$/ or url =~ /\/w\d+-h\d+-\w+\/[^\/]+$/
+        url[0..url[0..(url.rindex('/') - 1)].rindex('/')] + 's0-d' + url[url.rindex('/')..-1]
+      elsif url =~ /\/photo.jpg$/ and not url =~ /\/s0-d\/[^\/]+$/
+        url[0..url.rindex('/')] + 's0-d' + url[url.rindex('/')..-1]
+      else
+        url
+      end
+    else
+      url
+    end
+  end
+
+  def self.save_activity(params)
+    begin
+      raise "Unregistered client." unless client_registered?
+    rescue => e
+      puts e.message
+      return
+    end
+
+    index, activity_id, output_path, timezone =
+      params[:index], params[:activity_id], (params[:output_path] or FileUtils.pwd), (params[:timezone].nil? ? 'Etc/UTC' : params[:timezone])
+
+    response = @@client.execute(:api_method => @@plus.activities.get,
+                                :parameters => {
+                                  'activityId' => activity_id,
+                                },
+                                :authenticated => false)
+
+    data = JSON.parse(response.body)
+
+    name = data['actor']['displayName']
+    url = data['url']
+    content = data['object']['content']
+    attachments = data['object']['attachments']
+
+    published = data['published']
+    tz = TZInfo::Timezone.get(timezone)
+    published_date = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%F')
+    published_date_readable = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%d %b %Y')
+    published_time = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%T')
+
+    puts "\n[#{index+1}] Reading post by #{name}, published at #{published}"
+
+    output_dir = File.join(output_path, name, published_date)
+    FileUtils.mkdir_p output_dir
+    output_base = File.join(output_dir, published_time)
+
+    output_json = output_base + '.json'
+    File.open(output_json, 'w').puts response.body
+
+    output_md = output_base + '.pt'
+    md = content.gsub(/<br \/>/, "\n")
+    File.open(output_md, 'w') do |file|
+      file.puts '---'
+      file.puts "date: #{published_date_readable}"
+      file.puts "url: #{url}"
+      file.puts '---'
+      file.puts md
+    end
+    puts "[#{index+1}] Post saved at #{output_md}"
+
+    attachments.each do |attachment|
+      if attachment['objectType'] == 'photo'
+        image_id = attachment['id']
+        image_url = get_full_image_url(attachment['fullImage']['url'])
+        puts "[#{index+1}] Downloading image: #{image_url}"
+        uri = URI.parse(URI.escape(image_url))
+        http = Net::HTTP.new(uri.host, uri.port)
+        if http.port == 443
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+        image = http.get(uri.request_uri)
+
+        image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
+        if image_filename
+          extname = image_filename[1].split('.')[-1]
+        else
+          extname = image.header['Content-Type'].split('/')[-1]
+        end
+
+        output_image = "#{output_base}.#{image_id}.#{extname}"
+        File.open(output_image, 'w').puts image.body
+
+      elsif attachment['objectType'] == 'album'
+        image_id = attachment['id']
+        thumbnails = attachment['thumbnails']
+        if thumbnails
+          thumbnails.each_index do |index|
+            thumbnail = thumbnails[index]
+            image_url = get_full_image_url(thumbnail['image']['url'])
+            puts "[#{index+1}] Downloading image: #{image_url}"
+            uri = URI.parse(URI.escape("#{image_url}"))
+            http = Net::HTTP.new(uri.host, uri.port)
+            if http.port == 443
+              http.use_ssl = true
+              http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            end
+            image = http.get(uri.request_uri)
+
+            image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
+            if image_filename
+              extname = image_filename[1].split('.')[-1]
+            else
+              extname = image.header['Content-Type'].split('/')[-1]
+            end
+
+            output_image = "#{output_base}.#{image_id}[#{index}].#{extname}"
+            File.open(output_image, 'w').puts image.body
+          end
+        end
+
+      elsif attachment['objectType'] == 'video'
+        video_id = attachment['id']
+        video_url = attachment['url']
+        puts "[#{index+1}] Downloading video: #{video_url}"
+        system "you-get -o #{output_base}.#{video_id} #{video_url}"
+
+      end
+    end
+  end
+end
+
+if __FILE__ == $0
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = 'Usage: '
+
+    opts.on('-a', '--api-key [API_KEY]', 'Specify the Google API key') do |api_key|
+      options[:api_key] = api_key
+    end
+
+    opts.on('-o', '--output-path [OUTPUT_PATH]', 'Output path (the current directory by default)') do |output_path|
+      options[:output_path] = output_path
+    end
+
+    opts.on('-t', '--timezone [TIMEZONE]', 'Time zone') do |timezone|
+      options[:timezone] = timezone
+    end
+
+    opts.on('-x', '--proxy [PROXY]', 'Use proxy on given port') do |proxy|
+      options[:proxy] = proxy
+    end
+
+    opts.on('-V', '--version', 'Display current version') do
+      puts "#{Gugutasu::NAME} #{Gugutasu::VERSION}"
+      exit 0
+    end
+  end.parse!
+
+  options[:api_key] = ENV['GOOGLE_API_KEY'] if not options[:api_key]
+  options[:output_path] = ENV['GOOGLE_ARCHIVE_PATH'] if not options[:output_path]
+  options[:timezone] = ENV['GOOGLE_ARCHIVE_TIMEZONE'] if not options[:timezone]
+
+  if not options[:api_key]
+    puts 'You must specify your Google API key (-a).'
+    exit 0
+  end
+
+  Gugutasu::register_client(options[:api_key])
+  if not Gugutasu::client_registered?
+    puts 'Client registration failed.'
+    exit 0
+  end
+
+  ARGV.each_index do |index|
+    url = ARGV[index]
+    uri = URI.parse(URI.escape(url))
+
+    if options[:proxy]
+      proxy_addr, proxy_port = options[:proxy].split ':'
+      http = Net::HTTP.new(uri.host, uri.port, proxy_addr, proxy_port)
+    else
+      http = Net::HTTP.new(uri.host, uri.port)
+    end
+
+    if http.port == 443
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
+
+    response = http.get uri.request_uri
+    # Handle Google+ custom URL redirection
+    if response.code == '302'
+      response = http.get response['location']
+    end
+
+    # Handle Google+ album URL
+    if uri.request_uri.start_with? '/photos/' or uri.request_uri.start_with? '/u/0/photos/'
+      post_request_uri = '/' + response.body.match(/"([^"]+\/posts\/[^"]+)"/)[1]
+
+      response = http.get post_request_uri
+      # Handle Google+ custom URL redirection
+      if response.code == '302'
+        response = http.get response['location']
+      end
+    end
+
+    activity_id = response.body.match(/<div id="update-([^"]+)"/)[1]
+    Gugutasu::save_activity(:index => index,
+                            :activity_id => activity_id,
+                            :output_path => options[:output_path],
+                            :timezone => options[:timezone])
+
+  end
+end
