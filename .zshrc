@@ -23,7 +23,7 @@ alias vi="vim"
 alias gv="gvim"
 alias em="emacs -nw"
 alias e="setsid emacs"
-alias sc="scite"
+alias sc="setsid scite"
 alias sudoe="sudo emacs -u $USER"
 alias sudosc="sudo scite"
 
