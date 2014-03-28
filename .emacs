@@ -217,7 +217,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(unless package-archive-contents (package-refresh-contents))
+;; this could be freakin slow...
+;;(unless package-archive-contents (package-refresh-contents))
 (package-initialize)
 
 ;; Load FSharp Mode
