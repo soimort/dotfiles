@@ -159,7 +159,7 @@ module Gugutasu
         system "you-get -o #{output_base}.#{video_id} #{video_url}"
 
       end
-    end
+    end if attachments
   end
 end
 
