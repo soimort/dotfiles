@@ -207,7 +207,7 @@ if __FILE__ == $0
 
   ARGV.each_index do |index|
     url = ARGV[index]
-    uri = URI.parse(URI.escape(url))
+    uri = URI.parse(url)
 
     if options[:proxy]
       proxy_addr, proxy_port = options[:proxy].split ':'
@@ -223,7 +223,7 @@ if __FILE__ == $0
 
     response = http.get uri.request_uri
     # Handle Google+ custom URL redirection
-    if response.code == '302'
+    while response.code == '302'
       response = http.get response['location']
     end
 
