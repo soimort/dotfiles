@@ -221,6 +221,9 @@
 ;;(unless package-archive-contents (package-refresh-contents))
 (package-initialize)
 
+;; Use CSharp Mode for .asmx
+(setq auto-mode-alist (cons '("\.asmx$" . csharp-mode) auto-mode-alist))
+
 ;; Load FSharp Mode
 (require 'fsharp-mode)
 
