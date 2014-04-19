@@ -210,6 +210,14 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 `C-j` Expand
 
+### Spell checking
+
+`M-$` Check and correct spelling of the word at point
+
+`M-x flyspell-mode` Enable Flyspell mode, which highlights all misspelled words
+
+`M-x flyspell-prog-mode` Enable Flyspell mode for comments and strings only
+
 
 
 ## Tmux
