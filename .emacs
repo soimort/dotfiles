@@ -227,6 +227,9 @@
 ;; Load FSharp Mode
 (require 'fsharp-mode)
 
+;; Load SuperCollider Mode
+(require 'sclang)
+
 ;; Load Agda Mode
 (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
 (setq exec-path (append exec-path '("~/.cabal/bin")))
