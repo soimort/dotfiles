@@ -115,6 +115,9 @@
   '(define-key markdown-mode-map
      (kbd "M-<up>") (lambda () (interactive) (scroll-down 4))))
 
+;; Change scaling factor
+(setq text-scale-mode-step 1.05)
+
 ;; Enable mouse scroll-wheel scaling
 (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
 (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
