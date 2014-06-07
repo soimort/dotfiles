@@ -19,7 +19,7 @@ alias mv="mv -i"
 alias rm="rm -i"
 
 EDITOR=emacs
-VISUAL=emacs
+export VISUAL=emacs
 alias vi="vim"
 alias gv="gvim"
 alias em="emacs -nw"
