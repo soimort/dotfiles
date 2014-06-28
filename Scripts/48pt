@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+# 48pt (48 Post Translation)
+# .pt -> .html
+
+until ARGV.empty? do
+  input_file_name = ARGV.shift
+  output_file_name = "#{input_file_name}.html"
+  yaml_flag = false
+
+  author = ((File.absolute_path "#{input_file_name}").split "/")[-3]
+
+  File.open(output_file_name, "w") do |f|
+    date = url = nil
+    File.open(input_file_name, "r").each_line do |line|
+      line.strip!
+      yaml_flag = !yaml_flag if line == "---"
+      if yaml_flag && line != "---" then
+        date = line[6..-1] if line.start_with? "date:"
+        url = line[5..-1] if line.start_with? "url:"
+
+      elsif !yaml_flag && line == "---" then
+        line = "<a href='#{url}'>#{author} - Google+ - #{date}</a>"
+        f.puts line
+
+        line = "<blockquote>"
+        f.puts line
+
+      elsif !yaml_flag && line != "---" then
+        line = "<em><strong>#{line[3..-1]}</strong></em>" if line.start_with? "___"
+        line = "<strong>#{line}</strong>" if line.start_with? "__"
+        line = "<em>#{line}</em>" if line.start_with? "_"
+
+        line = "#{line}<br/>"
+        f.puts line
+
+      end
+    end
+    line = "</blockquote>"
+    f.puts line
+  end
+end
