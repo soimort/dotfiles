@@ -1,0 +1,36 @@
+#!/bin/sh
+
+ARCH=x86_64
+
+exec_install() {
+    for package_name in "$@"; do
+        status=`curl -sI https://www.archlinux.org/packages/extra/$ARCH/$package_name/ | head -n 1 | cut -d$' ' -f2`
+        if [ $status = 200 ]; then
+            git_repo=packages
+        else
+            status=`curl -sI https://www.archlinux.org/packages/community/$ARCH/$package_name/ | head -n 1 | cut -d$' ' -f2`
+            if [ $status = 200 ]; then
+                git_repo=community
+            fi
+        fi
+        mkdir $package_name
+        cd $package_name
+        git init
+        git remote add -t packages/$package_name -f origin git://projects.archlinux.org/svntogit/$git_repo.git
+        git checkout packages/$package_name
+        cd trunk
+        makepkg
+    done
+}
+
+if [ $# -eq 0 ]; then
+    echo arch
+    exit
+fi
+
+case $1 in
+    'install' )
+        shift
+        exec_install $*
+        ;;
+esac
