@@ -114,10 +114,10 @@ module Gugutasu
         end
         image = http.get(uri.request_uri)
 
-        image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
-        if image_filename
+        begin
+          image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
           extname = image_filename[1].split('.')[-1]
-        else
+        rescue
           extname = image.header['Content-Type'].split('/')[-1]
         end
 
@@ -140,10 +140,10 @@ module Gugutasu
             end
             image = http.get(uri.request_uri)
 
-            image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
-            if image_filename
+            begin
+              image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
               extname = image_filename[1].split('.')[-1]
-            else
+            rescue
               extname = image.header['Content-Type'].split('/')[-1]
             end
 
