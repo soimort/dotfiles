@@ -39,6 +39,8 @@ alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
 
 alias difr="diff -r"
 
+alias trs="trans"
+
 alias tweet="earthquake -c"
 
 alias get-shit-done="sudo get-shit-done work"
