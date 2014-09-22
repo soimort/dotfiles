@@ -156,7 +156,7 @@ module Gugutasu
         video_id = attachment['id']
         video_url = attachment['url']
         puts "[#{index+1}] Downloading video: #{video_url}"
-        system "you-get -o #{output_base}.#{video_id} #{video_url}"
+        system "you-get -o '#{output_base}.#{video_id}' #{video_url}"
 
       end
     end if attachments
