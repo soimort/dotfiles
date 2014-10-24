@@ -96,5 +96,10 @@ for i in $HOME/Projects/*.sh; do
     source $i
 done
 
+# Hitman
+for i in $HOME/Projects/hitman/*/_build/bin; do
+    export PATH="$i:$PATH"
+done
+
 # Import RVM (must be put after PATH setting)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
