@@ -20,3 +20,5 @@
 	tool = vimdiff
 [core]
 	editor = emacs
+[push]
+	default = matching
