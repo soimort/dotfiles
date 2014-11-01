@@ -30,6 +30,8 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 `C-x C-f` Find file
 
+`C-x C-v RET` Reload file
+
 `C-x C-s` Save buffer
 
 `C-x s` Save file (like save-as)
@@ -311,6 +313,12 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 `git flow support` List support branches
 
 `git flow support start <release> <base>` Start a support branch
+
+### Tags / Releases
+
+`git tag -a vX.Y.Z -m 'version X.Y.Z' [commit]` Create a new tag
+
+`git push origin --tags` Push tags
 
 ### Aliases
 
