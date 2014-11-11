@@ -52,6 +52,8 @@ alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
 
 alias clean-zcompdump='rm -f ~/.zcompdump*'
 
+alias pac="sudo pacman"
+
 # Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
 export PATH="${CABAL_HOME}/bin:${PATH}"
