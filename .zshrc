@@ -58,6 +58,7 @@ alias scheme="rlwrap scheme"
 alias guile="rlwrap guile"
 alias sml="rlwrap sml"
 alias mosml="rlwrap mosml"
+alias maxima="rlwrap maxima"
 
 # Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
