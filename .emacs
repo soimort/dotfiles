@@ -234,10 +234,10 @@
 (require 'sclang)
 
 ;; Load Agda Mode
-(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
-(setq exec-path (append exec-path '("~/.cabal/bin")))
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;;(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
+;;(setq exec-path (append exec-path '("~/.cabal/bin")))
+;;(load-file (let ((coding-system-for-read 'utf-8))
+;;                (shell-command-to-string "agda-mode locate")))
 
 ;; Load Haskell Mode
 ;; [Arch] emacs-haskell-mode
