@@ -201,7 +201,7 @@
 (setq elscreen-dnp-drag-n-drop t)
 
 ;; Enable Xwidget
-(require 'xwidget)
+;;(require 'xwidget)
 
 ;; Load Powerline
 ;; [AUR] emacs-powerline-git
