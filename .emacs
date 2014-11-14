@@ -234,7 +234,7 @@
 (require 'sclang)
 
 ;; Load Maxima Mode
-(add-to-list 'load-path "/usr/share/maxima/5.32.1/emacs/")
+(add-to-list 'load-path "/usr/share/maxima/5.34.1/emacs/")
 (autoload 'maxima-mode "maxima" "Maxima mode" t)
 (autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
 (autoload 'maxima "maxima" "Maxima interaction" t)
