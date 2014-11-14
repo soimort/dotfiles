@@ -63,6 +63,8 @@ alias sbcl="rlwrap sbcl"
 alias ecl="rlwrap ecl"
 alias lisp="rlwrap lisp"
 alias cmucl="rlwrap cmucl"
+alias ccl="rlwrap ccl"
+alias ccl64="rlwrap ccl64"
 
 # Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
