@@ -320,6 +320,11 @@
 ;; [AUR] emacs-idris-mode-git
 (require 'idris-mode)
 
+;; Load J Mode
+;; [AUR] emacs-j-mode-git
+(autoload 'j-mode "j-mode.el" "Major mode for editing J files" t)
+(add-to-list 'auto-mode-alist '("\.ij[rstp]$" . j-mode))
+
 ;; Load LESS CSS Mode
 ;; [AUR] emacs-less-css-mode-git
 (require 'less-css-mode)
