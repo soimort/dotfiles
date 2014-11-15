@@ -281,6 +281,7 @@
 ;;;(add-to-list 'auto-mode-alist '("\.ino$" . arduino-mode))
 
 ;; Load ATS Mode
+;; [AUR] emacs-ats-mode
 (require 'ats-mode)
 
 ;; Load Clojure Mode
