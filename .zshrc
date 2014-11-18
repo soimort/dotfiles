@@ -54,6 +54,7 @@ alias clean-zcompdump='rm -f ~/.zcompdump*'
 
 alias pac="sudo pacman"
 
+alias racket="rlwrap racket"
 alias scheme="rlwrap scheme"
 alias guile="rlwrap guile"
 alias sml="rlwrap sml"
