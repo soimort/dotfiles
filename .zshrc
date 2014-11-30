@@ -49,6 +49,7 @@ alias shit-done="sudo get-shit-done play"
 alias import-certs="mozroots --import --ask-remove"
 
 alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
+alias remove-u-feff="perl -pi~ -CSD -e 's/^\x{feff}//'"
 
 alias clean-zcompdump='rm -f ~/.zcompdump*'
 
