@@ -229,7 +229,7 @@ if __FILE__ == $0
 
     # Handle Google+ album URL
     if uri.request_uri.start_with? '/photos/' or uri.request_uri.start_with? '/u/0/photos/'
-      post_request_uri = '/' + response.body.match(/"([^"]+\/posts\/[^"]+)"/)[1]
+      post_request_uri = '/' + response.body.match(/"([^"\/]+\/posts\/[^"]+)"/)[1]
 
       response = http.get post_request_uri
       # Handle Google+ custom URL redirection
