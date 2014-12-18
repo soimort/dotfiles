@@ -4,6 +4,29 @@ export backup_media='Titania'
 
 fork() { (setsid "$@" &); }
 
+scite-save() {
+    cp ~/.SciTE.session ~/.SciTE.session-$1
+}
+
+scite-restore() {
+    if [ -r ~/.SciTE.session-$1 ]; then
+        \cp -f ~/.SciTE.session-$1 ~/.SciTE.session
+        fork scite
+    fi
+}
+
+scite-delete() {
+    if [ -r ~/.SciTE.session-$1 ]; then
+        rm -f ~/.SciTE.session-$1
+    fi
+}
+
+scite-list() {
+    for i in ~/.SciTE.session-*; do
+        echo ${i#~/.SciTE.session-}
+    done
+}
+
 read_password() {
     echo -ne 'Password: '
     read -s password && echo
