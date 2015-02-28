@@ -85,7 +85,7 @@ export PATH="${PATH}:${GEM_HOME}/bin"
 
 # Linuxbrew package manager
 export PATH="$HOME/.linuxbrew/bin:$PATH"
-export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:/usr/local/lib:$LD_LIBRARY_PATH"
 
 # ATS2 programming language
 export PATSHOME="/usr/lib/ats2-postiats-0.0.5"
