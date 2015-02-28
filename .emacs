@@ -3,16 +3,27 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tango-dark)))
- '(inhibit-startup-screen t)
+
+ ;; Agda2 Mode
  '(agda2-highlight-level (quote non-interactive))
- '(agda2-include-dirs (quote ("." "/home/soimort/Source/agda-stdlib-0.7/src"))))
+ '(agda2-include-dirs
+   (quote
+    ("." "/home/soimort/Source/agda-stdlib/src" "/home/soimort/Source/agda-prelude/src")))
+
+ ;; CoffeeScript Mode
+ '(coffee-tab-width 2)
+
+ '(custom-enabled-themes (quote (tango-dark)))
+ '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+
+ ;; Powerline
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
 ;; Set window transparency
 (set-frame-parameter (selected-frame) 'alpha '(90 90))
@@ -207,9 +218,6 @@
 ;; [AUR] emacs-powerline-git
 (require 'powerline)
 (powerline-default-theme)
-(custom-set-faces
- '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
- '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
 ;; Load EMMS
 (require 'emms-setup)
@@ -245,8 +253,8 @@
 ;; Load Agda Mode
 ;;(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
 ;;(setq exec-path (append exec-path '("~/.cabal/bin")))
-;;(load-file (let ((coding-system-for-read 'utf-8))
-;;                (shell-command-to-string "agda-mode locate")))
+(load-file (let ((coding-system-for-read 'utf-8))
+             (shell-command-to-string "agda-mode locate")))
 
 ;; Load Haskell Mode
 ;; [Arch] emacs-haskell-mode
@@ -294,7 +302,6 @@
 (add-to-list 'auto-mode-alist '("\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook 'coffee-cos-mode)
-(custom-set-variables '(coffee-tab-width 2))
 
 ;; Load Emmet Mode
 ;; [AUR] emacs-emmet-mode-git
