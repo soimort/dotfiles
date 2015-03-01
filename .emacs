@@ -251,8 +251,8 @@
 (add-to-list 'auto-mode-alist '("\\.ma[cx]" . maxima-mode))
 
 ;; Load Agda Mode
-;;(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
-;;(setq exec-path (append exec-path '("~/.cabal/bin")))
+(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
+(setq exec-path (append exec-path '("~/.cabal/bin")))
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 
