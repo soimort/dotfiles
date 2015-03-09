@@ -10,6 +10,7 @@
 (global-set-key (kbd "<header-line> <mouse-5>") 'elscreen-next)
 (global-set-key (kbd "<C-S-iso-lefttab>") 'elscreen-previous)
 (global-set-key (kbd "<header-line> <mouse-4>") 'elscreen-previous)
+(global-set-key (kbd "M-s <backspace>") 'elscreen-swap)
 (global-set-key (kbd "C-` f") 'elscreen-find-file)
 
 ;; [M-s SPC] Open all buffers in individual screens
