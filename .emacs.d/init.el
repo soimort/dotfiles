@@ -235,3 +235,6 @@
 ;; elscreen has to precede powerline, due to a clash between them
 (load "~/.emacs.d/init-elscreen.el")
 (load "~/.emacs.d/init-powerline.el")
+
+;; Restore cursor color (dirty hack)
+(set-cursor-color "#107f10")
