@@ -109,6 +109,13 @@
 (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
 (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
 
+;; [C-` w] Close current window
+(global-set-key (kbd "C-` w") 'delete-window)
+;; [C-` h] Split window horizontally
+(global-set-key (kbd "C-` h") 'split-window-right)
+;; [C-` v] Split window vertically
+(global-set-key (kbd "C-` v") 'split-window-below)
+
 
 
 ;; Editing
