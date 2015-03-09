@@ -1,5 +1,7 @@
 # Mort's Cheatsheet
 
+**[WARNING] This configuration set is a very personal thing and comes with definitely NO warranty. It may eat your hamster.**
+
 ## Emacs
 
 ### Project workflow
@@ -13,7 +15,7 @@
     $ echo '.emacs*' > .gitignore
     $ e .gitignore
 
-In Emacs, use `M-s r` to save the current session into `./.emacs.desktop` and `./.emacs.elscreen` before exit.
+In Emacs, use <kbd>M-s r</kbd> to save the current session into `./.emacs.desktop` and `./.emacs.elscreen` before exit.
 
 #### Start hacking on an existing project
 
@@ -22,203 +24,225 @@ In Emacs, use `M-s r` to save the current session into `./.emacs.desktop` and `.
 
 Emacs will try to restore the last session from `./.emacs.desktop` and `./.emacs.elscreen`, and save current session back into them on exiting. Automatically.
 
-Editing certain files by initializing `emacs` with explicit parameters will not cause Emacs to restore and save sessions automatically: (unless `M-s r` is invoked)
+Editing certain files by initializing `emacs` with explicit parameters will not cause Emacs to restore and save sessions automatically: (unless <kbd>M-s r</kbd> is invoked)
 
     $ e README.md src/hello.c
 
 ### Basic commands
 
-`C-x C-f` Find file
+<kbd>C-x C-f</kbd> Find file
 
-`C-x C-v RET` Reload file
+<kbd>C-x C-v RET</kbd> Reload file
 
-`C-x C-s` Save buffer
+<kbd>C-x C-s</kbd> Save buffer
 
-`C-x s` Save file (like save-as)
+<kbd>C-x s</kbd> Save file (like save-as)
 
-`C-x b` Switch buffer
+<kbd>C-x b</kbd> Switch buffer
 
-`C-x k` Kill buffer
+<kbd>C-x k</kbd> Kill buffer
 
-`C-x o` Move cursor to other window
+<kbd>C-x o</kbd> Move cursor to other window
 
-`C-x 0` Close current window (after splitting)
+<kbd>C-x 0</kbd> Close current window (after splitting)
 
-`C-x 1` Close any other windows
+<kbd>C-x 1</kbd> Close any other windows
 
-`C-x 2` Split window horizontally
+<kbd>C-x 2</kbd> Split window vertically
 
-`C-x 3` Split window vertically
+<kbd>C-x 3</kbd> Split window horizontally
 
-`C-<SPC>` Begin text selection
+<kbd>C-g</kbd> Cancel
 
-`C-g` Cancel
+<kbd>C-d</kbd> Kill character
 
-`C-d` Kill character
+<kbd>M-d</kbd> Kill word
 
-`M-d` Kill word
+<kbd>M-\<delete\></kbd> Kill word backwards
 
-`M-<delete>` Kill word backwards
+<kbd>C-w</kbd> Cut (kill)
 
-`C-w` Cut (kill)
+<kbd>M-w</kbd> Copy
 
-`M-w` Copy
+<kbd>M-y</kbd> Paste (yank)
 
-`M-y` Paste (yank)
+<kbd>M-h</kbd> Select current paragraph
 
-`M-h` Select current paragraph
+<kbd>C-s</kbd> Incremental search
 
-`C-s` Incremental search
+<kbd>C-r</kbd> Incremental search backward
 
-`C-r` Incremental search backward
+<kbd>C-M-s</kbd> Regex incremental search
 
-`C-M-s` Regex incremental search
+<kbd>C-M-r</kbd> Regex incremental search backward
 
-`C-M-r` Regex incremental search backward
+<kbd>M-%</kbd> Search/replace
 
-`M-%` Search/replace
+<kbd>M-;</kbd> Comment/uncomment region
 
-`M-;` Comment/uncomment region
+<kbd>C-/</kbd> <kbd>C-x u</kbd> Undo
 
-`C-/` `C-x u` Undo
+<kbd>M-/</kbd> Complete word (like tab-complete)
 
-`M-/` Complete word (like tab-complete)
+<kbd>C-f</kbd> Move cursor forward
 
-`C-f` Move cursor forward
+<kbd>C-b</kbd> Move cursor back
 
-`C-b` Move cursor back
+<kbd>M-f</kbd> Move cursor forward-by-word
 
-`M-f` Move cursor forward-by-word
+<kbd>M-b</kbd> Move cursor backward-by-word
 
-`M-b` Move cursor backward-by-word
+<kbd>C-n</kbd> Move cursor to next line
 
-`C-n` Move cursor to next line
+<kbd>C-p</kbd> Move cursor to prev line
 
-`C-p` Move cursor to prev line
+<kbd>C-l</kbd> Scroll to middle and redraw screen
 
-`C-l` Scroll to middle and redraw screen
+<kbd>C-a</kbd> Move cursor to beginning of line
 
-`C-a` Move cursor to beginning of line
+<kbd>C-e</kbd> Move cursor to end of line
 
-`C-e` Move cursor to end of line
+<kbd>M-m</kbd> Move cursor to first non-whitespace char
 
-`M-m` Move cursor to first non-whitespace char
+<kbd>M-{</kbd> Move cursor up-by-paragraph
 
-`M-{` Move cursor up-by-paragraph
+<kbd>M-}</kbd> Move cursor down-by-paragraph
 
-`M-}` Move cursor down-by-paragraph
+<kbd>M-\<</kbd> Go to top of buffer
 
-`M-<` Go to top of buffer
+<kbd>M-\></kbd> Go to end of buffer
 
-`M->` Go to end of buffer
+<kbd>M-g M-g</kbd> Go to line number
 
-`M-g M-g` Go to line number
+<kbd>M-$</kbd> Check and correct spelling of the word at point
 
-`M-x` Change mode
+<kbd>M-!</kbd> Run shell command
 
-`M-x !` Run shell command
+<kbd>M-|</kbd> Run shell command with region contents as input
 
-`M-x shell` Shell
+<kbd>M-&</kbd> Run shell command asynchronously
 
-`M-x eshell` Eshell
+<kbd>M-x [mode-name]</kbd> Change mode
 
-`M-x term`  Terminal emulation
+<kbd>M-x cd</kbd> Change directory
 
-### Customized commands
+<kbd>M-x shell</kbd> Shell
 
-`<RET>` Newline and indent
+<kbd>M-x eshell</kbd> Eshell
 
-`C-x C-c` Quit (without asking for saving buffer)
+<kbd>M-x term</kbd> Terminal emulation
 
-`C-S-<backspace>` Delete whole line (without putting it into kill-ring)
+<kbd>C-\\</kbd> Enable/disable input method (e.g. <kbd>C-\\ greek</kbd>)
 
-`M-n` Scroll view down (1 line)
+<kbd>C-\<SPC\></kbd> Enable/disable IBus input method
 
-`M-<down>` Scroll view down
+<kbd>F11</kbd> Fullscreen
 
-`M-p` Scroll view up (1 line)
+### Nonstandard commands
 
-`M-<up>` Scroll view up
+<kbd>M-n</kbd> Scroll view down (by 1 line)
+
+<kbd>M-\<down\></kbd> Scroll view down
+
+<kbd>M-p</kbd> Scroll view up (by 1 line)
+
+<kbd>M-\<up\></kbd> Scroll view up
+
+<kbd>\<RET\></kbd> Newline and indent
+
+<kbd>C-S-\<backspace\></kbd> Delete whole line (without putting it into kill-ring)
+
+<kbd>C-x C-c</kbd> Quit (without asking for saving buffer)
 
 ### ElScreen commands
 
-`M-s c` `M-s C-c` Create a new screen and switch to it
+<kbd>M-s c</kbd> <kbd>M-s C-c</kbd> Create a new screen and switch to it
 
-`M-s C` Create a new screen with the window-configuration of the current screen
+<kbd>M-s C</kbd> Create a new screen with the window-configuration of the current screen
 
-`M-s d` Create a new screen and run dired
+<kbd>M-s d</kbd> Create a new screen and run dired
 
-`M-s C-f` Find file in new screen
+<kbd>M-s C-f</kbd> Find file in new screen
 
-`M-s C-r` Find file in new screen (read-only)
+<kbd>M-s C-r</kbd> Find file in new screen (read-only)
 
-`M-s k` `M-s C-k` Kill current screen
+<kbd>M-s k</kbd> <kbd>M-s C-k</kbd> Kill current screen
 
-`M-s M-k` Kill current screen and buffers
+<kbd>M-s M-k</kbd> Kill current screen and buffers
 
-`M-s K` Kill other screens
+<kbd>M-s K</kbd> Kill other screens
 
-`C-<tab>` `M-s n` `M-s C-n` Next screen
+<kbd>C-\<tab\></kbd> <kbd>M-s n</kbd> <kbd>M-s C-n</kbd> Next screen
 
-`C-S-<tab>` `M-s p` `M-s C-p` Previous screen
+<kbd>C-S-\<tab\></kbd> <kbd>M-s p</kbd> <kbd>M-s C-p</kbd> Previous screen
 
-`M-s a` `M-s C-a` Toggle to the screen selected previously
+<kbd>M-s a</kbd> <kbd>M-s C-a</kbd> Toggle to the screen selected previously
 
-`M-s '` Prompt for a screen number to switch to
+<kbd>M-s '</kbd> Prompt for a screen number to switch to
 
-`M-s "` Present a list of all screens for selection
+<kbd>M-s "</kbd> Present a list of all screens for selection
 
-`M-s [0-9]` Jump to the screen number 0-9
+<kbd>M-s [0-9]</kbd> Jump to the screen number 0-9
 
-`M-s C-s` Swap current screen with previous one
+<kbd>M-s \<backspace\></kbd> <kbd>M-s C-s</kbd> Swap current screen with previous one
 
-`M-s w` `M-s C-w` Show a list of screens
+<kbd>M-s w</kbd> <kbd>M-s C-w</kbd> Show a list of screens
 
-`M-s A` Allow the user to enter a name for the current screen
+<kbd>M-s A</kbd> Allow the user to enter a name for the current screen
 
-`M-s m` `M-s C-m` Repeat the last message displayed in the mini-buffer
+<kbd>M-s m</kbd> <kbd>M-s C-m</kbd> Repeat the last message displayed in the mini-buffer
 
-`M-s t` `M-s C-t` Display date/time
+<kbd>M-s t</kbd> <kbd>M-s C-t</kbd> Display date/time
 
-`M-s M-x` Read function name, then call it with new screen
+<kbd>M-s M-x</kbd> Read function name, then call it with new screen
 
-`M-s i` Show/hide the screen number in the mode line
+<kbd>M-s i</kbd> Show/hide the screen number in the mode line
 
-`M-s T` Show/hide the tab on the top of each frame
+<kbd>M-s T</kbd> Show/hide the tab on the top of each frame
 
-`M-s v` Display ElScreen version
+<kbd>M-s v</kbd> Display ElScreen version
 
-`M-s b` Switch to the screen in which specified buffer is displayed
+<kbd>M-s b</kbd> Switch to the screen in which specified buffer is displayed
 
-`M-s ?` Show key bindings of ElScreen and Add-On softwares
+<kbd>M-s ?</kbd> Show key bindings of ElScreen and Add-On softwares
 
-### Customized ElScreen commands
+### Nonstandard ElScreen commands
 
-`M-s r` Remember (save current session)
+<kbd>M-s r</kbd> Remember (save current session)
 
-`M-s <SPC>` Open all buffers in individual screens
+<kbd>M-s \<SPC\></kbd> Open all buffers in individual screens
 
-### cua-mode
+<kbd>M-s h</kbd> Toggle window split
 
-`C-x` (Active region) Cut (kill)
+### CUA mode
 
-`C-c` (Active region) Copy
+(Active region) <kbd>C-x</kbd> Cut (kill)
 
-`C-v` Paste (yank)
+(Active region) <kbd>C-c</kbd> Copy
 
-`C-z` Undo
+<kbd>C-v</kbd> Paste (yank)
 
-### emmet-mode
+<kbd>C-z</kbd> Undo
 
-`C-j` Expand
+<kbd>C-g C-z</kbd> Redo
 
-### Spell checking
+### Emmet mode
 
-`M-$` Check and correct spelling of the word at point
+<kbd>C-j</kbd> Expand
 
-`M-x flyspell-mode` Enable Flyspell mode, which highlights all misspelled words
+### Customized commands
 
-`M-x flyspell-prog-mode` Enable Flyspell mode for comments and strings only
+<kbd>C-` f</kbd> Find file in new screen (= <kbd>M-s C-f</kbd>)
+
+<kbd>C-` d</kbd> Enable Flyspell mode (= <kbd>M-x flyspell-mode</kbd>)
+
+<kbd>C-` s</kbd> Enable Flyspell mode for comments and strings only (= <kbd>M-x flyspell-prog-mode</kbd>)
+
+<kbd>C-` w</kbd> Close current window (= <kbd>C-x 0</kbd>)
+
+<kbd>C-` v</kbd> Split window vertically (= <kbd>C-x 2</kbd>)
+
+<kbd>C-` h</kbd> Split window horizontally (= <kbd>C-x 3</kbd>)
 
 
 
@@ -226,59 +250,59 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ### Split window / Create pane
 
-`M-s h` `M-s <` Split window horizontally
+<kbd>M-s h</kbd> <kbd>M-s \<</kbd> Split window horizontally
 
-`M-s v` `M-s /` Split window vertically
+<kbd>M-s v</kbd> <kbd>M-s /</kbd> Split window vertically
 
-`M-s t` Display time
+<kbd>M-s t</kbd> Display time
 
-`M-s q` Display pane number
+<kbd>M-s q</kbd> Display pane number
 
-`M-s x` Kill current pane
+<kbd>M-s x</kbd> Kill current pane
 
 ### Select pane
 
-`M-<up>` Select up-side pane
+<kbd>M-\<up\></kbd> Select up-side pane
 
-`M-<down>` Select down-side pane
+<kbd>M-\<down\></kbd> Select down-side pane
 
-`M-<left>` Select left-side pane
+<kbd>M-\<left\></kbd> Select left-side pane
 
-`M-<right>` Select right-side pane
+<kbd>M-\<right\></kbd> Select right-side pane
 
-`M-s ;` Select last pane
+<kbd>M-s ;</kbd> Select last pane
 
 ### Resize pane
 
-`M-s <up>` Resize pane up-side
+<kbd>M-s \<up\></kbd> Resize pane up-side
 
-`M-s <down>` Resize pane down-side
+<kbd>M-s \<down\></kbd> Resize pane down-side
 
-`M-s <left>` Resize pane left-side
+<kbd>M-s \<left\></kbd> Resize pane left-side
 
-`M-s <right>` Resize pane right-side
+<kbd>M-s \<right\></kbd> Resize pane right-side
 
 ### Create window
 
-`M-s c` Create new window
+<kbd>M-s c</kbd> Create new window
 
-`M-s &` Kill current window
+<kbd>M-s &</kbd> Kill current window
 
-`M-s k` Kill current window (no prompt)
+<kbd>M-s k</kbd> Kill current window (no prompt)
 
 ### Select window
 
-`C-<up>` Select previous window
+<kbd>C-\<up\></kbd> Select previous window
 
-`C-<down>` Select next window
+<kbd>C-\<down\></kbd> Select next window
 
-`M-s [0-9]` Select the window number 0-9
+<kbd>M-s [0-9]</kbd> Select the window number 0-9
 
 ### Miscellany
 
-`M-s ?` Show key bindings of Tmux
+<kbd>M-s r</kbd> Reload configuration (`.tmux.conf`)
 
-`M-s r` Reload configuration (`.tmux.conf`)
+<kbd>M-s ?</kbd> Show key bindings of Tmux
 
 
 
