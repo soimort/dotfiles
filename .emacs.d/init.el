@@ -230,6 +230,7 @@
 ;; ----
 
 (load "~/.emacs.d/init-misc.el")
+(load "~/.emacs.d/init-ibus.el")
 
 ;; elscreen has to precede powerline, due to a clash between them
 (load "~/.emacs.d/init-elscreen.el")
