@@ -99,9 +99,6 @@ export PATH="${PATH}:/usr/local/heroku/bin"
 # My ~/Scripts
 export PATH="${HOME}/Scripts:${PATH}"
 
-# ~/bin
-export PATH="${HOME}/bin:${PATH}"
-
 # Bootstrap ~/.zsh
 for i in $HOME/.zsh/*.sh; do
     source $i
