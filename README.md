@@ -30,6 +30,8 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ### Basic commands
 
+(See also: <http://www.emacswiki.org/emacs/EmacsNewbieKeyReference>)
+
 <kbd>C-x C-f</kbd> Find file
 
 <kbd>C-x C-v RET</kbd> Reload file
@@ -41,6 +43,8 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 <kbd>C-x b</kbd> Switch buffer
 
 <kbd>C-x k</kbd> Kill buffer
+
+<kbd>C-x h</kbd> Select entire buffer
 
 <kbd>C-x o</kbd> Move cursor to other window
 
