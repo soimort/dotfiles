@@ -2,6 +2,13 @@ export proxy_default='http://127.0.0.1:8087/'
 export dev_port_default='8000'
 export backup_media='Titania'
 
+# Fix for oh-my-zsh git-svn prompt slowness
+# https://gist.github.com/msabramo/2355834
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+}
+
 fork() { (setsid "$@" &); }
 
 scite-save() {
