@@ -99,13 +99,9 @@ export PATH="${PATH}:/usr/local/heroku/bin"
 # My ~/Scripts
 export PATH="${HOME}/Scripts:${PATH}"
 
-# ~/Packages/bin
+# My ~/Packages
 export PATH="${HOME}/Packages/bin:${PATH}"
-
-# Bootstrap ~/.zsh
-for i in $HOME/.zsh/*.sh; do
-    source $i
-done
+export LD_LIBRARY_PATH="${HOME}/Packages/lib:$LD_LIBRARY_PATH"
 
 # Bootstrap ~/Programs
 for i in $HOME/Programs/*.sh; do
@@ -125,6 +121,12 @@ done
 # Hitman
 for i in $HOME/Projects/hitman/*/_build/bin; do
     export PATH="$i:$PATH"
+done
+
+# Bootstrap ~/.zsh
+# Comes at last
+for i in $HOME/.zsh/*.sh; do
+    source $i
 done
 
 # Import RVM (must be put after PATH setting)
