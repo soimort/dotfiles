@@ -57,24 +57,6 @@ alias clean-zcompdump='rm -f ~/.zcompdump*'
 
 alias pac="sudo pacman"
 
-alias racket="rlwrap racket"
-alias scheme="rlwrap scheme"
-alias guile="rlwrap guile"
-alias sml="rlwrap sml"
-alias mosml="rlwrap mosml"
-alias ocaml="rlwrap ocaml"
-alias maxima="rlwrap maxima"
-alias sbcl="rlwrap sbcl"
-alias ecl="rlwrap ecl"
-alias lisp="rlwrap lisp"
-alias cmucl="rlwrap cmucl"
-alias ccl="rlwrap ccl"
-alias ccl64="rlwrap ccl64"
-alias kawa="rlwrap kawa"
-alias qexo="rlwrap qexo"
-alias acl2="rlwrap acl2"
-alias prover9="rlwrap prover9"
-
 # Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
 export PATH="${CABAL_HOME}/bin:${PATH}"
