@@ -35,27 +35,23 @@ alias py2="python2"
 alias rb="ruby"
 alias grsh="groovysh"
 
+alias pac="sudo pacman"
+alias trs="trans"
+alias tweet="earthquake -c"
+
 alias i="ping -c 3 www.google.com"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias mygeoip='geoiplookup $(myip)' # Do NOT change single quotation marks here!
-
-alias difr="diff -r"
-
-alias trs="trans"
-
-alias tweet="earthquake -c"
-
+alias import-certs="mozroots --import --ask-remove"
 alias get-shit-done="sudo get-shit-done work"
 alias shit-done="sudo get-shit-done play"
 
-alias import-certs="mozroots --import --ask-remove"
-
+alias difr="diff -r"
 alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
 alias remove-u-feff="perl -pi~ -CSD -e 's/^\x{feff}//'"
 
+alias ds="du -hs * | sort -hr | head"
 alias clean-zcompdump='rm -f ~/.zcompdump*'
-
-alias pac="sudo pacman"
 
 # Cabal (Haskell package manager)
 CABAL_HOME="${HOME}/.cabal"
