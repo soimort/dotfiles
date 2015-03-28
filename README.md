@@ -248,7 +248,7 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-` h</kbd> Split window horizontally (= <kbd>C-x 3</kbd>)
 
-<kbd>C-` TAB</kbd> Use `clang-format` to format selected region or current line
+<kbd>C-` TAB</kbd> Use <code>clang-format</code> to format selected region or current line
 
 
 
