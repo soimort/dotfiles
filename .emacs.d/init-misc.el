@@ -5,6 +5,10 @@
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 
+;; Load clang-format.el
+(load "/usr/share/clang/clang-format.el")
+(global-set-key (kbd "C-` TAB") 'clang-format-region)
+
 ;; Load maxima-mode
 ;; (distributed with maxima)
 (autoload 'maxima-mode "maxima" "Maxima mode" t)
