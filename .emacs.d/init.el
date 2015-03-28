@@ -201,6 +201,9 @@
 ;; Mode Tweaks
 ;; -----------
 
+;; asm-mode: extra file associations
+(add-to-list 'auto-mode-alist '("\.il$" . asm-mode))
+
 ;; emmet-mode: enable for editing XML and CSS
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook  'emmet-mode)
