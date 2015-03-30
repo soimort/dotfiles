@@ -74,13 +74,6 @@ export HOPEPATH="/usr/share/hope/lib"
 # Heroku
 export PATH="${PATH}:/usr/local/heroku/bin"
 
-# My ~/Scripts
-export PATH="${HOME}/Scripts:${PATH}"
-
-# My ~/Packages
-export PATH="${HOME}/Packages/bin:${PATH}"
-export LD_LIBRARY_PATH="${HOME}/Packages/lib:$LD_LIBRARY_PATH"
-
 # Bootstrap ~/Programs
 for i in $HOME/Programs/*.sh; do
     source $i
@@ -100,6 +93,13 @@ done
 for i in $HOME/Projects/hitman/*/_build/bin; do
     export PATH="$i:$PATH"
 done
+
+# My ~/Scripts
+export PATH="${HOME}/Scripts:${PATH}"
+
+# My ~/Packages
+export PATH="${HOME}/Packages/bin:${PATH}"
+export LD_LIBRARY_PATH="${HOME}/Packages/lib:$LD_LIBRARY_PATH"
 
 # Bootstrap ~/.zsh
 # Comes at last
