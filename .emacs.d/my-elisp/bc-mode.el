@@ -87,7 +87,7 @@
   "Default expressions to highlight in BC mode.")
 
 ;;;###autoload
-(define-derived-mode bc-mode c-mode "BC"
+(define-derived-mode bc-mode c-mode "bc"
   "Major mode for editing BC code.
 This is much like C mode except for the syntax of comments.  Its keymap
 inherits from C mode's and it has the same variables for customizing
