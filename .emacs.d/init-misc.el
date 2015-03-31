@@ -5,6 +5,10 @@
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 
+;; Load bc-mode.el
+(load "~/.emacs.d/my-elisp/bc-mode.el")
+(add-to-list 'auto-mode-alist '("\.bc$" . bc-mode))
+
 ;; Load clang-format.el
 (load "/usr/share/clang/clang-format.el")
 (global-set-key (kbd "C-` TAB") 'clang-format-region)
