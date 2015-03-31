@@ -67,7 +67,7 @@
      ;;
      ;; Builtins.
      (list (regexp-opt
-	    '("last" "length" "read" "scale" "sqrt") 'words)
+	    '("ibase" "last" "length" "obase" "read" "scale" "sqrt") 'words)
 	   1 'font-lock-builtin-face)
      ;;
      ;; Operators.
