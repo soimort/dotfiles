@@ -1,8 +1,9 @@
 ;;; bc-mode.el --- BC code editing commands for Emacs
+;; Copyright (C) 2015  Mort Yao
 ;; Copyright (C) 2005  Kumar Appaiah
 
 ;; Author: Kumar Appaiah <akumar_NOSPAM@ee.iitm.ac.in>
-;; Keywords: 
+;; Keywords:
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -66,14 +67,24 @@
      ;;
      ;; Builtins.
      (list (regexp-opt
-	    '("length" "read" "scale" "sqrt") 'words)
+	    '("last" "length" "read" "scale" "sqrt") 'words)
 	   1 'font-lock-builtin-face)
      ;;
-     ;; Operators.  Is this too much?
-     (cons (regexp-opt '("&&" "||" "<=" "<" ">=" ">" "==" "!="))
+     ;; Operators.
+     (cons (regexp-opt '(;; Exactly as C
+                         "+" "-" "*" "/"
+                         "+=" "-=" "*=" "/="
+                         "++" "--" "<" ">"
+                         "==" "!=" "<=" ">="
+                         ;; Similar to C
+                         "%" "%="
+                         ;; Only resembling C
+                         "^" "^="
+                         ;; GNU extra operators
+                         "&&" "||" "!"))
 	   'font-lock-constant-face)
      ))
- "Default expressions to highlight in BC mode.")
+  "Default expressions to highlight in BC mode.")
 
 ;;;###autoload
 (define-derived-mode bc-mode c-mode "BC"
