@@ -31,3 +31,6 @@
 (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
 (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
+
+;; Load google-translate-mode.el
+(load "~/.emacs.d/my-elisp/google-translate-mode.el")
