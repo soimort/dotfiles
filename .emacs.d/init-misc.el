@@ -5,10 +5,6 @@
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 
-;; Load bc-mode.el
-(load "~/.emacs.d/my-elisp/bc-mode.el")
-(add-to-list 'auto-mode-alist '("\.bc$" . bc-mode))
-
 ;; Load clang-format.el
 (load "/usr/share/clang/clang-format.el")
 (global-set-key (kbd "C-` TAB") 'clang-format-region)
@@ -32,5 +28,13 @@
 (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
 (add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
 
+;; Load bc-mode.el
+(load "~/.emacs.d/my-elisp/bc-mode.el")
+(add-to-list 'auto-mode-alist '("\.bc$" . bc-mode))
+
 ;; Load google-translate-mode.el
 (load "~/.emacs.d/my-elisp/google-translate-mode.el")
+
+;; Load whitespace-mode.el
+(load "~/.emacs.d/my-elisp/whitespace-mode.el")
+(add-to-list 'auto-mode-alist '("\.ws$" . whitespace-mode))
