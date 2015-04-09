@@ -137,14 +137,14 @@
 ;;            - improve idiom detection
 ;; 1.4.10b,c VB1 -improve visual-basic-check-style
 ;; 1.4.10d   VB1 -correct font lock keywords for case
-;;               -improve visual-basic-check-style + add highlight overlay 
+;;               -improve visual-basic-check-style + add highlight overlay
 ;; 1.4.11 Wang Yao - correct the regular expression for imenu
 ;;                 - remove the string-to-char for imenu-syntax-alist, for xemacs error
 ;;                 - change the condition of visual-basic-enable-font-lock which prevents emacs from running in command-line mode when the emacs-version is 19.29
 ;;                 - correct the implement of droping tailing comment in visual-basic-if-not-on-single-line
 ;; 1.4.12 VB1 - add visual-basic-propertize-attribute
 ;; 1.4.13 VB1 - set default indentation to 3 char to stick to http://en.wikibooks.org/wiki/Visual_Basic/Coding_Standards#White_Space_and_Indentation
-;; 1.5    VB1 - Make the indentation of defun's recursive, i.e. a Sub defined within a Class will be indented by one indentatiation. 
+;; 1.5    VB1 - Make the indentation of defun's recursive, i.e. a Sub defined within a Class will be indented by one indentatiation.
 
 ;;
 ;; Notes:
@@ -264,7 +264,7 @@ types of errors are automatically corrected.
   "Variable naming convention, scope prefix regexp. Please refer
 to
 http://en.wikibooks.org/wiki/Visual_Basic/Coding_Standards. This
-is used by function `visual-basic-propertize-attribute'. 
+is used by function `visual-basic-propertize-attribute'.
 
 Note: shall not contain any \\( \\) (use \\(?: if need be)."
   :type 'regexp
@@ -381,8 +381,8 @@ Note: shall not contain any \\( \\) (use \\(?: if need be)."
 (defconst visual-basic-dim-regexp
   "^[ \t]*\\([Cc]onst\\|[Dd]im\\|[Pp]rivate\\|[Pp]ublic\\)\\_>"  )
 
-(defconst visual-basic-lettable-type-regexp 
-  (concat "\\`" 
+(defconst visual-basic-lettable-type-regexp
+  (concat "\\`"
 	  (regexp-opt '("Integer" "Long" "Variant" "Double" "Single" "Boolean") t)
 	  "\\'"))
 
@@ -471,7 +471,7 @@ Note: shall not contain any \\( \\) (use \\(?: if need be)."
       "LBound" "LCase" "LOF" "LSet" "LTrim" "Left" "Len" "Let" "Like" "Line"
       "Load" "LoadPicture" "LoadResData" "LoadResPicture" "LoadResString" "Loc"
       "Lock" "Log" "Long" "Loop" "MDIForm" "MIRR" "Me" "MenuItems"
-      "MenuLine" "Mid" "Minute" "MkDir" "Month" "MsgBox" "NPV" "NPer" "Name"
+      "MenuLine" "Mid" "Minute" "MkDir" "Module" "Month" "MsgBox" "NPV" "NPer" "Name"
       "New" "Next" "Not" "Now" "Nothing" "Null" "Object" "Oct" "On" "Open"
       "OpenDatabase"
       "Operator" "Option" "Optional"
@@ -901,7 +901,7 @@ statifying CLOSE-P was visited before during this search."
 	(save-excursion
 	  (or (bolp)
 	      (progn (backward-char)
-		     (or 
+		     (or
 		      (looking-at "[^[:alnum:]_]")
 		      (and (looking-at "[[:digit:]]")
 			   (re-search-forward "[^[:digit:]]" nil t)
@@ -1035,7 +1035,7 @@ be folded over several code lines."
 		    (close-re (format visual-basic-defun-end-regexp-formatter (car keyword-re-list))))
 	       (visual-basic-find-matching-stmt open-re close-re))
 	     (current-indentation))
-	    
+
 	    ((looking-at visual-basic-defun-start-regexp)
 	     (if (bobp)
 		 0
@@ -1582,14 +1582,14 @@ the concerned attribute declartion"
 					visual-basic-variable-scope-prefix-re
 					"\\(" visual-basic-variable-type-prefix-re "\\)")
 				variable)
-		  (setq 
+		  (setq
 		   type-prefix (match-string 1 variable)
 		   property (substring variable (match-end 0)))
 		(setq type-prefix ""
 		      property variable))
 	      (beginning-of-line 2)
 	      (insert
-	       "Property " (if lettable "Let" "Set") " " property "(" 
+	       "Property " (if lettable "Let" "Set") " " property "("
 	       (if lettable "ByVal " "")
 	       type-prefix "NewValue_IN As " type ")\n"
 	       "\t"  (if lettable "Let" "Set") " " variable " = " type-prefix "NewValue_IN\nEnd Property\n"
@@ -1749,7 +1749,7 @@ This function is under construction"
 	       0 ]
 	     )); end of style error types
 	  )
-      (condition-case nil 
+      (condition-case nil
 	  (progn
 	    (overlay-put hl-style-error 'face hl-line-face)
 	    (overlay-put hl-style-error 'window (selected-window))
@@ -1784,7 +1784,7 @@ This function is under construction"
 						       (funcall  (aref se 5))))))
 				       found))))
 			    (push (list (point)
-					(match-beginning 0) 
+					(match-beginning 0)
 					(match-end 0)
 					(aref se 1)
 					(and (> (aref se 6) visual-basic-auto-check-style-level)
