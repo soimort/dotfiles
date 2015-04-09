@@ -38,3 +38,12 @@
 ;; Load whitespace-mode.el
 (load "~/.emacs.d/my-elisp/whitespace-mode.el")
 (add-to-list 'auto-mode-alist '("\.ws$" . whitespace-mode))
+
+;; Load visual-basic-mode.el
+(load "~/.emacs.d/my-elisp/visual-basic-mode.el")
+(add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
+(add-to-list 'auto-mode-alist '("\\.vbs\\'" . visual-basic-mode))
+(add-to-list 'auto-mode-alist '("\\.vb\\'" . visual-basic-mode))
+(add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
+(add-to-list 'auto-mode-alist '("\\.frm\\'" . visual-basic-mode))
+(add-to-list 'auto-mode-alist '("\\.cls\\'" . visual-basic-mode))
