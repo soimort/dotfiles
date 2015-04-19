@@ -1,4 +1,5 @@
 
+alias tclsh="rlwrap tclsh"
 alias racket="rlwrap racket"
 alias scheme="rlwrap scheme"
 alias guile="rlwrap guile"
