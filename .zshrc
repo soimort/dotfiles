@@ -15,6 +15,10 @@ unsetopt share_history
 # import rvm
 source ~/.rvm/scripts/rvm
 
+# default editor
+EDITOR=emacs
+export VISUAL=emacs
+
 # linuxbrew setting
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:/usr/local/lib:$LD_LIBRARY_PATH"
