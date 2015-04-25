@@ -36,7 +36,6 @@ alias shit-done="sudo get-shit-done play"
 
 # tools
 alias pac="sudo pacman"
-alias trs="trans"
 alias tweet="earthquake -c"
 
 # misc
