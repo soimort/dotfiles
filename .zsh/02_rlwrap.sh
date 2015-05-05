@@ -2,6 +2,7 @@
 alias tclsh="rlwrap tclsh"
 alias racket="rlwrap racket"
 alias scheme="rlwrap scheme"
+alias gosh="rlwrap gosh"
 alias guile="rlwrap guile"
 alias sml="rlwrap sml"
 alias mosml="rlwrap mosml"
