@@ -26,10 +26,12 @@ alias co="git co"
 alias gd="git diff HEAD --"
 alias gf="git diff"
 alias gl="git ll"
+alias merge="git merge"
 alias pull="git pull"
 alias push="git push"
 alias rm="git rm"
 alias st="git st"
+alias tag="git tag"
 alias k="fork gitk"
 
 # development
