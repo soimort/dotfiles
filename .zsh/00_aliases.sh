@@ -18,6 +18,18 @@ alias sc="setsid scite"
 alias sudoe="sudo emacs -u $USER"
 alias sudosc="sudo scite"
 
+# git
+alias add="git add"
+alias br="git br"
+alias ci="git ci"
+alias co="git co"
+alias gd="git diff HEAD --"
+alias gf="git diff"
+alias gl="git ll"
+alias rm="git rm"
+alias st="git st"
+alias k="fork gitk"
+
 # development
 alias py="python3"
 alias py2="python2"
