@@ -24,3 +24,14 @@
 	editor = emacs
 [push]
 	default = matching
+[color "status"]
+	added = bold
+	changed = yellow
+	untracked = yellow
+	branch = bold
+[color "diff"]
+	old = yellow bold reverse
+	new = yellow bold
+	whitespace = white bold reverse
+[color "branch"]
+	current = bold
