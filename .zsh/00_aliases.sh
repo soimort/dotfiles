@@ -7,7 +7,6 @@ alias zcompdump_clean='rm -f ~/.zcompdump*'
 # system
 alias cp="cp -i"
 alias mv="mv -i"
-alias rm="echo Is this what you want\? Think again: rm"
 
 # editors
 alias vi="vim"
