@@ -45,6 +45,9 @@ alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias mygeoip='geoiplookup $(myip)' # use SINGLE quotation marks
 alias import-certs="mozroots --import --ask-remove"
 
+# desktop
+alias monitor="fork gnome-system-monitor"
+
 # productivity
 alias get-shit-done="sudo get-shit-done work"
 alias shit-done="sudo get-shit-done play"
