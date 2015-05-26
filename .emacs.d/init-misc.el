@@ -47,3 +47,6 @@
 (add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
 (add-to-list 'auto-mode-alist '("\\.frm\\'" . visual-basic-mode))
 (add-to-list 'auto-mode-alist '("\\.cls\\'" . visual-basic-mode))
+
+;; Load trans-mode.el
+(load "~/.emacs.d/my-elisp/trans-mode.el")
