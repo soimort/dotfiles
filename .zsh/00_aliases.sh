@@ -14,8 +14,8 @@ alias gv="gvim"
 alias em="emacs -nw"
 alias e="setsid emacs"
 alias sc="setsid scite"
-alias sudoe="sudo emacs -u $USER"
-alias sudosc="sudo scite"
+alias sue="sudo emacs -u $USER"
+alias susc="sudo scite"
 
 # git
 alias add="git add"
