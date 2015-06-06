@@ -10,6 +10,7 @@ alias mv="mv -i"
 
 # editors
 alias vi="vim"
+alias v="vim"
 alias gv="gvim"
 alias em="emacs -nw"
 alias e="setsid emacs"
