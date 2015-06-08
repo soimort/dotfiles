@@ -12,6 +12,8 @@ source $ZSH/oh-my-zsh.sh
 unsetopt correct_all
 unsetopt share_history
 
+LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
 # import rvm
 source ~/.rvm/scripts/rvm
 
@@ -21,7 +23,7 @@ export VISUAL=emacs
 
 # linuxbrew setting
 export PATH="$HOME/.linuxbrew/bin:$PATH"
-export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:/usr/local/lib:$LD_LIBRARY_PATH"
+#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
 
 # cabal setting
 CABAL_HOME="${HOME}/.cabal"
