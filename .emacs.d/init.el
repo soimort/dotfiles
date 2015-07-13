@@ -199,6 +199,9 @@
 (c-set-offset 'substatement-open 0)
 (c-set-offset 'inline-open 0)
 
+;; JavaScript
+(setq js-indent-level 2)
+
 ;; CSS
 (setq css-indent-offset 2)
 
