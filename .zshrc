@@ -24,6 +24,7 @@ export VISUAL=emacs
 # linuxbrew setting
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 #export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+export PYTHONPATH="$HOME/.linuxbrew/lib/python3.4/site-packages"
 
 # cabal setting
 CABAL_HOME="${HOME}/.cabal"
