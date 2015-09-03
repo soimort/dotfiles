@@ -1,3 +1,3 @@
-set guifont=Inconsolata\ 13
+set guifont=Inconsolata\ 12
 set guioptions-=T
 color molokai
