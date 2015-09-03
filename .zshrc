@@ -1,62 +1,47 @@
-# zsh history setting
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+source ${HOME}/.zsh/antigen/antigen.zsh
 
-# import oh-my-zsh
-ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="robbyrussell"
-plugins=()
-DISABLE_AUTO_UPDATE=true
-source $ZSH/oh-my-zsh.sh
-unsetopt correct_all
-unsetopt share_history
+# Load the oh-my-zsh's library
+antigen use oh-my-zsh
 
-LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+# Bundles from the default repo (robbyrussell's oh-my-zsh)
+antigen bundle git
+antigen bundle heroku
+antigen bundle pip
+antigen bundle lein
+antigen bundle command-not-found
 
-# import rvm
-source ~/.rvm/scripts/rvm
+# Syntax highlighting bundle
+antigen bundle zsh-users/zsh-syntax-highlighting
 
-# default editor
-EDITOR=emacs
+# Load the theme
+antigen theme robbyrussell
+
+# Tell antigen that you're done
+antigen apply
+
+# Set default editor
+export EDITOR=emacs
 export VISUAL=emacs
 
-# linuxbrew setting
+# Add Linuxbrew path
 export PATH="$HOME/.linuxbrew/bin:$PATH"
-#export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
-export PYTHONPATH="$HOME/.linuxbrew/lib/python3.4/site-packages"
 
-# cabal setting
-CABAL_HOME="${HOME}/.cabal"
+# Add Cabal path
+export CABAL_HOME="${HOME}/.cabal"
 export PATH="${CABAL_HOME}/bin:${PATH}"
 
-# (non-rvm) gem setting
-GEM_HOME="${HOME}/.gem/ruby/1.9.1"
-export PATH="${PATH}:${GEM_HOME}/bin"
+# Add ~/Scripts path
+export PATH="${HOME}/Scripts:${PATH}"
 
-# ~/Packages setting
+# Add ~/Packages path
 export PATH="${HOME}/Packages/bin:${PATH}"
 export LD_LIBRARY_PATH="${HOME}/Packages/lib:$LD_LIBRARY_PATH"
 
-# ~/Scripts setting
-export PATH="${HOME}/Scripts:${PATH}"
+# Import RVM
+source ~/.rvm/scripts/rvm
 
-# import ~/Programs
-for i in $HOME/Programs/*.sh; do
-    source $i
-done
-
-# import ~/Projects
-for i in $HOME/Projects/*.sh; do
-    source $i
-done
-
-# import ~/Sources
-for i in $HOME/Source/*.sh; do
-    source $i
-done
-
-# import ~/.zsh
-for i in $HOME/.zsh/*.sh; do
-    source $i
-done
+# Import initialization scripts
+for i in $HOME/.zsh/*.sh; do source $i; done
+for i in $HOME/Projects/*.sh; do source $i; done
+# for i in $HOME/Programs/*.sh; do source $i; done
+# for i in $HOME/Source/*.sh; do source $i; done
