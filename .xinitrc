@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# DEPRECATED!
 #
 # ~/.xinitrc
 #
