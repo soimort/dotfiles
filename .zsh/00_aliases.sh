@@ -4,6 +4,9 @@ alias ohmyzsh="$EDITOR $ZSH/oh-my-zsh.sh"
 alias .,=". $HOME/.zshrc"
 alias zcompdump_clean='rm -f ~/.zcompdump*'
 
+# directories
+alias -- -='cd -'
+
 # system
 alias cp="cp -i"
 alias mv="mv -i"
