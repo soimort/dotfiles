@@ -1,0 +1,11 @@
+;# This file is part of translate-shell
+{
+ :translate-shell "0.9.0"
+ :verbose true
+ :show-original true
+ :indent 4
+ :view false
+ :hl "en"
+ :tl "en"
+ :theme "happiness.trans"
+}
