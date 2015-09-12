@@ -1,9 +1,9 @@
 ;; Load agda-mode
 ;; (distributed with agda)
-(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
-(setq exec-path (append exec-path '("~/.cabal/bin")))
-(load-file (let ((coding-system-for-read 'utf-8))
-             (shell-command-to-string "agda-mode locate")))
+;;(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
+;;(setq exec-path (append exec-path '("~/.cabal/bin")))
+;;(load-file (let ((coding-system-for-read 'utf-8))
+;;             (shell-command-to-string "agda-mode locate")))
 
 ;; Load clang-format.el
 (load "/usr/share/clang/clang-format.el")
