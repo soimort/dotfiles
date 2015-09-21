@@ -1,0 +1,11 @@
+#!/usr/bin/gawk -f
+
+# TODO: Literate Haskell, Literate Agda, Literate Idris
+#       Literate CoffeeScript
+
+{
+    if ($0)
+        print "> " $0
+    else
+        print
+}
