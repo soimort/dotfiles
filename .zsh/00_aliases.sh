@@ -67,3 +67,7 @@ alias ds="du -hs * | sort -hr | head"
 alias difr="diff -r" # recursively compare subdirectories
 alias remove-trailing-whitespaces="sed -i 's/[ \t]*$//'"
 alias remove-u-feff="perl -pi~ -CSD -e 's/^\x{feff}//'"
+
+# noglob
+alias rake='noglob rake'
+alias bower='noglob bower'
