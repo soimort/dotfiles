@@ -34,11 +34,11 @@ export PATH="${HOME}/Scripts:${PATH}"
 export PATH="${HOME}/Packages/bin:${PATH}"
 export LD_LIBRARY_PATH="${HOME}/Packages/lib:$LD_LIBRARY_PATH"
 
-# Import RVM
-source ~/.rvm/scripts/rvm
-
 # Import initialization scripts
 for i in $HOME/.zsh/*.sh; do source $i; done
 for i in $HOME/Projects/*.sh; do source $i; done
 # for i in $HOME/Programs/*.sh; do source $i; done
 # for i in $HOME/Source/*.sh; do source $i; done
+
+# Import RVM (RVM PATH must be at first place)
+source ~/.rvm/scripts/rvm
