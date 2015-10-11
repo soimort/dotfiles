@@ -40,3 +40,7 @@
 (add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
 (add-to-list 'auto-mode-alist '("\\.frm\\'" . visual-basic-mode))
 (add-to-list 'auto-mode-alist '("\\.cls\\'" . visual-basic-mode))
+
+;; Load qt-pro.el
+(load "~/.emacs.d/my-elisp/qt-pro.el")
+(add-to-list 'auto-mode-alist '("\.pro$" . qt-pro-mode))
