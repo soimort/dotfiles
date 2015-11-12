@@ -1,0 +1,6 @@
+#!/bin/bash
+
+TS=`date +"%m-%d-%H%M"`
+mkdir -p ${TS}.BAK && cp *.png ${TS}.BAK
+
+script-fu '(elsamuko-lomo-batch "'$@'" 1.5 10 10 0.8 0 0 0 128 0 FALSE FALSE TRUE FALSE 0 0 115)'
