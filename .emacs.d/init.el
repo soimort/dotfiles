@@ -7,11 +7,7 @@
  '(custom-enabled-themes (quote (tango-dark)))
  '(inhibit-startup-screen t) ; show *scratch* buffer at startup
  ;; Later: restore elscreen sessions or enter dired-mode
-
- ;; agda-mode
- '(agda2-highlight-level (quote non-interactive))
- '(agda2-include-dirs
-   (quote ("." "/home/soimort/Source/agda-stdlib/src"))))
+ )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -213,53 +209,14 @@
 
 
 
-;; Mode Tweaks
-;; -----------
-
-;; asm-mode: extra file associations
-(add-to-list 'auto-mode-alist '("\.il$" . asm-mode))
-
-;; emmet-mode: enable for editing XML and CSS
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-
-;; coffee-mode: compile to JavaScript at save file
-(add-hook 'coffee-mode-hook 'coffee-cos-mode)
-
-;; less-css-mode: compile to CSS at save file
-(setq less-css-compile-at-save t)
-
-;; web-mode: extra file associations
-(add-to-list 'auto-mode-alist '("\.as[cp]x$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.config$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.master$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.php$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.phtml$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.tpl\.php$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.jsp$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.erb$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.mustache$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.djhtml$" . web-mode))
-(add-to-list 'auto-mode-alist '("\.html5$" . web-mode))
-(setq web-mode-code-indent-offset 2)
-(setq web-mode-css-indent-offset 2)
-(setq web-mode-markup-indent-offset 2)
-
-;; csharp-mode: extra file associations
-;;   *.asmx: ASP.NET Web Services source file
-(setq auto-mode-alist (cons '("\.asmx$" . csharp-mode) auto-mode-alist))
-
-;; markdown-mode: extra file associations
-;;   *.ronn: https://github.com/rtomayko/ronn
-(add-to-list 'auto-mode-alist '("\.ronn$" . markdown-mode))
-
-
-
 ;; More
 ;; ----
 
 (if (file-exists-p "~/.emacs.d/init.el")
     (progn
+      (if (file-exists-p "~/.emacs.d/init-private.el")
+          (load "~/.emacs.d/init-private.el"))
+
       (load "~/.emacs.d/init-misc.el")
       (load "~/.emacs.d/init-ibus.el")
 

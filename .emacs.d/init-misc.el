@@ -1,46 +1,39 @@
-;; Load agda-mode
-;; (distributed with agda)
-;;(setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))
-;;(setq exec-path (append exec-path '("~/.cabal/bin")))
-;;(load-file (let ((coding-system-for-read 'utf-8))
-;;             (shell-command-to-string "agda-mode locate")))
+;; Mode Tweaks
+;; -----------
 
-;; Load clang-format.el
-(load "/usr/share/clang/clang-format.el")
-(global-set-key (kbd "C-` TAB") 'clang-format-region)
+;; asm-mode: extra file associations
+(add-to-list 'auto-mode-alist '("\.il$" . asm-mode))
 
-;; Load maxima-mode
-;; (distributed with maxima)
-(autoload 'maxima-mode "maxima" "Maxima mode" t)
-(autoload 'imaxima "imaxima" "Frontend for maxima with Image support" t)
-(autoload 'maxima "maxima" "Maxima interaction" t)
-(autoload 'imath-mode "imath" "Imath mode for math formula input" t)
-(setq imaxima-use-maxima-mode-flag t)
-(add-to-list 'auto-mode-alist '("\\.ma[cx]" . maxima-mode))
+;; emmet-mode: enable for editing XML and CSS
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
 
-;; Load pkgbuild-mode
-;; https://www.archlinux.org/packages/community/any/emacs-pkgbuild-mode/
-(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
-(add-to-list 'auto-mode-alist '("\.install$" . sh-mode))
+;; coffee-mode: compile to JavaScript at save file
+(add-hook 'coffee-mode-hook 'coffee-cos-mode)
 
-;; Load bc-mode.el
-(load "~/.emacs.d/my-elisp/bc-mode.el")
-(add-to-list 'auto-mode-alist '("\.bc$" . bc-mode))
+;; less-css-mode: compile to CSS at save file
+(setq less-css-compile-at-save t)
 
-;; Load whitespace-mode.el
-(load "~/.emacs.d/my-elisp/whitespace-mode.el")
-(add-to-list 'auto-mode-alist '("\.ws$" . whitespace-mode))
+;; web-mode: extra file associations
+(add-to-list 'auto-mode-alist '("\.as[cp]x$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.config$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.master$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.php$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.phtml$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.tpl\.php$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.jsp$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.erb$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.mustache$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.djhtml$" . web-mode))
+(add-to-list 'auto-mode-alist '("\.html5$" . web-mode))
+(setq web-mode-code-indent-offset 2)
+(setq web-mode-css-indent-offset 2)
+(setq web-mode-markup-indent-offset 2)
 
-;; Load visual-basic-mode.el
-(load "~/.emacs.d/my-elisp/visual-basic-mode.el")
-(add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
-(add-to-list 'auto-mode-alist '("\\.vbs\\'" . visual-basic-mode))
-(add-to-list 'auto-mode-alist '("\\.vb\\'" . visual-basic-mode))
-(add-to-list 'auto-mode-alist '("\\.bas\\'" . visual-basic-mode))
-(add-to-list 'auto-mode-alist '("\\.frm\\'" . visual-basic-mode))
-(add-to-list 'auto-mode-alist '("\\.cls\\'" . visual-basic-mode))
+;; csharp-mode: extra file associations
+;;   *.asmx: ASP.NET Web Services source file
+(setq auto-mode-alist (cons '("\.asmx$" . csharp-mode) auto-mode-alist))
 
-;; Load qt-pro.el
-(load "~/.emacs.d/my-elisp/qt-pro.el")
-(add-to-list 'auto-mode-alist '("\.pro$" . qt-pro-mode))
+;; markdown-mode: extra file associations
+;;   *.ronn: https://github.com/rtomayko/ronn
+(add-to-list 'auto-mode-alist '("\.ronn$" . markdown-mode))
