@@ -36,3 +36,8 @@
 	whitespace = white bold reverse
 [color "branch"]
 	current = bold
+[sendemail]
+	smtpencryption = tls
+	smtpServer = smtp.gmail.com
+	smtpUser = mort.yao@gmail.com
+	smtpServerPort = 587
