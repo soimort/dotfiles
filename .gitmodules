@@ -4,24 +4,24 @@
 [submodule ".vim/bundle/Command-T"]
 	path = .vim/bundle/Command-T
 	url = https://github.com/wincent/Command-T.git
+[submodule ".vim/bundle/emmet-vim"]
+	path = .vim/bundle/emmet-vim
+	url = https://github.com/mattn/emmet-vim.git
 [submodule ".vim/bundle/FuzzyFinder"]
 	path = .vim/bundle/FuzzyFinder
 	url = https://github.com/vim-scripts/FuzzyFinder.git
 [submodule ".vim/bundle/L9"]
 	path = .vim/bundle/L9
 	url = https://github.com/vim-scripts/L9.git
-[submodule ".vim/bundle/zencoding-vim"]
-	path = .vim/bundle/zencoding-vim
-	url = https://github.com/mattn/zencoding-vim.git
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
 [submodule ".tmux/plugins/tmux-scroll-copy-mode"]
 	path = .tmux/plugins/tmux-scroll-copy-mode
 	url = https://git::@github.com/nhdaly/tmux-scroll-copy-mode
 [submodule ".tmux/plugins/tmux-sensible"]
 	path = .tmux/plugins/tmux-sensible
 	url = https://git::@github.com/tmux-plugins/tmux-sensible
-[submodule ".tmux/plugins/tpm"]
-	path = .tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
 [submodule ".zsh/antigen"]
 	path = .zsh/antigen
 	url = https://github.com/zsh-users/antigen.git
