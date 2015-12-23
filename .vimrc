@@ -1,14 +1,14 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-Bundle 'mattn/zencoding-vim'
-Bundle 'wincent/Command-T'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'mattn/zencoding-vim'
+Plugin 'wincent/Command-T'
+Plugin 'L9'
+Plugin 'FuzzyFinder'
+call vundle#end()
 
 filetype plugin indent on
 
