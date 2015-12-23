@@ -1,38 +1,16 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+;;; Emacs initialization file
+;;; @prog         emacs
+;;; @lastProgVers 24.5
+;;; @since        2015-12-23
+;;; @lastChanged  2015-12-23
+;;; @author       Mort Yao <soi@mort.ninja>
 
- '(custom-enabled-themes (quote (tango-dark)))
- '(inhibit-startup-screen t) ; show *scratch* buffer at startup
- ;; Later: restore elscreen sessions or enter dired-mode
- )
+;; Custom
+;; ------
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-
- ;; elscreen
- '(elscreen-tab-background-face
-   ((((type x w32 mac) (class color)) :background "#000f00")
-    (((class color)) (:background "#000f00"))))
- '(elscreen-tab-current-screen-face
-   ((((class color)) (:background "#aaeeaa" :foreground "#000000"))))
- '(elscreen-tab-other-screen-face
-   ((((type x w32 mac) (class color)) :background "#224422" :foreground "#ffffff")))
-
- ;; powerline
- '(mode-line
-   ((t (:background "#aaeeaa" :foreground "#000000" :box nil))))
- '(mode-line-inactive
-   ((t (:background "#666666" :foreground "#f9f9f9" :box nil))))
- '(powerline-active1
-   ((t (:background "#224422" :foreground "#ffffff" :inherit mode-line))))
- '(powerline-active2
-   ((t (:background "#446644" :foreground "#ffffff" :inherit mode-line)))))
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-exists-p custom-file)
+    (load custom-file))
 
 
 
@@ -42,7 +20,7 @@
 ;; Minimize UI
 (tool-bar-mode -1) ; hide tool-bar
 (menu-bar-mode -1) ; hide menu-bar
-(tooltip-mode -1) ; hide tooltip
+(tooltip-mode  -1) ; hide tooltip
 
 ;; Set frame title
 (setq frame-title-format "%b")
@@ -58,10 +36,14 @@
 
 ;; Set default font family / size
 (set-default-font "Ubuntu Mono 12")
-;;(setq font-use-system-font t)
 
 ;; Show line numbers
 (global-linum-mode t)
+
+;; Highlight current line
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#101f10")
+(set-face-foreground 'highlight nil)
 
 ;; Show paren mode
 (show-paren-mode 1)
@@ -70,38 +52,17 @@
 (set-face-foreground 'show-paren-match-face "#ffff00")
 (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold)
 
-;; Highlight current line
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#101f10")
-(set-face-foreground 'highlight nil)
-
 ;; [M-n] Scrolling down the view (by 1 line)
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
-(eval-after-load 'markdown-mode
-  '(define-key markdown-mode-map
-     (kbd "M-n") (lambda () (interactive) (scroll-up 1))))
-
 ;; [M-<down>] Scrolling down the view
 (global-set-key (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
-(eval-after-load 'markdown-mode
-  '(define-key markdown-mode-map
-     (kbd "M-<down>") (lambda () (interactive) (scroll-up 4))))
-
 ;; [M-p] Scrolling up the view (by 1 line)
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
-(eval-after-load 'markdown-mode
-  '(define-key markdown-mode-map
-      (kbd "M-p") (lambda () (interactive) (scroll-down 1))))
-
 ;; [M-<up>] Scrolling up the view
 (global-set-key (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))
-(eval-after-load 'markdown-mode
-  '(define-key markdown-mode-map
-     (kbd "M-<up>") (lambda () (interactive) (scroll-down 4))))
 
 ;; Change scaling factor
 (setq text-scale-mode-step 1.05)
-
 ;; Enable mouse scroll-wheel scaling
 (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
 (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
@@ -178,8 +139,7 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;; this could be freakin slow...
-;(unless package-archive-contents (package-refresh-contents))
+;;(unless package-archive-contents (package-refresh-contents))
 (package-initialize)
 
 
@@ -198,32 +158,24 @@
 
 ;; JavaScript
 (setq js-indent-level 2)
-
 ;; CSS
 (setq css-indent-offset 2)
-
-;; CoffeeScript
-(setq coffee-tab-width 2)
-
-;; Haskell
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 
 
 ;; More
 ;; ----
 
-(if (file-exists-p "~/.emacs.d/init.el")
-    (progn
-      (if (file-exists-p "~/.emacs.d/init-private.el")
-          (load "~/.emacs.d/init-private.el"))
+(when (require 'elscreen nil 'noerror)
+  (load "~/.emacs.d/init-elscreen.el"))
 
-      (load "~/.emacs.d/init-misc.el")
-      (load "~/.emacs.d/init-ibus.el")
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme))
 
-      ;; elscreen has to precede powerline, due to a clash between them
-      (load "~/.emacs.d/init-elscreen.el")
-      (load "~/.emacs.d/init-powerline.el")
+(setq private-file "~/.emacs.d/private.el")
+(if (file-exists-p private-file)
+    (load private-file))
 
-      ;; Restore cursor color (dirty hack)
-      (set-cursor-color "#107f10")))
+(setq tweaks-file "~/.emacs.d/tweaks.el")
+(if (file-exists-p tweaks-file)
+    (load tweaks-file))

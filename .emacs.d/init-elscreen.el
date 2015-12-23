@@ -1,3 +1,4 @@
+
 ;; Enable elscreen
 (load "elscreen" "ElScreen" t)
 (elscreen-start)
