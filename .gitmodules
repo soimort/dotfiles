@@ -13,3 +13,12 @@
 [submodule ".vim/bundle/zencoding-vim"]
 	path = .vim/bundle/zencoding-vim
 	url = https://github.com/mattn/zencoding-vim.git
+[submodule ".tmux/plugins/tmux-scroll-copy-mode"]
+	path = .tmux/plugins/tmux-scroll-copy-mode
+	url = https://git::@github.com/nhdaly/tmux-scroll-copy-mode
+[submodule ".tmux/plugins/tmux-sensible"]
+	path = .tmux/plugins/tmux-sensible
+	url = https://git::@github.com/tmux-plugins/tmux-sensible
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
