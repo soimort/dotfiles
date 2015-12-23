@@ -10,9 +10,11 @@
 [submodule ".vim/bundle/FuzzyFinder"]
 	path = .vim/bundle/FuzzyFinder
 	url = https://github.com/vim-scripts/FuzzyFinder.git
+	ignore = dirty
 [submodule ".vim/bundle/L9"]
 	path = .vim/bundle/L9
 	url = https://github.com/vim-scripts/L9.git
+	ignore = dirty
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
