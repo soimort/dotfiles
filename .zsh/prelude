@@ -1,0 +1,58 @@
+#!/usr/bin/env zsh
+
+# Common locations
+hash -d prj=${HOME}/Projects
+hash -d src=${HOME}/Source
+
+# Fortune cookie utils
+export COWPATH=${HOME}/.zsh/cows
+FATEPATH=${HOME}/.zsh/fortune-cookies
+>&- type 'cowsay' && cow() { cowsay $* } || cow() { cat && echo }
+fate() {
+    local fallback='May the source be with you, $USER!'
+    if [ -r "$FATEPATH/$1" ]; then
+        if [ ! -f "$FATEPATH/$1.dat" ]; then
+            strfile -s $FATEPATH/$1
+        fi
+        2>&- 'fortune' $FATEPATH/$1 || echo $fallback
+    else
+        echo $fallback
+    fi | envsubst
+}
+
+# Logging utils
+log.p() {
+    >&2 echo $*
+}
+log.d() {
+    >&2 echo $fg_bold[blue]$*$reset_color
+}
+log.i() {
+    >&2 echo $fg_bold[cyan]$*$reset_color
+}
+log.w() {
+    >&2 echo $fg_bold[yellow]$*$reset_color
+}
+log.e() {
+    >&2 echo $fg_bold[red]$*$reset_color
+}
+log.wtf() {
+    >&2 echo $bg[red]$fg_bold[white]$*$reset_color
+}
+
+# Misc
+
+checkt() {
+    local curTS=$(date +%s%3N)
+    if [ -z "$TS" ]; then TS=$curTS; fi
+    local elapsedMillisec=$(($curTS - $TS))
+    if [ -n "$1" ]; then
+        local s=$(($elapsedMillisec / 1000))
+        local ms=$(($elapsedMillisec % 1000))
+        printf "$fg[green][$reset_color\
+$fg_bold[green]⌛$reset_color\
+$fg[green]]$reset_color\
+ $fg_bold[green]%d.%03d$reset_color\
+$fg[green]s : %s$reset_color\n" "$s" "$ms" "$1"
+    fi
+}
