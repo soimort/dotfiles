@@ -1,1 +1,7 @@
-/home/soimort/.zsh/cows/duck.cow
+$the_cow = <<"EOC";
+        $thoughts   ^__^
+         $thoughts  ($eyes)\\_______
+            (__)\\       )\\/\\
+             $tongue ||----w |
+                ||     ||
+EOC
