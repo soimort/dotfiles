@@ -10,8 +10,7 @@ local -a rlwrap_cmd_list=(
 )
 
 function {
-    local i
-    for i in "${*[@]}"; do
+    local i && for i in "${*[@]}"; do
         alias "$i"="rlwrap $i"
     done
 } $rlwrap_cmd_list

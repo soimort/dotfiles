@@ -4,8 +4,7 @@ local -a noglob_cmd_list=(
 )
 
 function {
-    local i
-    for i in "${*[@]}"; do
+    local i && for i in "${*[@]}"; do
         alias "$i"="noglob $i"
     done
 } $noglob_cmd_list
