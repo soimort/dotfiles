@@ -1,8 +1,11 @@
 #!/usr/bin/env zsh
+local -a noglob_cmd_list=(
+    bower rake
+)
 
 function {
-    for x in $*; do
-        alias $x="noglob $x"
+    local i
+    for i in "${*[@]}"; do
+        alias "$i"="noglob $i"
     done
-} \
-         bower rake
+} $noglob_cmd_list

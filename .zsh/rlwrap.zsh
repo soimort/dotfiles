@@ -1,14 +1,17 @@
 #!/usr/bin/env zsh
+local -a rlwrap_cmd_list=(
+    dc tclsh
+    gosh guile kawa qexo scheme
+    racket
+    acl2 ccl ccl64 cmucl ecl lisp sbcl
+    mosml sml
+    ocaml
+    maxima prover9
+)
 
 function {
-    for x in $*; do
-        alias $x="rlwrap $x"
+    local i
+    for i in "${*[@]}"; do
+        alias "$i"="rlwrap $i"
     done
-} \
-         tclsh \
-         gosh guile kawa qexo scheme \
-         racket \
-         acl2 ccl ccl64 cmucl ecl lisp sbcl \
-         mosml sml \
-         ocaml \
-         maxima prover9
+} $rlwrap_cmd_list
