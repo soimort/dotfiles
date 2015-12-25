@@ -40,7 +40,7 @@ log.wtf() {
     >&2 echo $bg[red]$fg_bold[white]$*$reset_color
 }
 
-# Misc
+### Misc
 
 checkt() {
     local curTS=$(date +%s%3N)
