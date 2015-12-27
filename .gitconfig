@@ -27,11 +27,11 @@
 	default = matching
 [color "status"]
 	added = bold
-	changed = yellow
+	changed = yellow bold
 	untracked = yellow
-	branch = bold
+	branch = white bold
 [color "diff"]
-	old = yellow bold reverse
+	old = red bold
 	new = yellow bold
 	whitespace = white bold reverse
 [color "branch"]
