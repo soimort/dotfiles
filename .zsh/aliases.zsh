@@ -23,6 +23,8 @@ alias sue="sudo emacs -u $USER"
 alias sc="setsid scite"
 
 # git
+alias -- "+"="git add"
+alias -- '$'="git commit -m"
 alias add="git add"
 alias br="git branch"
 alias ci="git commit"
