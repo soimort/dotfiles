@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # Oh My Zsh theme
 # @since        2015-12-23
-# @lastChanged  2015-12-25
+# @lastChanged  2015-12-27
 # @author       Mort Yao <soi@mort.ninja>
 
 local ret_status="%(?:%{$fg[green]%}[%{$reset_color%}\
@@ -14,7 +14,7 @@ PROMPT='${ret_status}%{$fg_bold[green]%}%p %{$fg[white]%}%c $(git_prompt_info) %
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$bg[white]$fg[black]%} "
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %{$reset_color%} %{$fg_bold[yellow]%}◆%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$reset_color%}%{$fg[white]%}◾%{$reset_color%}"
 
 TIMEFMT="$fg[green][$reset_color\
 $fg_bold[green]⌛$reset_color\
