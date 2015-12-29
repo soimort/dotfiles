@@ -15,7 +15,7 @@
 [color]
 	ui = auto
 [core]
-	editor = emacs
+	editor = emacs -nw
 	quotepath = off
 [diff]
 	tool = vimdiff
