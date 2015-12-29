@@ -59,7 +59,7 @@ function {
     local i && for i in "${*[@]}"; do
         source $i
     done
-} $HOME/.zsh/*.zsh $HOME/.zsh/private/*.zsh
+} $HOME/.zsh/*.zsh(N) $HOME/.zsh/private/*.zsh(N)
 
 # Set PATH
 # pip
