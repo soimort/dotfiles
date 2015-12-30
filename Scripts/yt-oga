@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+# Convert YouTube videos to Ogg Vorbis audio files.
+#
+# Examples:
+#   $ yt-oga http://youtu.be/PK0YFM4-D6E
+#   $ yt-oga http://youtu.be/rQz_xtg0oDI
+
+import os, subprocess, sys
+from you_get.common import *
+from you_get.util import *
+from you_get.extractors import *
+
+def main():
+    for url in sys.argv[1:]:
+        yt, yt.url = YouTube(), url
+        yt.prepare()
+
+        r = sorted(yt.dash_streams,
+                   key=lambda i: yt.dash_streams[i]['size'])
+        audio_url = yt.dash_streams[r[-1]]['src'][1] # highest quality audio
+
+        title, ext, size = yt.title, 'mp4', urls_size([audio_url])
+        print_info(yt.name, title, ext, size)
+        download_urls(urls=[audio_url],
+                      title=title, ext=ext, total_size=size)
+
+        in_file = fs.legitimize('%s.%s' % (title, ext))
+        out_file = fs.legitimize('%s.%s' % (title, 'oga'))
+        ffmpeg_params = ['ffmpeg', '-loglevel', 'quiet', '-y', '-i']
+        ffmpeg_params.append(in_file)
+        ffmpeg_params.append(out_file)
+        print('Converting to oga ...')
+        if subprocess.call(ffmpeg_params) == 0:
+            os.remove(in_file)
+
+if __name__ == '__main__':
+    main()
