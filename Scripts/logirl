@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+# Download images from LoGiRL <https://logirl.favclip.com/>.
+#
+# Examples:
+#   $ logirl https://logirl.favclip.com/article/detail/5701263379398656
+#   $ logirl https://logirl.favclip.com/article/detail/5719254594748416
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'LoGiRL'
+
+def main():
+    for arg in sys.argv[1:]:
+        download_list = []
+        m = re.match('^https://logirl\.favclip\.com/article/detail/(\d+)', arg)
+        if m:
+            post_id = m.group(1)
+            cont = get_content('https://ex-chaos.appspot.com/_ah/api/article/v2'
+                               '/article/%s?corePortalID=logirl' % post_id)
+            data = json.loads(cont)
+            title = data['title']
+            thumbnail = data['thumbnailURL']
+            download_list.append(thumbnail.split('_')[0])
+            for line in data['body'].split('\n'):
+                n = re.match('^\[img:\s*"[^"]*"\s*'
+                             '([^\s]*)\s*"[^"]*"\s*"[^"]*"\s*\]', line)
+                if n: download_list.append(n.group(1))
+            if 'galleries' in data:
+                for gallery in data['galleries']:
+                    download_list.append(gallery['media']['full']['url'])
+
+            if download_list:
+                urls = ['https:' + i for i in download_list]
+                output_dir = fs.legitimize(title)
+                ext, size = 'jpg', urls_size(urls)
+                print_info(site_info, title, ext, size)
+                download_urls(urls=urls,
+                              title=post_id,
+                              output_dir=output_dir,
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
+
+    return
+
+if __name__ == '__main__':
+    main()
