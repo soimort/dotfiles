@@ -1,5 +1,7 @@
 *
 !/.zsh/
 !/.zsh/*
+/.zsh/_*
 !/Scripts/
 !/Scripts/*
+/Scripts/_*
