@@ -6,6 +6,9 @@ for i in "$@"; do
         'GIF' )
             t='gif'
             ;;
+        'JPEG' )
+            t='jpg'
+            ;;
         'PNG' )
             t='png'
             ;;
