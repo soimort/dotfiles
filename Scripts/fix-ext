@@ -1,0 +1,20 @@
+#!/bin/sh
+
+for i in "$@"; do
+    T=`file $i | cut -d' ' -f2`
+    case $T in
+        'GIF' )
+            t='gif'
+            ;;
+        'PNG' )
+            t='png'
+            ;;
+        * )
+            t=${i##*.}
+            ;;
+    esac
+    if [ "$t" != "${i##*.}" ]; then
+        echo $i '->' ${i%.*}.$t
+        mv $i ${i%.*}.$t
+    fi
+done
