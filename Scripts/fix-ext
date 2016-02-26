@@ -1,15 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 for i in "$@"; do
-    T=`file $i | cut -d' ' -f2`
+    T=`file -0 --mime-type "$i" | cut -d $'\0' -f2 | cut -d ' ' -f2`
+    echo $T
     case $T in
-        'GIF' )
+        'image/gif' )
             t='gif'
             ;;
-        'JPEG' )
+        'image/jpeg' )
             t='jpg'
             ;;
-        'PNG' )
+        'image/png' )
             t='png'
             ;;
         * )
@@ -18,6 +19,6 @@ for i in "$@"; do
     esac
     if [ "$t" != "${i##*.}" ]; then
         echo $i '->' ${i%.*}.$t
-        mv $i ${i%.*}.$t
+        mv "$i" "${i%.*}.$t"
     fi
 done
