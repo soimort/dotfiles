@@ -18,10 +18,10 @@ ZSH_THEME_GIT_PROMPT_DIRTY=" %{$reset_color%}%{$fg[white]%}◾%{$reset_color%}"
 
 TIMEFMT="$fg[green][$reset_color\
 $fg_bold[green]⌛$reset_color\
-$fg[green]]$reset_color$fg[green] ($reset_color\
-$fg_bold[green]%*S$reset_color$fg[green]s : sys + $reset_color\
-$fg_bold[green]%*U$reset_color$fg[green]s : user) / $reset_color\
-$fg_bold[green]%*E$reset_color$fg[green]s : all = $reset_color\
-$fg_bold[green]%P$reset_color$fg[green] : cpu $reset_color\
+$fg[green]]$reset_color$fg[green] $reset_color\
+$fg_bold[green]%*S$reset_color$fg[green]s (sys) + $reset_color\
+$fg_bold[green]%*U$reset_color$fg[green]s (user) | $reset_color\
+$fg_bold[green]%*E$reset_color$fg[green]s = $reset_color\
+$fg_bold[green]%P$reset_color$fg[green] $reset_color\
 $fg_bold[green]$ %J$reset_color"
 REPORTTIME=1
