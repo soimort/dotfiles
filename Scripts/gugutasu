@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
+#
+# Dependencies:
+# - google-api-client ~> 0.9.0
+# - tzinfo            ~> 1.2.0
 
 require 'fileutils'
-require 'google/api_client'
+require 'google/apis/plus_v1'
 require 'json'
 require 'net/http'
 require 'optparse'
@@ -10,27 +14,20 @@ require 'tzinfo'
 module Gugutasu
 
   NAME = 'gugutasu'
-  VERSION = '2016.02.01'
+  VERSION = '2016.03.15'
 
   def self.api_key
     @@api_key
   end
 
   def self.api_key=(api_key)
-    @@client.key = @@api_key = api_key
+    @@plus.key = @@api_key = api_key
   end
 
   def self.register_client(api_key)
-    @@client =
-      Google::APIClient.new(:application_name => 'GooglePlusArchiver',
-                            :application_version => VERSION)
-    @@api_key = @@client.key = api_key
+    @@plus = Google::Apis::PlusV1::PlusService.new
+    @@api_key = @@plus.key = api_key
     @@request_num = 0
-    begin
-      @@plus = @@client.discovered_api('plus')
-    rescue Exception => e
-      puts e
-    end
   end
 
   def self.client_registered?
@@ -62,24 +59,18 @@ module Gugutasu
     index, activity_id, output_path, timezone =
       params[:index], params[:activity_id], (params[:output_path] or FileUtils.pwd), (params[:timezone].nil? ? 'Etc/UTC' : params[:timezone])
 
-    response = @@client.execute(:api_method => @@plus.activities.get,
-                                :parameters => {
-                                  'activityId' => activity_id,
-                                },
-                                :authenticated => false)
+    data = @@plus.get_activity activity_id
 
-    data = JSON.parse(response.body)
+    name = data.actor.display_name
+    url = data.url
+    content = data.object.content
+    attachments = data.object.attachments
 
-    name = data['actor']['displayName']
-    url = data['url']
-    content = data['object']['content']
-    attachments = data['object']['attachments']
-
-    published = data['published']
-    tz = TZInfo::Timezone.get(timezone)
-    published_date = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%F')
-    published_date_readable = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%d %b %Y')
-    published_time = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%T')
+    published = data.published
+    tz = TZInfo::Timezone.get timezone
+    published_date = tz.utc_to_local(published).strftime('%F')
+    published_date_readable = tz.utc_to_local(published).strftime('%d %b %Y')
+    published_time = tz.utc_to_local(published).strftime('%T')
 
     puts "\n[#{index+1}] Reading post by #{name}, published at #{published}"
 
@@ -88,7 +79,7 @@ module Gugutasu
     output_base = File.join(output_dir, published_time)
 
     output_json = output_base + '.json'
-    File.open(output_json, 'w').puts response.body
+    File.open(output_json, 'w').puts data.to_json
 
     output_md = output_base + '.pt'
     md = content.gsub(/<br \/>/, "\n")
@@ -102,9 +93,9 @@ module Gugutasu
     puts "[#{index+1}] Post saved at #{output_md}"
 
     attachments.each do |attachment|
-      if attachment['objectType'] == 'photo'
-        image_id = attachment['id']
-        image_url = get_full_image_url(attachment['fullImage']['url'])
+      if attachment.object_type == 'photo'
+        image_id = attachment.id
+        image_url = get_full_image_url attachment.full_image.url
         puts "[#{index+1}] Downloading image: #{image_url}"
         uri = URI.parse(URI.escape(image_url))
         http = Net::HTTP.new(uri.host, uri.port)
@@ -124,13 +115,13 @@ module Gugutasu
         output_image = "#{output_base}.#{image_id}.#{extname}"
         File.open(output_image, 'w').puts image.body
 
-      elsif attachment['objectType'] == 'album'
-        image_id = attachment['id']
-        thumbnails = attachment['thumbnails']
+      elsif attachment.object_type == 'album'
+        image_id = attachment.id
+        thumbnails = attachment.thumbnails
         if thumbnails
           thumbnails.each_index do |index|
             thumbnail = thumbnails[index]
-            image_url = get_full_image_url(thumbnail['image']['url'])
+            image_url = get_full_image_url(thumbnail.image.url)
             puts "[#{index+1}] Downloading image: #{image_url}"
             uri = URI.parse(URI.escape("#{image_url}"))
             http = Net::HTTP.new(uri.host, uri.port)
@@ -152,204 +143,14 @@ module Gugutasu
           end
         end
 
-      elsif attachment['objectType'] == 'video'
-        video_id = attachment['id']
-        video_url = attachment['url']
+      elsif attachment.objectType == 'video'
+        video_id = attachment.id
+        video_url = attachment.url
         puts "[#{index+1}] Downloading video: #{video_url}"
         system "you-get -o '#{output_base}.#{video_id}' #{video_url}"
 
       end
     end if attachments
-  end
-
-  def self.archive_user(params)
-    begin
-      raise "Unregistered client." unless client_registered?
-    rescue => e
-      puts e.message
-      return
-    end
-
-    index, user_id, output_path, timezone =
-      params[:index], params[:user_id], (params[:output_path] or FileUtils.pwd), (params[:timezone].nil? ? 'Etc/UTC' : params[:timezone])
-
-    tmp_dir = output_path
-    quiet = false
-    video_downloader = 'you-get'
-    response = nil
-
-    # profile
-    puts "##{@@request_num+=1} people.get ..." unless quiet
-    response = @@client.execute(
-      :api_method => @@plus.people.get,
-      :parameters => {
-        'collection' => 'public',
-        'userId' => user_id
-      },
-      :authenticated => false
-    )
-    File.open("#{File.join(tmp_dir, 'profile.json')}", "w") do |f|
-      f.puts response.body
-    end
-
-    user_display_name = JSON.parse(response.body)['displayName']
-    next_page_token = nil
-    page_num = 0
-
-    loop do
-      puts "##{@@request_num+=1} activities.list: page[#{page_num}] ..." unless quiet
-      maxResults = 100
-      loop do
-        begin
-          response = @@client.execute(
-            :api_method => @@plus.activities.list,
-            :parameters => {
-              'collection' => 'public',
-              'userId' => user_id,
-              'maxResults' => maxResults.to_s,
-              'pageToken' => next_page_token
-            },
-            :authenticated => false
-          )
-        rescue
-          puts "##{@@request_num} Retrying activities.list: page[#{page_num}] ..." unless quiet
-          next
-        else
-          break
-        end
-      end
-
-      activities = JSON.parse(response.body)
-      next_page_token = activities['nextPageToken']
-
-      File.open("#{File.join(tmp_dir, 'posts')}[#{page_num}].json", "w") do |f|
-        f.puts response.body
-      end
-
-      activities['items'].each do |item|
-        activity_id = item['id']
-
-        published = item['published']
-        tz = TZInfo::Timezone.get(timezone)
-        published_date = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%F')
-        published_date_readable = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%d %b %Y')
-        published_time = tz.utc_to_local(DateTime.rfc3339(published)).strftime('%T')
-        puts "##{@@request_num}   #{published}" unless quiet
-
-        output_dir = File.join(tmp_dir, published_date)
-        FileUtils.mkdir_p output_dir
-        output_base = File.join(output_dir, published_time)
-
-        File.open("#{File.join(output_dir, activity_id)}.json", "w") do |f|
-          f.puts item.to_json
-        end
-
-        if item['object'].key?('attachments')
-          item['object']['attachments'].each do |attachment|
-            if attachment['objectType'] == 'photo'
-              # Download full-size image
-              begin
-                image = attachment['fullImage']
-                image_url = get_full_image_url(image['url'])
-                puts "##{@@request_num}     Fetching attachment: #{image_url} ..." unless quiet
-                uri = URI.parse(URI.escape("#{image_url}"))
-                http = Net::HTTP.new(uri.host, uri.port)
-                if http.port == 443
-                  http.use_ssl = true
-                  http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-                end
-                data = http.get(uri.request_uri)
-                image_ext = uri.request_uri.split("/")[-1].split(".")[-1]
-                image_ext = nil if image_ext.length > 4
-
-                #<< attachment
-                File.open("#{File.join(output_dir, activity_id)}_#{attachment['id']}.#{image_ext}", "w").puts data.body
-              rescue
-                image = attachment['image']
-                image_url = get_full_image_url(image['url'])
-                puts "##{@@request_num}     Fetching attachment: #{image_url} ..." unless quiet
-                uri = URI.parse(URI.escape("#{image_url}"))
-                http = Net::HTTP.new(uri.host, uri.port)
-                if http.port == 443
-                  http.use_ssl = true
-                  http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-                end
-                data = http.get(uri.request_uri)
-                image_ext = uri.request_uri.split("/")[-1].split(".")[-1]
-                image_ext = nil if image_ext.length > 4
-
-                #<< attachment
-                File.open("#{File.join(output_dir, activity_id)}_#{attachment['id']}.#{image_ext}", "w").puts data.body
-              end
-
-            elsif attachment['objectType'] == 'album'
-              # Download full-size thumbnails
-              thumbnails = attachment['thumbnails']
-              if thumbnails
-                thumbnails.each_index do |index|
-                  thumbnail = thumbnails[index]
-                  image = thumbnail['image']
-                  image_url = get_full_image_url(image['url'])
-                  puts "##{@@request_num}     Fetching attachment: #{image_url} ..." unless quiet
-                  uri = URI.parse(URI.escape("#{image_url}"))
-                  http = Net::HTTP.new(uri.host, uri.port)
-                  if http.port == 443
-                    http.use_ssl = true
-                    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-                  end
-                  data = http.get(uri.request_uri)
-                  image_ext = uri.request_uri.split("/")[-1].split(".")[-1]
-                  image_ext = nil if image_ext.length > 4
-
-                  #<< attachment
-                  File.open("#{File.join(output_dir, activity_id)}_#{attachment['id']}[#{index}].#{image_ext}", "w").puts data.body
-                end
-              end
-
-            elsif attachment['objectType'] == 'video'
-              # Download preview image
-              image = attachment['image']
-              image_url = get_full_image_url(image['url'])
-              puts "##{@@request_num}     Fetching attachment: #{image_url} ..." unless quiet
-              uri = URI.parse(URI.escape("#{image_url}"))
-              http = Net::HTTP.new(uri.host, uri.port)
-              if http.port == 443
-                http.use_ssl = true
-                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-              end
-              data = http.get(uri.request_uri)
-              image_ext = 'gif'
-
-              extname = data.header['Content-Type'].split('/')[-1]
-
-              #<< attachment
-              File.open("#{File.join(output_dir, activity_id)}_#{attachment['id']}.#{extname}", "w").puts data.body
-
-              # Download video
-              if attachment['url'] !~ /^http:\/\/www.youtube.com\//
-                puts "##{@@request_num}     Downloading video: #{attachment['url']} ..." unless quiet
-                FileUtils.mkdir("#{File.join(output_dir, 'video')}")
-                Dir.chdir("#{File.join(output_dir, 'video')}") do
-                  if system("#{video_downloader} #{attachment['url']}")
-                    Dir.glob("*").each do |video|
-                      FileUtils.mv(video, "#{File.join(output_dir, activity_id)}_#{attachment['id']}_#{attachment['displayName'].split('/').join}.#{video.split('.')[-1]}")
-                    end
-                  else
-                    puts "##{@@request_num}     Video downloader failed. Download aborted."
-                  end
-                end
-                FileUtils.rm_r("#{File.join(output_dir, 'video')}")
-              end
-            end
-          end
-        end
-
-      end
-
-      break unless next_page_token
-      page_num += 1
-    end
-
   end
 
 end
