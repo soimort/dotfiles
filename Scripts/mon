@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dmesg -w > Log/`date +"%Y%m%d-%H%M"`.dmesg &
+dmesg -Tw > Log/`date +"%Y%m%d-%H%M"`.dmesg &
 
 tmux new-session -d 'htop'
 #tmux split-window -v 'iotop'
