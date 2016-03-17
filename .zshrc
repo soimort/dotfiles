@@ -41,8 +41,8 @@ function {
 log.p $(checkt "loaded bundles: $fg_bold[green]$PLUGINS$reset_color")
 function {
     local i && for i in "${*[@]}"; do
-        if [ -d ~prj/$i ]; then
-            antigen bundle ~prj/$i --no-local-clone
+        if [ -d ~/Projects/$i ]; then
+            antigen bundle ~/Projects/$i --no-local-clone
         else
             log.w "bundle not found: $i"
         fi

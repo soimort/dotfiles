@@ -1,10 +1,5 @@
 #!/usr/bin/env zsh
 
-# Common locations
-hash -d prj=${HOME}/Projects
-hash -d scr=${HOME}/Scripts
-hash -d src=${HOME}/Source
-
 # Fortune cookie utils
 export COWPATH=${HOME}/.zsh/cows
 FATEPATH=${HOME}/.zsh/fortune-cookies

@@ -61,5 +61,5 @@ alias rs='resave'
 alias trs='trans'
 alias yg='you-get'
 
-hash -d trans=~prj/translate-shell
-hash -d you-get=~prj/you-get
+hash -d trans=~/Projects/translate-shell
+hash -d you-get=~/Projects/you-get
