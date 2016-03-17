@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+# Save a tweet in the current directory as pt format (possibly with images).
+#
+# Dependencies:
+# - python ~ 3.5
+#   - you-get ~ 0.4
+#
+# Example:
+#   $ Get-Tweet https://twitter.com/Medieval_Probs/status/681862972424228865
+#   $ ls
+#     681862972424228865.pt  CXZ2wbEWYAEPE0l.jpg
+
+import json, re, sys
+from datetime import datetime
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'Twitter'
+
+def main():
+    for url in sys.argv[1:]:
+        m = re.match('^https?://twitter\.com/[^/]+/status/(\d+)', url)
+        assert m
+        item_id = m.group(1)
+
+        cont = get_content(url + '?lang=en')
+        screen_name = r1(r'data-screen-name="([^"]*)"', cont)
+        author = r1(r'<meta\s+property="og:title"\s+content="([^"]*) on Twitter"', cont)
+        data_time = float(r1(r'data-time="(\d+)"', cont))
+        data_time = datetime.fromtimestamp(data_time).strftime('%a %d %b %Y')
+
+        page_title = unescape_html(r1(r'<title>(.*)</title>', cont))
+        t = unescape_html(r1(r'<meta\s+property="og:description"\s+content="“([^"]*)”"', cont))
+        log.w(page_title)
+        outf = open(item_id + '.pt', 'w')
+        outf.write('---\n')
+        outf.write('author: %s\n' % author)
+        outf.write('date: %s\n' % data_time)
+        outf.write('source: %s\n' % 'Twitter')
+        outf.write('url: %s\n' % url)
+        outf.write('---\n')
+        outf.write(t)
+        outf.write('\n')
+        outf.close()
+
+        s = re.findall(r'property="og:image"\s*content="([^"]+:large)"', cont)
+        for i in s:
+            image_url = ':'.join(i.split(':')[:-1]) + ':orig'
+            filename = parse.unquote(image_url.split('/')[-1])
+            title = '.'.join(filename.split('.')[:-1])
+            ext = image_url.split(':')[-2].split('.')[-1]
+            size = int(get_head(image_url)['Content-Length'])
+            download_urls(urls=[image_url],
+                          title=title,
+                          ext=ext,
+                          total_size=size,
+                          output_dir='.')
+
+if __name__ == '__main__':
+    main()
