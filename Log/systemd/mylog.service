@@ -1,0 +1,8 @@
+[Unit]
+Description=My dumb Logging
+
+[Service]
+ExecStart=/bin/sh -c "/usr/bin/dmesg --follow --ctime >> /var/log/my/dmesg.log"
+
+[Install]
+WantedBy=multi-user.target
