@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 # .zshrc
 # @since        2015-12-23
-# @lastChanged  2015-12-25
+# @lastChanged  2015-03-22
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
-export EDITOR=emacs
-export VISUAL=emacs
+export EDITOR=vim
+export VISUAL=vim
 
 # Personal settings
 MY_FATE=rms-facts
