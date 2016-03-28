@@ -1,8 +1,0 @@
-[Unit]
-Description=My dumb Logging (GPU crash dump)
-
-[Service]
-ExecStart=/bin/sh -c "/usr/bin/tail -f /sys/class/drm/card0/error 2> /dev/null >> /var/log/my/gpu.log"
-
-[Install]
-WantedBy=multi-user.target
