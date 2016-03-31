@@ -64,8 +64,6 @@ function {
 # Set PATH
 # pip
 path+=("$HOME/.local/bin")
-# linuxbrew
-path+=("$HOME/.linuxbrew/bin")
 # cabal
 CABAL_HOME="${HOME}/.cabal"
 path+=("${CABAL_HOME}/bin")
