@@ -5,3 +5,10 @@
 !/Scripts/
 !/Scripts/*
 /Scripts/_*
+!/Tools/
+!/Tools/*
+/Tools/_*
+!/Projects/
+!/Projects/*.init.sh
+!/Source/
+!/Source/*.init.sh
