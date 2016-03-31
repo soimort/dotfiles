@@ -50,16 +50,8 @@ alias ssc="sslocal -c $HOME/.zsh/private/shadowsocks.json"
 alias xyc="proxychains4 -q"
 
 # Arch
+alias pac='pacman'
 alias yao='yaourt'
 
 # GNOME
 alias sysmon="setsid gnome-system-monitor"
-
-### personal
-
-alias rs='resave'
-alias trs='trans'
-alias yg='you-get'
-
-hash -d trans=~/Projects/translate-shell
-hash -d you-get=~/Projects/you-get
