@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # .zshrc
 # @since        2015-12-23
-# @lastChanged  2015-03-22
+# @lastChanged  2015-03-31
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -15,12 +15,6 @@ PLUGINS=(
     git pip emoji
     zsh-users/zsh-syntax-highlighting
     rg3/youtube-dl
-)
-RECIPES=(
-    becat
-    resave
-    translate-shell
-    you-get
 )
 
 # Load prelude
@@ -36,19 +30,9 @@ log.p $(checkt "loaded: $fg_bold[green]oh-my-zsh$reset_color")
 function {
     local i && for i in "${*[@]}"; do
         antigen bundle $i
+        log.p $(checkt "loaded bundle: $fg_bold[green]$i$reset_color")
     done
 } $PLUGINS
-log.p $(checkt "loaded bundles: $fg_bold[green]$PLUGINS$reset_color")
-function {
-    local i && for i in "${*[@]}"; do
-        if [ -d ~/Projects/$i ]; then
-            antigen bundle ~/Projects/$i --no-local-clone
-        else
-            log.w "bundle not found: $i"
-        fi
-    done
-} $RECIPES
-log.p $(checkt "loaded bundles: $fg_bold[green]$RECIPES$reset_color")
 antigen apply
 
 # Load my theme
@@ -61,8 +45,15 @@ function {
     done
 } $HOME/.zsh/*.zsh(N) $HOME/.zsh/private/*.zsh(N)
 
-# Set PATH
-# pip
+# Initialize Projects & Source
+function {
+    local i && for i in "${*[@]}"; do . $i; done
+} $HOME/{Projects,Source}/*.init.sh
+
+# Misc.
+# Scripts & Tools
+path+=("$HOME/Scripts" "$HOME/Tools")
+# pip user
 path+=("$HOME/.local/bin")
 # cabal
 CABAL_HOME="${HOME}/.cabal"
