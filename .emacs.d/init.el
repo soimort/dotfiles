@@ -2,7 +2,7 @@
 ;;; @prog         emacs
 ;;; @lastProgVers 24.5
 ;;; @since        2015-12-23
-;;; @lastChanged  2015-12-23
+;;; @lastChanged  2015-03-31
 ;;; @author       Mort Yao <soi@mort.ninja>
 
 ;; Custom
@@ -172,10 +172,8 @@
 (when (require 'powerline nil 'noerror)
   (powerline-default-theme))
 
-(setq private-file "~/.emacs.d/private.el")
-(if (file-exists-p private-file)
-    (load private-file))
-
-(setq tweaks-file "~/.emacs.d/tweaks.el")
-(if (file-exists-p tweaks-file)
-    (load tweaks-file))
+(setq init-extra "~/.emacs.d/init-extra.el")
+(if (file-exists-p init-extra)
+    (condition-case nil
+        (load init-extra)
+      (error nil)))
