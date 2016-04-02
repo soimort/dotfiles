@@ -25,3 +25,8 @@ $fg_bold[green]%*E$reset_color$fg[green]s = $reset_color\
 $fg_bold[green]%P$reset_color$fg[green] $reset_color\
 $fg_bold[green]$ %J$reset_color"
 REPORTTIME=1
+
+long_prompt() {
+    PROMPT='%{$fg_bold[green]%}%p %{$fg[white]%}%c $(git_prompt_info) %{$reset_color%}
+${ret_status} '
+}
