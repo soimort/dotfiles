@@ -6,6 +6,7 @@
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (setq markdown-command "pandoc")
 (setq markdown-enable-math t)
+(add-to-list 'auto-mode-alist '("\\.md.txt$" . markdown-mode))
 ;; fix custom keybinding
 (eval-after-load 'markdown-mode
   '(define-key markdown-mode-map
