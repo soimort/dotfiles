@@ -1,6 +1,7 @@
 [user]
 	name = Mort Yao
 	email = soi@mort.ninja
+	signingkey = 78203251
 [alias]
 	co = checkout
 	br = branch
@@ -41,3 +42,6 @@
 	smtpServer = smtp.gmail.com
 	smtpUser = mort.yao@gmail.com
 	smtpServerPort = 587
+[commit]
+	gpgsign = true
+
