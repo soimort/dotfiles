@@ -49,6 +49,9 @@ alias mygeoip='geoiplookup $(myip)'
 alias ssc="sslocal -c $HOME/.zsh/private/shadowsocks.json"
 alias xyc="proxychains4 -q"
 
+# misc
+alias ds="du -hs * | sort -hr | less"
+
 # Arch
 alias pac='pacman'
 alias yao='yaourt'
