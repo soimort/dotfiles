@@ -52,6 +52,8 @@ alias xyc="proxychains4 -q"
 # Arch
 alias pac='pacman'
 alias yao='yaourt'
+# <https://bbs.archlinux.org/viewtopic.php?pid=1493345#p1493345>
+alias greatpkg='expac -s -H M "%-30n %m" | sort -rhk 2 | less'
 
 # GNOME
 alias sysmon="setsid gnome-system-monitor"
