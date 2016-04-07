@@ -1,0 +1,9 @@
+#!/bin/sh
+# Sign a Git tag.
+# <https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work#Signing-Tags>
+
+if [ -z "$1" ]; then
+    echo "Usage: Sign-Tag [VERSION_NUMBER]"
+else
+    git tag -s v$1 -m "version $1"
+fi
