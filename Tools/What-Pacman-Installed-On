@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# See what packages pacman installed or upgraded on a specific date.
+#
+# Example:
+#   $ What-Pacman-Installed-On 2016-04-07
+
+if [ -z "$1" ]; then
+    echo "Usage: What-Pacman-Installed-On [YYYY-MM-DD]"
+else
+    cat /var/log/pacman.log | grep "$1.*installed" | sort -r
+    cat /var/log/pacman.log | grep "$1.*upgraded" | sort -r
+fi

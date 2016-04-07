@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# See when pacman installed or upgraded a specific package.
+#
+# Example:
+#   $ When-Pacman-Installed linux
+
+if [ -z "$1" ]; then
+    echo "Usage: When-Pacman-Installed [PACKAGE_NAME]"
+else
+    cat /var/log/pacman.log | grep "upgraded $1 " | sort -r
+    cat /var/log/pacman.log | grep "installed $1 " | sort -r
+fi
