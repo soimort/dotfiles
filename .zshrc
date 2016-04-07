@@ -7,6 +7,7 @@
 # Common settings
 export EDITOR=vim
 export VISUAL=vim
+export GPG_TTY=$(tty)
 
 # Personal settings
 MY_FATE=rms-facts
