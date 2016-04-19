@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+ARGV.each do |url|
+  puts 'https://dl.dropboxusercontent.com/' +
+       /^https:\/\/www\.dropbox\.com\/([^?]+)/.match(url)[1]
+end
