@@ -156,6 +156,8 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-S-\<backspace\></kbd> Delete whole line (without putting it into kill-ring)
 
+<kbd>C-c c</kbd> Copy entire buffer to clipboard
+
 <kbd>C-x C-c</kbd> Quit (without asking for saving buffer)
 
 ### ElScreen commands

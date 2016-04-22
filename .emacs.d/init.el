@@ -106,6 +106,14 @@
   (kill-emacs))
 (global-set-key (kbd "C-x C-c") 'my-kill-emacs)
 
+;; Copy entire buffer
+(defun copy-all ()
+    "Copy entire buffer to clipboard"
+    (interactive)
+    (clipboard-kill-ring-save (point-min) (point-max))
+    (message "Current buffer copied"))
+(global-set-key (kbd "C-c c") 'copy-all)
+
 ;; Delete whole line without putting it into kill-ring
 (defun delete-line (&optional arg)
   (interactive)
