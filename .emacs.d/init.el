@@ -2,7 +2,7 @@
 ;;; @prog         emacs
 ;;; @lastProgVers 24.5
 ;;; @since        2015-12-23
-;;; @lastChanged  2015-03-31
+;;; @lastChanged  2016-04-22
 ;;; @author       Mort Yao <soi@mort.ninja>
 
 ;; Custom
