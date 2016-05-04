@@ -18,8 +18,8 @@ def main():
         m = re.match('^https://logirl\.favclip\.com/article/detail/(\d+)', arg)
         if m:
             post_id = m.group(1)
-            cont = get_content('https://ex-chaos.appspot.com/_ah/api/article/v2'
-                               '/article/%s?corePortalID=logirl' % post_id)
+            cont = get_content('https://ucon.favclip.com/api/article/'
+                               '%s?corePortalID=logirl' % post_id)
             data = json.loads(cont)
             title = data['title']
             thumbnail = data['thumbnailURL']
