@@ -59,6 +59,9 @@ path+=("$HOME/.local/bin")
 # cabal
 CABAL_HOME="${HOME}/.cabal"
 path+=("${CABAL_HOME}/bin")
+# go
+GOPATH=~/go
+path+=("${GOPATH}/bin")
 # rvm (must be put at last)
 source ~/.rvm/scripts/rvm
 
