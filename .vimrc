@@ -1,3 +1,6 @@
+" @prog         vim
+" @lastProgVers 8.0.0013
+
 set nocompatible
 filetype off
 
