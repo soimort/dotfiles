@@ -27,11 +27,11 @@ fate $MY_FATE | cow -W $(($COLUMNS-4)) -f $MY_COW
 # Antigen: load oh-my-zsh and other plugins
 source $HOME/.zsh/antigen/antigen.zsh && checkt
 antigen use oh-my-zsh
-log.p $(checkt "loaded: $fg_bold[green]oh-my-zsh$reset_color")
+#log.p $(checkt "loaded: $fg_bold[green]oh-my-zsh$reset_color")
 function {
     local i && for i in "${*[@]}"; do
         antigen bundle $i
-        log.p $(checkt "loaded bundle: $fg_bold[green]$i$reset_color")
+        #log.p $(checkt "loaded bundle: $fg_bold[green]$i$reset_color")
     done
 } $PLUGINS
 antigen apply
@@ -65,4 +65,4 @@ path+=("${CABAL_HOME}/bin")
 GOPATH=~/go
 path+=("${GOPATH}/bin")
 
-log.p $(checkt 'ok')
+#log.p $(checkt 'ok')
