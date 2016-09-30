@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
-# .zshrc
+# @prog         zsh
+# @lastProgVers 5.2
 # @since        2015-12-23
-# @lastChanged  2015-03-31
+# @lastChanged  2016-09-30
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -15,7 +16,6 @@ MY_COW=duck
 PLUGINS=(
     git pip emoji
     zsh-users/zsh-syntax-highlighting
-    rg3/youtube-dl
 )
 
 # Load prelude
@@ -49,20 +49,20 @@ function {
 # Initialize Projects & Source
 function {
     local i && for i in "${*[@]}"; do . $i; done
-} $HOME/{Projects,Source}/*.init.sh
+} $HOME/{Projects,Source}/*.init.sh(N)
 
 # Misc.
 # Scripts & Tools
 path+=("$HOME/Scripts" "$HOME/Tools")
 # pip user
 path+=("$HOME/.local/bin")
+# gem executables
+path+=("$HOME/.gem/ruby/2.3.0/bin")
 # cabal
 CABAL_HOME="${HOME}/.cabal"
 path+=("${CABAL_HOME}/bin")
 # go
 GOPATH=~/go
 path+=("${GOPATH}/bin")
-# rvm (must be put at last)
-source ~/.rvm/scripts/rvm
 
 log.p $(checkt 'ok')
