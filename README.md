@@ -1,6 +1,30 @@
 # Mort's Cheatsheet
 
-**[WARNING] This configuration set is a very personal thing and comes with definitely NO warranty. It may eat your hamster.**
+**[WARNING] This configuration set is a very personal thing and comes with definitely NO warranty. It may eat your hamster!**
+
+## Package initialization
+
+### Vundle
+
+(1)
+
+    $ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+(2) Launch vim and run `:PluginInstall`.
+
+### TPM
+
+(1)
+
+    $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+(2) Reload tmux environment so TPM is sourced:
+
+    $ tmux source ~/.tmux.conf
+
+(3) In tmux, press `prefix + I` to fetch plugins.
+
+
 
 ## Emacs
 
