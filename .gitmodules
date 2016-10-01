@@ -24,6 +24,3 @@
 [submodule ".tmux/plugins/tmux-sensible"]
 	path = .tmux/plugins/tmux-sensible
 	url = https://git::@github.com/tmux-plugins/tmux-sensible
-[submodule ".zsh/antigen"]
-	path = .zsh/antigen
-	url = https://github.com/zsh-users/antigen.git
