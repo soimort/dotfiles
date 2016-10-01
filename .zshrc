@@ -25,7 +25,7 @@ source $HOME/.zsh/prelude
 fate $MY_FATE | cow -W $(($COLUMNS-4)) -f $MY_COW
 
 # Antigen: load oh-my-zsh and other plugins
-source $HOME/.zsh/antigen/antigen.zsh && checkt
+source $HOME/.zsh/antigen113.zsh && checkt
 antigen use oh-my-zsh
 #log.p $(checkt "loaded: $fg_bold[green]oh-my-zsh$reset_color")
 function {
