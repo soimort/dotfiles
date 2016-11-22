@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-ARGV.each do |url|
-  puts 'http://dl.soimort.org/' +
-       /^https:\/\/www\.dropbox\.com\/([^?]+)/.match(url)[1]
-end
