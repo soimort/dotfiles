@@ -58,11 +58,14 @@ path+=("$HOME/Scripts" "$HOME/Tools")
 path+=("$HOME/.local/bin")
 # gem executables
 path+=("$HOME/.gem/ruby/2.3.0/bin")
-# cabal
-CABAL_HOME="${HOME}/.cabal"
-path+=("${CABAL_HOME}/bin")
 # go
 GOPATH=~/go
 path+=("${GOPATH}/bin")
+# cabal
+CABAL_HOME="${HOME}/.cabal"
+path+=("${CABAL_HOME}/bin")
+# smackage
+SMACKAGE_HOME="${HOME}/.smackage"
+path+=("${SMACKAGE_HOME}/bin")
 
 #log.p $(checkt 'ok')
