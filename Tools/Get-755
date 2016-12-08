@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+# Save a 755 post in the current directory as pt format (possibly with images).
+#
+# Dependencies:
+# - python ~ 3.5
+#   - you-get ~ 0.4
+#
+
+import json, re, sys
+from datetime import datetime
+from you_get.common import *
+from you_get.util import *
+
+site_info = '755'
+
+def main():
+    for url in sys.argv[1:]:
+        m = re.match('^https?://7gogo\.jp/([^/]+)/(\d+)', url)
+        assert m
+        talk_id, post_id = m.group(1), m.group(2)
+
+        api_url = 'https://api.7gogo.jp/web/v2/talks/%s/posts/%s' % (talk_id, post_id)
+        cont = get_content(api_url)
+        info = json.loads(cont)
+
+        time = info['data']['posts']['post']['time']
+        post_time = datetime.fromtimestamp(time).strftime('%a %d %b %Y')
+        author = info['data']['posts']['user']['name']
+
+        text = ''
+        images = []
+        for i in info['data']['posts']['post']['body']:
+            if i['bodyType'] == 1:
+                text = i['text']
+            elif i['bodyType'] == 3:
+                images.append(i['image'])
+
+        title = '%s_%s' % (talk_id, post_id)
+        log.w(title)
+        outf = open(title + '.pt', 'w')
+        outf.write('---\n')
+        outf.write('author: %s\n' % author)
+        outf.write('date: %s\n' % post_time)
+        outf.write('source: %s\n' % '755')
+        outf.write('url: %s\n' % url)
+        outf.write('---\n')
+        outf.write(text)
+        outf.write('\n')
+        outf.close()
+
+        if images:
+            image_url = images[0]
+            ext = image_url.split('.')[-1]
+            size = int(get_head(image_url)['Content-Length'])
+            download_urls(urls=[image_url],
+                          title=title,
+                          ext=ext,
+                          total_size=size,
+                          output_dir='.')
+
+if __name__ == '__main__':
+    main()
