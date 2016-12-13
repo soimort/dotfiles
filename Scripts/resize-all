@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -n "$1" ]; then
+    TS=`date +"%m-%d-%H%M"`
+    mkdir -p ${TS}.BAK && cp *.png ${TS}.BAK
+
+    for i in *.png; do
+        convert "$i" -resize "$1" "$i"
+    done
+fi
