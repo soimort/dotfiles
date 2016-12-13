@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+CAJA_LAST_SESSION=$HOME/.config/caja/last-session
+
+if [ -r "$1" ]; then
+    echo """<?xml version='1.0' encoding='UTF-8'?>
+<session>
+  <history></history>""" > $CAJA_LAST_SESSION
+    echo "  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>" >> $CAJA_LAST_SESSION
+
+    while read -r line; do # strip preceding whitespaces
+        # skip empty lines and comments
+        if [[ -z $line || $line =~ ^# ]]; then
+            continue
+        fi
+
+        # new window indicator '%'
+        if [[ $line == "%" ]]; then
+            echo "  </window>" >> $CAJA_LAST_SESSION
+            echo "  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>" >> $CAJA_LAST_SESSION
+        fi
+
+        if [[ $line =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+            line=$HOME${line#\~}
+        elif [[ ! $line =~ ^/ ]]; then # implicit home path, e.g., Downloads
+            line=$HOME/$line
+        fi
+        if [ -d "$line" ]; then
+            echo "    <slot location='file://$line'/>" >> $CAJA_LAST_SESSION
+        fi
+    done < $1
+
+    echo """  </window>
+</session>""" >> $CAJA_LAST_SESSION
+fi
+
+gdb -ex run caja
