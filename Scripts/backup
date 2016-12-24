@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+#
+# required environment variable: BACKUP_PATH
+
+backup() {
+    if [ -n "$1" ]; then
+        local src="/home/$USER/$1"
+        local dest="${BACKUP_PATH?-WTF!}/$1"
+        local destp="${BACKUP_PATH?-WTF!}/$1/.."
+        mkdir -p $dest
+        if [[ -r $src && -d $dest ]]; then
+            src=$(cd $src; pwd)
+            dest=$(cd $dest; pwd)
+            echo "Backup data $src => $dest"
+            echo -ne "Destination will be overwritten. Continue? [Y/n] "
+            local choice
+            read choice
+            if [ "$choice" = "Y" ]; then
+                if [ ${src##*/} != ${dest##*/} ]; then
+                    echo "Source and dest do not share a common name. Sync prevented."
+                else
+                    rsync -r -t -v --progress --delete -s $src $destp
+                fi
+            fi
+        fi
+    fi
+}
+
+backup $1
