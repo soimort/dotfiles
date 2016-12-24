@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Show the weather of city.
+#
+# Example:
+#   $ Show-Weather Tokyo
+
+if [ -z "$1" ]; then
+    curl -4 http://wttr.in/Copenhagen
+else
+    curl -4 http://wttr.in/$1
+fi
