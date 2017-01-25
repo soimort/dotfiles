@@ -16,6 +16,8 @@ module Gugutasu
   NAME = 'gugutasu'
   VERSION = '2016.03.15'
 
+  UA = 'curl/7.52.1'
+
   def self.api_key
     @@api_key
   end
@@ -103,7 +105,7 @@ module Gugutasu
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
-        image = http.get(uri.request_uri)
+        image = http.get(uri.request_uri, {'User-Agent' => Gugutasu::UA})
 
         begin
           image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
@@ -129,7 +131,7 @@ module Gugutasu
               http.use_ssl = true
               http.verify_mode = OpenSSL::SSL::VERIFY_NONE
             end
-            image = http.get(uri.request_uri)
+            image = http.get(uri.request_uri, {'User-Agent' => Gugutasu::UA})
 
             begin
               image_filename = image.header['Content-Disposition'].match /filename="([^"]+)"/
@@ -218,25 +220,25 @@ if __FILE__ == $0
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
 
-    response = http.get uri.request_uri
+    response = http.get(uri.request_uri, {'User-Agent' => Gugutasu::UA})
     # Handle Google+ custom URL redirection
     while response.code == '302'
-      response = http.get response['location']
+      response = http.get(response['location'], {'User-Agent' => Gugutasu::UA})
     end
 
     # Handle Google+ album URL
     if uri.request_uri.start_with? '/photos/' or uri.request_uri.start_with? '/u/0/photos/'
       post_request_uri = '/' + response.body.match(/"([^"\/]+\/posts\/[^"]+)"/)[1]
 
-      response = http.get post_request_uri
+      response = http.get(post_request_uri, {'User-Agent' => Gugutasu::UA})
       # Handle Google+ custom URL redirection
       if response.code == '302'
-        response = http.get response['location']
+        response = http.get(response['location'], {'User-Agent' => Gugutasu::UA})
       end
     end
 
     if uri.request_uri.split('/').length > 2
-      activity_id = response.body.match(/<div id="update-([^"]+)"/)[1]
+      activity_id = response.body.match(/update\/([^"]+)"/)[1]
       Gugutasu::save_activity(:index => index,
                               :activity_id => activity_id,
                               :output_path => options[:output_path],
