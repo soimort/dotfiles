@@ -14,7 +14,7 @@ require 'tzinfo'
 module Gugutasu
 
   NAME = 'gugutasu'
-  VERSION = '2016.03.15'
+  VERSION = '2017.01.27'
 
   UA = 'curl/7.52.1'
 
@@ -147,9 +147,9 @@ module Gugutasu
 
       elsif attachment.object_type == 'video'
         video_id = attachment.id
-        video_url = attachment.url
+        video_url = params[:orig_url] #attachment.url
         puts "[#{index+1}] Downloading video: #{video_url}"
-        system "you-get -o '#{output_base}.#{video_id}' #{video_url}"
+        system "you-get -do '#{output_base}.#{video_id}' #{video_url}"
 
       end
     end if attachments
@@ -242,7 +242,8 @@ if __FILE__ == $0
       Gugutasu::save_activity(:index => index,
                               :activity_id => activity_id,
                               :output_path => options[:output_path],
-                              :timezone => options[:timezone])
+                              :timezone => options[:timezone],
+                              :orig_url => url)
     else
       user_id = uri.request_uri.split('/')[1]
       Gugutasu::archive_user(:index => index,
