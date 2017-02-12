@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# Save an Instagram post in the current directory as pt format.
+#
+# Dependencies:
+# - python ~ 3.5
+#   - you-get ~ 0.4
+#
+
+import json, re, sys
+from datetime import datetime
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'Instagram'
+
+def main():
+    for url in sys.argv[1:]:
+        m = re.match('https?://(www\.)?instagram\.com/p/([^/]+)', url)
+        assert m
+        title = m.group(2)
+        log.w(title)
+
+        cont = get_content(url)
+        data = re.search(r'window\._sharedData\s*=\s*(.*);</script>', cont)
+        info = json.loads(data.group(1))
+
+        date = info['entry_data']['PostPage'][0]['media']['date']
+        post_time = datetime.fromtimestamp(date).strftime('%a %d %b %Y')
+        author = info['entry_data']['PostPage'][0]['media']['owner']['full_name']
+        text = info['entry_data']['PostPage'][0]['media']['caption']
+        outf = open(title + '.pt', 'w')
+        outf.write('---\n')
+        outf.write('author: %s\n' % author)
+        outf.write('date: %s\n' % post_time)
+        outf.write('source: %s\n' % 'Instagram')
+        outf.write('url: %s\n' % url)
+        outf.write('---\n')
+        outf.write(text)
+        outf.write('\n')
+        outf.close()
+
+        image_url = info['entry_data']['PostPage'][0]['media']['display_src']
+        ext = image_url.split('.')[-1]
+        size = int(get_head(image_url)['Content-Length'])
+        download_urls(urls=[image_url],
+                      title=title,
+                      ext=ext,
+                      total_size=size,
+                      output_dir='.')
+
+if __name__ == '__main__':
+    main()
