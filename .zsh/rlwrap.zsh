@@ -4,7 +4,7 @@ local -a rlwrap_cmd_list=(
     gosh guile kawa qexo scheme
     racket
     acl2 ccl ccl64 cmucl ecl lisp sbcl
-    mosml sml
+    mosml sml twelf-server
     ocaml
     maxima prover9
 )
