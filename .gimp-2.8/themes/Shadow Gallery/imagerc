@@ -1,0 +1,2295 @@
+# Modification by AndeOn for the theme Shadow small
+# Flat theme
+# Copyright (c) 2013 Andrew Pullins
+
+# ---------------------------------------------------------------------
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# ---------------------------------------------------------------------
+
+#  {
+#   <option>
+#
+#   stock[<stock_id>] =
+#     {
+#       { <filename> [, <direction> [, <state> [, <size>]]] },
+#       { ... }
+#     }
+# }
+#
+# widget <widget_set> style <style_name>
+# widget_class <widget_class_set> style <style_name>
+
+
+
+
+
+################################################################
+#                         Dialog icons                         #
+################################################################
+
+style "gimp-icons"
+
+{
+
+
+ stock["gimp-channels"] =
+    {
+      { "images/dialogs/channels.png", *, *, "gtk-button" },
+      { "images/dialogs/channels.png", *, *, * }
+    }
+
+stock["gimp-colormap"] =
+    {
+      { "images/dialogs/colormap.png", *, *, "gtk-button" },
+      { "images/dialogs/colormap.png", *, *, * }
+    }
+
+ stock["gimp-cursor"] =
+    {
+      { "images/dialogs/cursor.png", *, *, "gtk-button" },
+      { "images/dialogs/cursor.png", *, *, * }
+    }
+
+ stock["gimp-device-status"] =
+    {
+      { "images/dialogs/device-status.png", *, *, "gtk-button" },
+      { "images/dialogs/device-status.png", *, *, * }
+    }
+
+ stock["gimp-dynamics"] =
+    {
+      { "images/dialogs/dynamics.png", *, *, "gtk-button" },
+      { "images/dialogs/dynamics.png", *, *, * }
+    }
+
+  stock["gimp-error-console"] =
+    {
+      { "images/dialogs/error-console.png", *, *, "gtk-button" },
+      { "images/dialogs/error-console.png", *, *, * }
+    }
+
+stock["gimp-histogram"] = 
+{
+	{ "images/dialogs/histogram.png", *, *, "gtk-button" },
+	{ "images/dialogs/histogram.png", *, *, * }
+}
+
+stock["gimp-image"] =
+    {
+      { "images/dialogs/image.png", *, *, "gtk-button" },
+      { "images/dialogs/image.png", *, *, * }
+    }
+
+stock["gimp-layers"] =
+    {
+      { "images/dialogs/layers.png", *, *, "gtk-button" },
+      { "images/dialogs/layers.png", *, *, * }
+    }
+
+stock["gimp-navigation"] =
+    {
+      { "images/dialogs/navigation.png", *, *, "gtk-button" },
+      { "images/dialogs/navigation.png", *, *, * }
+    }
+
+stock["gimp-paths"] =
+    {
+      { "images/dialogs/paths.png", *, *, "gtk-button" },
+      { "images/dialogs/paths.png", *, *, * }
+    }
+
+stock["gimp-sample-point"] =
+    {
+      { "images/dialogs/sample-point.png", *, *, "gtk-button" },
+      { "images/dialogs/sample-point.png", *, *, * }
+    }
+
+ stock["gimp-selection"] =
+    {
+      { "images/dialogs/selection.png", *, *, "gtk-button" },
+      { "images/dialogs/selection.png", *, *, * }
+    }
+
+stock["gimp-template"] =
+    {
+      { "images/dialogs/template.png", *, *, "gtk-button" },
+      { "images/dialogs/template.png", *, *, * }
+    }
+
+stock["gimp-tool-options"] =
+    {
+      { "images/dialogs/options.png", *, *, "gtk-button" },
+      { "images/dialogs/options.png", *, *, * }
+    }
+
+stock["gimp-tool-preset"] =
+    {
+      { "images/dialogs/preset.png", *, *, "gtk-button" },
+      { "images/dialogs/preset.png", *, *, * }
+    }
+
+stock["gimp-undo-history"] =
+    {
+      { "images/dialogs/undo-history.png", *, *, "gtk-button" },
+      { "images/dialogs/undo-history.png", *, *, * }
+    }
+
+stock["gimp-warning"] =
+    {
+      { "images/dialogs/warning.png", *, *, "gtk-button" },
+      { "images/dialogs/warning.png", *, *, * }
+    }
+
+}
+
+
+#################################################################
+#                      Buttons icons                            #
+#################################################################
+
+style "gimp-icons"
+{
+  
+stock["gimp-cap-butt"] =
+    {
+      { "images/cap-butt.png", *, *, "gtk-button" },
+      { "images/cap-butt.png", *, *, * }
+    }
+  
+stock["gimp-cap-round"] =
+    {
+      { "images/cap-round.png", *, *, "gtk-button" },
+      { "images/cap-round.png", *, *, * }
+    }
+  
+stock["gimp-cap-square"] =
+    {
+      { "images/cap-square.png", *, *, "gtk-button" },
+      { "images/cap-square.png", *, *, * }
+    }
+  
+stock["gimp-center"] =
+    {
+      { "images/center.png", *, *, "gtk-button" },
+      { "images/center.png", *, *, * }
+    }
+  
+stock["gimp-channel"] =
+    {
+      { "images/channel.png", *, *, "gtk-button" },
+      { "images/channel.png", *, *, * }
+    }
+  
+stock["gimp-channel-alpha"] =
+    {
+      { "images/channel-alpha.png", *, *, "gtk-button" },
+      { "images/channel-alpha.png", *, *, * }
+    }
+  
+stock["gimp-channel-blue"] =
+    {
+      { "images/channel-blue.png", *, *, "gtk-button" },
+      { "images/channel-blue.png", *, *, * }
+    }
+  
+stock["gimp-channel-gray"] =
+    {
+      { "images/channel-gray.png", *, *, "gtk-button" },
+      { "images/channel-gray.png", *, *, * }
+    }
+  
+stock["gimp-channel-green"] =
+    {
+      { "images/channel-green.png", *, *, "gtk-button" },
+      { "images/channel-green.png", *, *, * }
+    }
+  
+stock["gimp-channel-indexed"] =
+    {
+      { "images/channel-indexed.png", *, *, "gtk-button" },
+      { "images/channel-indexed.png", *, *, * }
+    }
+  
+stock["gimp-channel-red"] =
+    {
+      { "images/channel-red.png", *, *, "gtk-button" },
+      { "images/channel-red.png", *, *, * }
+    }
+  
+stock["gimp-char-picker"] =
+    {
+      { "images/char-picker.png", *, *, "gtk-button" },
+      { "images/char-picker.png", *, *, * }
+    }
+  
+stock["gimp-close"] =
+    {
+      { "images/close.png", *, *, "gtk-button" },
+      { "images/close.png", *, *, * }
+    }
+  
+stock["gimp-color-picker-black"] =
+    {
+      { "images/color-picker-black.png", *, *, "gtk-button" },
+      { "images/color-picker-black.png", *, *, * }
+    }
+  
+stock["gimp-color-picker-gray"] =
+    {
+      { "images/color-picker-gray.png", *, *, "gtk-button" },
+      { "images/color-picker-gray.png", *, *, * }
+    }
+  
+stock["gimp-color-picker-white"] =
+    {
+      { "images/color-picker-white.png", *, *, "gtk-button" },
+      { "images/color-picker-white.png", *, *, * }
+    }
+  
+stock["gimp-controller"] =
+    {
+      { "images/controller.png", *, *, "gtk-button" },
+      { "images/controller.png", *, *, * }
+    }
+  
+stock["gimp-controller-keyboard"] =
+    {
+      { "images/controller-keyboard.png", *, *, "gtk-button" },
+      { "images/controller-keyboard.png", *, *, * }
+    }
+  
+stock["gimp-controller-linux-input"] =
+    {
+      { "images/controller-linux-input.png", *, *, "gtk-button" },
+      { "images/controller-linux-input.png", *, *, * }
+    }
+  
+stock["gimp-controller-midi"] =
+    {
+      { "images/controller-midi.png", *, *, "gtk-button" },
+      { "images/controller-midi.png", *, *, * }
+    }
+  
+stock["gimp-controller-wheel"] =
+    {
+      { "images/controller-wheel.png", *, *, "gtk-button" },
+      { "images/controller-wheel.png", *, *, * }
+    }
+  
+stock["gimp-convert-grayscale"] =
+    {
+      { "images/convert-grayscale.png", *, *, "gtk-button" },
+      { "images/convert-grayscale.png", *, *, * }
+    }
+  
+stock["gimp-convert-indexed"] =
+    {
+      { "images/convert-indexed.png", *, *, "gtk-button" },
+      { "images/convert-indexed.png", *, *, * }
+    }
+  
+stock["gimp-convert-rgb"] =
+    {
+      { "images/convert-rgb.png", *, *, "gtk-button" },
+      { "images/convert-rgb.png", *, *, * }
+    }
+  
+stock["gimp-curve-free"] =
+    {
+      { "images/curve-free.png", *, *, "gtk-button" },
+      { "images/curve-free.png", *, *, * }
+    }
+  
+stock["gimp-curve-smooth"] =
+    {
+      { "images/curve-smooth.png", *, *, "gtk-button" },
+      { "images/curve-smooth.png", *, *, * }
+    }
+  
+stock["gimp-display-filter"] =
+    {
+      { "images/display-filter.png", *, *, "gtk-button" },
+      { "images/display-filter.png", *, *, * }
+    }
+  
+stock["gimp-display-filter-colorblind"] =
+    {
+      { "images/display-filter-colorblind.png", *, *, "gtk-button" },
+      { "images/display-filter-colorblind.png", *, *, * }
+    }
+  
+stock["gimp-display-filter-contrast"] =
+    {
+      { "images/display-filter-contrast.png", *, *, "gtk-button" },
+      { "images/display-filter-contrast.png", *, *, * }
+    }
+  
+stock["gimp-display-filter-gamma"] =
+    {
+      { "images/display-filter-gamma.png", *, *, "gtk-button" },
+      { "images/display-filter-gamma.png", *, *, * }
+    }
+  
+stock["gimp-display-filter-lcms"] =
+    {
+      { "images/display-filter-lcms.png", *, *, "gtk-button" },
+      { "images/display-filter-lcms.png", *, *, * }
+    }
+  
+stock["gimp-display-filter-proof"] =
+    {
+      { "images/display-filter-proof.png", *, *, "gtk-button" },
+      { "images/display-filter-proof.png", *, *, * }
+    }
+  
+stock["gimp-floating-selection"] =
+    {
+      { "images/floating-selection.png", *, *, "gtk-button" },
+      { "images/floating-selection.png", *, *, * }
+    }
+  
+stock["gimp-frame"] =
+    {
+      { "images/frame.png", *, *, "gtk-button" },
+      { "images/frame.png", *, *, * }
+    }
+  
+stock["gimp-grid"] =
+    {
+      { "images/grid.png", *, *, "gtk-button" },
+      { "images/grid.png", *, *, * }
+    }
+  
+stock["gimp-hchain"] =
+    {
+      { "images/hchain.png", *, *, "gtk-button" },
+      { "images/hchain.png", *, *, * }
+    }
+  
+stock["gimp-hchain-broken"] =
+    {
+      { "images/hchain-broken.png", *, *, "gtk-button" },
+      { "images/hchain-broken.png", *, *, * }
+    }
+  
+stock["gimp-images"] =
+    {
+      { "images/images.png", *, *, "gtk-button" },
+      { "images/images.png", *, *, * }
+    }
+  
+stock["gimp-info"] =
+    {
+      { "images/info.png", *, *, "gtk-button" },
+      { "images/info.png", *, *, * }
+    }
+  
+stock["gimp-input-device"] =
+    {
+      { "images/input-device.png", *, *, "gtk-button" },
+      { "images/input-device.png", *, *, * }
+    }
+  
+stock["gimp-join-bevel"] =
+    {
+      { "images/join-bevel.png", *, *, "gtk-button" },
+      { "images/join-bevel.png", *, *, * }
+    }
+  
+stock["gimp-join-miter"] =
+    {
+      { "images/join-miter.png", *, *, "gtk-button" },
+      { "images/join-miter.png", *, *, * }
+    }
+  
+stock["gimp-join-round"] =
+    {
+      { "images/join-round.png", *, *, "gtk-button" },
+      { "images/join-round.png", *, *, * }
+    }
+  
+stock["gimp-layer-to-imagesize"] =
+    {
+      { "images/layer-to-imagesize.png", *, *, "gtk-button" },
+      { "images/layer-to-imagesize.png", *, *, * }
+    }
+  
+stock["gimp-letter-spacing"] =
+    {
+      { "images/letter-spacing.png", *, *, "gtk-button" },
+      { "images/letter-spacing.png", *, *, * }
+    }
+  
+stock["gimp-line-spacing"] =
+    {
+      { "images/line-spacing.png", *, *, "gtk-button" },
+      { "images/line-spacing.png", *, *, * }
+    }
+  
+stock["gimp-linked"] =
+    {
+      { "images/linked-20.png", *, *, "gtk-button" },
+      { "images/linked-20.png", *, *, * }
+    }
+  
+stock["gimp-list"] =
+    {
+      { "images/list.png", *, *, "gtk-button" },
+      { "images/list.png", *, *, * }
+    }
+  
+stock["gimp-move-to-screen"] =
+    {
+      { "images/move-to-screen.png", *, *, "gtk-button" },
+      { "images/move-to-screen.png", *, *, * }
+    }
+  
+stock["gimp-paste-as-new"] =
+    {
+      { "images/paste-as-new.png", *, *, "gtk-button" },
+      { "images/paste-as-new.png", *, *, * }
+    }
+  
+stock["gimp-paste-into"] =
+    {
+      { "images/paste-into.png", *, *, "gtk-button" },
+      { "images/paste-into.png", *, *, * }
+    }
+  
+stock["gimp-plugin"] =
+    {
+      { "images/plugin.png", *, *, "gtk-button" },
+      { "images/plugin.png", *, *, * }
+    }
+  
+stock["gimp-print-resolution"] =
+    {
+      { "images/print-resolution.png", *, *, "gtk-button" },
+      { "images/print-resolution.png", *, *, * }
+    }
+  
+stock["gimp-quick-mask-off"] =
+    {
+      { "images/quick-mask-off.png", *, *, "gtk-button" },
+      { "images/quick-mask-off.png", *, *, * }
+    }
+  
+stock["gimp-quick-mask-on"] =
+    {
+      { "images/quick-mask-on.png", *, *, "gtk-button" },
+      { "images/quick-mask-on.png", *, *, * }
+    }
+  
+stock["gimp-reshow-filter"] =
+    {
+      { "images/reshow-filter.png", *, *, "gtk-button" },
+      { "images/reshow-filter.png", *, *, * }
+    }
+  
+stock["gimp-resize"] =
+    {
+      { "images/resize.png", *, *, "gtk-button" },
+      { "images/resize.png", *, *, * }
+    }
+  
+stock["gimp-rotate-90"] =
+    {
+      { "images/rotate-90.png", *, *, "gtk-button" },
+      { "images/rotate-90.png", *, *, * }
+    }
+  
+stock["gimp-rotate-180"] =
+    {
+      { "images/rotate-180.png", *, *, "gtk-button" },
+      { "images/rotate-180.png", *, *, * }
+    }
+
+stock["gimp-rotate-270"] =
+    {
+      { "images/rotate-270.png", *, *, "gtk-button" },
+      { "images/rotate-270.png", *, *, * }
+    }
+
+stock["gimp-scale"] =
+    {
+      { "images/scale.png", *, *, "gtk-button" },
+      { "images/scale.png", *, *, * }
+    }
+  
+stock["gimp-selection-border"] =
+    {
+      { "images/selection-border.png", *, *, "gtk-button" },
+      { "images/selection-border.png", *, *, * }
+    }
+  
+stock["gimp-selection-grow"] =
+    {
+      { "images/selection-grow.png", *, *, "gtk-button" },
+      { "images/selection-grow.png", *, *, * }
+    }
+  
+stock["gimp-selection-shrink"] =
+    {
+      { "images/selection-shrink.png", *, *, "gtk-button" },
+      { "images/selection-shrink.png", *, *, * }
+    }
+  
+
+stock["gimp-text-dir-ltr"] =
+    {
+      { "images/text-dir-ltr.png", *, *, "gtk-button" },
+      { "images/text-dir-ltr.png", *, *, * }
+    }
+
+stock["gimp-text-dir-rtl"] =
+    {
+      { "images/text-dir-rtl.png", *, *, "gtk-button" },
+      { "images/text-dir-rtl.png", *, *, * }
+    }
+
+
+stock["gimp-text-layer"] =
+    {
+      { "images/text-layer.png", *, *, "gtk-button" },
+      { "images/text-layer.png", *, *, * }
+    }
+  
+stock["gimp-texture"] =
+    {
+      { "images/texture.png", *, *, "gtk-button" },
+      { "images/texture.png", *, *, * }
+    }
+
+stock["gimp-tools"] =
+    {
+      { "images/tools.png", *, *, "gtk-button" },
+      { "images/tools.png", *, *, * }
+    }
+
+stock["gimp-user-manual"] =
+    {
+      { "images/user-manual.png", *, *, "gtk-button" },
+      { "images/user-manual.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/user-manual.png", *, *, * }
+    }
+
+stock["gimp-vchain"] =
+    {
+      { "images/vchain.png", *, *, "gtk-button" },
+      { "images/vchain.png", *, *, * }
+    }
+  
+stock["gimp-vchain-broken"] =
+    {
+      { "images/vchain-broken.png", *, *, "gtk-button" },
+      { "images/vchain-broken.png", *, *, * }
+    }
+
+stock["gimp-video"] =
+    {
+      { "images/video.png", *, *, "gtk-button" },
+      { "images/video.png", *, *, * }
+    }
+
+stock["gimp-web"] =
+    {
+      { "images/web.png", *, *, "gtk-button" },
+      { "images/web.png", *, *, * }
+    }
+
+stock["gimp-zoom-follow-window"] =
+    {
+      { "images/zoom-follow-window.png", *, *, "gtk-button" },
+      { "images/zoom-follow-window.png", *, *, * }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#################################################################
+#                        menu icons                             #
+#################################################################
+
+style "gimp-icons"
+
+{
+
+
+stock["gimp-edit"] = 
+{
+	{ "images/menu/edit-c22.png", *, *, "gtk-button" },
+      { "images/menu/edit-c22.png", *, *, *            }
+}
+
+stock["gimp-color-pick-from-screen"] =
+{
+	{ "images/menu/color-pick-from-screen.png", *, *, "gtk-button" },
+	{ "images/menu/color-pick-from-screen.png", *, *, * }
+}
+
+stock["gimp-zoom-follow-window"] = #TODO
+{
+	{ "images/zoom-follow-window-22.png", *, *, "gtk-button" },
+      { "images/zoom-follow-window-c22.png", *, *, *            }
+}
+  
+}
+
+
+#################################################################
+#                    warning icons                              #
+#################################################################
+
+style "gimp-default-style"
+{
+  stock["gtk-dialog-error"] =
+    {
+      { "images/warning/error-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-info"] =
+    {
+      { "images/warning/info-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-question"] =
+    {
+      { "images/warning/question-64.png", *, *, "gtk-dialog" }
+    }
+  stock["gtk-dialog-warning"] =
+    {
+      { "images/warning/warning-64.png", *, *, "gtk-dialog" }
+    }
+}
+
+
+#################################################################
+#                        menu icons                             #
+#################################################################
+
+style "gimp-icons"
+{
+  stock["gtk-indent"] =
+    {
+      { "images/menu/format-indent-more.png", *, *, "gtk-button" },
+      { "images/menu/format-indent-more.png", *, NORMAL, "gtk-button" },
+      { "images/menu/format-indent-more.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/format-indent-more.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/format-indent-more.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/format-indent-more.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/format-indent-more.png", *, *, "gtk-dialog" },
+      { "images/menu/format-indent-more.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/format-indent-more.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/format-indent-more.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/format-indent-more.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/format-indent-more.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/format-indent-more.png", *, *, "gtk-menu" },
+      { "images/menu/format-indent-more.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/format-indent-more.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/format-indent-more.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/format-indent-more.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/format-indent-more.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/format-indent-more.png", *, *, * }
+    }
+  stock["gtk-add"] =
+    {
+      { "images/menu/gtk-save-as.png", *, *, "gtk-button" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-save-as.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-save-as.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-save-as.png", *, *, * }
+    }
+  stock["gtk-bold"] =
+    {
+      { "images/menu/gtk-bold.png", *, *, "gtk-button" },
+      { "images/menu/gtk-bold.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-bold-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-bold-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-bold-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-bold.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-bold.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-bold.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-bold-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-bold-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-bold-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-bold.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-bold.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-bold.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-bold-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-bold-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-bold-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-bold.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-bold.png", *, *, * }
+    }
+  stock["gtk-clear"] =
+    {
+      { "images/menu/gtk-clear.png", *, *, "gtk-button" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-clear.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-clear.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-clear.png", *, *, * }
+    }
+  stock["gtk-delete"] =
+    {
+      { "images/menu/gtk-delete.png", *, *, "gtk-button" },
+      { "images/menu/gtk-delete.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-delete-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-delete-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-delete-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-delete.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-delete.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-delete.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-delete-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-delete-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-delete-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-delete.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-delete.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-delete.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-delete-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-delete-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-delete-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-delete.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-delete.png", *, *, * }
+    }
+  stock["gtk-directory"] =
+    {
+      { "images/menu/gtk-directory.png", *, *, "gtk-button" },
+      { "images/menu/gtk-directory.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-directory-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-directory-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-directory-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-directory.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-directory.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-directory.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-directory-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-directory-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-directory-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-directory.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-directory.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-directory.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-directory-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-directory-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-directory-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-directory.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-directory.png", *, *, * }
+    }
+  stock["gtk-edit"] =
+    {
+      { "images/menu/gtk-edit.png", *, *, "gtk-button" },
+      { "images/menu/gtk-edit.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-edit-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-edit-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-edit-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-edit.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-edit.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-edit.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-edit-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-edit-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-edit-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-edit.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-edit.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-edit.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-edit-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-edit-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-edit-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-edit.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-edit.png", *, *, * }
+    }
+  stock["gtk-go-down"] =
+    {
+      { "images/menu/gtk-go-down.png", *, *, "gtk-button" },
+      { "images/menu/gtk-go-down.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-go-down-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-go-down-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-go-down-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-go-down.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-go-down.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-go-down.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-go-down-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-go-down-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-go-down-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-go-down.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-go-down.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-go-down.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-go-down-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-go-down-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-go-down-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-go-down.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-go-down.png", *, *, * }
+    }
+  stock["gtk-goto-bottom"] =
+    {
+      { "images/menu/gtk-goto-bottom.png", *, *, "gtk-button" },
+      { "images/menu/gtk-goto-bottom.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-goto-bottom-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-goto-bottom-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-goto-bottom-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-goto-bottom.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-goto-bottom.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-goto-bottom.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-goto-bottom-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-goto-bottom-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-goto-bottom-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-goto-bottom.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-goto-bottom.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-goto-bottom.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-goto-bottom-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-goto-bottom-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-goto-bottom-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-goto-bottom.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-goto-bottom.png", *, *, * }
+    }
+  stock["gtk-goto-top"] =
+    {
+      { "images/menu/gtk-goto-top.png", *, *, "gtk-button" },
+      { "images/menu/gtk-goto-top.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-goto-top-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-goto-top-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-goto-top-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-goto-top.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-goto-top.png", *, *, "gtk-dialog" }, 
+      { "images/menu/gtk-goto-top.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-goto-top-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-goto-top-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-goto-top-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-goto-top.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-goto-top.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-goto-top.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-goto-top-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-goto-top-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-goto-top-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-goto-top.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-goto-top.png", *, *, * }
+    }
+  stock["gtk-go-up"] =
+    {
+      { "images/menu/gtk-go-up.png", *, *, "gtk-button" },
+      { "images/menu/gtk-go-up.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-go-up-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-go-up-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-go-up-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-go-up.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-go-up.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-go-up.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-go-up-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-go-up-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-go-up-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-go-up.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-go-up.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-go-up.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-go-up-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-go-up-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-go-up-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-go-up.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-go-up.png", *, *, * }
+    }
+  stock["gtk-italic"] =
+    {
+      { "images/menu/gtk-italic.png", *, *, "gtk-button" },
+      { "images/menu/gtk-italic.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-italic-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-italic-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-italic-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-italic.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-italic.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-italic.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-italic-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-italic-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-italic-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-italic.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-italic.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-italic.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-italic-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-italic-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-italic-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-italic.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-italic.png", *, *, * }
+    }
+  stock["gtk-justify-center"] =
+    {
+      { "images/menu/gtk-justify-center.png", *, *, "gtk-button" },
+      { "images/menu/gtk-justify-center.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-justify-center-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-justify-center-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-justify-center-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-justify-center.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-justify-center.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-justify-center.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-justify-center-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-justify-center-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-justify-center-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-justify-center.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-justify-center.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-justify-center.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-justify-center-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-justify-center-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-justify-center-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-justify-center.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-justify-center.png", *, *, * }
+    }
+  stock["gtk-justify-fill"] =
+    {
+      { "images/menu/gtk-justify-fill.png", *, *, "gtk-button" },
+      { "images/menu/gtk-justify-fill.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-justify-fill-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-justify-fill-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-justify-fill-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-justify-fill.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-justify-fill.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-justify-fill.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-justify-fill-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-justify-fill-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-justify-fill-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-justify-fill.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-justify-fill.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-justify-fill.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-justify-fill-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-justify-fill-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-justify-fill-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-justify-fill.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-justify-fill.png", *, *, * }
+    }
+  stock["gtk-justify-left"] =
+    {
+      { "images/menu/gtk-justify-left.png", *, *, "gtk-button" },
+      { "images/menu/gtk-justify-left.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-justify-left-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-justify-left-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-justify-left-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-justify-left.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-justify-left.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-justify-left.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-justify-left-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-justify-left-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-justify-left-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-justify-left.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-justify-left.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-justify-left.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-justify-left-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-justify-left-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-justify-left-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-justify-left.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-justify-left.png", *, *, * }
+    }
+  stock["gtk-justify-right"] =
+    {
+      { "images/menu/gtk-justify-right.png", *, *, "gtk-button" },
+      { "images/menu/gtk-justify-right.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-justify-right-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-justify-right-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-justify-right-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-justify-right.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-justify-right.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-justify-right.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-justify-right-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-justify-right-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-justify-right-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-justify-right.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-justify-right.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-justify-right.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-justify-right-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-justify-right-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-justify-right-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-justify-right.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-justify-right.png", *, *, * }
+    }
+  stock["gtk-new"] =
+    {
+      { "images/menu/gtk-new.png", *, *, "gtk-button" },
+      { "images/menu/gtk-new.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-new-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-new-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-new-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-new.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-new.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-new.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-new-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-new-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-new-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-new.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-new.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-new.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-new-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-new-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-new-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-new.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-new.png", *, *, * }
+    }
+  stock["gtk-open"] =
+   {
+      { "images/menu/gtk-open.png", *, *, "gtk-button" },
+      { "images/menu/gtk-open.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-open-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-open-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-open-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-open.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-open.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-open.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-open-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-open-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-open-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-open.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-open.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-open.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-open-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-open-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-open-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-open.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-open.png", *, *, * }
+    }
+  stock["gtk-paste"] =
+    {
+      { "images/menu/gtk-paste.png", *, *, "gtk-button" },
+      { "images/menu/gtk-paste.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-paste-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-paste-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-paste-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-paste.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-paste.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-paste.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-paste-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-paste-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-paste-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-paste.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-paste.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-paste.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-paste-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-paste-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-paste-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-paste.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-paste.png", *, *, * }
+    }
+  stock["gtk-preferences"] =
+    {
+      { "images/menu/gtk-preferences.png", *, *, "gtk-button" },
+      { "images/menu/gtk-preferences.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-preferences-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-preferences-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-preferences-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-preferences.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-preferences.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-preferences.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-preferences-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-preferences-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-preferences-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-preferences.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-preferences.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-preferences.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-preferences-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-preferences-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-preferences-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-preferences.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-preferences.png", *, *, * }
+    }
+  stock["gtk-print"] =
+    {
+      { "images/menu/gtk-print.png", *, *, "gtk-button" },
+      { "images/menu/gtk-print.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-print-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-print-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-print-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-print.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-print.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-print.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-print-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-print-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-print-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-print.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-print.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-print.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-print-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-print-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-print-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-print.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-print.png", *, *, * }
+    }
+  stock["gtk-redo"] =
+    {
+      { "images/menu/gtk-redo.png", *, *, "gtk-button" },
+      { "images/menu/gtk-redo.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-redo-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-redo-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-redo-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-redo.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-redo.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-redo.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-redo-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-redo-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-redo-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-redo.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-redo.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-redo.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-redo-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-redo-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-redo-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-redo.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-redo.png", *, *, * }
+    }
+  stock["gtk-refresh"] =
+    {
+      { "images/menu/gtk-refresh.png", *, *, "gtk-button" },
+      { "images/menu/gtk-refresh.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-refresh-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-refresh-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-refresh-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-refresh.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-refresh.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-refresh.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-refresh-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-refresh-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-refresh-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-refresh.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-refresh.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-refresh.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-refresh-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-refresh-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-refresh-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-refresh.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-refresh.png", *, *, * }
+    }
+  stock["gtk-remove"] =
+    {
+      { "images/menu/gtk-remove.png", *, *, "gtk-button" },
+      { "images/menu/gtk-remove.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-remove-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-remove-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-remove-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-remove.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-remove.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-remove.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-remove-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-remove-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-remove-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-remove.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-remove.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-remove.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-remove-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-remove-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-remove-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-remove.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-remove.png", *, *, * }
+    }
+  stock["gtk-revert-to-saved-ltr"] =
+    {
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, * }
+    }
+  stock["gtk-revert-to-saved"] =
+    {
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, * }
+    }
+  stock["gtk-revert-to-saved-rtl"] =
+    {
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-revert-to-saved-ltr-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-revert-to-saved-ltr.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-revert-to-saved-ltr.png", *, *, * }
+    }
+  stock["gtk-save"] =
+    {
+      { "images/menu/gtk-save.png", *, *, "gtk-button" },
+      { "images/menu/gtk-save.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-save-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-save-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-save-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-save.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-save.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-save.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-save-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-save-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-save-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-save.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-save.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-save.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-save-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-save-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-save-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-save.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-save.png", *, *, * }
+    }
+  stock["gtk-save-as"] =
+    {
+      { "images/menu/gtk-save-as.png", *, *, "gtk-button" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-save-as.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-save-as.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-save-as.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-save-as-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-save-as.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-save-as.png", *, *, * }
+    }
+  stock["gtk-select-color"] =
+    {
+      { "images/menu/gtk-select-color.png", *, *, "gtk-button" },
+      { "images/menu/gtk-select-color.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-select-color-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-select-color-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-select-color-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-select-color.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-select-color.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-select-color.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-select-color-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-select-color-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-select-color-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-select-color.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-select-color.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-select-color.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-select-color-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-select-color-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-select-color-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-select-color.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-select-color.png", *, *, * }
+    }
+  stock["gtk-strikethrough"] =
+    {
+      { "images/menu/gtk-strikethrough.png", *, *, "gtk-button" },
+      { "images/menu/gtk-strikethrough.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-strikethrough-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-strikethrough-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-strikethrough-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-strikethrough.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-strikethrough.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-strikethrough.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-strikethrough-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-strikethrough-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-strikethrough-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-strikethrough.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-strikethrough.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-strikethrough.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-strikethrough-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-strikethrough-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-strikethrough-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-strikethrough.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-strikethrough.png", *, *, * }
+    }
+  stock["gtk-underline"] =
+    {
+      { "images/menu/gtk-underline.png", *, *, "gtk-button" },
+      { "images/menu/gtk-underline.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-underline-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-underline-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-underline-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-underline.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-underline.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-underline.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-underline-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-underline-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-underline-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-underline.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-underline.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-underline.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-underline-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-underline-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-underline-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-underline.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-underline.png", *, *, * }
+    }
+  stock["gtk-undo"] =
+    {
+      { "images/menu/gtk-undo.png", *, *, "gtk-button" },
+      { "images/menu/gtk-undo.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-undo-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-undo-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-undo-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-undo.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-undo.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-undo.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-undo-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-undo-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-undo-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-undo.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-undo.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-undo.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-undo-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-undo-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-undo-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-undo.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-undo.png", *, *, * }
+    }
+  stock["gtk-clear"] =
+    {
+      { "images/menu/gtk-clear.png", *, *, "gtk-button" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-clear.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-clear.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-clear.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-clear-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-clear.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-clear.png", *, *, * }
+    }
+  stock["gtk-zoom-100"] =
+    {
+      { "images/menu/gtk-zoom-100.png", *, *, "gtk-button" },
+      { "images/menu/gtk-zoom-100.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-zoom-100-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-zoom-100-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-zoom-100-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-zoom-100.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-zoom-100.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-zoom-100.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-zoom-100-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-zoom-100-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-zoom-100-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-zoom-100.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-zoom-100.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-zoom-100.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-zoom-100-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-zoom-100-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-zoom-100-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-zoom-100.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-zoom-100.png", *, *, * }
+    }
+  stock["gtk-zoom-fit"] =
+    {
+      { "images/menu/gtk-zoom-fit.png", *, *, "gtk-button" },
+      { "images/menu/gtk-zoom-fit.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-zoom-fit-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-zoom-fit-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-zoom-fit-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-zoom-fit.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-zoom-fit.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-zoom-fit.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-zoom-fit-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-zoom-fit-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-zoom-fit-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-zoom-fit.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-zoom-fit.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-zoom-fit.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-zoom-fit-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-zoom-fit-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-zoom-fit-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-zoom-fit.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-zoom-fit.png", *, *, * }
+    }
+  stock["gtk-zoom-in"] =
+    {
+      { "images/menu/gtk-zoom-in.png", *, *, "gtk-button" },
+      { "images/menu/gtk-zoom-in.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-zoom-in-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-zoom-in-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-zoom-in-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-zoom-in.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-zoom-in.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-zoom-in.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-zoom-in-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-zoom-in-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-zoom-in-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-zoom-in.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-zoom-in.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-zoom-in.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-zoom-in-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-zoom-in-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-zoom-in-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-zoom-in.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-zoom-in.png", *, *, * }
+    }
+  stock["gtk-zoom-out"] =
+    {
+      { "images/menu/gtk-zoom-out.png", *, *, "gtk-button" },
+      { "images/menu/gtk-zoom-out.png", *, NORMAL, "gtk-button" },
+      { "images/menu/gtk-zoom-out-c.png", *, ACTIVE, "gtk-button" },
+      { "images/menu/gtk-zoom-out-c.png", *, PRELIGHT, "gtk-button" },
+      { "images/menu/gtk-zoom-out-c.png", *, SELECTED, "gtk-button" },
+#      { "images/menu/gtk-zoom-out.png", *, INSENSITIVE, "gtk-button" },
+
+      { "images/menu/gtk-zoom-out.png", *, *, "gtk-dialog" },
+      { "images/menu/gtk-zoom-out.png", *, NORMAL, "gtk-dialog" },
+      { "images/menu/gtk-zoom-out-c.png", *, ACTIVE, "gtk-dialog" },
+      { "images/menu/gtk-zoom-out-c.png", *, PRELIGHT, "gtk-dialog" },
+      { "images/menu/gtk-zoom-out-c.png", *, SELECTED, "gtk-dialog" },
+#      { "images/menu/gtk-zoom-out.png", *, INSENSITIVE, "gtk-dialog" },
+
+      { "images/menu/gtk-zoom-out.png", *, *, "gtk-menu" },
+      { "images/menu/gtk-zoom-out.png", *, NORMAL, "gtk-menu" },
+      { "images/menu/gtk-zoom-out-c.png", *, ACTIVE, "gtk-menu" },
+      { "images/menu/gtk-zoom-out-c.png", *, PRELIGHT, "gtk-menu" },
+      { "images/menu/gtk-zoom-out-c.png", *, SELECTED, "gtk-menu" },
+#      { "images/menu/gtk-zoom-out.png", *, INSENSITIVE, "gtk-menu" },
+
+      { "images/menu/gtk-zoom-out.png", *, *, * }
+    }
+  
+stock["gimp-anchor"] =
+    {
+      { "images/menu/anchor.png", *, *, "gtk-button" },
+      { "images/menu/anchor.png", *, *, * }
+    }
+  
+stock["gimp-color-pick-from-screen"] =
+    {
+      { "images/menu/color-pick-from-screen.png", *, *, "gtk-button" },
+      { "images/menu/color-pick-from-screen.png", *, *, * }
+    }
+  
+stock["gimp-color-triangle"] =
+    {
+      { "images/menu/color-triangle.png", *, *, "gtk-button" },
+      { "images/menu/color-triangle.png", *, *, * }
+    }
+  
+stock["gimp-default-colors"] =
+    {
+      { "images/menu/default-colors.png", *, *, "gtk-button" },
+      { "images/menu/default-colors.png", *, *, * }
+    }
+  
+stock["gimp-duplicate"] =
+    {
+      { "images/menu/duplicate.png", *, *, "gtk-button" },
+      { "images/menu/duplicate.png", *, *, * }
+    }
+  
+stock["gimp-edit"] =
+    {
+      { "images/menu/edit.png", *, *, "gtk-button" },
+      { "images/menu/edit.png", *, *, * }
+    }
+  
+stock["gimp-eye"] =
+    {
+      { "images/menu/eye.png", *, *, "gtk-button" },
+      { "images/menu/eye.png", *, *, * }
+    }
+  
+stock["gimp-flip-horizontal"] =
+    {
+      { "images/menu/flip-horizontal.png", *, *, "gtk-button" },
+      { "images/menu/flip-horizontal.png", *, *, * }
+    }
+  
+stock["gimp-flip-vertical"] =
+    {
+      { "images/menu/flip-vertical.png", *, *, "gtk-button" },
+      { "images/menu/flip-vertical.png", *, *, * }
+    }
+  
+stock["gimp-gradient-bilinear"] =
+    {
+      { "images/menu/gradient-bilinear.png", *, *, "gtk-button" },
+      { "images/menu/gradient-bilinear.png", *, *, * }
+    }
+  
+stock["gimp-gradient-conical-asymmetric"] =
+    {
+      { "images/menu/gradient-conical-asymmetric.png", *, *, "gtk-button" },
+      { "images/menu/gradient-conical-asymmetric.png", *, *, * }
+    }
+
+stock["gimp-gradient-conical-symmetric"] =
+    {
+      { "images/menu/gradient-conical-symmetric.png", *, *, "gtk-button" },
+      { "images/menu/gradient-conical-symmetric.png", *, *, * }
+    }
+  
+stock["gimp-gradient-linear"] =
+    {
+      { "images/menu/gradient-linear.png", *, *, "gtk-button" },
+      { "images/menu/gradient-linear.png", *, *, * }
+    }
+  
+stock["gimp-gradient-radial"] =
+    {
+      { "images/menu/gradient-radial.png", *, *, "gtk-button" },
+      { "images/menu/gradient-radial.png", *, *, * }
+    }
+ 
+stock["gimp-gradient-shapeburst-angular"] =
+    {
+      { "images/menu/gradient-shapeburst-angular.png", *, *, "gtk-button" },
+      { "images/menu/gradient-shapeburst-angular.png", *, *, * }
+    }
+  
+stock["gimp-gradient-shapeburst-dimpled"] =
+    {
+      { "images/menu/gradient-shapeburst-dimpled.png", *, *, "gtk-button" },
+      { "images/menu/gradient-shapeburst-dimpled.png", *, *, * }
+    }
+  
+stock["gimp-gradient-shapeburst-spherical"] =
+    {
+      { "images/menu/gradient-shapeburst-spherical.png", *, *, "gtk-button" },
+      { "images/menu/gradient-shapeburst-spherical.png", *, *, * }
+    }
+  
+stock["gimp-gradient-spiral-anticlockwise"] =
+    {
+      { "images/menu/gradient-spiral-anticlockwise.png", *, *, "gtk-button" },
+      { "images/menu/gradient-spiral-anticlockwise.png", *, *, * }
+    }
+  
+stock["gimp-gradient-spiral-clockwise"] =
+    {
+      { "images/menu/gradient-spiral-clockwise.png", *, *, "gtk-button" },
+      { "images/menu/gradient-spiral-clockwise.png", *, *, * }
+    }
+  
+stock["gimp-gradient-square"] =
+    {
+      { "images/menu/gradient-square.png", *, *, "gtk-button" },
+      { "images/menu/gradient-square.png", *, *, * }
+    }
+  
+stock["gimp-gravity-east"] =
+    {
+      { "images/menu/gravity-east.png", *, *, "gtk-button" },
+      { "images/menu/gravity-east.png", *, *, * }
+    }
+  
+stock["gimp-gravity-north"] =
+    {
+      { "images/menu/gravity-north.png", *, *, "gtk-button" },
+      { "images/menu/gravity-north.png", *, *, * }
+    }
+  
+stock["gimp-gravity-north-east"] =
+    {
+      { "images/menu/gravity-north-east.png", *, *, "gtk-button" },
+      { "images/menu/gravity-north-east.png", *, *, * }
+    }
+  
+stock["gimp-gravity-north-west"] =
+    {
+      { "images/menu/gravity-north-west.png", *, *, "gtk-button" },
+      { "images/menu/gravity-north-west.png", *, *, * }
+    }
+  
+stock["gimp-gravity-south"] =
+    {
+      { "images/menu/gravity-south.png", *, *, "gtk-button" },
+      { "images/menu/gravity-south.png", *, *, * }
+    }
+  
+stock["gimp-gravity-south-east"] =
+    {
+      { "images/menu/gravity-south-east.png", *, *, "gtk-button" },
+      { "images/menu/gravity-south-east.png", *, *, * }
+    }
+  
+stock["gimp-gravity-south-west"] =
+    {
+      { "images/menu/gravity-south-west.png", *, *, "gtk-button" },
+      { "images/menu/gravity-south-west.png", *, *, * }
+    }
+  
+stock["gimp-gravity-west"] =
+    {
+      { "images/menu/gravity-west.png", *, *, "gtk-button" },
+      { "images/menu/gravity-west.png", *, *, * }
+    }
+  
+stock["gimp-hcenter"] =
+    {
+      { "images/menu/hcenter.png", *, *, "gtk-button" },
+      { "images/menu/hcenter.png", *, *, * }
+    }
+
+  
+stock["gimp-histogram-linear"] =
+    {
+      { "images/menu/histogram-linear.png", *, *, "gtk-button" },
+      { "images/menu/histogram-linear.png", *, *, * }
+    }	
+
+stock["gimp-histogram-logarithmic"] =
+    {
+      { "images/menu/histogram-logarithmic.png", *, *, "gtk-button" },
+      { "images/menu/histogram-logarithmic.png", *, *, * }
+    }
+  
+stock["gimp-invert"] =
+    {
+      { "images/menu/invert.png", *, *, "gtk-button" },
+      { "images/menu/invert.png", *, *, * }
+    }
+  
+stock["gimp-landscape"] =
+    {
+      { "images/menu/landscape.png", *, *, "gtk-button" },
+      { "images/menu/landscape.png", *, *, * }
+    }
+
+stock["gimp-layer"] =
+    {
+      { "images/menu/layer.png", *, *, "gtk-button" },
+      { "images/menu/layer.png", *, *, * }
+    }
+  
+stock["gimp-layer-mask"] =
+    {
+      { "images/menu/layer-mask.png", *, *, "gtk-button" },
+      { "images/menu/layer-mask.png", *, *, * }
+    }
+  
+stock["gimp-menu-left"] =
+    {
+      { "images/menu/menu-left.png", *, *, "gtk-button" },
+      { "images/menu/menu-left.png", *, *, * }
+    }
+  
+stock["gimp-menu-right"] =
+    {
+      { "images/menu/menu-right-12.png", *, *, "gtk-button" },
+      { "images/menu/menu-right-12.png", *, *, * }
+    }
+  
+stock["gimp-merge-downt"] =
+    {
+      { "images/menu/merge-down.png", *, *, "gtk-button" },
+      { "images/menu/merge-down.png", *, *, * }
+    }
+  
+stock["gimp-path"] =
+    {
+      { "images/menu/path.png", *, *, "gtk-button" },
+      { "images/menu/path.png", *, *, * }
+    }
+  
+stock["gimp-path-stroke"] =
+    {
+      { "images/menu/path-stroke.png", *, *, "gtk-button" },
+      { "images/menu/path-stroke.png", *, *, * }
+    }
+ 
+stock["gimp-portrait"] =
+    {
+      { "images/menu/portrait.png", *, *, "gtk-button" },
+      { "images/menu/portrait.png", *, *, * }
+    }
+  
+stock["gimp-reset"] =
+    {
+      { "images/menu/reset.png", *, *, "gtk-button" },
+      { "images/menu/reset.png", *, *, * }
+    }
+  
+stock["gimp-selection-add"] =
+    {
+      { "images/menu/selection-add.png", *, *, "gtk-button" },
+      { "images/menu/selection-add.png", *, *, * }
+    }
+  
+stock["gimp-selection-all"] =
+    {
+      { "images/menu/selection-all.png", *, *, "gtk-button" },
+      { "images/menu/selection-all.png", *, *, * }
+    }
+  
+stock["gimp-selection-intersect"] =
+    {
+      { "images/menu/selection-intersect.png", *, *, "gtk-button" },
+      { "images/menu/selection-intersect.png", *, *, * }
+    }
+  
+stock["gimp-selection-none"] =
+    {
+      { "images/menu/selection-none.png", *, *, "gtk-button" },
+      { "images/menu/selection-none.png", *, *, * }
+    }
+ 
+ stock["gimp-selection-replace"] =
+    {
+      { "images/menu/selection-replace.png", *, *, "gtk-button" },
+      { "images/menu/selection-replace.png", *, *, * }
+    }
+  
+stock["gimp-selection-stroke"] =
+    {
+      { "images/menu/selection-stroke.png", *, *, "gtk-button" },
+      { "images/menu/selection-stroke.png", *, *, * }
+    }
+  
+stock["gimp-selection-subtract"] =
+    {
+      { "images/menu/selection-subtract.png", *, *, "gtk-button" },
+      { "images/menu/selection-subtract.png", *, *, * }
+    }
+  
+stock["gimp-selection-to-channel"] =
+    {
+      { "images/menu/selection-to-channel.png", *, *, "gtk-button" },
+      { "images/menu/selection-to-channel.png", *, *, * }
+    }
+  
+stock["gimp-selection-to-path"] =
+    {
+      { "images/menu/selection-to-path.png", *, *, "gtk-button" },
+      { "images/menu/selection-to-path.png", *, *, * }
+    }
+  
+stock["gimp-shape-circle"] =
+    {
+      { "images/menu/shape-circle.png", *, *, "gtk-button" },
+      { "images/menu/shape-circle.png", *, *, * }
+    }
+  
+stock["gimp-shape-diamond"] =
+    {
+      { "images/menu/shape-diamond.png", *, *, "gtk-button" },
+      { "images/menu/shape-diamond.png", *, *, * }
+    }
+  
+stock["gimp-shape-square"] =
+    {
+      { "images/menu/shape-square.png", *, *, "gtk-button" },
+      { "images/menu/shape-square.png", *, *, * }
+    }
+  
+stock["gimp-swap-colors"] =
+    {
+      { "images/menu/swap-colors-12.png", *, *, "gtk-button" },
+      { "images/menu/swap-colors.png", *, *, * }
+    }
+  
+stock["gimp-toilet-paper"] =
+    {
+      { "images/menu/toilet-paper.png", *, *, "gtk-button" },
+      { "images/menu/toilet-paper.png", *, *, * }
+    }
+  
+stock["gimp-transparency"] =
+    {
+      { "images/menu/transparency.png", *, *, "gtk-button" },
+      { "images/menu/transparency.png", *, *, * }
+    }
+  
+stock["gimp-vcenter"] =
+    {
+      { "images/menu/vcenter.png", *, *, "gtk-button" },
+      { "images/menu/vcenter.png", *, *, * }
+    }
+
+  
+stock["gimp-wilber"] =
+    {
+      { "images/menu/wilber.png", *, *, "gtk-button" },
+      { "images/menu/wilber.png", *, *, * }
+    }
+
+}
+
+#################################################################
+#                    Tool box icons                             #
+#################################################################
+
+style "gimp-icons"
+
+{
+
+
+  stock["gimp-gegl"] =
+    {
+      { "images/tools/gegl.png", *, *, "gtk-button" },
+      { "images/tools/gegl.png", *, *, * 	}
+    }
+  
+  stock["gimp-tool-desaturate"] =
+    {
+      { "images/tools/desaturate.png", *, *, "gtk-button" },
+      { "images/tools/desaturate.png", *, *, * 		}
+    }
+
+
+# Select icons
+stock["gimp-tool-move"] =
+{
+	{ "images/tools/move.png", *, *, "gtk-button" },
+	{ "images/tools/move.png", *, *, * }
+}
+stock["gimp-tool-rect-select"] =
+{
+	{ "images/tools/rectangle-select.png", *, *, "gtk-button" },
+	{ "images/tools/rectangle-select.png", *, *, * }
+}
+stock["gimp-tool-ellipse-select"] =
+{
+	{ "images/tools/ellipse-select.png", *, *, "gtk-button" },
+	{ "images/tools/ellipse-select.png", *, *, * }
+}
+stock["gimp-tool-free-select"] =
+{
+	{ "images/tools/free-select.png", *, *, "gtk-button" },
+	{ "images/tools/free-select.png", *, *, * }
+}
+
+stock["gimp-tool-fuzzy-select"] =
+{
+	{ "images/tools/fuzzy-select.png", *, *, "gtk-button" },
+	{ "images/tools/fuzzy-select.png", *, *, * }
+}
+stock["gimp-tool-by-color-select"] = #doesn't exist in PS
+{
+	{ "images/tools/by-color-select.png", *, *, "gtk-button" },
+	{ "images/tools/by-color-select.png", *, *, * }
+}
+
+stock["gimp-tool-iscissors"] =
+{
+	{ "images/tools/scissors.png", *, *, "gtk-button" },
+	{ "images/tools/scissors.png", *, *, * }
+}
+
+stock["gimp-tool-foreground-select"] =
+{
+	{ "images/tools/foreground-select.png", *, *, "gtk-button"},
+	{ "images/tools/foreground-select.png", *, *, *}
+}
+
+# Adjust icons
+
+stock["gimp-tool-path"] =
+{
+	{ "images/tools/path.png", *, *, "gtk-button" },
+	{ "images/tools/path.png", *, *, * }
+}
+
+stock["gimp-tool-color-picker"] =
+{
+	{ "images/tools/color-picker.png", *, *, "gtk-button" },
+	{ "images/tools/color-picker.png", *, *, * }
+}
+
+stock["gimp-tool-zoom"] =
+{
+	{ "images/tools/zoom.png", *, *, "gtk-button" },
+	{ "images/tools/zoom.png", *, *, * }
+}
+
+
+stock["gimp-tool-measure"] = 
+{
+      { "images/tools/measure.png", *, *, "gtk-button" },
+      { "images/tools/measure.png", *, *, *            }
+}
+
+
+
+
+# Transform icons
+
+ stock["gimp-tool-align"] = #TODO
+{
+      { "images/tools/align.png", *, *, "gtk-button"},
+	{ "images/tools/align.png", *, *, *}
+}
+
+stock["gimp-tool-crop"] =
+{
+	{ "images/tools/crop.png", *, *, "gtk-button" },
+	{ "images/tools/crop.png", *, *, * }
+}
+
+
+  stock["gimp-tool-perspective"] = #TODO
+    {
+      { "images/tools/perspective.png", *, *, "gtk-button" },
+      { "images/tools/perspective.png", *, *, *            }
+    }
+  stock["gimp-tool-posterize"] = #TODO
+    {
+      { "images/tools/posterize.png", *, *, "gtk-button" },
+      { "images/tools/posterize.png", *, *, *            }
+    }
+  
+  stock["gimp-tool-rotate"] = #TODO
+    {
+      { "images/tools/rotate.png", *, *, "gtk-button" },
+      { "images/tools/rotate.png", *, *, *            }
+    }
+  stock["gimp-tool-scale"] = #TODO
+    {
+      { "images/tools/scale.png", *, *, "gtk-button" },
+      { "images/tools/scale.png", *, *, *            }
+    }
+  stock["gimp-tool-shear"] = #TODO
+    {
+      { "images/tools/shear.png", *, *, "gtk-button" },
+      { "images/tools/shear.png", *, *, *            }
+    }
+  stock["gimp-tool-threshold"] = #TODO
+    {
+      { "images/tools/threshold.png", *, *, "gtk-button" },
+      { "images/tools/threshold.png", *, *, *            }
+    }
+
+
+stock["gimp-tool-flip"] = #TODO
+    {
+      { "images/tools/flip.png", *, *, "gtk-button" },
+      { "images/tools/flip.png", *, *, *  }
+    }
+
+stock["gimp-tool-cage"] = #todo
+    {
+	{ "images/tools/cage.png", *, *, "gtk-button" },
+      { "images/tools/cage.png", *, *, *            }
+    }
+
+
+
+
+stock["gimp-tool-text"] = #TODO
+{
+	{ "images/tools/text.png", *, *, "gtk-button" },
+	{ "images/tools/text.png", *, *, * }
+}
+
+stock["gimp-tool-bucket-fill"] =
+{
+	{ "images/tools/bucket-fill.png", *, *, "gtk-button"},
+	{ "images/tools/bucket-fill.png", *, *, *}
+}
+
+stock["gimp-tool-blend"] =
+{
+	{ "images/tools/blend.png", *, *, "gtk-button" },
+	{ "images/tools/blend.png", *, *, * }
+}
+
+stock["gimp-tool-pencil"] =
+{
+	{ "images/tools/pencil.png", *, *, "gtk-button" },
+	{ "images/tools/pencil.png", *, *, * }
+}
+
+stock["gimp-tool-paintbrush"] =
+{
+	{ "images/tools/paintbrushl.png", *, *, "gtk-button" },
+	{ "images/tools/paintbrush.png", *, *, * }
+}
+
+stock["gimp-tool-eraser"] =
+{
+	{ "images/tools/eraser.png", *, *, "gtk-button" },
+	{ "images/tools/eraser.png", *, *, * }
+}
+
+stock["gimp-tool-airbrush"] = 
+{
+	{ "images/tools/airbrush.png", *, *, "gtk-button" },
+	{ "images/tools/airbrush.png", *, *, * }
+}
+
+stock["gimp-tool-ink"] = 
+{
+      { "images/tools/ink.png", *, *, "gtk-button" },
+      { "images/tools/ink.png", *, *, *            }
+}
+
+
+
+
+stock["gimp-tool-clone"] =
+{
+	{ "images/tools/clone.png", *, *, "gtk-button"},
+	{ "images/tools/clone.png", *, *, *}
+}
+
+stock["gimp-tool-heal"] =
+{
+	{ "images/tools/heal.png", *, *, "gtk-button" },
+	{ "images/tools/heal.png", *, *, * }
+}
+
+stock["gimp-tool-perspective-clone"] = # created a look a like icon
+    {
+      { "images/tools/perspective-clone.png", *, *, "gtk-button" },
+      { "images/tools/perspective-clone.png", *, *, *            }
+    }
+
+stock["gimp-tool-blur"] =
+{
+      { "images/tools/blur.png", *, *, "gtk-button" },
+	{ "images/tools/blur.png", *, *, * }
+}
+
+stock["gimp-tool-smudge"] =
+{
+	{ "images/tools/smudge.png", *, *, "gtk-button" },
+	{ "images/tools/smudge.png", *, *, * }
+}
+
+stock["gimp-tool-dodge"] =
+{
+	{ "images/tools/dodge.png", *, *, "gtk-button" },
+	{ "images/tools/dodge.png", *, *, * }
+}
+
+
+
+# Icons in the Color menu
+
+  stock["gimp-tool-levels"] = #TODO
+    {
+      { "images/tools/levels.png", *, *, "gtk-button" },
+      { "images/tools/levels.png", *, *, *            }
+    }
+ stock["gimp-tool-colorize"] = #TODO
+    {
+      { "images/tools/colorize.png", *, *, "gtk-button" },
+      { "images/tools/colorize.png", *, *, *            }
+    }
+stock["gimp-tool-hue-saturation"] = #TODO
+    {
+      { "images/tools/hue-saturation.png", *, *, "gtk-button" },
+      { "images/tools/hue-saturation.png", *, *, * }
+    }
+
+
+
+stock["gimp-tool-brightness-contrast"] = #TODO
+    {
+	{ "images/tools/brightness-contrast.png", *, *, "gtk-button" },
+      { "images/tools/brightness-contrast.png", *, *, *            }
+    }
+
+ stock["gimp-tool-curves"] = #todo
+    {
+      { "images/tools/curves.png", *, *, "gtk-button" },
+      { "images/tools/curves.png", *, *, *            }
+    }
+  
+
+  stock["gimp-tool-color-balance"] = #todo
+    {
+      { "images/tools/color-balance.png", *, *, "gtk-button" },
+      { "images/tools/color-balance.png", *, *, *            }
+    }
+
+ 
+}
+
+class "GtkWidget" style "gimp-icons"
