@@ -2,7 +2,7 @@
 # @prog         zsh
 # @lastProgVers 5.3.1
 # @since        2015-12-23
-# @lastChanged  2017-01-28
+# @lastChanged  2017-03-20
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -57,7 +57,7 @@ path+=("$HOME/Scripts" "$HOME/Tools")
 # pip user
 path+=("$HOME/.local/bin")
 # gem executables
-path+=("$HOME/.gem/ruby/2.4.0/bin")
+path=("$HOME/.gem/ruby/2.4.0/bin" $path)
 # go
 GOPATH=~/go
 path+=("${GOPATH}/bin")
