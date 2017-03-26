@@ -1,4 +1,4 @@
-# GIMP
+# GIMP 2.8
 
 ## Plug-ins
 
@@ -14,3 +14,8 @@
 ## Scripts
 
 * `gimp-elsamuko`
+<https://github.com/elsamuko/gimp-elsamuko>
+* `batch-levels-stretch.scm`
+* `match-colours.scm`
+* `simple-unsharp-mask.scm`
+* `to-png.scm`
