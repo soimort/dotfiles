@@ -260,6 +260,10 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-j</kbd> Expand
 
+### Flyspell mode
+
+<kbd>C-c $</kbd> Correct word at point or save word to dictionary
+
 ### Customized commands
 
 <kbd>C-` f</kbd> Find file in new screen (= <kbd>M-s C-f</kbd>)
