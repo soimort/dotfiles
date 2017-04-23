@@ -23,6 +23,8 @@ def main():
         cont = get_content(api_url)
         info = json.loads(cont)
 
+        if info['data']['posts']['post'] is None: continue
+
         time = info['data']['posts']['post']['time']
         post_time = datetime.fromtimestamp(time).strftime('%a %d %b %Y')
         author = info['data']['posts']['user']['name']
