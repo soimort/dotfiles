@@ -25,6 +25,7 @@ if [ -r "$1" ]; then
             line=$HOME/$line
         fi
         if [ -d "$line" ]; then
+            line="${line/\#/%23}" # percent-encode '#' in path
             echo "    <slot location='file://$line'/>" >> $CAJA_LAST_SESSION
         fi
     done < $1
