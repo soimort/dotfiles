@@ -36,6 +36,8 @@ def main():
                 text = i['text']
             elif i['bodyType'] == 3:
                 images.append(i['image'])
+            elif i['bodyType'] == 8:
+                images.append(i['movieUrlHq'])
 
         title = '%s_%s' % (talk_id, post_id)
         log.w(title)
