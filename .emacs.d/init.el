@@ -163,6 +163,7 @@
       c-basic-offset 4)
 (c-set-offset 'substatement-open 0)
 (c-set-offset 'inline-open 0)
+(c-set-offset 'innamespace 0)
 
 ;; JavaScript
 (setq js-indent-level 2)
