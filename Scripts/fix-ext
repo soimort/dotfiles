@@ -13,6 +13,9 @@ for i in "$@"; do
         'image/png' )
             t='png'
             ;;
+        'image/x-ms-bmp' )
+            t='bmp'
+            ;;
         * )
             t=${i##*.}
             ;;
