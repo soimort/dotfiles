@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+for i in ~/.config/chromium/Default/Current\ Session_*; do
+    echo ${i#~/.config/chromium/Default/Current\ Session_}
+done
