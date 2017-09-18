@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" -o -z "$2" ]; then
+    echo "Usage: color-transfer SOURCE REFERENCE [COLORSPACE]"
+else
+    imgine -E ':I C1' -E ':I C2' -E ":PI color_transfer C1 C2 $3" \
+           -E ":w $1_out" $1 $2
+fi
