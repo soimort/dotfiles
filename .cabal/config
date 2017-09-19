@@ -26,12 +26,12 @@ remote-repo-cache: /home/soimort/.cabal/packages
 -- local-repo:
 -- logs-dir:
 world-file: /home/soimort/.cabal/world
--- verbose: 1
+-- verbose: 3
 -- compiler: ghc
 -- with-compiler:
 -- with-hc-pkg:
--- program-prefix: 
--- program-suffix: 
+-- program-prefix:
+-- program-suffix:
 -- library-vanilla: True
 -- library-profiling:
 -- shared:
