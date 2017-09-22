@@ -14,7 +14,7 @@ if [ -r "$1" ]; then
         fi
 
         # new window indicator '%'
-        if [[ $line == "%" ]]; then
+        if [[ $line =~ ^% ]]; then
             echo "  </window>" >> $CAJA_LAST_SESSION
             echo "  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>" >> $CAJA_LAST_SESSION
         fi
