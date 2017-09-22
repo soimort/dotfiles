@@ -28,12 +28,14 @@ if [ -r "$1" ]; then
         line=${line#\"}
         line=${line%\"}
 
-        if [[ $line =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+        if [[ $line =~ ^sftp: ]]; then # sftp URI scheme
+            true
+        elif [[ $line =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
             line=$HOME${line#\~}
         elif [[ ! $line =~ ^/ ]]; then # implicit home path, e.g., Downloads
             line=$HOME/$line
         fi
-        if [ -d "$line" ]; then
+        if [[ $line =~ ^sftp: ]] || [[ -d $line ]]; then
             line="${line/\#/%23}" # percent-encode '#' in path
             if [[ $line =~ ^sftp: ]]; then # sftp URI scheme
                 uri=$line
