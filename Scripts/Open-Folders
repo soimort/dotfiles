@@ -19,6 +19,10 @@ if [ -r "$1" ]; then
             echo "  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>" >> $CAJA_LAST_SESSION
         fi
 
+        # remove possible double quotes
+        line=${line#\"}
+        line=${line%\"}
+
         if [[ $line =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
             line=$HOME${line#\~}
         elif [[ ! $line =~ ^/ ]]; then # implicit home path, e.g., Downloads
@@ -26,7 +30,17 @@ if [ -r "$1" ]; then
         fi
         if [ -d "$line" ]; then
             line="${line/\#/%23}" # percent-encode '#' in path
-            echo "    <slot location='file://$line'/>" >> $CAJA_LAST_SESSION
+            if [[ $line =~ ^sftp: ]]; then # sftp URI scheme
+                uri=$line
+            else
+                uri=file://$line
+            fi
+            if [[ $line =~ \' ]]; then # single quote in path
+                quri="\"$uri\""
+            else
+                quri="'$uri'"
+            fi
+            echo "    <slot location=$quri/>" >> $CAJA_LAST_SESSION
         fi
     done < $1
 
