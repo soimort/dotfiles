@@ -13,6 +13,11 @@ if [ -r "$1" ]; then
             continue
         fi
 
+        # terminating command '***'
+        if [[ $line == "***" ]]; then
+            break
+        fi
+
         # new window indicator '%'
         if [[ $line =~ ^% ]]; then
             echo "  </window>" >> $CAJA_LAST_SESSION
