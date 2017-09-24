@@ -57,7 +57,10 @@ def main():
                           total_size=size,
                           output_dir='.')
         if not s:
-            twitter_download(url)
+            try:
+                twitter_download(url)
+            except:
+                pass
 
 if __name__ == '__main__':
     main()
