@@ -73,14 +73,10 @@
 (setq imaxima-use-maxima-mode-flag t)
 (add-to-list 'auto-mode-alist '("\\.ma[cx]$" . maxima-mode))
 
-;; agda2 [arch:agda]
-(setq load-path (cons "/usr/share/agda/emacs-mode/" load-path))
-(require 'agda2)
-
-;; coq-mode [aur:coq]
-;; <https://coq.inria.fr/refman/Reference-Manual017.html#Emacs>
-(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular" t)
-(add-to-list 'auto-mode-alist '("\\.v$" . coq-mode))
+;; coq-mode [arch:coq]
+;; <https://coq.inria.fr/distrib/current/refman/tools.html#Emacs>
+(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
+(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
 
 ;; twelf-mode [aur:twelf]
 (setq twelf-root "/opt/twelf/")
