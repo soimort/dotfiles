@@ -5,7 +5,7 @@ local -a rlwrap_cmd_list=(
     racket
     acl2 ccl ccl64 cmucl ecl lisp sbcl
     mosml sml twelf-server
-    ocaml
+    ocaml coqtop
     maxima prover9
 )
 
