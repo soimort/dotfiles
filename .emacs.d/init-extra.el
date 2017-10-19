@@ -78,6 +78,9 @@
 (setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
 (autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
 
+;; proofgeneral [aur:proofgeneral]
+(load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
+
 ;; twelf-mode [aur:twelf]
 (setq twelf-root "/opt/twelf/")
 (load (concat twelf-root "emacs/twelf-init.el"))
