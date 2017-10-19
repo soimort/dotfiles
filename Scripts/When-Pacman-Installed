@@ -7,6 +7,5 @@
 if [ -z "$1" ]; then
     echo "Usage: When-Pacman-Installed [PACKAGE_NAME]"
 else
-    cat /var/log/pacman.log | grep "upgraded $1 " | sort -r
-    cat /var/log/pacman.log | grep "installed $1 " | sort -r
+    cat /var/log/pacman.log | grep -E "(upgraded|downgraded|installed) $1 " | sort -r
 fi
