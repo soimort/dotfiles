@@ -75,11 +75,22 @@
 
 ;; coq-mode [arch:coq]
 ;; <https://coq.inria.fr/distrib/current/refman/tools.html#Emacs>
-(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
-(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
+;(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
+;(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
 
 ;; proofgeneral [aur:proofgeneral]
 (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
+;; fix custom keybinding
+(eval-after-load 'coq
+  '(progn
+     (define-key proof-mode-map
+       (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
+     (define-key proof-mode-map
+       (kbd "M-<down>") (lambda () (interactive) (scroll-up 4)))
+     (define-key proof-mode-map
+       (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+     (define-key proof-mode-map
+       (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))))
 
 ;; twelf-mode [aur:twelf]
 (setq twelf-root "/opt/twelf/")
