@@ -53,7 +53,7 @@ function {
 
 # Misc.
 # Scripts & Tools
-path+=("$HOME/Scripts" "$HOME/Tools")
+path+=("$HOME/Scripts")
 # pip user
 path+=("$HOME/.local/bin")
 # gem executables
