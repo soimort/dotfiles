@@ -29,11 +29,3 @@
         fi
     done
 }
-
-download-tts() {
-    trans -player "wget -P '$PWD' -U 'Mozilla/5.0 (X11; Linux x86_64)'" -b $@
-}
-
-download-tts-bing() {
-    trans -player "cp -t '$PWD'" -e bing -b $@
-}
