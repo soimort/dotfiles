@@ -80,6 +80,7 @@
 
 ;; proofgeneral [aur:proofgeneral]
 (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
+(add-hook 'proof-mode-hook 'flyspell-prog-mode)
 ;; fix custom keybinding
 (eval-after-load 'coq
   '(progn
