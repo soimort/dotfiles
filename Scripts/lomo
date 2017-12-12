@@ -3,5 +3,35 @@
 TS=`date +"%m-%d-%H%M"`
 mkdir -p ${TS}.BAK && cp *.png ${TS}.BAK
 
+avig=1.5
+asat=1
+acon=1
+sharp=0.8
+wide_angle=0
+gauss_blur=0
+motion_blur=0
+grain=8
+# set as COLOR:
+# 0 - neutral
+# 1 - old red
+# 2 - xpro green
+# 3 - blue
+# 4 - intense red
+# 5 - movie
+# 6 - vintage-look
+# 7 - LAB
+# 8 - light blue
+# 9 - redscale
+# 10 - retro bw
+# 11 - paynes
+# 12 - sepia
+c41=5
+invertA=FALSE
+invertB=FALSE
+adv=TRUE
+is_black=FALSE
+centerx=0
+centery=0
+aradius=115
+script-fu '(elsamuko-lomo-batch "'$@"\" $avig $asat $acon $sharp $wide_angle $gauss_blur $motion_blur $grain $c41 $invertA $invertB $adv $is_black $centerx $centery $aradius)"
 #script-fu '(elsamuko-lomo-batch "'$@'" 1.5 10 10 0.8 0 0 0 128 0 FALSE FALSE TRUE FALSE 0 0 115)'
-script-fu '(elsamuko-lomo-batch "'$@'" 1.5 1 1 0.8 0 0 0 8 0 FALSE FALSE TRUE FALSE 0 0 115)'
