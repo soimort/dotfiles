@@ -37,6 +37,7 @@ if [ -r "$1" ]; then
         fi
         if [[ $line =~ ^sftp: ]] || [[ -d $line ]]; then
             line="${line/\#/%23}" # percent-encode '#' in path
+            line="${line/\&/%26}" # percent-encode '&' in path
             if [[ $line =~ ^sftp: ]]; then # sftp URI scheme
                 uri=$line
             else
