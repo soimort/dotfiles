@@ -149,4 +149,4 @@
                     SF-TOGGLE       _"Edge Detection"     FALSE
                     )
 
-(script-fu-menu-register "tuxcomputers-split-tone" _"<Image>/Script-Fu/Color")
+(script-fu-menu-register "tuxcomputers-split-tone" _"<Image>/Colors")
