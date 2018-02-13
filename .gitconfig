@@ -44,3 +44,5 @@
 	smtpServerPort = 587
 [commit]
 	gpgsign = true
+[pager]
+        branch = false
