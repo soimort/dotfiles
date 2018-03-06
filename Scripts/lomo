@@ -25,7 +25,7 @@ grain=8
 # 10 - retro bw
 # 11 - paynes
 # 12 - sepia
-c41=5
+c41=0
 invertA=FALSE
 invertB=FALSE
 adv=TRUE
