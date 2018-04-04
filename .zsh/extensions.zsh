@@ -2,7 +2,8 @@
 
 magic-enter() {
     if [[ -z $BUFFER ]]; then
-        git status
+        clear; echo -n $fg_bold[green]$PWD : $reset_color
+        git status 2>/dev/null
     fi
     zle accept-line
 }
