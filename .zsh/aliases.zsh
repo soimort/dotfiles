@@ -61,4 +61,4 @@ alias mpkg='makepkg --sign'
 alias greatpkg='expac -s -H M "%-30n %m" | sort -rhk 2 | less'
 
 # GNOME
-alias sysmon="setsid gnome-system-monitor"
+alias sysmon="setsid gnome-system-monitor 2>/dev/null"
