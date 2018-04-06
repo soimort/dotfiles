@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Purge pacman's cache.
+
+sudo rm /var/cache/pacman/pkg/calibre-* \
+/var/cache/pacman/pkg/erlang-* \
+/var/cache/pacman/pkg/firefox-* \
+/var/cache/pacman/pkg/go-* \
+/var/cache/pacman/pkg/libreoffice-* \
+/var/cache/pacman/pkg/qtcreator-* \
+/var/cache/pacman/pkg/racket-* \
+/var/cache/pacman/pkg/rust-* \
+/var/cache/pacman/pkg/wine-* \
+2>/dev/null
