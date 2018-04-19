@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+CAJA_LAST_SESSION=$HOME/.config/caja/last-session
+
+rm $CAJA_LAST_SESSION
+setsid caja &>/dev/null &
