@@ -3,19 +3,30 @@
 
 sudo rm /var/cache/pacman/pkg/blender-* \
 /var/cache/pacman/pkg/calibre-* \
+/var/cache/pacman/pkg/clojure-* \
+/var/cache/pacman/pkg/coq-* \
+/var/cache/pacman/pkg/docker-* \
 /var/cache/pacman/pkg/eclipse-* \
 /var/cache/pacman/pkg/erlang-* \
 /var/cache/pacman/pkg/firefox-* \
 /var/cache/pacman/pkg/go-* \
 /var/cache/pacman/pkg/gradle-* \
+/var/cache/pacman/pkg/groovy-* \
+/var/cache/pacman/pkg/inkscape-* \
+/var/cache/pacman/pkg/julia-* \
 /var/cache/pacman/pkg/libreoffice-* \
+/var/cache/pacman/pkg/mit-scheme-* \
 /var/cache/pacman/pkg/mono-* \
 /var/cache/pacman/pkg/ocaml-* \
+/var/cache/pacman/pkg/opencv-* \
+/var/cache/pacman/pkg/qt4-* \
 /var/cache/pacman/pkg/qt5-* \
 /var/cache/pacman/pkg/qtcreator-* \
+/var/cache/pacman/pkg/scala-* \
 /var/cache/pacman/pkg/r-* \
 /var/cache/pacman/pkg/racket-* \
 /var/cache/pacman/pkg/rust-* \
 /var/cache/pacman/pkg/texlive-* \
+/var/cache/pacman/pkg/texmacs-* \
 /var/cache/pacman/pkg/wine-* \
 2>/dev/null
