@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+mc() {
+    mkdir -p $1 && cd $1
+}
+
 48go() {
     if [[ -z "$ARCHIVE_PATH" ]]; then
         echo 'Please set $ARCHIVE_PATH first.'
