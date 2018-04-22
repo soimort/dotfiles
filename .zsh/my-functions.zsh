@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+rand() {
+    head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
+}
+
 mc() {
     mkdir -p $1 && cd $1
 }
