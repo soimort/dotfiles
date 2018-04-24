@@ -1,0 +1,48 @@
+# Maintainer: Mort Yao
+# Contributor: Martin Wimpress <code@flexion.org>
+
+_pkgname=caja
+pkgname=mi-$_pkgname
+pkgver=1.16.2.r3.g1149c42
+pkgrel=1
+pkgdesc="File manager for the MATE desktop"
+url="http://mate-desktop.org"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('exempi' 'gvfs' 'libexif' 'libsm' 'mate-desktop=1.16.1' 'libnotify')
+makedepends=('gobject-introspection' 'intltool')
+optdepends=('gstreamer: automatic media playback when mouseover')
+groups=('mate')
+provides=('caja')
+conflicts=('caja' 'caja-gtk3')
+source=("${_pkgname}::git://github.com/soimort/caja.git#branch=1.16")
+sha1sums=('SKIP')
+
+pkgver() {
+  cd $_pkgname
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g' | sed 's/^v//'
+}
+
+build() {
+  cd $_pkgname
+  ./autogen.sh
+  ./configure \
+      --prefix=/usr \
+      --libexecdir=/usr/lib/$_pkgname \
+      --with-gtk=2.0 \
+      --enable-introspection \
+      --disable-update-mimedb
+
+  #https://bugzilla.gnome.org/show_bug.cgi?id=656231
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+  make
+}
+
+package() {
+  cd $_pkgname
+  make DESTDIR="${pkgdir}" install
+
+  # Remove D-Bus activation file to avoid conflict with nautilus-desktop
+  rm -r "$pkgdir/usr/share/dbus-1/"
+}
