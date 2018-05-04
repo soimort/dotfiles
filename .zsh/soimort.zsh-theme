@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 # Oh My Zsh theme
 # @since        2015-12-23
-# @lastChanged  2016-10-26
+# @lastChanged  2018-05-04
 # @author       Mort Yao <soi@mort.ninja>
 
 local ret_status="%(?:%{$fg[green]%}[%{$reset_color%}\
-%{$fg_bold[green]%}♥%{$reset_color%}\
+%{$fg_bold[green]%} ♥ %{$reset_color%}\
 %{$fg[green]%}]%{$reset_color%}\
 :%{$fg[red]%}[%{$reset_color%}\
 %{$fg_bold[red]%}%?%{$reset_color%}\
