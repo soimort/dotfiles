@@ -22,6 +22,7 @@ if [ -r "$1" ]; then
         if [[ $line =~ ^% ]]; then
             echo "  </window>" >> $CAJA_LAST_SESSION
             echo "  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>" >> $CAJA_LAST_SESSION
+            continue
         fi
 
         # remove possible double quotes
@@ -36,6 +37,11 @@ if [ -r "$1" ]; then
             line=$HOME/$line
         fi
         if [[ $line =~ ^sftp: ]] || [[ -d $line ]]; then
+            if [[ -d $line ]]; then # existing local path
+                line="${line//\%/%25}" # percent-encode '%' in path
+            fi
+            # FIXME: '%' in sftp URI? percent-encoded or not?
+
             line="${line//\#/%23}" # percent-encode '#' in path
             line="${line//\&/%26}" # percent-encode '&' in path
             if [[ $line =~ ^sftp: ]]; then # sftp URI scheme
