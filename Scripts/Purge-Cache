@@ -9,6 +9,7 @@ sudo rm /var/cache/pacman/pkg/blender-* \
 /var/cache/pacman/pkg/eclipse-* \
 /var/cache/pacman/pkg/erlang-* \
 /var/cache/pacman/pkg/firefox-* \
+/var/cache/pacman/pkg/gcc-* \
 /var/cache/pacman/pkg/go-* \
 /var/cache/pacman/pkg/gradle-* \
 /var/cache/pacman/pkg/groovy-* \
@@ -19,6 +20,7 @@ sudo rm /var/cache/pacman/pkg/blender-* \
 /var/cache/pacman/pkg/mono-* \
 /var/cache/pacman/pkg/ocaml-* \
 /var/cache/pacman/pkg/opencv-* \
+/var/cache/pacman/pkg/python-* \
 /var/cache/pacman/pkg/qt4-* \
 /var/cache/pacman/pkg/qt5-* \
 /var/cache/pacman/pkg/qtcreator-* \
@@ -28,5 +30,6 @@ sudo rm /var/cache/pacman/pkg/blender-* \
 /var/cache/pacman/pkg/rust-* \
 /var/cache/pacman/pkg/texlive-* \
 /var/cache/pacman/pkg/texmacs-* \
+/var/cache/pacman/pkg/valgrind-* \
 /var/cache/pacman/pkg/wine-* \
 2>/dev/null
