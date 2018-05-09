@@ -13,6 +13,8 @@ def main():
         download_list = []
         cont = get_content(arg)
         t = re.findall(r'"(https://cdn\.mdpr\.jp/photo/images/[^"]+/(w\d+c[^"]+))"', cont)
+        if not t:
+            t = re.findall(r'<meta property="og:image" content="([^?]+/([^?]+))?', cont)
         for i in t:
             urls, title = [i[0]], i[1]
             ext, size = 'jpg', urls_size(urls)
