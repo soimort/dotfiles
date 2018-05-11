@@ -52,6 +52,7 @@ alias xyc="proxychains4 -q"
 
 # misc
 alias ds="du -hs * | sort -hr | less"
+alias wg="wget --no-check-certificate"
 
 # Arch
 alias pac='pacman'
