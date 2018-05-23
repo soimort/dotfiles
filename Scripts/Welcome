@@ -2,5 +2,5 @@
 
 tmux new-session -d 'htop'
 #tmux split-window -v 'iotop'
-tmux split-window -v "Open-Folders $HOME/session"
+tmux split-window -l 1 -v "Open-Folders $HOME/session"
 tmux -2 attach-session -d

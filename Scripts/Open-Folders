@@ -62,4 +62,7 @@ if [ -r "$1" ]; then
 </session>""" >> $CAJA_LAST_SESSION
 fi
 
-gdb -ex run caja
+echo "Mi caja está abierta."
+echo "Terminate with 'killall gdb' (save all your work first!)"
+
+setsid gdb -ex run caja &>/dev/null
