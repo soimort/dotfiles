@@ -4,12 +4,12 @@
 _pkgname=caja
 pkgname=mi-$_pkgname
 pkgver=1.16.2.r3.g1149c42
-pkgrel=1
+pkgrel=2
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('exempi' 'gvfs' 'libexif' 'libsm' 'mate-desktop=1.16.1' 'libnotify')
+depends=('exempi' 'gvfs' 'libexif' 'libsm' 'mate-desktop=1.16.1' 'libnotify' 'libunique')
 makedepends=('gobject-introspection' 'intltool')
 optdepends=('gstreamer: automatic media playback when mouseover')
 groups=('mate')
