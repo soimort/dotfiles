@@ -2,6 +2,7 @@
 !/.zsh/
 !/.zsh/*
 /.zsh/_*
+/.zsh/antigen.log
 !/Scripts/
 !/Scripts/*
 /Scripts/_*
