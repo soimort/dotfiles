@@ -4,7 +4,11 @@
 
 ## Package initialization
 
-### Vundle
+### (via git submodule)
+
+    $ git submodule init && git submodule update
+
+### Vundle (no submodule)
 
 (1)
 
@@ -12,7 +16,7 @@
 
 (2) Launch vim and run `:PluginInstall`.
 
-### TPM
+### TPM (no submodule)
 
 (1)
 
