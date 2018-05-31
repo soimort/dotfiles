@@ -2,7 +2,7 @@
 ;;; @prog         emacs
 ;;; @lastProgVers 24.5
 ;;; @since        2015-12-23
-;;; @lastChanged  2016-04-22
+;;; @lastChanged  2018-05-31
 ;;; @author       Mort Yao <soi@mort.ninja>
 
 ;; Custom
@@ -48,9 +48,10 @@
 ;; Show paren mode
 (show-paren-mode 1)
 ;; Highlight parentheses
-(set-face-background 'show-paren-match-face (face-background 'default))
-(set-face-foreground 'show-paren-match-face "#ffff00")
-(set-face-attribute 'show-paren-match-face nil :weight 'extra-bold)
+(set-face-background 'show-paren-match (face-background 'default))
+(set-face-foreground 'show-paren-match "#ffff00")
+(set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+(set-face-background 'show-paren-mismatch "#ff0000")
 
 ;; [M-n] Scrolling down the view (by 1 line)
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
