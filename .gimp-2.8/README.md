@@ -4,11 +4,12 @@
 
 * **Texture synthesis** (`resynthesizer`)
 <https://github.com/bootchk/resynthesizer>
-* **Layer effects** (`layerfx`)
-<http://registry.gimp.org/node/186>
+    * Install: `./autogen.sh && ./configure && make && make install`
 * **Color matching** (`colour-match.c`)
 <http://registry.gimp.org/node/20494>
     * Install: `gimptool-2.0 --install colour-match.c`
+* **Layer effects** (`layerfx`)
+<http://registry.gimp.org/node/186>
 
 
 ## Scripts
