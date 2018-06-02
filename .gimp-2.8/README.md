@@ -7,7 +7,7 @@
     * Install: `./autogen.sh && ./configure && make && make install`
 * **Color matching** (`colour-match.c`)
 <http://registry.gimp.org/node/20494>
-    * Install: `gimptool-2.0 --install colour-match.c`
+    * Install: `CFLAGS=-g gimptool-2.0 --install colour-match.c`
 * **Layer effects** (`layerfx`)
 <http://registry.gimp.org/node/186>
 
