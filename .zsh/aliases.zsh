@@ -4,6 +4,7 @@
 alias zshconfig="$EDITOR $HOME/.zshrc"
 alias .,=". $HOME/.zshrc"
 alias plz='sudo $(fc -ln -1)'
+alias p=pwd
 
 # coreutils
 alias cp="cp -i"
