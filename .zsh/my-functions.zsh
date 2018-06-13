@@ -29,11 +29,11 @@ mc() {
 48get() {
     for url in "$@"; do
         if [[ $url =~ "7gogo" ]]; then
-            Get-755 $url
+            Get-755 $url || break
         elif [[ $url =~ "instagram" ]]; then
-            Get-Insta $url
+            Get-Insta $url || break
         elif [[ $url =~ "twitter" ]]; then
-            Get-Tweet $url
+            Get-Tweet $url || break
         fi
     done
 }
