@@ -37,3 +37,12 @@ mc() {
         fi
     done
 }
+
+waifu() {
+    if [[ -z "$1" || -z "$2" ]]; then
+        echo "Usage: waifu SCALE_RATIO FILENAME"
+        return 1
+    fi
+
+    waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png
+}
