@@ -259,7 +259,7 @@ map(GimpDrawable* drawable)
                     hsv.v = ((vdiff1 > 1) & (hsv.v > config.source.v)) ? (1.0 - (1.0f - hsv.v) * vdiff2) : (hsv.v * vdiff1);
                 gimp_hsv_to_rgb4(datao, hsv.h, hsv.s, hsv.v);
 
-                for (a = 3; a <= in.bpp; a++)
+                for (a = 3; a < in.bpp; a++)
                     datao[a] = datai[a];
             }
         }
