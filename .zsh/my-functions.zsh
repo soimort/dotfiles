@@ -28,12 +28,16 @@ mc() {
 
 48get() {
     for url in "$@"; do
-        if [[ $url =~ "7gogo" ]]; then
+        if [[ $url =~ "7gogo\.jp" ]]; then
             Get-755 $url || break
-        elif [[ $url =~ "instagram" ]]; then
+        elif [[ $url =~ "instagram\.com" ]]; then
             Get-Insta $url || break
-        elif [[ $url =~ "twitter" ]]; then
+        elif [[ $url =~ "twitter\.com" ]]; then
             Get-Tweet $url || break
+        elif [[ $url =~ "plus\.google\.com" ]]; then
+            gugutasu $url || break
+        else
+            wget $url || break
         fi
     done
 }
