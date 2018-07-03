@@ -5,13 +5,18 @@ rand() {
 }
 
 mc() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: mc DIRECTORY'
+        return 1
+    fi
+
     mkdir -p $1 && cd $1
 }
 
 48go() {
     if [[ -z "$ARCHIVE_PATH" ]]; then
         echo 'Please set $ARCHIVE_PATH first.'
-       return 1
+        return 1
     fi
 
     if [[ $1 =~ "http" ]]; then
