@@ -4,6 +4,15 @@ rand() {
     head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
 }
 
+doin() {
+    if [[ -z "$1" || -z "$2" ]]; then
+        echo 'Usage: doin DIRECTORY COMMAND...'
+        return 1
+    fi
+
+    cd $1 && shift && $@ && cd -
+}
+
 mc() {
     if [[ -z "$1" ]]; then
         echo 'Usage: mc DIRECTORY'
