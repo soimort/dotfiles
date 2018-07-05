@@ -44,7 +44,7 @@ mc() {
     for url in "$@"; do
         if [[ $url =~ "7gogo\.jp" ]]; then
             Get-755 $url || break
-        elif [[ $url =~ "instagram\.com" ]]; then
+        elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
             Get-Insta $url || break
         elif [[ $url =~ "twitter\.com" ]]; then
             Get-Tweet $url || break
