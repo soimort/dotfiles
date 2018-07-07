@@ -1,0 +1,17 @@
+--- a/modules/gui/qt/components/playlist/views.cpp	2018-07-07 15:21:46.007950593 +0200
++++ b/modules/gui/qt/components/playlist/views.cpp	2018-07-07 15:06:32.827990000 +0200
+@@ -426,12 +426,12 @@
+     setAlternatingRowColors( true );
+     setAnimated( true );
+     setUniformRowHeights( true );
+-    setSortingEnabled( true );
++    setSortingEnabled( false );
+     setAttribute( Qt::WA_MacShowFocusRect, false );
+     viewport()->setAttribute( Qt::WA_Hover );
+     header()->setSortIndicator( -1 , Qt::AscendingOrder );
+     header()->setSortIndicatorShown( true );
+-    header()->setSectionsClickable( true );
++    //header()->setSectionsClickable( true );
+     header()->setContextMenuPolicy( Qt::CustomContextMenu );
+ 
+     setSelectionBehavior( QAbstractItemView::SelectRows );

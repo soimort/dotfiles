@@ -1,0 +1,19 @@
+--- a/modules/gui/qt/components/playlist/standardpanel.cpp	2018-07-07 15:35:26.964581797 +0200
++++ b/modules/gui/qt/components/playlist/standardpanel_new.cpp	2018-07-07 15:35:21.357915375 +0200
+@@ -238,7 +238,7 @@
+ 
+     menu.addSeparator();
+ 
+-    /* Item removal */
++    /* Item removal
+ 
+     ADD_MENU_ENTRY( QIcon( ":/buttons/playlist/playlist_remove.svg" ), qtr(I_POP_DEL),
+                     VLCModelSubInterface::ACTION_REMOVE );
+@@ -247,6 +247,7 @@
+                     VLCModelSubInterface::ACTION_CLEAR );
+ 
+     menu.addSeparator();
++    */
+ 
+     /* Playlist sorting */
+     if ( model->isSupportedAction( VLCModelSubInterface::ACTION_SORT, index ) )
