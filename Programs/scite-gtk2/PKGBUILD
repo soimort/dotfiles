@@ -1,0 +1,55 @@
+# $Id$
+# Maintainer: Alexander F Rødseth <xyproto@archlinux.org>
+# Contributor: Thomas S Hatch <thatch45@gmail.com>
+# Contributor: Corrado 'bardo' Primier <corrado.primier@mail.polimi.it>
+# Contributor: Jochem Kossen <j.kossen@home.nl>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+
+_pkgname=scite
+pkgname=$_pkgname-gtk2
+pkgver=4.0.5
+pkgrel=1
+pkgdesc='Editor with facilities for building and running programs'
+arch=('x86_64' 'i686')
+url='http://www.scintilla.org/SciTE.html'
+license=('custom:scite')
+depends=('gtk2')
+provides=('scite')
+conflicts=('scite')
+backup=('usr/share/scite/SciTEGlobal.properties')
+source=("http://downloads.sourceforge.net/sourceforge/scintilla/${_pkgname}${pkgver//./}.tgz"
+        "untitled.patch")
+sha256sums=('02a7658883210be0b6c9a113a1a4e75800cb68a7e495dd209cd31a94c4e42640'
+            '76dbe14fd4cc5e95497595a031f0bcf0166f90b67b27af0b890dc07aadceb254')
+
+prepare() {
+  if [ $?CXXBASEFLAGS == 1 ]; then
+    sed '0,/CXXTFLAGS=/s//nop=/' -i scite/gtk/makefile
+    setconf scite/gtk/makefile CXXTFLAGS "-DNDEBUG ${CXXFLAGS} $(CXXBASEFLAGS)"
+  fi
+
+  sed '0,/CXXFLAGS=/s//nop=/' -i scintilla/gtk/makefile
+
+  setconf scintilla/gtk/makefile CXXFLAGS \
+    "-DNDEBUG ${CXXFLAGS} \$(CXXBASEFLAGS) \$(THREADFLAGS)"
+  setconf scintilla/gtk/makefile CXXBASEFLAGS \
+          "-Wno-missing-braces -Wno-char-subscripts ${CXXFLAGS} -DGTK -DSCI_LEXER \$(INCLUDEDIRS)"
+
+  # my own tweaks
+  cd scite
+  patch -Np1 -i ../untitled.patch
+}
+
+build() {
+  make -C "scintilla/gtk"
+  make -C "$_pkgname/gtk"
+}
+
+package() {
+  GTK3=1 make -C "$_pkgname/gtk" DESTDIR="$pkgdir" install
+  install -Dm644 "$_pkgname/License.txt" \
+    "$pkgdir/usr/share/licenses/$_pkgname/LICENSE-scite"
+  install -Dm644 "scintilla/License.txt" \
+    "$pkgdir/usr/share/licenses/$_pkgname/LICENSE-scintilla"
+  ln -sf "/usr/bin/SciTE" "$pkgdir/usr/bin/scite"
+}

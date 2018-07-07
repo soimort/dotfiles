@@ -1,0 +1,42 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Tue, 29 May 2018 19:18:00 +0100
+Subject: [PATCH] "Untitled" -> "?"
+
+---
+
+--- a/gtk/SciTEGTK.cxx	2017-08-16 09:34:20.000000000 +0200
++++ b/gtk/SciTEGTK.cxx	2017-12-20 14:59:33.882755699 +0100
+@@ -940,8 +940,8 @@
+ 		GtkWidget *tabcontent;
+ 		if (props.GetInt("pathbar.visible")) {
+ 			const FilePath &fp = buffers.buffers[index].file;
+ 			if (fp.IsUntitled())
+-				tabcontent = gtk_label_new(localiser.Text("Untitled").c_str());
++				tabcontent = gtk_label_new(localiser.Text("?").c_str());
+ 			else
+ 				tabcontent = gtk_label_new(fp.AsInternal());
+ 		} else {
+
+--- a/src/SciTEBuffers.cxx	2017-12-20 15:01:16.419425421 +0100
++++ b/src/SciTEBuffers.cxx	2017-12-20 15:01:44.586092927 +0100
+@@ -1164,7 +1164,7 @@
+ #endif
+
+ 			if (buffers.buffers[pos].file.IsUntitled()) {
+-				GUI::gui_string untitled = localiser.Text("Untitled");
++				GUI::gui_string untitled = localiser.Text("?");
+ 				entry += untitled;
+ 				titleTab += untitled;
+ 			} else {
+
+--- a/src/SciTEBase.cxx	2017-10-22 23:48:09.000000000 +0200
++++ b/src/SciTEBase.cxx	2017-12-20 15:02:08.749426980 +0100
+@@ -595,7 +595,7 @@
+
+ void SciTEBase::SetWindowName() {
+ 	if (filePath.IsUntitled()) {
+-		windowName = localiser.Text("Untitled");
++		windowName = localiser.Text("?");
+ 		windowName.insert(0, GUI_TEXT("("));
+ 		windowName += GUI_TEXT(")");
+ 	} else if (props.GetInt("title.full.path") == 2) {
