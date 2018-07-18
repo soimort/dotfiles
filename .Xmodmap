@@ -1,9 +1,11 @@
 keycode  77 =
 keycode  79 = Home NoSymbol Home
 keycode  80 = Up NoSymbol Up
+keycode  81 = Prior NoSymbol Prior NoSymbol Prior
 keycode  83 = Left NoSymbol Left
 keycode  84 =
 keycode  85 = Right NoSymbol Right
 keycode  87 = End NoSymbol End
 keycode  88 = Down NoSymbol Down
+keycode  89 = Next NoSymbol Next NoSymbol Next
 keycode  90 =
