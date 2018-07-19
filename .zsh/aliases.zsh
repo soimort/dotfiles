@@ -43,6 +43,7 @@ alias rm="git rm"
 alias st="git status"
 alias tag="git tag"
 alias k="setsid gitk"
+alias unstage="git unstage"
 
 # networking
 alias i="ping -c 3 www.google.com"
