@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=MyXmodmap
+Exec=/usr/bin/xmodmap /home/soimort/.Xmodmap
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
