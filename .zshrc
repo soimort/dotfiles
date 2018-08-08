@@ -2,7 +2,7 @@
 # @prog         zsh
 # @lastProgVers 5.3.1
 # @since        2015-12-23
-# @lastChanged  2017-03-20
+# @lastChanged  2018-08-08
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -17,6 +17,7 @@ PLUGINS=(
     git pip emoji
     zsh-users/zsh-syntax-highlighting
 )
+export ZSH_HIGHLIGHT_MAXLENGTH=100
 
 # Load prelude
 source $HOME/.zsh/prelude
