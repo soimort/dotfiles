@@ -1,0 +1,21 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Fri, 10 Aug 2018 01:06:00 +0100
+Subject: [PATCH] No "battery low" warning, bitch!
+
+---
+
+--- a/plugins/power/gsd-power-manager.c	2018-08-10 00:55:32.423662807 +0200
++++ b/plugins/power/gsd-power-manager.c	2018-08-10 01:02:10.020317271 +0200
+@@ -798,10 +798,10 @@
+                 engine_ups_discharging (manager, device);
+         } else if (warning == UP_DEVICE_LEVEL_LOW) {
+                 g_debug ("** EMIT: charge-low");
+-                engine_charge_low (manager, device);
++                // engine_charge_low (manager, device);
+         } else if (warning == UP_DEVICE_LEVEL_CRITICAL) {
+                 g_debug ("** EMIT: charge-critical");
+-                engine_charge_critical (manager, device);
++                // engine_charge_critical (manager, device);
+         } else if (warning == UP_DEVICE_LEVEL_ACTION) {
+                 g_debug ("** EMIT: charge-action");
+                 engine_charge_action (manager, device);
