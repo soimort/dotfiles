@@ -1,0 +1,17 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Sat, 11 Aug 2018 18:39:00 +0100
+Subject: [PATCH] Unlock alpha channel in floating selection
+
+---
+
+--- a/app/core/gimplayer-floating-selection.c
++++ b/app/core/gimplayer-floating-selection.c
+@@ -72,4 +72,5 @@ floating_sel_attach (GimpLayer    *layer,
+         drawable = gimp_image_get_active_drawable (image);
+     }
+
+-  gimp_layer_set_lock_alpha (layer, TRUE, FALSE);
++  //gimp_layer_set_lock_alpha (layer, TRUE, FALSE);
++  gimp_layer_set_lock_alpha (layer, FALSE, TRUE);
+
+   gimp_layer_set_floating_sel_drawable (layer, drawable);

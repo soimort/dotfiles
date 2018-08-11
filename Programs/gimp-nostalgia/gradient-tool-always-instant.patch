@@ -1,0 +1,17 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Sat, 11 Aug 2018 18:49:00 +0100
+Subject: [PATCH] Let gradient tool always be instant (as in GIMP 2.8)
+
+---
+
+--- a/app/tools/gimpgradienttool.c
++++ b/app/tools/gimpgradienttool.c
+@@ -354,2 +354,2 @@ gimp_gradient_tool_button_release (GimpTool              *tool,
+                                        coords, time, state, release_type);
+       gradient_tool->grab_widget = NULL;
+
+-      if (options->instant)
++      if (options->instant || 1)
+         {
+           if (release_type == GIMP_BUTTON_RELEASE_CANCEL)
+             gimp_tool_control (tool, GIMP_TOOL_ACTION_HALT, display);

@@ -29,11 +29,12 @@ Feature tweaks:
 2. Disable the bloody one-click list sorting.
 
 
-## `gimp` (the image editor)
+## `gimp-nostalgia` (the image editor)
 
 Feature tweaks:
 
-* Keep the bloody toolbox in the traditional 2.8 fashion (which I was used to).
+1. Keep the bloody toolbox in the traditional 2.8 fashion (which I was used to).
+2.
 
 
 ## `scite-gtk2` (the text editor)

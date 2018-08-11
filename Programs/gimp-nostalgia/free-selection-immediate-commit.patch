@@ -1,0 +1,18 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Sat, 11 Aug 2018 18:53:00 +0100
+Subject: [PATCH] Let free selection tool immediately commit
+
+---
+
+--- a/app/display/gimptoolpolygon_c
++++ b/app/display/gimptoolpolygon.c
+@@ -1050,6 +1050,9 @@ gimp_tool_polygon_button_press (GimpToolWidget      *widget,
+   if (gimp_tool_polygon_is_point_grabbed (polygon))
+     {
+       gimp_tool_polygon_prepare_for_move (polygon);
++
++      gimp_tool_widget_response (widget, GIMP_TOOL_WIDGET_RESPONSE_CONFIRM);
++      return 0;
+     }
+   else if (priv->polygon_closed)
+     {
