@@ -34,7 +34,11 @@ Feature tweaks:
 Feature tweaks:
 
 1. Keep the bloody toolbox in the traditional 2.8 fashion (which I was used to).
-2.
+2. Unlock the bloody alpha channel in floating selection by default.
+3. Let the bloody Gradient tool always be instant (as in GIMP 2.8, no more bloody `Shift` needed).
+   * Related documentation: <https://docs.gimp.org/2.9/en/gimp-tool-blend.html>
+4. Let the bloody Free Selection tool immediately commit (as in GIMP 2.8, no more bloody `Enter` or double-click needed).
+   * Related issues: [#784772](https://bugzilla.gnome.org/show_bug.cgi?id=784772), [#785781](https://bugzilla.gnome.org/show_bug.cgi?id=785781), [#787253](https://bugzilla.gnome.org/show_bug.cgi?id=787253)
 
 
 ## `scite-gtk2` (the text editor)
