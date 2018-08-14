@@ -1,0 +1,71 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Tue, 14 Aug 2018 19:16:00 +0100
+Subject: [PATCH] Allow the eraser on a layer with locked alpha channel (e.g., floating selection)
+
+---
+
+--- a/app/core/gimplayer.c
++++ b/app/core/gimplayer.c
+@@ -59,6 +59,8 @@
+
+ #include "gimp-intl.h"
+
++#include "gmagic.h"
++
+
+ enum
+ {
+@@ -1465,6 +1467,7 @@
+   GimpImage         *image = gimp_item_get_image (GIMP_ITEM (drawable));
+   GimpComponentMask  mask  = gimp_image_get_active_mask (image);
+
++  if (GMAGIC_IS_ERASING) return mask;  // HACK TO ALLOW THE ERASER ON A LAYER WITH LOCKED ALPHA CHANNEL
+   if (gimp_drawable_has_alpha (drawable) && layer->lock_alpha)
+     mask &= ~GIMP_COMPONENT_MASK_ALPHA;
+
+--- a/app/paint/gimperaser.c
++++ b/app/paint/gimperaser.c
+@@ -37,6 +37,9 @@
+
+ #include "gimp-intl.h"
+
++#include "gmagic.h"
++int GMAGIC_IS_ERASING = 0;
++
+
+ static void   gimp_eraser_paint  (GimpPaintCore    *paint_core,
+                                   GimpDrawable     *drawable,
+@@ -89,6 +92,7 @@
+                    GimpPaintState    paint_state,
+                    guint32           time)
+ {
++  GMAGIC_IS_ERASING = 1;
+   switch (paint_state)
+     {
+     case GIMP_PAINT_STATE_INIT:
+@@ -115,6 +119,7 @@
+     default:
+       break;
+     }
++  GMAGIC_IS_ERASING = 0;
+ }
+
+ static void
+
+--- a/app/tools/gimppainttool.c
++++ b/app/tools/gimppainttool.c
+@@ -283,12 +283,14 @@
+       return;
+     }
+
++  /*
+   if (! gimp_paint_tool_check_alpha (paint_tool, drawable, &error))
+     {
+       gimp_tool_message_literal (tool, display, error->message);
+       g_clear_error (&error);
+       return;
+     }
++  */
+
+   if (! gimp_item_is_visible (GIMP_ITEM (drawable)))
+     {

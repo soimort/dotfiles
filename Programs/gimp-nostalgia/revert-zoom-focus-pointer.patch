@@ -1,0 +1,122 @@
+From: Mort Yao <soi@mort.ninja>
+Date: Sun, 12 Aug 2018 18:00:00 +0100
+Subject: [PATCH] Revert the new mouse zooming focus policy suggested in Bug 796252
+
+---
+
+--- a/app/display/gimpdisplayshell-tool-events.c
++++ b/app/display/gimpdisplayshell-tool-events.c
+@@ -944,14 +944,14 @@ gimp_display_shell_canvas_tool_events_internal (GtkWidget         *canvas,
+                     gimp_display_shell_scale (shell,
+                                               GIMP_ZOOM_IN,
+                                               0.0,
+-                                              GIMP_ZOOM_FOCUS_POINTER);
++                                              GIMP_ZOOM_FOCUS_BEST_GUESS);
+                     break;
+
+                   case GDK_SCROLL_DOWN:
+                     gimp_display_shell_scale (shell,
+                                               GIMP_ZOOM_OUT,
+                                               0.0,
+-                                              GIMP_ZOOM_FOCUS_POINTER);
++                                              GIMP_ZOOM_FOCUS_BEST_GUESS);
+                     break;
+
+                   default:
+
+--- a/app/display/gimpdisplayshell-scale.c
++++ b/app/display/gimpdisplayshell-scale.c
+@@ -351,9 +351,7 @@ gimp_display_shell_scale (GimpDisplayShell *shell,
+                           gdouble           new_scale,
+                           GimpZoomFocus     zoom_focus)
+ {
+-  GimpDisplayConfig *config;
+-  gdouble            current_scale;
+-  gboolean           resize_window;
++  gdouble current_scale;
+
+   g_return_if_fail (GIMP_IS_DISPLAY_SHELL (shell));
+   g_return_if_fail (shell->canvas != NULL);
+@@ -363,44 +361,25 @@ gimp_display_shell_scale (GimpDisplayShell *shell,
+   if (zoom_type != GIMP_ZOOM_TO)
+     new_scale = gimp_zoom_model_zoom_step (zoom_type, current_scale);
+
+-  if (SCALE_EQUALS (new_scale, current_scale))
+-    return;
+-
+-  config = shell->display->config;
++  if (! SCALE_EQUALS (new_scale, current_scale))
++    {
++      GimpDisplayConfig *config = shell->display->config;
++      gboolean           resize_window;
+
+-  /* Resize windows only in multi-window mode */
+-  resize_window = (config->resize_windows_on_zoom &&
+-                   ! GIMP_GUI_CONFIG (config)->single_window_mode);
++      /* Resize windows only in multi-window mode */
++      resize_window = (config->resize_windows_on_zoom &&
++                       ! GIMP_GUI_CONFIG (config)->single_window_mode);
+
+-  if (resize_window)
+-    {
+-      /* If the window is resized on zoom, simply do the zoom and get
+-       * things rolling
+-       */
+-      gimp_zoom_model_zoom (shell->zoom, GIMP_ZOOM_TO, new_scale);
++      if (resize_window)
++        {
++          /* If the window is resized on zoom, simply do the zoom and
++           * get things rolling
++           */
++          gimp_zoom_model_zoom (shell->zoom, GIMP_ZOOM_TO, new_scale);
+
+-      gimp_display_shell_scale_resize (shell, TRUE, FALSE);
+-    }
+-  else
+-    {
+-      gdouble  x, y;
+-      gint     image_center_x;
+-      gint     image_center_y;
+-
+-      gimp_display_shell_scale_get_zoom_focus (shell,
+-                                               new_scale,
+-                                               current_scale,
+-                                               &x,
+-                                               &y,
+-                                               zoom_focus);
+-      gimp_display_shell_scale_get_image_center_viewport (shell,
+-                                                          &image_center_x,
+-                                                          &image_center_y);
+-
+-      gimp_display_shell_scale_to (shell, new_scale, x, y);
+-
+-      /* skip centering magic if pointer focus was requested */
+-      if (zoom_focus != GIMP_ZOOM_FOCUS_POINTER)
++          gimp_display_shell_scale_resize (shell, TRUE, FALSE);
++        }
++      else
+         {
+           gboolean starts_fitting_horiz;
+           gboolean starts_fitting_vert;
+@@ -408,6 +387,21 @@ gimp_display_shell_scale (GimpDisplayShell *shell,
+           gboolean zoom_focus_almost_centered_vert;
+           gboolean image_center_almost_centered_horiz;
+           gboolean image_center_almost_centered_vert;
++          gdouble  x, y;
++          gint     image_center_x;
++          gint     image_center_y;
++
++          gimp_display_shell_scale_get_zoom_focus (shell,
++                                                   new_scale,
++                                                   current_scale,
++                                                   &x,
++                                                   &y,
++                                                   zoom_focus);
++          gimp_display_shell_scale_get_image_center_viewport (shell,
++                                                              &image_center_x,
++                                                              &image_center_y);
++
++          gimp_display_shell_scale_to (shell, new_scale, x, y);
+
+           /* If an image axis started to fit due to zooming out or if
+            * the focus point is as good as in the center, center on

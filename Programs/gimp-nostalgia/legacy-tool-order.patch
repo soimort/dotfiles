@@ -4,8 +4,8 @@ Subject: [PATCH] Legacy tool order
 
 ---
 
---- a/app/tools/gimp-tools.c	2018-07-04 13:00:26.000000000 +0200
-+++ b/app/tools/gimp-tools.c	2018-08-10 05:46:43.853140768 +0200
+--- a/app/tools/gimp-tools.c
++++ b/app/tools/gimp-tools.c
 @@ -144,15 +144,15 @@
      gimp_move_tool_register,
      gimp_align_tool_register,

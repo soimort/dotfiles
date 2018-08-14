@@ -5,7 +5,7 @@
 _pkgname=gimp
 pkgname=${_pkgname}-nostalgia
 pkgver=2.10.4
-pkgrel=1
+pkgrel=2
 pkgdesc='GNU Image Manipulation Program'
 url='https://www.gimp.org/'
 arch=('x86_64')
@@ -25,15 +25,17 @@ provides=('gimp')
 source=(https://download.gimp.org/pub/gimp/v${pkgver%.*}/${_pkgname}-${pkgver}.tar.bz2
         linux.gpl
         "legacy-tool-order.patch"
-        "floating-selection-unlock-alpha.patch"
+        "floating-selection-erasable.patch"
         "gradient-tool-always-instant.patch"
-        "free-selection-immediate-commit.patch")
+        "free-selection-immediate-commit.patch"
+        "revert-zoom-focus-pointer.patch")
 sha256sums=('ffb0768de14a2631b3d7ed71f283731441a1b48461766c23f0574dce0706f192'
             '1003bbf5fc292d0d63be44562f46506f7b2ca5729770da9d38d3bb2e8a2f36b3'
-            'c692ca5c0dec831b6d8282f3f30c3b63453175dc1937bf0e8d65926dac67b650'
-            'f6f74f3d745e558731fe1592b0555b88f5a0601f453b27d1b668e237ccb4626b'
-            '9b205a8dec13e8321915d68c421ed739716334a44b0187eb2fd1521eac78147e'
-            '0afe0d42cba16f0652f953369e2d9c7af88c09758acb4bfb07ea2d3769c8a514')
+            'e7d9105aad2ce2eef4e7f4aff4e34b54604190ec95c7e6e3280f432e2f5c1f99'
+            '26d78ab98d54f099133e35e0dbdd3c5cebd5190f08a007e27ef72f05d2b5d24c'
+            '21e7e204d93d25e3ae88c62d5c382686e56d07097a1b5c1ebc4cac4c23154876'
+            '77378f7b10f3f36af49cc1f7ca2433afb99b49fdb91de97642a8b2daaba1b84a'
+            'b8cdc23aae051b185d39fc51ccb0e9bc16ee33812a054590cfbf2195b270453f')
 
 prepare() {
   cd ${_pkgname}-${pkgver}
@@ -42,7 +44,10 @@ prepare() {
   autoreconf -vi
 
   # my own tweaks
-  patch -Np1 -i ../../legacy-tool-order.patch
+  for patch in ../../*.patch; do
+    patch -Np1 -i ${patch}
+  done
+
 }
 
 build() {

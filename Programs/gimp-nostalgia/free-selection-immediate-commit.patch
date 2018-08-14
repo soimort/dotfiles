@@ -1,18 +1,64 @@
 From: Mort Yao <soi@mort.ninja>
-Date: Sat, 11 Aug 2018 18:53:00 +0100
+Date: Tue, 14 Aug 2018 17:14:00 +0100
 Subject: [PATCH] Let free selection tool immediately commit
 
 ---
 
---- a/app/display/gimptoolpolygon_c
+--- a/app/gmagic.h
++++ b/app/gmagic.h
+@@ -0,0 +1,3 @@
++
++extern int GMAGIC_IS_ERASING;
++extern int GMAGIC_IS_FREE_SELECTING;
+
+--- a/app/display/gimptoolpolygon.c
 +++ b/app/display/gimptoolpolygon.c
-@@ -1050,6 +1050,9 @@ gimp_tool_polygon_button_press (GimpToolWidget      *widget,
+@@ -49,6 +49,8 @@
+
+ #include "gimp-intl.h"
+
++#include "gmagic.h"
++
+
+ #define POINT_GRAB_THRESHOLD_SQ SQR (GIMP_CANVAS_HANDLE_SIZE_CIRCLE / 2)
+ #define POINT_SHOW_THRESHOLD_SQ SQR (GIMP_CANVAS_HANDLE_SIZE_CIRCLE * 7)
+@@ -1050,6 +1052,12 @@
    if (gimp_tool_polygon_is_point_grabbed (polygon))
      {
        gimp_tool_polygon_prepare_for_move (polygon);
 +
-+      gimp_tool_widget_response (widget, GIMP_TOOL_WIDGET_RESPONSE_CONFIRM);
-+      return 0;
++      if (GMAGIC_IS_FREE_SELECTING)
++        {
++          gimp_tool_widget_response (widget, GIMP_TOOL_WIDGET_RESPONSE_CONFIRM);
++          return 0;
++        }
      }
    else if (priv->polygon_closed)
      {
+
+--- a/app/tools/gimpfreeselecttool.c
++++ b/app/tools/gimpfreeselecttool.c
+@@ -43,6 +43,9 @@
+
+ #include "gimp-intl.h"
+
++#include "gmagic.h"
++int GMAGIC_IS_FREE_SELECTING = 0;
++
+
+ struct _GimpFreeSelectToolPrivate
+ {
+@@ -373,11 +376,13 @@
+       gimp_tool_widget_hover (private->widget, coords, state, TRUE);
+     }
+
++  GMAGIC_IS_FREE_SELECTING = 1;
+   if (gimp_tool_widget_button_press (private->widget, coords, time, state,
+                                      press_type))
+     {
+       private->grab_widget = private->widget;
+     }
++  GMAGIC_IS_FREE_SELECTING = 0;
+
+   if (press_type == GIMP_BUTTON_PRESS_NORMAL)
+     gimp_tool_control_activate (tool->control);
