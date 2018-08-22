@@ -63,6 +63,6 @@ if [ -r "$1" ]; then
 fi
 
 echo "Mi caja está abierta."
-echo "Terminate with 'killall gdb' (save all your work first!)"
+echo "Terminate with <Ctrl-D>, or 'killall gdb' (save all your work first!)"
 
 setsid gdb -ex run caja &>/dev/null
