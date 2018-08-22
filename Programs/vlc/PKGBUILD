@@ -90,22 +90,23 @@ optdepends=('avahi: service discovery using bonjour protocol'
 conflicts=('vlc-plugin')
 replaces=('vlc-plugin')
 options=('!emptydirs')
-source=(https://download.videolan.org/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz{,.asc}
+source=(https://download.videolan.org/${pkgname}/${pkgver}/${pkgname}-${pkgver}.tar.xz
         update-vlc-plugin-cache.hook
         aom-remove-unsupported-pixel-formats.patch
         lua53_compat.patch
         vlc-qt5.11.patch
         disable_menu_item_removal.patch
-        disable_treeview_sorting.patch)
+        disable_treeview_sorting.patch
+        no_repeat_nonexisting_input.patch)
 sha512sums=('1569cefa6623b2631a832679bc9a63ebeba222901e5221d254e896a68d2ee467054da8de9eda566924e80a11bb29a673a9f0c4243793845547d8027b58a238ab'
-            'SKIP'
             '80357bae69e32b353d3784932d854e294906798e14faffb87c3383c3b6f6bdc57cbabb9c6e3f3c1adf0f8ddbb24153e72104c963cf1934970c2983c96daef9df'
             '5757a6f35e106883072c31d137fd247c65a544f730cf736ca2e81a31357305b5c002b52349337d8e1667fbe68628bc253ec69eee727f268aee7902a5bef82dce'
             '33cda373aa1fb3ee19a78748e2687f2b93c8662c9fda62ecd122a2e649df8edaceb54dda3991bc38c80737945a143a9e65baa2743a483bb737bb94cd590dc25f'
             '66aad0ec32d1a96f65566b04eb9c0b4574824e281940fe5c0de54ac5f92189693a9f2576203d2c8562d7174ec5315cbbd683d93c481d16119d3038e30a58cbf5'
-            'SKIP'
-            'SKIP')
-validpgpkeys=('65F7C6B4206BD057A7EB73787180713BE58D1ADC') # VideoLAN Release Signing Key
+            '46aa41d772189595fb48e7a2b8f88c518f1ef88943e080e8211d54f566b1317e406107a4a3a5e4b4ccbd24032a53d1c6fd3999f6e76ebdec6bc1b4ae0362f81c'
+            '6af6bd9c1dca270546d9424bf9419079dc75de3fe22b770635f7186c4ac7903e4f58cb0e0d7617bc124160ddea8bfc0ca3938e347a1132f73e670a495d4c5db1'
+            'b18c45ced7be7c7fc905655575b2246239278615ec247dcee0352672c65838b0530df9bf067099c6d126f4f402cd3c698b7442629de74d6309d067a7159b3a09')
+#validpgpkeys=('65F7C6B4206BD057A7EB73787180713BE58D1ADC') # VideoLAN Release Signing Key
 
 prepare() {
   cd ${pkgname}-${pkgver}
@@ -120,6 +121,7 @@ prepare() {
   # my own tweaks
   patch -Np1 < "${srcdir}/disable_menu_item_removal.patch"
   patch -Np1 < "${srcdir}/disable_treeview_sorting.patch"
+  patch -Np1 < "${srcdir}/no_repeat_nonexisting_input.patch"
 }
 
 build() {

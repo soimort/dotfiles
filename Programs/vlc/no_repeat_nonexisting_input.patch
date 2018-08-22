@@ -1,0 +1,60 @@
+--- a/src/vlc_magic.h
++++ b/src/vlc_magic.h
+@@ -0,0 +1,2 @@
++
++extern int VLC_MAGIC_404;
+
+--- a/src/input/input.c
++++ b/src/input/input.c
+@@ -56,6 +56,8 @@
+ #include <vlc_stream_extractor.h>
+ #include <vlc_renderer_discovery.h>
+
++#include "vlc_magic.h"
++
+ /*****************************************************************************
+  * Local prototypes
+  *****************************************************************************/
+@@ -495,6 +497,7 @@
+
+     if( !Init( p_input ) )
+     {
++        VLC_MAGIC_404 = 0;
+         if( priv->b_can_pace_control && priv->b_out_pace_control )
+         {
+             /* We don't want a high input priority here or we'll
+@@ -506,7 +509,8 @@
+
+         /* Clean up */
+         End( p_input );
+-    }
++    } else
++        VLC_MAGIC_404 = 1;
+
+     input_SendEventDead( p_input );
+     return NULL;
+
+--- a/src/playlist/thread.c
++++ b/src/playlist/thread.c
+@@ -36,6 +36,9 @@
+ #include <vlc_renderer_discovery.h>
+ #include "playlist_internal.h"
+
++#include "vlc_magic.h"
++int VLC_MAGIC_404 = 0;
++
+ /*****************************************************************************
+  * Local prototypes
+  *****************************************************************************/
+@@ -380,6 +383,11 @@
+         /* Repeat and play/stop */
+         if( b_repeat && get_current_status_item( p_playlist ) )
+         {
++            if (VLC_MAGIC_404) {
++                msg_Info( p_playlist, "file not found -- stop repeating" );
++                return NULL;
++            }
++
+             msg_Dbg( p_playlist,"repeating item" );
+             return get_current_status_item( p_playlist );
+         }

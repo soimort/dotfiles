@@ -27,6 +27,8 @@ Feature tweaks:
 
 1. Do not show the bloody "Clean Playlist" button in the context menu.
 2. Disable the bloody one-click list sorting.
+3. Do not bloody repeat a non-existing item in "Loop one" mode (which is just hogging CPU and completely freezes the `vlc` process).
+   * Related issues: <https://forum.videolan.org/viewtopic.php?t=140820>
 
 
 ## `gimp-nostalgia` (the image editor)
