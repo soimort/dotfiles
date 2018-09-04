@@ -55,7 +55,7 @@ alias xyc="proxychains4 -q"
 
 # misc
 alias ds="du -hs * | sort -hr | less"
-alias wg="wget --no-check-certificate"
+alias wg="wget --no-check-certificate -U Mozilla/5.0"
 
 # Arch
 alias pac='pacman'
