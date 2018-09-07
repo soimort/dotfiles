@@ -1,3 +1,5 @@
+# After modifying the file, remember to run:
+#   antigen-cache-reset
 
 ## jobs
 setopt long_list_jobs
