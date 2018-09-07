@@ -753,7 +753,6 @@ antigen () {
     done
 
     local keyword_args="$(
-            # Positional arguments can double up as keyword arguments too.
             echo "$positional_args" | tr , '\n' |
                 while read line; do
                     if [[ $line == *\? ]]; then
@@ -763,7 +762,6 @@ antigen () {
                     fi
                 done
 
-            # Specified keyword arguments.
             echo "$spec" | cut -d\; -f2 | tr , '\n'
             )"
     local keyword_args_count="$(echo $keyword_args | awk -F, '{print NF}')"
