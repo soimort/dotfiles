@@ -1164,7 +1164,7 @@ zcache-load-cache () {
 # Removes cache payload and metadata if available
 #
 # Usage
-#   zcache-cache-reset
+#   antigen-cache-reset
 #
 # Returns
 #   Nothing
