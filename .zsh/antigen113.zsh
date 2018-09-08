@@ -1169,8 +1169,8 @@ zcache-load-cache () {
 # Returns
 #   Nothing
 antigen-cache-reset () {
-    [[ -f "$_ZCACHE_META_PATH" ]] && rm "$_ZCACHE_META_PATH"
-    [[ -f "$_ZCACHE_PAYLOAD_PATH" ]] && rm "$_ZCACHE_PAYLOAD_PATH"
+    [[ -f "$_ZCACHE_META_PATH" ]] && /bin/rm "$_ZCACHE_META_PATH"
+    [[ -f "$_ZCACHE_PAYLOAD_PATH" ]] && /bin/rm "$_ZCACHE_PAYLOAD_PATH"
     echo 'Done. Please open a new shell to see the changes.'
 }
 
