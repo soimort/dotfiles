@@ -54,6 +54,15 @@ Feature tweaks:
 2. Use "`?`" instead of the bloody long "`Untitled`" string.
 
 
+## `zsh`
+
+Version 5.0.8. (which is the last version where the bloody `url-quote-magic` is not broken)
+
+* Regression commit: [98687fa](https://github.com/zsh-users/zsh/commit/98687fa1dec803f041cbb5417c146d8aa5129b53)
+  * Totally broken in zsh 5.1.1.
+  * In later versions, `url-quote-magic` keeps escaping characters even inside quotes (which is annoying)
+
+
 ## `gnome-settings-daemon`
 
 Depends on the bloody: `gnome-desktop`
