@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
-local -a rlwrap_cmd_list=(
+local rlwrap_cmd_list
+rlwrap_cmd_list=(
     dc tclsh
     gosh guile kawa qexo scheme
     racket

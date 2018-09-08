@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
-local -a noglob_cmd_list=(
+local noglob_cmd_list
+noglob_cmd_list=(
     bower rake
 )
 
