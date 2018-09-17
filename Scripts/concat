@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import os, subprocess, sys
+from you_get.common import *
+from you_get.util import *
+from you_get.processor import *
+
+def main():
+    filelist = sys.argv[1:]
+    if len(filelist) == 0:
+        return
+
+    t = filelist[0]
+    for f in filelist:
+        ext = f[-4:]
+        p = 0
+        while p < len(t) and t[p] == f[p]:
+            p += 1
+        t = t[:p]
+
+    if ext == '.mp4':
+        ffmpeg_concat_mp4_to_mp4(filelist, t + '.mp4')
+    elif ext == '.flv':
+        ffmpeg_concat_flv_to_mp4(filelist, t + '.mp4')
+
+if __name__ == '__main__':
+    main()
