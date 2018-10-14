@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+import sys, json
+from you_get.common import *
+
+def main():
+    for username in sys.argv[1:]:
+        num = 50
+        posts = []
+        for start in [0, 50]:
+            url = 'https://%s.tumblr.com/api/read/json?start=%s&num=%s' % (username, start, num)
+
+            page = get_html(url)
+            form_key = match1(page, r'id="tumblr_form_key" content="([^"]+)"')
+            if form_key is not None:
+                # bypass GDPR consent page
+                referer = 'https://www.tumblr.com/privacy/consent?redirect=%s' % parse.quote_plus(url)
+                post_content('https://www.tumblr.com/svc/privacy/consent',
+                             headers={
+                                 'Content-Type': 'application/json',
+                                 'User-Agent': fake_headers['User-Agent'],
+                                 'Referer': referer,
+                                 'X-tumblr-form-key': form_key,
+                                 'X-Requested-With': 'XMLHttpRequest'
+                             },
+                             post_data_raw='{"eu_resident":true,"gdpr_is_acceptable_age":true,"gdpr_consent_core":true,"gdpr_consent_first_party_ads":true,"gdpr_consent_third_party_ads":true,"gdpr_consent_search_history":true,"redirect_to":"%s","gdpr_reconsent":false}' % url)
+                page = get_html(url, faker=True)
+
+            posts += json.loads(page[22:-2])['posts']
+
+        posts = sorted(posts, key=lambda post: -int(post['note-count']))
+        for post in posts:
+            if int(post['note-count']) >= 50:  # set the bar!
+                print('%s\t%s\t%s' % (post['note-count'], post.get('regular-title', '[NONAME]'),
+                                      post['url-with-slug']))
+
+if __name__ == '__main__':
+    main()
