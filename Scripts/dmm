@@ -13,7 +13,7 @@ def main():
         cont = get_content(arg)
         cid = re.findall(r'cid=([^/]+)/', cont)[0]
         print("ID:\t\t%s" % cid)
-        title = re.findall(r'<title>(.*) - アダルトビデオ動画', cont)[0]
+        title = re.findall(r'<title>(.*?) - ', cont)[0]
         print("Title:\t\t%s" % title)
         performers = re.findall(r'<span id="performer">[^>]*>([^<]+)</', cont)
         if performers:
