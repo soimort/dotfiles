@@ -20,7 +20,7 @@ def main():
                    key=lambda i: yt.dash_streams[i]['size'])
         audio_url = yt.dash_streams[r[-1]]['src'][1] # highest quality audio
 
-        title, ext, size = yt.title, 'mp4', urls_size([audio_url])
+        title, ext, size = yt.title, 'mp4', urls_size(audio_url)
         print_info(yt.name, title, ext, size)
         download_urls(urls=[audio_url],
                       title=title, ext=ext, total_size=size)
