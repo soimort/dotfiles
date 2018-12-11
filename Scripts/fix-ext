@@ -24,7 +24,8 @@ for i in "$@"; do
             ;;
     esac
     if [ "$t" != "${i##*.}" ]; then
-        echo $i '->' ${i%.*}.$t
-        mv -i "$i" "${i%.*}.$t"
+        j=${i%%\?*}
+        echo $i '->' ${j%.*}.$t
+        mv -i "$i" "${j%.*}.$t"
     fi
 done
