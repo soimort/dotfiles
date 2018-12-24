@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Go to an sftp path via SSH.
+# WARNING: Be aware of command injection!
+
+# See: https://stackoverflow.com/a/37840948
+urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+
+if [ -z "$1" ]; then
+    echo "Usage: to [sftp://...]"
+    exit 1
+fi
+
+TEMP=${1##sftp://}
+REMOTE=${TEMP%%/*}
+CDPATH=${TEMP##$REMOTE} && CDPATH=$(urldecode "$CDPATH")
+
+ssh -t $REMOTE -X "cd '$CDPATH'; export LC_CTYPE=en_US.UTF-8; zsh"
