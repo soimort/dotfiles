@@ -41,6 +41,7 @@ mc() {
 }
 
 48get() {
+    local WGOT_FLAG=0
     for url in "$@"; do
         if [[ $url =~ "7gogo\.jp" ]]; then
             Get-755 $url || break
@@ -51,9 +52,13 @@ mc() {
         elif [[ $url =~ "plus\.google\.com" ]]; then
             gugutasu $url || break
         else
+            WGOT_FLAG=1
             wget $url || break
         fi
     done
+    if [[ $WGOT_FLAG = 1 ]]; then
+        fix-ext *
+    fi
 }
 
 waifu() {
