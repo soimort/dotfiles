@@ -69,3 +69,44 @@ waifu() {
 
     waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png
 }
+
+# Set custom icon / emblems of a file via GIO.
+# see also: https://developer.gnome.org/gio/stable/gio.html
+set-icon() {
+    if [[ -z "$1" || -z "$2" ]]; then
+        echo 'Usage: set-icon DIRECTORY ICON'
+        return 1
+    fi
+
+    gio set "$1" metadata::custom-icon "file://$2"
+}
+unset-icon() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: unset-icon DIRECTORY'
+        return 1
+    fi
+
+    gio set -t unset "$1" metadata::custom-icon
+}
+set-emblem() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: set-emblem DIRECTORY [EMBLEMS]'
+        return 1
+    fi
+
+    if [[ -z "$2" ]]; then
+        gio set -t stringv "$1" metadata::emblems default
+    else
+        TMP=$1
+        shift
+        gio set -t stringv "$TMP" metadata::emblems $@
+    fi
+}
+unset-emblem() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: unset-emblem DIRECTORY'
+        return 1
+    fi
+
+    gio set -t unset "$1" metadata::emblems
+}
