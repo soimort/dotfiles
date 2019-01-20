@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 for i in "$@"; do
-    T=`file -0 --mime-type "$i" | cut -d $'\0' -f2 | cut -d ' ' -f2`
+    T=`file -0 --mime-type -- "$i" | cut -d $'\0' -f2 | cut -d ' ' -f2`
     echo $T
     case $T in
         'image/gif' )
