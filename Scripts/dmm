@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Download images from http://www.dmm.co.jp/digital/videoa/.
+# Download images from FANZA.
 
 import json, re, sys
 from you_get.common import *
@@ -19,7 +19,10 @@ def main():
         if performers:
             print("Performer:\t%s" % performers[0])
 
-        cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
+        if re.search(r'/mono/', arg):
+            cover_url = 'https://pics.dmm.co.jp/mono/movie/adult/%s/%spl.jpg' % (cid, cid)
+        else:
+            cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
         cover_title = '%spl' % cid
         ext, size = 'jpg', url_size(cover_url)
         download_urls(urls=[cover_url],
@@ -29,11 +32,10 @@ def main():
                       ext=ext,
                       merge=False)
 
-        samp_pat = 'http://pics.dmm.co.jp/digital/video/%s/%s-(\d+).jpg' % (cid, cid)
-        samps = re.findall(samp_pat, cont)
-        for i in samps:
-            url = 'http://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (cid, cid, i)
-            title = '%sjp-%s' % (cid, i)
+        samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
+        for samp in samps:
+            url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
+            title = '%sjp-%s' % (samp[1], samp[2])
             ext, size = 'jpg', url_size(url)
             download_urls(urls=[url],
                           title=title,
