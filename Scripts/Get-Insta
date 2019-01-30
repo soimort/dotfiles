@@ -73,13 +73,8 @@ def main():
                               output_dir='.')
         else:
             image_url = info['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url']
-            image_url = image_url.split('?')[0]
-            ext = image_url.split('.')[-1]
-            try:
-                size = int(get_head(image_url)['Content-Length'])
-            except:
-                image_url = image_url + '?_nc_ht=instagram.fcph1-1.fna.fbcdn.net'
-                size = int(get_head(image_url)['Content-Length'])
+            ext = image_url.split('?')[0].split('.')[-1]
+            size = int(get_head(image_url)['Content-Length'])
             download_urls(urls=[image_url],
                           title=title,
                           ext=ext,
