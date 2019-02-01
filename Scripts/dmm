@@ -32,7 +32,8 @@ def main():
                       ext=ext,
                       merge=False)
 
-        samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
+        samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont) or \
+            re.findall('//pics.dmm.com/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
         for samp in samps:
             url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
             title = '%sjp-%s' % (samp[1], samp[2])
