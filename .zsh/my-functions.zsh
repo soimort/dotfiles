@@ -4,6 +4,15 @@ rand() {
     head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
 }
 
+urldec() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: urldec STRING'
+        return 1
+    fi
+
+    python -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1"
+}
+
 doin() {
     if [[ -z "$1" || -z "$2" ]]; then
         echo 'Usage: doin DIRECTORY COMMAND...'
