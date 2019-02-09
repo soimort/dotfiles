@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+
+# See also: txt-to-vlc
+
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from urllib import parse
+
+
+def load_extension(elem, ls):
+    tmp = []
+    for i in elem:
+        if i.tag == '{http://www.videolan.org/vlc/playlist/ns/0/}node':
+            title = i.attrib.get('title')
+            tmp.append({title: load_extension(i, ls)})
+        elif i.tag == '{http://www.videolan.org/vlc/playlist/ns/0/}item':
+            tid = i.attrib.get('tid')
+            tmp.append(ls[tid])
+        else:
+            raise
+    return tmp
+
+
+def write_to(pl, ind, f):
+    for i in pl:
+        if type(i) is dict:
+            for title in i:
+                f.write(' ' * ind + title + '\n')
+                write_to(i[title], ind + 4, f)
+        elif type(i) is str:
+            f.write(' ' * ind + i + '\n')
+        else:
+            raise
+
+
+def main():
+    home = str(Path.home())
+    fname = home + '/.local/share/vlc/ml.txt'
+    f = open(fname, 'w')
+    ls = {}
+    tree = ET.parse(home + '/.local/share/vlc/ml.xspf')
+    root = tree.getroot()
+    for trackList in root.findall('{http://xspf.org/ns/0/}trackList'):
+        for track in trackList.findall('{http://xspf.org/ns/0/}track'):
+            location = track.find('{http://xspf.org/ns/0/}location')
+            filepath = parse.unquote(parse.urlparse(location.text).path)
+            extension = track.find('{http://xspf.org/ns/0/}extension')
+            vlc_id = extension.find('{http://www.videolan.org/vlc/playlist/ns/0/}id')
+            ls[vlc_id.text] = filepath
+    pl = load_extension(root.find('{http://xspf.org/ns/0/}extension'), ls)
+    write_to(pl, 0, f)
+    f.close()
+    print('saved to %s' % fname)
+
+if __name__ == '__main__':
+    main()

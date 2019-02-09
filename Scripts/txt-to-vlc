@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+
+# See also: vlc-to-txt
+
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from urllib import parse
+
+
+def ind_level(line):
+    t = 0
+    for i in line:
+        if i == ' ':
+            t += 1
+        else:
+            break
+    return line[t:], t // 4
+
+
+def gen_tracks(f):
+    trackList, extension = '', ''
+    tid = 0
+    lastInd = 0
+    for line in f:
+        line, ind = ind_level(line[:-1])
+        if line == '': continue
+        if lastInd > ind:
+            for i in range(lastInd - ind):
+                extension += ' ' * 8 * (1 + lastInd - i) + '</vlc:node>' + '\n'
+
+        if line[0] != '/':
+            name = line  # directory name
+            extension += ' ' * 8 * (2 + ind) + '<vlc:node title="%s">' % name + '\n'
+        else:
+            url = 'file://' + parse.quote(line)  # filepath
+            trackList += '                <track>' + '\n'
+            trackList += '                        <location>%s</location>' % url + '\n'
+            trackList += '                        <extension application="http://www.videolan.org/vlc/playlist/0">' + '\n'
+            trackList += '                                <vlc:id>%s</vlc:id>' % tid + '\n'
+            trackList += '                        </extension>' + '\n'
+            trackList += '                </track>' + '\n'
+            extension += ' ' * 8 * (2 + ind) + '<vlc:item tid="%s"/>' % tid + '\n'
+            tid += 1
+
+        lastInd = ind
+
+    if lastInd > 0:
+        for i in range(lastInd):
+            extension += ' ' * 8 * (1 + lastInd - i) + '</vlc:node>' + '\n'
+
+    return trackList, extension
+
+
+def main():
+    home = str(Path.home())
+    fname = home + '/.local/share/vlc/ml.txt'
+    with open(fname, 'r') as f:
+        trackList, extension = gen_tracks(f)
+    print('<?xml version="1.0" encoding="UTF-8"?>')
+    print('<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/" version="1">')
+    print('        <title>Media Library</title>')
+    print('        <trackList>')
+    print(trackList, end='')
+    print('        </trackList>')
+    print('        <extension application="http://www.videolan.org/vlc/playlist/0">')
+    print(extension, end='')
+    print('        </extension>')
+    print('</playlist>')
+
+if __name__ == '__main__':
+    main()
