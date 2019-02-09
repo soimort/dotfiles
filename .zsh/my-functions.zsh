@@ -28,7 +28,13 @@ mc() {
         return 1
     fi
 
-    mkdir -p $1 && cd $1
+    TMP=$1
+    if [ -d ${TMP%/*} ]; then
+        mkdir -p $TMP && cd $TMP
+    else
+        echo "Path '${TMP%/*}' does not exist!"
+        return 1
+    fi
 }
 
 48go() {
