@@ -97,11 +97,13 @@ set-icon() {
 }
 unset-icon() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: unset-icon DIRECTORY'
+        echo 'Usage: unset-icon DIRECTORY...'
         return 1
     fi
 
-    gio set -t unset "$1" metadata::custom-icon
+    for i in "$@"; do
+        gio set -t unset "$i" metadata::custom-icon
+    done
 }
 set-emblem() {
     if [[ -z "$1" ]]; then
@@ -119,9 +121,11 @@ set-emblem() {
 }
 unset-emblem() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: unset-emblem DIRECTORY'
+        echo 'Usage: unset-emblem DIRECTORY...'
         return 1
     fi
 
-    gio set -t unset "$1" metadata::emblems
+    for i in "$@"; do
+        gio set -t unset "$i" metadata::emblems
+    done
 }
