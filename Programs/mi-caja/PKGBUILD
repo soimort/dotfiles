@@ -4,7 +4,7 @@
 _pkgname=caja
 pkgname=mi-$_pkgname
 pkgver=1.16.2.r4.gc2522c9
-pkgrel=1
+pkgrel=2
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')

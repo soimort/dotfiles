@@ -4,7 +4,7 @@
 _pkgname=moe
 pkgname=${_pkgname}
 pkgver=1.16.1.r4.g7ef2776
-pkgrel=1
+pkgrel=2
 pkgdesc="An image viewing and cataloging program for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
@@ -12,7 +12,7 @@ license=('GPL')
 depends=('dbus-glib' 'gobject-introspection-runtime' 'exempi' 'lcms2' 'libexif' 'libjpeg-turbo' 'mate-desktop=1.16.1')
 makedepends=('gobject-introspection' 'intltool' 'itstool')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
+#conflicts=("${_pkgbase}-gtk3")
 source=("${_pkgname}::git://github.com/soimort/moe.git#branch=1.16")
 sha1sums=('SKIP')
 
