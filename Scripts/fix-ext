@@ -19,8 +19,14 @@ for i in "$@"; do
         'image/x-ms-bmp' )
             t='bmp'
             ;;
+        'audio/mpeg' )
+            t='mp3'
+            ;;
         'video/mp4' )
             t='mp4'
+            ;;
+        'video/x-flv' )
+            t='flv'
             ;;
         * )
             t=${i##*.}
