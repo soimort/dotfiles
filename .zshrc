@@ -58,7 +58,7 @@ path+=("$HOME/Scripts")
 # pip user
 path+=("$HOME/.local/bin")
 # gem executables
-path=("$HOME/.gem/ruby/2.4.0/bin" $path)
+path=("$HOME/.gem/ruby/2.5.0/bin" $path)
 # go
 GOPATH=~/go
 path+=("${GOPATH}/bin")
