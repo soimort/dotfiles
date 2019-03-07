@@ -5,7 +5,7 @@ rlwrap_cmd_list=(
     gosh guile kawa qexo scheme
     racket
     acl2 ccl ccl64 cmucl ecl lisp sbcl
-    mosml sml twelf-server
+    mosml sml poly twelf-server hol
     ocaml coqtop
     maxima prover9
 )
