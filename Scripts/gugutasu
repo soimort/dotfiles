@@ -4,6 +4,11 @@
 # - google-api-client ~> 0.9.0
 # - tzinfo            ~> 1.2.0
 
+# References:
+# - https://developers.google.com/+/web/api/rest/
+# - https://developers.google.com/apis-explorer/#p/plus/v1/
+# - https://www.rubydoc.info/github/google/google-api-ruby-client/Google/Apis/PlusV1/PlusService
+
 require 'fileutils'
 require 'google/apis/plus_v1'
 require 'json'
