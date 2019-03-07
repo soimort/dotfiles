@@ -74,7 +74,8 @@ module Gugutasu
     published_date_readable = tz.utc_to_local(published).strftime('%d %b %Y')
     published_time = tz.utc_to_local(published).strftime('%T')
 
-    puts "\n[#{index+1}] Reading post by #{name}, published at #{published}"
+    puts "\n[#{index+1}] URL: #{url}"
+    puts "[#{index+1}] Reading post by #{name}, published at #{published}"
 
     output_dir = File.join(output_path, name, published_date)
     FileUtils.mkdir_p output_dir
@@ -121,8 +122,8 @@ module Gugutasu
         image_id = attachment.id
         thumbnails = attachment.thumbnails
         if thumbnails
-          thumbnails.each_index do |index|
-            thumbnail = thumbnails[index]
+          thumbnails.each_index do |i|
+            thumbnail = thumbnails[i]
             image_url = get_full_image_url(thumbnail.image.url)
             puts "[#{index+1}] Downloading image: #{image_url}"
             uri = URI.parse(URI.escape("#{image_url}"))
@@ -140,7 +141,7 @@ module Gugutasu
               extname = image.header['Content-Type'].split('/')[-1]
             end
 
-            output_image = "#{output_base}.#{image_id}[#{index}].#{extname}"
+            output_image = "#{output_base}.#{image_id}[#{i}].#{extname}"
             File.open(output_image, 'w').puts image.body
           end
         end
@@ -153,6 +154,80 @@ module Gugutasu
 
       end
     end if attachments
+  end
+
+  def self.archive_user(params)
+    begin
+      raise "Unregistered client." unless client_registered?
+    rescue => e
+      puts e.message
+      return
+    end
+
+    index, user_id, output_path, timezone =
+                                 params[:index], params[:user_id], (params[:output_path] or FileUtils.pwd), (params[:timezone].nil? ? 'Etc/UTC' : params[:timezone])
+    output_path += '.archive'  ### TEMP
+
+    tmp_dir = output_path
+    quiet = false
+    video_downloader = 'you-get'
+    response = nil
+
+    # profile (FIXME: 403 -- requires auth?)
+    #puts "##{@@request_num+=1} people.get ..." unless quiet
+    #data = @@plus.get_person user_id
+
+    maxResults = 100
+    next_page_token = nil
+    page_num = 0
+    post_num = 0
+
+    loop do
+      puts "\n\33[92m\33[1m##{@@request_num+=1} activities.list: page[#{page_num}] ...\33[0m" unless quiet
+      activities = nil
+      loop do
+        begin
+          activities = @@plus.list_activities user_id, 'public', max_results:maxResults,
+                                              page_token:next_page_token
+          raise unless activities.items.size > 0
+        rescue
+          puts "\n\33[93m\33[1m##{@@request_num} Retrying activities.list: page[#{page_num}] ...\33[0m" unless quiet
+          sleep 1
+          next
+        else
+          break
+        end
+      end
+
+      next_page_token = activities.next_page_token
+
+      activities.items.each do |item|
+        activity_id = item.id
+        activity_url = item.url
+
+        loop do
+          begin
+            Gugutasu::save_activity(:index => post_num,
+                                    :activity_id => activity_id,
+                                    :output_path => output_path,
+                                    :timezone => timezone,
+                                    :orig_url => activity_url)
+          rescue
+            puts "\n\33[93m\33[1m##{@@request_num} Retrying activities.get: #{activity_id} ...\33[0m" unless quiet
+            sleep 1
+            next
+          else
+            break
+          end
+        end
+
+        post_num += 1
+      end
+
+      break unless next_page_token
+      page_num += 1
+    end
+    puts "\33[92m\33[1mOK. #{post_num} posts archived!\33[0m" unless quiet
   end
 
 end
