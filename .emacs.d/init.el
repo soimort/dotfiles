@@ -1,16 +1,45 @@
 ;;; Emacs initialization file
 ;;; @prog         emacs
-;;; @lastProgVers 24.5
+;;; @lastProgVers 26.1
 ;;; @since        2015-12-23
-;;; @lastChanged  2018-05-31
+;;; @lastChanged  2019-03-15
 ;;; @author       Mort Yao <soi@mort.ninja>
 
-;; Custom
-;; ------
+;; Custom File
+;; -----------
 
 (setq custom-file "~/.emacs.d/custom.el")
 (if (file-exists-p custom-file)
     (load custom-file))
+
+(setq inhibit-startup-screen t)
+
+;; Keep custom settings here
+(custom-set-variables
+ '(custom-enabled-themes (quote (tango-dark))))
+(custom-set-faces
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+
+ ;; elscreen
+ '(elscreen-tab-background-face
+   ((((type x w32 mac) (class color)) :background "#000f00")
+    (((class color)) (:background "#000f00"))))
+ '(elscreen-tab-current-screen-face
+   ((((class color)) (:background "#aaeeaa" :foreground "#000000"))))
+ '(elscreen-tab-other-screen-face
+   ((((type x w32 mac) (class color)) :background "#224422" :foreground "#ffffff")))
+
+ ;; powerline
+ '(mode-line
+   ((t (:background "#aaeeaa" :foreground "#000000" :box nil))))
+ '(mode-line-inactive
+   ((t (:background "#666666" :foreground "#f9f9f9" :box nil))))
+ '(powerline-active1
+   ((t (:background "#224422" :foreground "#ffffff" :inherit mode-line))))
+ '(powerline-active2
+   ((t (:background "#446644" :foreground "#ffffff" :inherit mode-line))))
+ )
 
 
 
@@ -173,6 +202,17 @@
 
 
 
+;; Local Variables
+;; ---------------
+
+;; Turn off file variables
+;; See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables
+;(setq enable-local-variables nil
+;      enable-local-eval nil
+;      enable-dir-local-variables nil)
+
+
+
 ;; More
 ;; ----
 
@@ -184,6 +224,6 @@
 
 (setq init-extra "~/.emacs.d/init-extra.el")
 (if (file-exists-p init-extra)
-    (condition-case nil
-        (load init-extra)
-      (error nil)))
+    (load init-extra)
+    ;(condition-case nil (load init-extra) (error nil))
+)
