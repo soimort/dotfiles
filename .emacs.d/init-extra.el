@@ -74,6 +74,14 @@
 (setq imaxima-use-maxima-mode-flag t)
 (add-to-list 'auto-mode-alist '("\\.ma[cx]$" . maxima-mode))
 
+;; mozart/oz [aur:mozart2]
+;(setq load-path (cons "/usr/share/mozart/elisp/" load-path))
+                                        ;(require 'oz)
+
+;; twelf-mode [aur:twelf]
+(setq twelf-root "/opt/twelf/")
+(load (concat twelf-root "emacs/twelf-init.el"))
+
 ;; coq-mode [arch:coq]
 ;; <https://coq.inria.fr/distrib/current/refman/tools.html#Emacs>
 ;(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
@@ -94,10 +102,9 @@
      (define-key proof-mode-map
        (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))))
 
-;; twelf-mode [aur:twelf]
-(setq twelf-root "/opt/twelf/")
-(load (concat twelf-root "emacs/twelf-init.el"))
-
-;; mozart/oz [aur:mozart2]
-(setq load-path (cons "/usr/share/mozart/elisp/" load-path))
-(require 'oz)
+;; hol-mode [aur:hol]
+(autoload 'hol "/opt/hol/tools/hol-mode"
+  "Runs a HOL session in a comint window.
+   With a numeric prefix argument, runs it niced to that level
+   or at level 10 with a bare prefix. " t)
+;(load "/opt/hol/tools/hol-mode")
