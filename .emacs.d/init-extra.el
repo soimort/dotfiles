@@ -10,6 +10,9 @@
 ;; nasm-mode
 (add-to-list 'auto-mode-alist '("\\.asm?\\'" . nasm-mode))
 
+;; shell-script-mode
+(add-to-list 'auto-mode-alist '("\\.install\\'" . shell-script-mode))
+
 ;; text-mode
 (add-hook 'text-mode-hook 'flyspell-mode)
 
