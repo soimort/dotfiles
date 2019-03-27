@@ -10,6 +10,7 @@ import json, re, sys
 from datetime import datetime
 from you_get.common import *
 from you_get.util import *
+from you_get.extractors.instagram import instagram_download
 
 site_info = 'Instagram'
 
@@ -43,43 +44,7 @@ def main():
         outf.write('\n')
         outf.close()
 
-        v = re.search('<meta property="og:video" content="([^"]*)"', cont)
-        if v is not None:
-            video_url = v.group(1)
-            ext = video_url.split('.')[-1]
-            size = int(get_head(video_url)['Content-Length'])
-            download_urls(urls=[video_url],
-                          title=title,
-                          ext=ext,
-                          total_size=size,
-                          output_dir='.')
-
-        if 'edge_sidecar_to_children' in info['entry_data']['PostPage'][0]['graphql']['shortcode_media']:
-            edges = info['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges']
-            for edge in edges:
-                title = edge['node']['shortcode']
-                image_url = edge['node']['display_url']
-                image_url = image_url.split('?')[0]
-                ext = image_url.split('.')[-1]
-                try:
-                    size = int(get_head(image_url)['Content-Length'])
-                except:
-                    image_url = image_url + '?_nc_ht=instagram.fcph1-1.fna.fbcdn.net'
-                    size = int(get_head(image_url)['Content-Length'])
-                download_urls(urls=[image_url],
-                              title=title,
-                              ext=ext,
-                              total_size=size,
-                              output_dir='.')
-        else:
-            image_url = info['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url']
-            ext = image_url.split('?')[0].split('.')[-1]
-            size = int(get_head(image_url)['Content-Length'])
-            download_urls(urls=[image_url],
-                          title=title,
-                          ext=ext,
-                          total_size=size,
-                          output_dir='.')
+        instagram_download(url)
 
 if __name__ == '__main__':
     main()
