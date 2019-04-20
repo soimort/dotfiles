@@ -260,6 +260,12 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-g C-z</kbd> Redo
 
+### Python mode
+
+<kbd>C-S-c ></kbd> Indent 4 spaces to the right
+
+<kbd>C-S-c <</kbd> Indent 4 spaces to the left
+
 ### Emmet mode
 
 <kbd>C-j</kbd> Expand
