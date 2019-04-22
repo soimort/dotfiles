@@ -5,7 +5,7 @@
 #   $ Show-Weather Tokyo
 
 if [ -z "$1" ]; then
-    curl -4 http://wttr.in/Copenhagen
+    curl -4 http://wttr.in
 else
     curl -4 http://wttr.in/$1
 fi
