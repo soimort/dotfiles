@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 CAJA_LAST_SESSION=$HOME/.config/caja/last-session
 
+EFLAG=0
+
 if [ -r "$1" ]; then
     echo """<?xml version='1.0' encoding='UTF-8'?>
 <session>
@@ -55,6 +57,9 @@ if [ -r "$1" ]; then
                 quri="'$uri'"
             fi
             echo "    <slot location=$quri/>" >> $CAJA_LAST_SESSION
+        else
+            EFLAG=1
+            echo "PATH NOT FOUND: $line" > /dev/stderr
         fi
     done < $1
 
@@ -62,7 +67,11 @@ if [ -r "$1" ]; then
 </session>""" >> $CAJA_LAST_SESSION
 fi
 
-echo "Mi caja está abierta."
-echo "Terminate with <Ctrl-D>, or 'killall gdb' (save all your work first!)"
+if [[ $EFLAG == 0 ]]; then
+    echo "Mi caja está abierta."
+    echo "Terminate with <Ctrl-D>, or 'killall gdb' (save all your work first!)"
 
-setsid gdb -ex run caja &>/dev/null
+    setsid gdb -ex run caja &>/dev/null
+else
+    exit 1
+fi
