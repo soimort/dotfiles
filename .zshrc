@@ -2,7 +2,7 @@
 # @prog         zsh
 # @lastProgVers 5.3.1
 # @since        2015-12-23
-# @lastChanged  2018-08-08
+# @lastChanged  2019-05-30
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -39,6 +39,9 @@ antigen apply
 
 # Load my theme
 source $HOME/.zsh/$USER.zsh-theme
+# Fix unreadable color for OTHER_WRITABLE dirs in $LS_COLORS
+# see also: https://unix.stackexchange.com/q/94498/59659
+eval `dircolors ~/.dircolors`
 
 # Load extra settings
 function {

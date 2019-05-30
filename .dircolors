@@ -1,0 +1,2 @@
+# dir that is other-writable (o+w) and not sticky
+OTHER_WRITABLE 38;5;17;42
