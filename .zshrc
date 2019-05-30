@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # @prog         zsh
-# @lastProgVers 5.3.1
+# @lastProgVers 5.7.1
 # @since        2015-12-23
 # @lastChanged  2019-05-30
 # @author       Mort Yao <soi@mort.ninja>
@@ -18,6 +18,9 @@ PLUGINS=(
     zsh-users/zsh-syntax-highlighting
 )
 export ZSH_HIGHLIGHT_MAXLENGTH=100
+# Disable buggy url-quote-magic, etc.
+# see also: https://github.com/robbyrussell/oh-my-zsh/issues/5569#issuecomment-491504337
+DISABLE_MAGIC_FUNCTIONS=true
 
 # Load prelude
 source $HOME/.zsh/prelude
