@@ -1,5 +1,12 @@
 #!/usr/bin/env zsh
 
+enable-magic-functions() {
+    autoload -Uz bracketed-paste-magic
+    zle -N bracketed-paste bracketed-paste-magic
+    autoload -Uz url-quote-magic
+    zle -N self-insert url-quote-magic
+}
+
 rand() {
     head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
 }
