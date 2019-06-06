@@ -574,13 +574,13 @@ Latest version can be downloaded from http://registry.gimp.org/node/7870"
                     SF-IMAGE       "Input image"           0
                     SF-DRAWABLE    "Input drawable"        0
                     SF-ADJUSTMENT _"Vignetting Softness"   '(1.5 1 2 0.1 0.5 1 0)
-                    SF-ADJUSTMENT _"Saturation"            '(10 -40  40  1 5 1 0)
-                    SF-ADJUSTMENT _"Contrast"              '(10   0  40  1 5 1 0)
-                    SF-ADJUSTMENT _"Sharpness"             '(0.8 0 2 0.1 0.2 1 0)
-                    SF-ADJUSTMENT _"Wide Angle Distortion" '(5 0 13 0.1 0.5 1 0)
-                    SF-ADJUSTMENT _"Gauss Blur"            '(1 0  5 0.1 0.5 1 0)
-                    SF-ADJUSTMENT _"Motion Blur"           '(3 0  5 0.1 0.5 1 0)
-                    SF-ADJUSTMENT _"Grain"                 '(128 0 255 1 20 0 0)
+                    SF-ADJUSTMENT _"Saturation"            '(0 -40  40  1 5 1 0) ;10
+                    SF-ADJUSTMENT _"Contrast"              '(0   0  40  1 5 1 0) ;10
+                    SF-ADJUSTMENT _"Sharpness"             '(0.0 0 2 0.1 0.2 1 0) ;0.8
+                    SF-ADJUSTMENT _"Wide Angle Distortion" '(0 0 13 0.1 0.5 1 0) ;5
+                    SF-ADJUSTMENT _"Gauss Blur"            '(0 0  5 0.1 0.5 1 0) ;1
+                    SF-ADJUSTMENT _"Motion Blur"           '(0 0  5 0.1 0.5 1 0) ;3
+                    SF-ADJUSTMENT _"Grain"                 '(0 0 255 1 20 0 0) ;128
                     SF-OPTION     _"Colors"                '("Neutral"
                                                              "Old Red"
                                                              "XPro Green"
