@@ -136,3 +136,43 @@ unset-emblem() {
         gio set -t unset "$i" metadata::emblems
     done
 }
+folder-grass() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: folder-grass DIRECTORY ICON'
+        return 1
+    fi
+
+    for i in "$@"; do
+        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_grass.png'
+    done
+}
+folder-rose() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: folder-rose DIRECTORY ICON'
+        return 1
+    fi
+
+    for i in "$@"; do
+        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_rose.png'
+    done
+}
+folder-sky() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: folder-sky DIRECTORY ICON'
+        return 1
+    fi
+
+    for i in "$@"; do
+        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_sky.png'
+    done
+}
+folder-violet() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: folder-violet DIRECTORY ICON'
+        return 1
+    fi
+
+    for i in "$@"; do
+        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_violet.png'
+    done
+}
