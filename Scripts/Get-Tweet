@@ -24,8 +24,8 @@ def main():
         assert m
         item_id = m.group(1)
 
-        cont = get_content(url + '?lang=en',
-                           headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36'})
+        cont = get_content(url + '?lang=en')
+        #headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0'}
         screen_name = r1(r'data-screen-name="([^"]*)"', cont)
         author = r1(r'<meta\s+property="og:title"\s+content="([^"]*) on Twitter"', cont)
         data_time = float(r1(r'data-time="(\d+)"', cont))
