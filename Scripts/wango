@@ -4,15 +4,28 @@ import sys
 from you_get.common import *
 
 
+def orig(url):
+    m = url.split('/')
+    title = m[10][3:][:-4]
+    src = 'https://green-img-news-dwango-jp-prod.s3.amazonaws.com/uploads/medium/file/%s/%s' % \
+        ('/'.join(m[6:10]), m[10][3:])
+    return (src, title)
+
 def main():
     for url in sys.argv[1:]:
-        m = url.split('/')
+        if re.match(r'https://news\.dwango\.jp/', url):
+            content = get_html(url, faker=True)  # enforce UA to get all images
+            tmp = re.findall(r'src="([^"]+)" alt="Sm', content)
+            for url in tmp:
+                src, title = orig(url)
+                print(src)
 
-        title = m[10][3:][:-4]
-        src = 'https://green-img-news-dwango-jp-prod.s3.amazonaws.com/uploads/medium/file/%s/%s' % ('/'.join(m[6:10]), m[10][3:])
+        else:
+            src, title = orig(url)
+            print(src)
 
-        ext, size = 'jpg', urls_size([src])
-        download_urls(urls=[src], title=title, ext=ext, total_size=size)
+            #ext, size = 'jpg', urls_size([src])
+            #download_urls(urls=[src], title=title, ext=ext, total_size=size, faker=True)
 
 
 if __name__ == '__main__':
