@@ -173,3 +173,56 @@ fcolor() {
     done
     return 0
 }
+
+
+# Set/unset $SOCKS5_PROXY.
+set-socks() {
+    export SOCKS5_PROXY=127.0.0.1:1080
+}
+unset-socks() {
+    export SOCKS5_PROXY=
+}
+
+
+get() {
+    if [[ -z "$1" ]]; then
+        # no param -- show help message
+        echo 'Usage: get PREFIX URL...'
+        echo '       get URL...'
+        return 0
+    fi
+
+    if [[ ! -z $SOCKS5_PROXY ]]; then
+        local XYC=proxychains4 -q
+        log.d "proxy set:  $SOCKS5_PROXY"
+    fi
+
+    if [[ ! -z "$2" ]]; then
+        # has at least 2 params
+        if [[ ! $1 =~ "https?://" ]]; then
+            # first param is not an HTTP(S) URL
+            local PREFIX="[$1] "
+            shift
+            log.d "prefix set: $PREFIX"
+        fi
+    fi
+
+    for url in "$@"; do
+        if [[ $url =~ "7gogo\.jp" && ! ($url =~ "stat\.7gogo\.jp") ]]; then
+            $XYC Get-755 $url || break
+
+        elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
+            $XYC Get-Insta $url || break
+
+        elif [[ $url =~ "twitter\.com" ]]; then
+            $XYC Get-Tweet $url || break
+
+        else
+            local FILENAME=$PREFIX${url##*/}
+            # TODO: fix ext
+            # TODO: set $UA?
+            $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" || break
+        fi
+    done
+    return 0
+}
