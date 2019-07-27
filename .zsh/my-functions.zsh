@@ -193,7 +193,7 @@ get() {
     fi
 
     if [[ ! -z $SOCKS5_PROXY ]]; then
-        local XYC=proxychains4 -q
+        local XYC=proxychains4
         log.d "proxy set:  $SOCKS5_PROXY"
     fi
 
