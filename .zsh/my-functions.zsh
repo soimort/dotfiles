@@ -136,43 +136,40 @@ unset-emblem() {
         gio set -t unset "$i" metadata::emblems
     done
 }
-folder-grass() {
+
+
+# Set the color of folder(s).
+# Avaiable icons: ~/Pictures/icons/Adwaita/places
+fcolor() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: folder-grass DIRECTORY ICON'
-        return 1
+        # no param -- show help message
+        echo 'Usage: fcolor COLOR DIRECTORY...'
+        echo '       fcolor DIRECTORY...'
+        echo
+        echo 'Available colors:'
+        for i in $HOME/Pictures/icons/Adwaita/places/folder_*.png; do
+            local j=${i#*folder_}
+            j=${j%.png}
+            echo "\t"$j
+        done
+        return 0
+    fi
+
+    if [[ ! -z "$2" ]]; then
+        # has at least 2 params
+        local COLOR=$1
+        if [[ -r "$HOME/Pictures/icons/Adwaita/places/folder_$COLOR.png" ]]; then
+            # first param is an actual color
+            shift
+            for i in "$@"; do
+                gio set "$i" metadata::custom-icon "file:///home/soimort/Pictures/icons/Adwaita/places/folder_$COLOR.png"
+            done
+            return 0
+        fi
     fi
 
     for i in "$@"; do
-        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_grass.png'
+        gio set "$i" metadata::custom-icon "file:///home/soimort/Pictures/icons/Adwaita/places/folder.png"
     done
-}
-folder-rose() {
-    if [[ -z "$1" ]]; then
-        echo 'Usage: folder-rose DIRECTORY ICON'
-        return 1
-    fi
-
-    for i in "$@"; do
-        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_rose.png'
-    done
-}
-folder-sky() {
-    if [[ -z "$1" ]]; then
-        echo 'Usage: folder-sky DIRECTORY ICON'
-        return 1
-    fi
-
-    for i in "$@"; do
-        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_sky.png'
-    done
-}
-folder-violet() {
-    if [[ -z "$1" ]]; then
-        echo 'Usage: folder-violet DIRECTORY ICON'
-        return 1
-    fi
-
-    for i in "$@"; do
-        gio set "$i" metadata::custom-icon 'file:///home/soimort/Pictures/icons/Adwaita/places/folder_violet.png'
-    done
+    return 0
 }
