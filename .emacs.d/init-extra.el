@@ -111,3 +111,7 @@
    With a numeric prefix argument, runs it niced to that level
    or at level 10 with a bare prefix. " t)
 ;(load "/opt/hol/tools/hol-mode")
+
+;; agda-mode [arch:agda]
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
