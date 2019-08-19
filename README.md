@@ -30,7 +30,7 @@
 
 ### Emacs/ELPA
 
-<kbd>M-x package-install elscreen</kbd> Install [ElScreen](https://melpa.org/#/elscreen)
+<kbd>M-x package-install RET elscreen RET</kbd> Install [ElScreen](https://melpa.org/#/elscreen)
 
 
 
