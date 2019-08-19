@@ -1,0 +1,9 @@
+#!/bin/sh
+
+DZEN_FONT='-*-UbuntuMono-*-r-normal-*-*-120-*-*-*-*-iso8859-*'
+
+while true; do
+    dt=`date +"%a %b %d %l:%M %p "`
+    printf "%s\n" "$dt"
+    sleep 20
+done | dzen2 -e '' -x '0' -h '18' -ta c -fn $DZEN_FONT
