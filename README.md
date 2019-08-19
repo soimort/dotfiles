@@ -4,11 +4,11 @@
 
 ## Package initialization
 
-### (via git submodule)
+### (via git submodule, could be outdated)
 
     $ git submodule init && git submodule update
 
-### Vundle (no submodule)
+### Vim/Vundle (no submodule, always updated)
 
 (1)
 
@@ -16,7 +16,7 @@
 
 (2) Launch vim and run `:PluginInstall`.
 
-### TPM (no submodule)
+### tmux/TPM (no submodule, always updated)
 
 (1)
 
@@ -27,6 +27,10 @@
     $ tmux source ~/.tmux.conf
 
 (3) In tmux, press `prefix + I` to fetch plugins.
+
+### Emacs/ELPA
+
+<kbd>M-x package-install elscreen</kbd> Install [ElScreen](https://melpa.org/#/elscreen)
 
 
 
