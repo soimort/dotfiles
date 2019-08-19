@@ -82,8 +82,8 @@
                                         ;(require 'oz)
 
 ;; twelf-mode [aur:twelf]
-(setq twelf-root "/opt/twelf/")
-(load (concat twelf-root "emacs/twelf-init.el"))
+;(setq twelf-root "/opt/twelf/")
+;(load (concat twelf-root "emacs/twelf-init.el"))
 
 ;; coq-mode [arch:coq]
 ;; <https://coq.inria.fr/distrib/current/refman/tools.html#Emacs>
@@ -91,7 +91,9 @@
 ;(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
 
 ;; proofgeneral [aur:proofgeneral]
-(load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
+(condition-case nil
+    (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
+  (error nil))
 (add-hook 'proof-mode-hook 'flyspell-prog-mode)
 ;; fix custom keybinding
 (eval-after-load 'coq
