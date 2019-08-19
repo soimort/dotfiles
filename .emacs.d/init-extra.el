@@ -90,7 +90,7 @@
 ;(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
 ;(autoload 'coq-mode "gallina" "Major mode for editing Coq vernacular." t)
 
-;; proofgeneral [aur:proofgeneral]
+;; proof-general [aur:proofgeneral] [elpa]
 (condition-case nil
     (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
   (error nil))
