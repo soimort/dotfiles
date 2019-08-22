@@ -173,10 +173,16 @@
 ;; [C-` d] Flyspell mode
 (global-set-key (kbd "C-` d") 'flyspell-mode)
 
-;; Initialize MELPA
+;; Initialize ELPA (use HTTP due to lack of HTTPS/TLS support)
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(setq package-archives
+      '(("GNU ELPA"     . "http://elpa.gnu.org/packages/")
+        ("MELPA Stable" . "http://stable.melpa.org/packages/")
+        ("MELPA"        . "http://melpa.org/packages/"))
+      package-archive-priorities
+      '(("MELPA Stable" . 10)
+        ("GNU ELPA"     . 5)
+        ("MELPA"        . 0)))
 ;;(unless package-archive-contents (package-refresh-contents))
 (package-initialize)
 
