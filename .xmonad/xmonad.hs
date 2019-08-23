@@ -18,4 +18,5 @@ myConfig = def
     }
     `additionalKeys`
     [ ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
+    , ((mod4Mask .|. shiftMask, xK_p), spawn "scrot -e 'mv $f ~/Pictures/'")
     ]
