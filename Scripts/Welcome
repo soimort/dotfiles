@@ -1,6 +1,12 @@
 #!/bin/sh
 
-tmux new-session -d 'htop'
-#tmux split-window -v 'iotop'
-tmux split-window -l 1 -v "Open-Folders $HOME/session || sleep 60"
-tmux -2 attach-session -d
+HOSTNAME=`hostname`
+if [[ $HOSTNAME == "Babbage" ]]; then
+    chromium 2>/dev/null&
+    caja 2>/dev/null&
+else
+    tmux new-session -d 'htop'
+    #tmux split-window -v 'iotop'
+    tmux split-window -l 1 -v "Open-Folders $HOME/session || sleep 60"
+    tmux -2 attach-session -d
+fi
