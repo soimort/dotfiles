@@ -14,7 +14,7 @@ myConfig = def
     , focusedBorderColor = "#dddddd"
     , layoutHook = spacingRaw False (Border 18 12 12 12) True (Border 6 6 6 6) True $ layoutHook def
     --, layoutHook = layoutHook def  -- uncomment this and comment above line to refresh layout
-    , startupHook = spawn "dzheader"
+    , startupHook = spawn "dzheader" >> spawn "dzquotes"
     }
     `additionalKeys`
     [ ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
