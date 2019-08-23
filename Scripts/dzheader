@@ -1,9 +1,10 @@
 #!/bin/sh
 
-DZEN_FONT='-*-UbuntuMono-*-r-normal-*-*-120-*-*-*-*-iso8859-*'
+pkill -f "dzen2 -title-name header"
 
 while true; do
-    dt=`date +"%a %b %d %l:%M %p "`
-    printf "%s\n" "$dt"
+    dt=`date +"%a %b %d %l:%M %p"`
+    printf "^ca(1,dzcalendar)  %s  ^ca()\n" "$dt"
     sleep 20
-done | dzen2 -e '' -x '0' -h '18' -ta c -fn $DZEN_FONT
+done | dzen2 -title-name 'header' \
+             -e '' -x '0' -h '18' -ta l -fn 'Ubuntu Mono'

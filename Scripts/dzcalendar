@@ -1,0 +1,11 @@
+#!/bin/sh
+
+pkill -f "dzen2 -title-name calendar"
+
+(
+    dt=`date +"%a %b %d %l:%M %p"`
+    printf "  %s\n\n" "$dt"
+    cal
+) | dzen2 -title-name 'calendar' \
+          -p -x '0' -w '200' -l '10' -sa c -ta l -fn 'Ubuntu Mono' \
+          -e 'onstart=uncollapse;button1=exit;button3=exit'
