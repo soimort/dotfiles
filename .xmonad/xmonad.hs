@@ -1,11 +1,8 @@
 import XMonad
 import XMonad.Layout.Spacing
 import XMonad.Util.EZConfig
-import XMonad.Hooks.DynamicLog
 
-main = xmonad =<< statusBar "dzheader" dzenPP toggleStrutsKey myConfig
-
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
+main = xmonad myConfig
 
 myConfig = def
     { terminal = "sakura"
@@ -13,11 +10,11 @@ myConfig = def
     , clickJustFocuses = False
     , borderWidth = 1
     , modMask = mod4Mask
-    , normalBorderColor = "#dddddd"
-    , focusedBorderColor = "#222222"
+    , normalBorderColor = "#222222"
+    , focusedBorderColor = "#dddddd"
     , layoutHook = spacingRaw False (Border 18 12 12 12) True (Border 6 6 6 6) True $ layoutHook def
     --, layoutHook = layoutHook def  -- uncomment this and comment above line to refresh layout
-    --, startupHook
+    , startupHook = spawn "dzheader"
     }
     `additionalKeys`
     [ ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
