@@ -4,6 +4,7 @@ pkill -f "dzen2 -title-name quotes"
 
 (
     # requires zsh built-in echo
-    echo -n 'He who has a why to live can bear almost any how.   \n'
+    fortune $HOME/.zsh/fortune-cookies/quotes | read QUOTES
+    echo -n "$QUOTES   \n"
 ) | dzen2 -title-name 'quotes' \
           -p -x '1000' -h '18' -ta r -fn 'Ubuntu Mono'
