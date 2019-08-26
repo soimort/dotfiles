@@ -16,7 +16,7 @@
 
 (2) Launch vim and run `:PluginInstall`.
 
-### tmux/TPM (no submodule, always updated)
+### Tmux/TPM (no submodule, always updated)
 
 (1)
 
@@ -298,47 +298,45 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ## Tmux
 
-### Split window / Create pane
+### Create / kill pane
 
-<kbd>M-s h</kbd> <kbd>M-s \<</kbd> Split window horizontally
+<kbd>M-s 3</kbd> <kbd>M-s |</kbd> Split window horizontally
 
-<kbd>M-s v</kbd> <kbd>M-s /</kbd> Split window vertically
-
-<kbd>M-s t</kbd> Display time
-
-<kbd>M-s q</kbd> Display pane number
+<kbd>M-s 2</kbd> <kbd>M-s -</kbd> Split window vertically
 
 <kbd>M-s x</kbd> Kill current pane
 
+<kbd>M-s 0</kbd> Kill current pane (no prompt!)
+
 ### Select pane
 
-<kbd>M-\<up\></kbd> Select up-side pane
+<kbd>M-s \<left\></kbd> Select left-side pane
 
-<kbd>M-\<down\></kbd> Select down-side pane
+<kbd>M-s \<right\></kbd> Select right-side pane
 
-<kbd>M-\<left\></kbd> Select left-side pane
+<kbd>M-s \<down\></kbd> Select down-side pane
 
-<kbd>M-\<right\></kbd> Select right-side pane
+<kbd>M-s \<up\></kbd> Select up-side pane
 
 <kbd>M-s ;</kbd> Select last pane
 
 ### Resize pane
 
-<kbd>M-s \<up\></kbd> Resize pane up-side
+<kbd>M-h</kbd> Resize pane left-side
 
-<kbd>M-s \<down\></kbd> Resize pane down-side
+<kbd>M-l</kbd> Resize pane right-side
 
-<kbd>M-s \<left\></kbd> Resize pane left-side
+<kbd>M-j</kbd> Resize pane down-side
 
-<kbd>M-s \<right\></kbd> Resize pane right-side
+<kbd>M-k</kbd> Resize pane up-side
 
-### Create window
+### Create / kill window
 
 <kbd>M-s c</kbd> Create new window
 
 <kbd>M-s &</kbd> Kill current window
 
-<kbd>M-s k</kbd> Kill current window (no prompt)
+<kbd>M-s k</kbd> Kill current window (no prompt!)
 
 ### Select window
 
@@ -346,11 +344,13 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-\<down\></kbd> Select next window
 
-<kbd>M-s [0-9]</kbd> Select the window number 0-9
-
 ### Miscellany
 
 <kbd>M-s r</kbd> Reload configuration (`.tmux.conf`)
+
+<kbd>M-s t</kbd> Display time
+
+<kbd>M-s q</kbd> Display pane number
 
 <kbd>M-s ?</kbd> Show key bindings of Tmux
 
