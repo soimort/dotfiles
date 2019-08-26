@@ -200,7 +200,7 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>M-s d</kbd> Create a new screen and run dired
 
-<kbd>M-s C-f</kbd> Find file in new screen
+<kbd>M-s f</kbd> <kbd>M-s C-f</kbd> Find file in new screen
 
 <kbd>M-s C-r</kbd> Find file in new screen (read-only)
 
