@@ -6,5 +6,6 @@
 !/Scripts/
 !/Scripts/*
 /Scripts/_*
+/Scripts/.emacs.*
 !/Projects/
 !/Projects/*.init.sh
