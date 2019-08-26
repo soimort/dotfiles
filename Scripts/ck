@@ -1,0 +1,228 @@
+#!/usr/bin/env zsh
+#
+# TODO:
+# 1. sync list should support more relaxed format
+# 2. gpg passphrase
+# 3. ck sync (by timestamp)
+# 4. ck back
+CK_VERSION=0.1.0
+
+ck_version() {
+    echo ck $CK_VERSION
+}
+
+ck_help() {
+    echo "Usage:"
+    echo "  ck [edit-]conf"
+    echo "  ck [edit-]sync-list"
+    echo "  ck [edit-]back-list"
+    echo "  ck date"
+    echo "  ck tar"
+    echo "  ck gpg"
+    echo "  ck sync"
+    echo "  ck [sync-]in"
+    echo "  ck [sync-]out"
+    echo "  ck back"
+}
+
+ck_init() {
+    if [[ ! -r "$HOME/.ck_config" ]]; then
+        echo '[FATAL] configuration file $HOME/.ck_config not found' && echo
+        exit 1
+    fi
+    source $HOME/.ck_config
+
+    CK_EDITOR=$EDITOR
+    if [[ -z "$CK_EDITOR" ]]; then CK_EDITOR=nano; fi
+}
+
+ck_edit_conf() {
+    ck_init
+    $CK_EDITOR $HOME/.ck_config
+}
+
+ck_edit_sync_list() {
+    ck_init
+    $CK_EDITOR $CK_SYNC_LIST
+}
+
+ck_edit_back_list() {
+    ck_init
+    $CK_EDITOR $CK_BACK_LIST
+}
+
+ck_date() {
+    local DATE=`curl -I 'https://google.com/' 2>/dev/null | grep -i '^date:' | sed 's/^[Dd]ate: //g'`
+    echo "Time:\t$DATE"
+    CK_TS=`date --date=$DATE +"%s"`
+    echo "TS:\t$CK_TS"
+}
+
+ck_tar() {
+    if [[ -z "$1" ]]; then
+        echo '[FATAL] please specify a filename for the archive'
+        exit 1
+    fi
+    ck_init
+
+    local FILENAME=$1 LIST= LINE=
+    while IFS= read -r LINE; do
+        # skip empty lines and comments
+        if [[ -z $LINE || $LINE =~ ^# ]]; then
+            continue
+        fi
+
+        if [[ $LINE =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+            #TBD
+        fi
+
+        LIST=$LIST" $LINE"
+    done < "$CK_SYNC_LIST"
+
+    local CMD="tar -cf $FILENAME -C $HOME $LIST"
+    echo "Executing:\t$CMD" && eval $CMD
+}
+
+ck_gpg() {
+    if [[ -z "$1" ]]; then
+        echo '[FATAL] please specify a filename for the archive'
+        exit 1
+    fi
+    ck_tar "$@"
+
+    local FILENAME=$1
+    local TMP_FILENAME=/tmp/ck_`head /dev/urandom | tr -dc A-Za-z0-9 | head -c10`.gpg
+
+    local CMD="gpg --symmetric --output $TMP_FILENAME $FILENAME"
+    echo "Executing:\t$CMD" && eval $CMD
+
+    CMD="mv $TMP_FILENAME $FILENAME"
+    echo "Executing:\t$CMD" && eval $CMD
+}
+
+ck_sync() {
+    ck_init
+
+    #TBD
+}
+
+ck_sync_in() {
+    ck_init
+
+    local CMD=$CK_SYNC_IN_COMMAND
+    echo "Executing:\t$CMD" && eval $CMD
+
+    local TMP_TAR=/tmp/ck.tar
+    local TMP_DIR=/tmp/ck
+    rm -f $TMP_TAR; rm -rf $TMP_DIR && mkdir -p $TMP_DIR
+
+    CMD="gpg --output $TMP_TAR --decrypt $CK_LOCAL"
+    echo "Executing:\t$CMD" && eval $CMD
+
+    CMD="tar -xf $TMP_TAR -C $TMP_DIR"
+    echo "Executing:\t$CMD" && eval $CMD
+
+    local LINE=
+    while IFS= read -r LINE; do
+        # skip empty lines and comments
+        if [[ -z $LINE || $LINE =~ ^# ]]; then
+            continue
+        fi
+
+        if [[ $LINE =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+            #TBD
+        fi
+
+        local SRC="$TMP_DIR/$LINE"
+        if [[ -d "$SRC" ]]; then
+            SRC="$SRC/"
+        elif [[ -f "$SRC" ]]; then
+            SRC="$SRC"
+        else
+            echo "[FATAL] '$LINE' is in the sync list, but not found in the remote archive" && echo
+            exit 1
+        fi
+        CMD="rsync -hav --delete $SRC $HOME/${LINE?}"
+        echo "Executing:\t$CMD" && eval $CMD
+    done < "$CK_SYNC_LIST"
+}
+
+ck_sync_out() {
+    ck_init
+
+    ck_gpg $CK_LOCAL
+
+    local CMD=$CK_SYNC_OUT_COMMAND
+    echo "Executing:\t$CMD" && eval $CMD
+}
+
+ck_back() {
+    ck_init
+
+    #TBD
+}
+
+
+if [ $# -eq 0 ]; then
+    ck_help
+    exit 0
+fi
+
+local SUBCOMMAND=$1
+case $SUBCOMMAND in
+    '--version' | 'version' )
+        ck_version
+        exit 0
+        ;;
+    '--help' | 'help' )
+        ck_help
+        exit 0
+        ;;
+    'edit-conf' | 'conf' )
+        ck_edit_conf
+        exit 0
+        ;;
+    'edit-sync-list' | 'sync-list' )
+        ck_edit_sync_list
+        exit 0
+        ;;
+    'edit-back-list' | 'back-list' )
+        ck_edit_back_list
+        exit 0
+        ;;
+    'date' )
+        ck_date
+        exit 0
+        ;;
+    'tar' )
+        shift
+        ck_tar "$@"
+        exit 0
+        ;;
+    'gpg' )
+        shift
+        ck_gpg "$@"
+        exit 0
+        ;;
+    'sync' )
+        ck_sync
+        exit 0
+        ;;
+    'sync-in' | 'in' )
+        ck_sync_in
+        exit 0
+        ;;
+    'sync-out' | 'out' )
+        ck_sync_out
+        exit 0
+        ;;
+    'back' )
+        ck_back
+        exit 0
+        ;;
+
+    * )
+        echo "[FATAL] invalid subcommand '$1'. Try 'ck --help' for more information."
+        exit 1
+        ;;
+esac
