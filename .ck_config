@@ -2,7 +2,7 @@
 CK_LOCAL=/tmp/ck.gpg
 CK_REMOTE=remote:ck.gpg
 CK_SYNC_IN_COMMAND="rclone copy $CK_REMOTE /tmp"
-CK_SYNC_OUT_COMMAND="rclone copy $CK_LOCAL remote:"
+CK_SYNC_OUT_COMMAND="rclone move $CK_LOCAL remote:"
 
 CK_SYNC_LIST=$HOME/ck_sync
 CK_BACK_LIST=$HOME/ck_back
