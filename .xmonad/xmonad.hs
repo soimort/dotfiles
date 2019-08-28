@@ -19,4 +19,8 @@ myConfig = def
     `additionalKeys`
     [ ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
     , ((mod4Mask .|. shiftMask, xK_p), spawn "scrot -e 'mv $f ~/Pictures/'")
+    , ((0, 0xFF61), spawn "scrot -e 'mv $f ~/Pictures/'")
+    , ((0, 0x1008FF11), spawn "amixer -q sset Master 2%-")
+    , ((0, 0x1008FF13), spawn "amixer -q sset Master 2%+")
+    , ((0, 0x1008FF12), spawn "amixer set Master toggle")
     ]
