@@ -18,7 +18,7 @@ myConfig = def
     , startupHook = spawn "dzheader" >> spawn "dzquotes"
     }
     `additionalKeys`
-    [ ((0,                      xK_Meta_R),  nextWS)
+    [ ((0,                      xK_Super_R), nextWS)
     , ((mod4Mask,               xK_Down),    nextWS)
     , ((mod4Mask,               xK_Up),      prevWS)
     , ((mod4Mask,               xK_Right),   shiftToNext)
