@@ -1,0 +1,55 @@
+#!/usr/bin/env zsh
+#
+# TODO:
+ST_VERSION=0.1.0
+
+st_version() {
+    echo stout $ST_VERSION
+}
+
+st_help() {
+    echo "Usage:"
+    echo "  stout show"
+    echo "  stout save"
+    echo "  stout load"
+}
+
+st_show() {
+
+    local pid
+    pgrep "$@" | while IFS= read -r pid; do
+        local param1=`cat /proc/$pid/cmdline | cut -d '' -f 2`
+        local starttime=`cat /proc/$pid/stat | cut -d ' ' -f 22`
+
+        echo "# starttime: $starttime"
+        echo $param1
+    done
+}
+
+
+if [ $# -eq 0 ]; then
+    st_help
+    exit 0
+fi
+
+local SUBCOMMAND=$1
+case $SUBCOMMAND in
+    '--version' | 'version' )
+        st_version
+        exit 0
+        ;;
+    '--help' | 'help' )
+        st_help
+        exit 0
+        ;;
+    'show' )
+        shift
+        st_show "$@"
+        exit 0
+        ;;
+
+    * )
+        echo "[FATAL] invalid subcommand '$1'. Try 'stout --help' for more information."
+        exit 1
+        ;;
+esac
