@@ -411,3 +411,31 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 `git ll` Show fancy Git log
 
 `git d` = `git diff HEAD --`
+
+
+
+## Xmonad
+
+### Customized commands
+
+<kbd>Win-\<down\></kbd> Next workspace
+
+<kbd>Win-\<up\></kbd> Previous workspace
+
+<kbd>Win-\<right\></kbd> Move window to next workspace
+
+<kbd>Win-\<left\></kbd> Move window to previous workspace
+
+<kbd>Win-Shift-\<down\></kbd> Next screen
+
+<kbd>Win-Shift-\<up\></kbd> Previous screen
+
+<kbd>Win-Shift-\<right\></kbd> Move window to next screen
+
+<kbd>Win-Shift-\<left\></kbd> Move window to previous screen
+
+<kbd>Win-\<tab\></kbd> Toggle workspaces
+
+<kbd>Win-Shift-L</kbd> Lock screen
+
+<kbd>Win-Shift-P</kbd> Take a screenshot
