@@ -6,7 +6,7 @@ import XMonad.Actions.CycleWS
 main = xmonad myConfig
 
 myConfig = def
-    { terminal = "sakura"
+    { terminal = "mate-terminal"
     , focusFollowsMouse = False
     , clickJustFocuses = False
     , borderWidth = 1
