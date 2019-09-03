@@ -50,6 +50,7 @@ def main():
             image_url = ':'.join(i.split(':')[:-1]) + ':orig'
             filename = parse.unquote(image_url.split('/')[-1])
             title = '.'.join(filename.split('.')[:-1])
+            title = '%s_%s' % (item_id, title)
             ext = image_url.split(':')[-2].split('.')[-1]
             size = int(get_head(image_url)['Content-Length'])
             download_urls(urls=[image_url],
