@@ -19,7 +19,7 @@ br_help() {
 }
 
 br_pandoc() {
-    for filename in $@; do
+    for filename in "$@"; do
         if [ ! -r "$filename" ]; then
             echo [ERROR] file \"$filename\" does not exist
             continue
@@ -67,4 +67,4 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-br_pandoc $@
+br_pandoc "$@"
