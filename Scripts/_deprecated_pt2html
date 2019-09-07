@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+puts "[WARNING] 'pt2html' has been deprecated. Use 'br48' instead."
+exit 1
+
 until ARGV.empty? do
   input_file_name = ARGV.shift
   output_file_name = "#{input_file_name}.html"
