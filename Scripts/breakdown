@@ -41,7 +41,7 @@ br_pandoc() {
 
             elif [[ $line =~ ^'# ' || $line =~ ^'## ' || $line =~ ^'### ' ]]; then
                 # do not append line break on headings
-                echo $line
+                echo && echo $line
 
             elif [[ $line =~ ^'_ ' ]]; then
                 echo "<em>${line#_ }</em>" \\
