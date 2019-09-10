@@ -35,6 +35,6 @@ for i in "$@"; do
     if [ "$t" != "${i##*.}" ]; then
         j=${i%%\?*}
         echo $i '->' ${j%.*}.$t
-        mv -i "$i" "${j%.*}.$t"
+        mv -i -- "$i" "${j%.*}.$t"
     fi
 done
