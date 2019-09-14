@@ -32,6 +32,8 @@ br48() {
             # start of YAML metadata
             in_yaml=true
         fi
+
+        (( i = i + 1 ))
     done < $filename
 
     ( echo "<a href='$url'>$author - $source - $date</a>" &&
