@@ -1,0 +1,144 @@
+#!/usr/bin/env python
+#
+
+import select
+import subprocess
+import sys
+import time
+
+
+proc = subprocess.Popen(["/home/soimort/Projects/mi-caja/src/caja"],
+                        stdout=subprocess.PIPE)
+
+
+# ANSI escape code
+RESET = 0
+BOLD = 1
+UNDERLINE = 4
+NEGATIVE = 7
+NO_BOLD = 21
+NO_UNDERLINE = 24
+POSITIVE = 27
+BLACK = 30
+RED = 31
+GREEN = 32
+YELLOW = 33
+BLUE = 34
+MAGENTA = 35
+CYAN = 36
+LIGHT_GRAY = 37
+DEFAULT = 39
+BLACK_BACKGROUND = 40
+RED_BACKGROUND = 41
+GREEN_BACKGROUND = 42
+YELLOW_BACKGROUND = 43
+BLUE_BACKGROUND = 44
+MAGENTA_BACKGROUND = 45
+CYAN_BACKGROUND = 46
+LIGHT_GRAY_BACKGROUND = 47
+DEFAULT_BACKGROUND = 49
+
+def print_with_colors(text, *colors):
+    """Print text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+         ";".join([str(color) for color in colors]), RESET, content=text))
+
+
+s = {}      # stores (slot, uri), indexed by notebook & page_num
+lastp = {}  # stores last page_num, indexed by notebook
+
+def search(slot):
+    """Find a given slot in s and return (notebook, page_num)."""
+    for notebook in s:
+        for page_num, data in enumerate(s[notebook]):
+            if slot == data[0]:
+                return notebook, page_num
+    return None
+
+
+# main loop
+flag, last_proc_ts = False, time.time()
+while True:
+    if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+        # non-blocking read of user input
+        line = sys.stdin.readline()
+        if line:
+            text = line.rstrip()
+
+            ###
+            print('user input: ', text)
+
+            print('> ', end='', flush=True)  # print prompt
+        else:
+            # an empty line means stdin has been closed
+            # FIXME: what to do then?
+            break
+
+    if proc.stdout in select.select([proc.stdout], [], [], 0)[0]:
+        # non-blocking read from external process
+        line = proc.stdout.readline()
+        if line:
+            text = str(line, encoding='utf-8').rstrip()
+
+            if text[:3] == ">>>":  # recognized log
+                action, info = text[4:].split(': ')
+
+                if not flag: print()  # new line after prompt
+                print_with_colors(text[4:], GREEN)
+
+                if action == "location updated":
+                    # which notebook window and page_num? use window slot to decide
+                    slot, uri = info.split(' ')
+                    notebook, page_num = search(slot)  # should never fail
+                    s[notebook][page_num] = (slot, uri)
+
+                elif action == "slot added":
+                    # each window slot belongs to a notebook window
+                    notebook, slot = info.split(' ')
+                    # reserve slot to be used by 'page added'
+
+                else:
+                    notebook, page_num = info.split(' ')
+                    page_num = int(page_num)
+
+                    if action == "page added":
+                        # URI yet to be set by 'location updated'
+                        # slot from previous 'slot added'
+                        if notebook not in s:
+                            # new notebook
+                            s[notebook] = [(slot, '?')]
+                            ###
+                        else:
+                            # existing notebook
+                            s[notebook].insert(page_num, (slot, '?'))
+
+                    elif action == "page removed":
+                        # remove page from notebook
+                        s[notebook].pop(page_num)
+                        if s[notebook] == []:
+                            # if it's the last page, remove notebook then
+                            del s[notebook]
+                            ###
+
+                    elif action == "page reordered":
+                        # swap with last page_num in notebook
+                        # notebook must be the same!
+                        tmp = s[notebook].pop(lastp[notebook])
+                        s[notebook].insert(page_num, tmp)
+
+                    elif action == "page switched":
+                        # nothing, just
+                        pass
+                    # set last page_num in notebook
+                    lastp[notebook] = page_num
+
+                print(s)
+                flag, last_proc_ts = True, time.time()
+        else:
+            # an empty line means proc.stdout has been closed
+            break
+
+    current_ts = time.time()
+    if flag and current_ts - last_proc_ts > .25:
+        print('> ', end='', flush=True)  # print prompt
+        flag = False
