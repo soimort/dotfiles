@@ -3,8 +3,8 @@
 
 _pkgname=caja
 pkgname=mi-$_pkgname
-pkgver=1.16.2.r4.gc2522c9
-pkgrel=2
+pkgver=1.16.2.r6.ge9cb32c
+pkgrel=1
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
