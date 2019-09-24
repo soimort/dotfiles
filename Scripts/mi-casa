@@ -7,7 +7,7 @@ import sys
 import time
 
 
-proc = subprocess.Popen(["/home/soimort/Projects/mi-caja/src/caja"],
+proc = subprocess.Popen(["caja"],
                         stdout=subprocess.PIPE)
 
 
@@ -81,12 +81,18 @@ while True:
             text = str(line, encoding='utf-8').rstrip()
 
             if text[:3] == ">>>":  # recognized log
-                action, info = text[4:].split(': ')
+                try:
+                    action, info = text[4:].split(': ')
+                except:
+                    action, info = text[4:].split('...')  # empty info
 
                 if not flag: print()  # new line after prompt
                 print_with_colors(text[4:], GREEN)
 
-                if action == "location updated":
+                if action == "window closing":
+                    pass###
+
+                elif action == "location updated":
                     # which notebook window and page_num? use window slot to decide
                     slot, uri = info.split(' ')
                     notebook, page_num = search(slot)  # should never fail
