@@ -158,6 +158,7 @@ def main():
             procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
 
     else:  # caja_application_load_session() that loads last-session
+        home = Path.home()
         last_session = "%s/.config/caja/last-session" % Path.home()
         with open(last_session, 'w') as f:
             f.write("""<?xml version='1.0' encoding='UTF-8'?>
@@ -165,7 +166,7 @@ def main():
   <history></history>\n""")
         with open(last_session, 'a') as f:
             for workspace in workspaces:
-                f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://$HOME'>\n")
+                f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://%s'>\n" % home)
                 for uri in all_workspaces[workspace]:
                     if uri.startswith('sftp://'):
                         f.write("    <slot location='%s'/>\n" % uri)
@@ -174,7 +175,7 @@ def main():
                 f.write("  </window>\n")
             f.write("</session>\n")
 
-        procs[0] = subprocess.Popen(['caja'], stdout=subprocess.PIPE)
+        procs.append(subprocess.Popen(['caja'], stdout=subprocess.PIPE))
 
     # main loop
     flag, last_proc_ts = False, time.time()
