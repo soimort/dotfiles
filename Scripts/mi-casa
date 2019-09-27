@@ -44,7 +44,7 @@ def print_with_colors(text, *colors):
 
 
 def read_mur_file(f):
-    """Read a workspace file and return a dictionary of workspaces."""
+    """Read from a workspace file and return a dictionary of workspaces."""
     ws = {}
     is_reading_yaml = False
     current_workspace_name = None
@@ -74,13 +74,16 @@ def read_mur_file(f):
                 # workspace delimiter
                 current_workspace_name = None
 
-            elif text.startswith('* '):
-                # auto-saved URL entry
-                uri = text[2:]
+            elif text.startswith('* ') or text.startswith('/') or text.startswith('sftp://'):
+                if text.startswith('* '):
+                    # auto-saved URL entry
+                    loc = text[2:]
+                else:
+                    loc = text
 
                 if not current_workspace_name:
                     # use directory name as workspace name. path may end with '/'
-                    current_workspace_name = uri.split('/')[-1] or uri.split('/')[-2]
+                    current_workspace_name = loc.split('/')[-1] or loc.split('/')[-2]
                     if current_workspace_name in ws:
                         # resolve name conflict
                         i = 2
@@ -90,8 +93,8 @@ def read_mur_file(f):
 
                     ws[current_workspace_name] = []
 
-                # TODO: should we check the validity/existence of URI here?
-                ws[current_workspace_name].append(uri)
+                # assume it's a valid location at this point
+                ws[current_workspace_name].append(loc)
 
             else:
                 # plain text line
@@ -110,7 +113,7 @@ def read_mur_file(f):
     return ws
 
 def write_mur_file(f):
-    """Write a workspace file."""
+    """Write to a workspace file."""
     # TODO
 
 
@@ -142,9 +145,22 @@ def main():
         if workspace not in all_workspaces:
             print_with_colors('[fatal] workspace "%s" not found' % workspace, YELLOW)
             exit(1)
-    if not workspaces:
+    if not workspaces:  # default: use all workspaces
         workspaces = list(all_workspaces.keys())
-    # TODO: should we check the validity/existence of URIs?
+
+    # check the existence of locations, quote and convert them to full URIs
+    for workspace in all_workspaces:
+        for (i, loc) in enumerate(all_workspaces[workspace]):
+            if loc.startswith('sftp://'):
+                uri = 'sftp://%s' % quote(loc[7:])
+                # TODO: existence?
+            else:
+                if Path(loc).exists():
+                    uri = 'file://%s' % quote(loc)
+                else:
+                    print_with_colors('[fatal] local path "%s" not found' % loc, YELLOW)
+                    exit(1)
+            all_workspaces[workspace][i] = uri
 
     # open caja processes
     procs = []
@@ -168,10 +184,7 @@ def main():
             for workspace in workspaces:
                 f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://%s'>\n" % home)
                 for uri in all_workspaces[workspace]:
-                    if uri.startswith('sftp://'):
-                        f.write("    <slot location='%s'/>\n" % uri)
-                    else:
-                        f.write("    <slot location='file://%s'/>\n" % quote(uri))
+                    f.write("    <slot location='%s'/>\n" % uri)
                 f.write("  </window>\n")
             f.write("</session>\n")
 
@@ -179,6 +192,8 @@ def main():
 
     # main loop
     flag, last_proc_ts = False, time.time()
+    is_loading_finished = False
+    t = {}
     while True:
         if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
             # non-blocking read of user input
@@ -196,6 +211,7 @@ def main():
                 print_with_colors('\n[warning] stdin has been closed', YELLOW)
                 break
 
+        # FIXME: delay until new output ready?
         for proc_stdout in select.select([proc.stdout for proc in procs], [], [], 0)[0]:
             # non-blocking read from external process
             line = proc_stdout.readline()
@@ -221,7 +237,19 @@ def main():
                         notebook, page_num = search(slot)  # should never fail
                         s[notebook][page_num] = (slot, uri)
 
-                        print([page[1] for page in s[notebook]]) ###
+                        if not is_loading_finished:
+                            uris = [page[1] for page in s[notebook]]
+                            try:
+                                i = list(all_workspaces.values()).index(uris)
+                            except ValueError:
+                                pass
+                            else:
+                                workspace = list(all_workspaces.keys())[i]
+                                t[slot] = { 'name': workspace }
+
+                                if len(t) == len(workspaces):
+                                    is_loading_finished = True
+                                    print_with_colors(t, RED) ###
 
                     elif action == "slot added":
                         # each window slot belongs to a notebook window
@@ -274,6 +302,10 @@ def main():
         if flag and current_ts - last_proc_ts > .25:
             print('> ', end='', flush=True)  # print prompt
             flag = False
+
+        if is_loading_finished:
+            time.sleep(0.2)  # don't wanna burn my CPU
+
 
 if __name__ == '__main__':
     main()
