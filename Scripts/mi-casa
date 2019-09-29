@@ -2,12 +2,14 @@
 #
 # Dependencies: python (3.5+), zenity
 
+import datetime
 import select
 import subprocess
 import sys
 import time
+from os import environ, makedirs
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 
 # ANSI escape code
@@ -40,14 +42,47 @@ DEFAULT_BACKGROUND = 49
 def print_with_colors(text, *colors):
     """Print text with colors."""
     print("\33[{}m{content}\33[{}m".format(
-         ";".join([str(color) for color in colors]), RESET, content=text))
+        ";".join([str(color) for color in colors]), RESET, content=text))
 
+def print_inline_with_colors(text, *colors):
+    """Print inline text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+        ";".join([str(color) for color in colors]), RESET, content=text), end='', flush=True)
+
+
+home = Path.home()
+config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
+mi_casa_dir = '%s/mi-casa' % config_dir
+mi_casa_snap_dir = '%s/snapshots' % mi_casa_dir
+try:
+    makedirs(mi_casa_snap_dir, mode=0o755, exist_ok=True)
+except:
+    print_with_colors('[fatal] failed to create config dir at %s' % mi_casa_snap_dir, YELLOW)
+    exit(1)
+
+
+all_workspaces = {}  # stores all workspace locations, indexed by workspace name
+ws = []              # an ordered list of all workspace names
+ns = {}              # stores active workspace name, indexed by notebook
+nn = {}              # stores active notebook, indexed by workspace name
+s = {}               # stores (slot, uri), indexed by notebook & page_num
+
+def search(slot):
+    """Find a given slot in s and return its (notebook, page_num)."""
+
+    for notebook in s:
+        for page_num, data in enumerate(s[notebook]):
+            if slot == data[0]:
+                return notebook, page_num
+    return None
 
 def read_mur_file(f):
-    """Read from a workspace file and return a dictionary of workspaces."""
-    ws = {}
+    """Read from a workspace file and return a dictionary of all workspaces."""
+    global ws
+
+    workspaces = {}  # stores workspace num and locations, indexed by workspace name
+    current_workspace_num, current_workspace_name = 0, None
     is_reading_yaml = False
-    current_workspace_name = None
     for line in list(f):
         if is_reading_yaml:
             text = line.rstrip()
@@ -65,18 +100,19 @@ def read_mur_file(f):
                 continue
 
             if text == '---':
-                if not ws:
+                if not workspaces:
                     is_reading_yaml = True  # YAML front matter begins
                 else:
                     break  # end of valid document
 
             elif text == '***':
                 # workspace delimiter
+                current_workspace_num += 1
                 current_workspace_name = None
 
             elif text.startswith('* ') or text.startswith('/') or text.startswith('sftp://'):
                 if text.startswith('* '):
-                    # auto-saved URL entry
+                    # bulleted URL entry
                     loc = text[2:]
                 else:
                     loc = text
@@ -84,92 +120,113 @@ def read_mur_file(f):
                 if not current_workspace_name:
                     # use directory name as workspace name. path may end with '/'
                     current_workspace_name = loc.split('/')[-1] or loc.split('/')[-2]
-                    if current_workspace_name in ws:
+                    if current_workspace_name in workspaces:
                         # resolve name conflict
                         i = 2
-                        while '%s (%s)' % (current_workspace_name, i) in ws:
+                        while '%s (%s)' % (current_workspace_name, i) in workspaces:
                             i += 1
                         current_workspace_name = '%s (%s)' % (current_workspace_name, i)
 
-                    ws[current_workspace_name] = []
+                    ws.append(current_workspace_name)
+                    workspaces[current_workspace_name] = { 'num': current_workspace_num, 'locations': [] }
 
                 # assume it's a valid location at this point
-                ws[current_workspace_name].append(loc)
+                workspaces[current_workspace_name]['locations'].append(loc)
 
             else:
                 # plain text line
                 if not current_workspace_name:
-                    # use as workspace name
+                    # use text as workspace name
                     current_workspace_name = text
-                    if current_workspace_name in ws:
+                    if current_workspace_name in workspaces:
                         # resolve name conflict
                         i = 2
-                        while '%s (%s)' % (current_workspace_name, i) in ws:
+                        while '%s (%s)' % (current_workspace_name, i) in workspaces:
                             i += 1
                         current_workspace_name = '%s (%s)' % (current_workspace_name, i)
 
-                    ws[current_workspace_name] = []
+                    ws.append(current_workspace_name)
+                    workspaces[current_workspace_name] = { 'num': current_workspace_num, 'locations': [] }
 
-    return ws
+    return workspaces
 
-def write_mur_file(f):
+def write_mur_file(f, debug=True):
     """Write to a workspace file."""
-    # TODO
 
+    mur, mur_screen = '# THIS FILE IS AUTO-GENERATED BY A MONITOR. DO NOT EDIT!\n\n', ''
+    for workspace_name in ws:
+        # save workspaces in order
+        if workspace_name in nn:
+            # loaded
+            notebook = nn[workspace_name]
+            uris = [unquote(page[1]) for page in s[notebook]]
+        elif workspace_name in all_workspaces:
+            # not loaded
+            uris = [unquote(loc) for loc in all_workspaces[workspace_name]['locations']]
+        else:
+            # invalid / removed
+            continue
 
-s = {}      # stores (slot, uri), indexed by notebook & page_num
-lastp = {}  # stores last page_num, indexed by notebook
+        mur += workspace_name + '\n'; mur_screen += workspace_name + '\n'
+        for uri in uris:
+            if uri.startswith('file://'):
+                uri = uri[7:]
+            mur += uri + '\n'; mur_screen += uri + '\n'
+        mur += '\n***\n'; mur_screen += '***\n'
 
-def search(slot):
-    """Find a given slot in s and return (notebook, page_num)."""
-    for notebook in s:
-        for page_num, data in enumerate(s[notebook]):
-            if slot == data[0]:
-                return notebook, page_num
-    return None
-
+    if debug:
+        print(mur_screen)
+    f.write(mur)
 
 def main():
+    global all_workspaces, ws, ns, nn, s
+
     # show help if necessary
-    if len(sys.argv) - 1 == 0:
-        print('Usage: mi-casa WORKSPACE_FILE [WORKSPACE ...]')
+    if len(sys.argv) == 1:
+        print('Usage: mi-casa WORKSPACE_FILE [WORKSPACE_NAME ...]')
         exit(1)
 
     # read workspace file
-    workspace_file, workspaces = sys.argv[1], sys.argv[2:]
-    with open(workspace_file) as f:
+    workspace_filename, workspace_names = sys.argv[1], sys.argv[2:]
+    with open(workspace_filename) as f:
         all_workspaces = read_mur_file(f)
+    print_with_colors("all workspaces: %s" % all_workspaces, BLUE)
 
-    # check if specified workspaces exist
-    for workspace in workspaces:
-        if workspace not in all_workspaces:
-            print_with_colors('[fatal] workspace "%s" not found' % workspace, YELLOW)
+    # check if specified workspace names exist
+    for workspace_name in workspace_names:
+        if workspace_name not in all_workspaces:
+            print_with_colors('[fatal] workspace name "%s" not found' % workspace_name, YELLOW)
             exit(1)
-    if not workspaces:  # default: use all workspaces
-        workspaces = list(all_workspaces.keys())
+    if not workspace_names:  # default: use all workspaces
+        workspace_names = list(all_workspaces.keys())
+    print_with_colors("workspace names: %s" % workspace_names, BLUE)
 
     # check the existence of locations, quote and convert them to full URIs
-    for workspace in all_workspaces:
-        for (i, loc) in enumerate(all_workspaces[workspace]):
+    for workspace_name in all_workspaces:
+        if 'locations' not in all_workspaces[workspace_name]: continue
+
+        for (i, loc) in enumerate(all_workspaces[workspace_name]['locations']):
             if loc.startswith('sftp://'):
                 uri = 'sftp://%s' % quote(loc[7:])
-                # TODO: existence?
+                # TODO: check existence?
             else:
                 if Path(loc).exists():
                     uri = 'file://%s' % quote(loc)
                 else:
                     print_with_colors('[fatal] local path "%s" not found' % loc, YELLOW)
                     exit(1)
-            all_workspaces[workspace][i] = uri
+            all_workspaces[workspace_name]['locations'][i] = uri
 
     # open caja processes
     procs = []
-    caja_version = subprocess.check_output(['caja', '--version']).rstrip().decode('utf-8').split(' ')[-1].split('.')
+    caja_version = subprocess.check_output(['caja', '--version'])\
+                             .rstrip().decode('utf-8').split(' ')[-1].split('.')
     if caja_version[0] == '1' and caja_version[1] >= '22':  # has '-t' option (actually >= v1.21.3)
         # FIXME: each command has a limited maximum length
-        for workspace in workspaces:
+        for workspace_name in workspace_names:
+            # window order is deterministic
             params = ['caja', '-t']
-            params.extend(all_workspaces[workspace])
+            params.extend(all_workspaces[workspace_name]['locations'])
 
             procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
 
@@ -181,130 +238,249 @@ def main():
 <session>
   <history></history>\n""")
         with open(last_session, 'a') as f:
-            for workspace in workspaces:
+            for workspace_name in workspace_names:
+                # window order is nondeterministic
                 f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://%s'>\n" % home)
-                for uri in all_workspaces[workspace]:
-                    f.write("    <slot location='%s'/>\n" % uri)
+                for loc in all_workspaces[workspace_name]['locations']:
+                    f.write("    <slot location='%s'/>\n" % loc)
                 f.write("  </window>\n")
             f.write("</session>\n")
 
-        procs.append(subprocess.Popen(['caja'], stdout=subprocess.PIPE))
+        # need to suppress stderr for this version
+        procs.append(subprocess.Popen(['caja'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
 
     # main loop
+    notebook = None  # stores last notebook
+    lastp = {}       # stores last page_num, indexed by notebook
     flag, last_proc_ts = False, time.time()
     is_loading_finished = False
-    t = {}
+    is_just_last_slot, is_window_just_closing, is_window_closing = False, False, False
     while True:
-        if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            # non-blocking read of user input
-            line = sys.stdin.readline()
-            if line:
-                text = line.rstrip()
+        try:
+            if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+                # non-blocking read of user input
+                line = sys.stdin.readline()
+                if line:
+                    text = line.rstrip()
 
-                ###
-                print('user input: ', text)
+                    if text.startswith('name '):
+                        new_name = text[5:]
+                        if new_name in ws:
+                            # resolve name conflict
+                            i = 2
+                            while '%s (%s)' % (new_name, i) in ws:
+                                i += 1
+                            new_name = '%s (%s)' % (new_name, i)
 
-                print('> ', end='', flush=True)  # print prompt
-            else:
-                # an empty line means stdin has been closed (usually caused by Ctrl-D)
-                # TODO
-                print_with_colors('\n[warning] stdin has been closed', YELLOW)
-                break
+                        if notebook in ns:
+                            old_name = ns[notebook]['name']
+                            ns[notebook]['name'] = new_name
+                            del nn[old_name]
+                            nn[new_name] = notebook
+                            all_workspaces[new_name] = all_workspaces[old_name]
+                            del all_workspaces[old_name]
+                            ws[ws.index(old_name)] = new_name
+                        else:
+                            print_with_colors('[error] notebook does not exist', YELLOW)
 
-        # FIXME: delay until new output ready?
-        for proc_stdout in select.select([proc.stdout for proc in procs], [], [], 0)[0]:
-            # non-blocking read from external process
-            line = proc_stdout.readline()
-            if line:
-                text = str(line, encoding='utf-8').rstrip()
+                    elif text == 'time':
+                        current_time = datetime.datetime.now()
+                        print(current_time)
 
-                if text[:3] == ">>>":  # recognized log
-                    try:
-                        action, info = text[4:].split(': ')
-                    except:
-                        action, info = text[4:].split('...')  # empty info
+                    elif text == 'snap':
+                        current_time = datetime.datetime.now()
+                        snap_filename = '%s/%s.mur' % (mi_casa_snap_dir, '_'.join(str(current_time).split()))
+                        with open(snap_filename, 'w') as f:
+                            write_mur_file(f, debug=False)
+                        print('snapshot saved: %s' % snap_filename)
 
-                    if not flag: print()  # new line after prompt
-                    print_with_colors(text[4:], GREEN)
+                    elif text == 'save':
+                        with open(workspace_filename, 'w') as f:
+                            write_mur_file(f, debug=False)
+                        print('workspace saved: %s' % workspace_filename)
 
-                    if action == "window closing":
-                        subprocess.run(['zenity', '--info', '--text=Save?'])
-                        ###
+                    elif text == 'exit':
+                        with open(workspace_filename, 'w') as f:
+                            write_mur_file(f, debug=False)
+                        print('workspace saved: %s' % workspace_filename)
 
-                    elif action == "location updated":
-                        # which notebook window and page_num? use window slot to decide
-                        slot, uri = info.split(' ')
-                        notebook, page_num = search(slot)  # should never fail
-                        s[notebook][page_num] = (slot, uri)
+                        print_with_colors('[warning] closing monitor...', BOLD, YELLOW)
+                        exit(0)
 
-                        if not is_loading_finished:
-                            uris = [page[1] for page in s[notebook]]
-                            try:
-                                i = list(all_workspaces.values()).index(uris)
-                            except ValueError:
+                    ### TODO
+                    elif text == 'help':
+                        print('name NEW_NAME\t Rename the current workspace')
+                        print('time\t\t Show the current time')
+                        print('snap\t\t Take a snapshot')
+                        print('save\t\t Save to the workspace file')
+                        print('exit\t\t Save to the workspace file and exit')
+
+                    elif text:
+                        print_with_colors('[error] unrecognized command', YELLOW)
+
+                    current_workspace_name = ns[notebook]['name'] if notebook in ns else ''
+                    print_inline_with_colors('%s> ' % current_workspace_name, BOLD)  # print prompt again
+                else:
+                    # an empty line means stdin has been closed (caused by Ctrl-D)
+                    print_with_colors('\n[warning] stdin has been closed. closing monitor...', BOLD, YELLOW)
+                    break
+
+            # FIXME: with sleep() there's always some delay until new output ready
+            for proc_stdout in select.select([proc.stdout for proc in procs], [], [], 0)[0]:
+                # non-blocking read from external process
+                line = proc_stdout.readline()
+                if line:
+                    text = str(line, encoding='utf-8').rstrip()
+
+                    if text[:3] == ">>>":  # recognized log
+                        try:
+                            action, info = text[4:].split(': ')
+                        except:
+                            action, info = text[4:], ''  # empty info
+
+                        if not flag: print()  # new line after prompt
+                        print_with_colors(text[4:], GREEN)
+
+                        if action == "last slot":
+                            is_just_last_slot = True
+                            continue
+
+                        if action == "window closing...":
+                            # also triggered when using ctrl-w to close the last slot
+                            # but don't say window is just closing (it's closed already)
+                            is_window_just_closing = not is_just_last_slot
+
+                            is_just_last_slot = False
+                            continue
+
+                        is_just_last_slot = False
+
+                        if action == "location updated":
+                            # which notebook window and page_num? use window slot to decide
+                            slot, uri = info.split(' ')
+                            notebook, page_num = search(slot)  # should never fail
+                            s[notebook][page_num] = (slot, uri)
+
+                            if not is_loading_finished:
+                                # continue loading
+                                uris = [page[1] for page in s[notebook]]
+                                try:
+                                    i = [v['locations'] for v in all_workspaces.values()].index(uris)
+                                except ValueError:
+                                    pass
+                                else:
+                                    # a workspace fully loaded
+                                    workspace_name = list(all_workspaces.keys())[i]
+                                    notebook = search(slot)[0]
+                                    ns[notebook] = { 'name': workspace_name }
+
+                                    if len(ns) == len(workspace_names):
+                                        # all workspaces fully loaded
+                                        is_loading_finished = True
+                                        print_with_colors("all workspaces loaded: %s" % ns, GREEN, BOLD)
+
+                                        nn = { ns[notebook]['name']: notebook for notebook in ns }
+
+                        elif action == "slot added":
+                            # each window slot belongs to a notebook window
+                            notebook, slot = info.split(' ')
+                            # reserve variable slot to be used by 'page added'
+
+                        else:
+                            notebook, page_num = info.split(' ')
+                            page_num = int(page_num)
+
+                            if action == "page added":
+                                # URI yet to be set by 'location updated'
+                                # slot from previous 'slot added'
+                                if notebook not in s:
+                                    # new notebook
+                                    s[notebook] = [(slot, '?')]
+
+                                    if is_loading_finished:
+                                        workspace_name = 'new workspace'
+                                        if workspace_name in ws:
+                                            # resolve name conflict
+                                            i = 2
+                                            while '%s (%s)' % (workspace_name, i) in ws:
+                                                i += 1
+                                            workspace_name = '%s (%s)' % (workspace_name, i)
+
+                                        ns[notebook] = { 'name': workspace_name }
+                                        nn[workspace_name] = notebook
+                                        all_workspaces[workspace_name] = {}
+                                        ws.append(workspace_name)
+
+                                else:
+                                    # existing notebook
+                                    s[notebook].insert(page_num, (slot, '?'))
+
+                            elif action == "page removed":
+                                if not is_window_closing:
+                                    # save workspace before removing anything
+                                    workspace_name = ns[notebook]['name']
+                                    all_workspaces[workspace_name]['locations'] = [page[1] for page in s[notebook]]
+
+                                    is_deleting_workspace = len(s[notebook]) == 1 and\
+                                        subprocess.run(['zenity', '--question',
+                                                        '--text=Delete this workspace?']).returncode == 0
+                                    if is_deleting_workspace:
+                                        # delete workspace
+                                        del all_workspaces[workspace_name]
+                                        ws.remove(workspace_name)
+
+                                if is_window_just_closing:
+                                    is_window_closing = True
+                                    is_window_just_closing = False
+
+                                # remove page from notebook
+                                s[notebook].pop(page_num)
+                                if s[notebook] == []:
+                                    # if it's the last page, remove notebook then
+                                    del s[notebook]
+                                    del nn[ns[notebook]['name']]
+                                    del ns[notebook]
+
+                                    print_with_colors("workspace closed" % ns, GREEN, BOLD)
+                                    is_window_closing = False
+
+                            elif action == "page reordered":
+                                # swap with last page_num in notebook
+                                # notebook must be the same!
+                                tmp = s[notebook].pop(lastp[notebook])
+                                s[notebook].insert(page_num, tmp)
+
+                            elif action == "page switched":
+                                # nothing, just
                                 pass
-                            else:
-                                workspace = list(all_workspaces.keys())[i]
-                                t[slot] = { 'name': workspace }
+                            # set last page_num in notebook
+                            lastp[notebook] = page_num
 
-                                if len(t) == len(workspaces):
-                                    is_loading_finished = True
-                                    print_with_colors(t, RED) ###
+                        if is_loading_finished and not is_window_closing:
+                            print_with_colors("s: %s" % s, BLUE)
 
-                    elif action == "slot added":
-                        # each window slot belongs to a notebook window
-                        notebook, slot = info.split(' ')
-                        # reserve slot to be used by 'page added'
+                            with open(workspace_filename, 'w') as f:
+                                write_mur_file(f)
 
-                    else:
-                        notebook, page_num = info.split(' ')
-                        page_num = int(page_num)
+                        flag, last_proc_ts = True, time.time()
+                else:
+                    # an empty line means nothing (???)
+                    pass
 
-                        if action == "page added":
-                            # URI yet to be set by 'location updated'
-                            # slot from previous 'slot added'
-                            if notebook not in s:
-                                # new notebook
-                                s[notebook] = [(slot, '?')]
-                                ###
-                            else:
-                                # existing notebook
-                                s[notebook].insert(page_num, (slot, '?'))
+            current_ts = time.time()
+            if flag and current_ts - last_proc_ts > .25:
+                current_workspace_name = ns[notebook]['name'] if notebook in ns else ''
+                print_inline_with_colors('%s> ' % current_workspace_name, BOLD)  # print prompt
+                flag = False
 
-                        elif action == "page removed":
-                            # remove page from notebook
-                            s[notebook].pop(page_num)
-                            if s[notebook] == []:
-                                # if it's the last page, remove notebook then
-                                del s[notebook]
-                                ###
+            if is_loading_finished and not is_window_closing:
+                time.sleep(0.2)  # don't wanna burn my CPU
 
-                        elif action == "page reordered":
-                            # swap with last page_num in notebook
-                            # notebook must be the same!
-                            tmp = s[notebook].pop(lastp[notebook])
-                            s[notebook].insert(page_num, tmp)
-
-                        elif action == "page switched":
-                            # nothing, just
-                            pass
-                        # set last page_num in notebook
-                        lastp[notebook] = page_num
-
-                    print_with_colors(s, BLUE)
-
-                    flag, last_proc_ts = True, time.time()
-            else:
-                # an empty line means nothing (???)
-                pass
-
-        current_ts = time.time()
-        if flag and current_ts - last_proc_ts > .25:
-            print('> ', end='', flush=True)  # print prompt
-            flag = False
-
-        if is_loading_finished:
-            time.sleep(0.2)  # don't wanna burn my CPU
+        except KeyboardInterrupt:
+            print_with_colors('\n[warning] Ctrl-C pressed. brutally terminating...', BOLD, YELLOW)
+            break
+        except:
+            raise
 
 
 if __name__ == '__main__':
