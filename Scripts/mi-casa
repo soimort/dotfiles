@@ -363,9 +363,10 @@ def main():
 
                             if not is_loading_finished:
                                 # continue loading
-                                uris = [page[1] for page in s[notebook]]
+                                uris = [unquote(page[1]) for page in s[notebook]]
                                 try:
-                                    i = [v['locations'] for v in all_workspaces.values()].index(uris)
+                                    i = [[unquote(loc) for loc in v['locations']]
+                                         for v in all_workspaces.values()].index(uris)
                                 except ValueError:
                                     pass
                                 else:
