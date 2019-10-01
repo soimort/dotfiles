@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# Backup the SciTE session file.
+
+cp $HOME/.SciTE.session $HOME/.SciTE.session.backup
