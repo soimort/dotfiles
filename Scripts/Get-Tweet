@@ -33,7 +33,7 @@ def main():
 
         page_title = unescape_html(r1(r'<title>(.*)</title>', cont))
         t = unescape_html(r1(r'<meta\s+property="og:description"\s+content="“([^"]*)”"', cont))
-        log.w(page_title)
+        log.w(page_title.split('\n')[0].split(': ')[0])
         outf = open(item_id + '.pt', 'w')
         outf.write('---\n')
         outf.write('author: %s\n' % author)
