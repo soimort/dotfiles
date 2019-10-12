@@ -35,7 +35,7 @@ Feature tweaks:
 
 
 
-## `moe` (image viewer forked from eom)
+## moe (image viewer forked from eom)
 
 Get rid of toolbar and statusbar completely:
 
@@ -54,8 +54,8 @@ Dependencies: `mate-desktop`, `mate-common`
 
 Sources:
 
-- **1.16** (***GTK+2***) https://github.com/soimort/moe.git#branch=1.16
--
+- **1.16** (***GTK+2***) https://github.com/soimort/moe/tree/1.16
+- **1.23** (***GTK+3***) https://github.com/soimort/moe
 
 Feature tweaks:
 
