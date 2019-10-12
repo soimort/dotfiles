@@ -1,22 +1,19 @@
 # Maintainer: Mort Yao
-# Contributor: Brad Fanella <cesura@archlinux.org>
 # Contributor: Martin Wimpress <code@flexion.org>
 
 _pkgname=moe
 pkgname=${_pkgname}
-pkgver=1.20.0.r192.g2778c22
-pkgrel=1
-pkgdesc="An image viewing and cataloging program for MATE"
-url="https://mate-desktop.org"
-arch=('x86_64')
+pkgver=1.16.1.r4.g7ef2776
+pkgrel=2
+pkgdesc="An image viewing and cataloging program for MATE (GTK2 version)"
+url="http://mate-desktop.org"
+arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'gobject-introspection-runtime' 'exempi' 'lcms2' 'libexif' 'libjpeg-turbo' 'mate-desktop>=1.22' 'libpeas')
+depends=('dbus-glib' 'gobject-introspection-runtime' 'exempi' 'lcms2' 'libexif' 'libjpeg-turbo' 'mate-desktop=1.16.1')
 makedepends=('gobject-introspection' 'intltool' 'itstool')
 groups=('mate-extra')
-provides=('eom')
-conflicts=('eom' 'eom-gtk3')
-replaces=('eom-gtk3')
-source=("${_pkgname}::git://github.com/soimort/moe.git")
+#conflicts=("${_pkgbase}-gtk3")
+source=("${_pkgname}::git://github.com/soimort/moe.git#branch=1.16")
 sha1sums=('SKIP')
 
 pkgver() {
@@ -24,14 +21,15 @@ pkgver() {
   git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g' | sed 's/^v//'
 }
 
-
 build() {
   cd $_pkgname
   ./autogen.sh
   ./configure \
       --prefix=/usr \
       --localstatedir=/var \
-      --with-librsvg
+      --with-gtk=2.0 \
+      --with-librsvg \
+      --disable-python
 
   #https://bugzilla.gnome.org/show_bug.cgi?id=656231
   sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
