@@ -1,0 +1,19 @@
+! Modify X keymaps with:  xmodmap ~/.Xmodmap
+! Restore with:           setxkbmap -layout us
+! Do not remap arrow keys (80, 83, 84, 85, 88) so that they could be used by xbindkeys
+
+keycode  77 =
+
+keycode  79 = Home NoSymbol Home
+! keycode  80 = Up NoSymbol Up
+keycode  81 = Prior NoSymbol Prior NoSymbol Prior
+
+! keycode  83 = Left NoSymbol Left
+! keycode  84 =
+! keycode  85 = Right NoSymbol Right
+keycode  86 = F9
+keycode  87 = End NoSymbol End
+! keycode  88 = Down NoSymbol Down
+keycode  89 = Next NoSymbol Next NoSymbol Next
+keycode  90 = F12 F12 F12 F12 F12 F12 XF86Switch_VT_12 F12 F12 XF86Switch_VT_12 F12 F12 F12 F12 XF86Switch_VT_12
+keycode  91 = Print Sys_Req Print Execute
