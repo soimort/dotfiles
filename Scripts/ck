@@ -7,50 +7,76 @@
 # 4. ck back
 CK_VERSION=0.1.0
 
+CK_CONFIG="$HOME/.ck_config"
+CK_TMP="/tmp"
+CK_TMP_PREFIX="${CK_TMP}/ck"
+CK_TMP_DIR="${CK_TMP_PREFIX}/"
+CK_TMP_TAR="${CK_TMP_PREFIX}.tar"
+CK_TMP_GPG="${CK_TMP_PREFIX}.gpg"
+
+# helper functions
+ok() {
+    >&2 echo "\x1b[32;1m[INFO] "$*"\x1b[0m"
+}
+w() {
+    >&2 echo "\x1b[33;1m[WARNING] "$*"\x1b[0m"
+}
+e() {
+    >&2 echo "\x1b[31m[ERROR] "$*"\x1b[0m"
+}
+wtf() {
+    >&2 echo "\x1b[31;1m[FATAL] "$*"\x1b[0m"
+}
+
 ck_version() {
     echo ck $CK_VERSION
 }
 
 ck_help() {
     echo "Usage:"
-    echo "  ck [edit-]conf"
-    echo "  ck [edit-]sync-list"
-    echo "  ck [edit-]back-list"
-    echo "  ck date"
-    echo "  ck tar"
-    echo "  ck gpg"
-    echo "  ck sync"
-    echo "  ck [sync-]in"
-    echo "  ck [sync-]out"
-    echo "  ck back"
+    echo "  ck [edit-]conf \t edit the configuration file"
+    echo "  ck [edit-]sync-list \t edit the synchronization list file"
+    echo "  ck [edit-]back-list \t edit the backup list file"
+    echo "  ck date \t\t show current date and timestamp (from Google)"
+    echo "  ck tar FILENAME \t make an archive of everything in the synchronization list"
+    echo "  ck gpg FILENAME \t make a GPG-encrypted archive of everything in the synchronization list"
+    echo "  ck sync \t\t "
+    echo "  ck [sync-]in \t\t check in to synchronize everything from the remote"
+    echo "  ck [sync-]out \t check out to synchronize everything to the remote"
+    echo "  ck back \t\t "
 }
 
+# initialize the configuration
 ck_init() {
-    if [[ ! -r "$HOME/.ck_config" ]]; then
-        echo '[FATAL] configuration file $HOME/.ck_config not found' && echo
+    if [[ ! -r "$CK_CONFIG" ]]; then
+        e "configuration file $CK_CONFIG not found"
         exit 1
     fi
-    source $HOME/.ck_config
+    source $CK_CONFIG
 
     CK_EDITOR=$EDITOR
     if [[ -z "$CK_EDITOR" ]]; then CK_EDITOR=nano; fi
 }
 
+# edit the configuration file
 ck_edit_conf() {
     ck_init
-    $CK_EDITOR $HOME/.ck_config
+    $CK_EDITOR $CK_CONFIG
 }
 
+# edit the synchronization list file
 ck_edit_sync_list() {
     ck_init
     $CK_EDITOR $CK_SYNC_LIST
 }
 
+# edit the backup list file
 ck_edit_back_list() {
     ck_init
     $CK_EDITOR $CK_BACK_LIST
 }
 
+# show current date and timestamp (from Google)
 ck_date() {
     local DATE=`curl -I 'https://google.com/' 2>/dev/null | grep -i '^date:' | sed 's/^[Dd]ate: //g'`
     echo "Time:\t$DATE"
@@ -58,9 +84,10 @@ ck_date() {
     echo "TS:\t$CK_TS"
 }
 
+# make an archive of everything in the synchronization list
 ck_tar() {
     if [[ -z "$1" ]]; then
-        echo '[FATAL] please specify a filename for the archive'
+        e 'please specify a filename for the archive'
         exit 1
     fi
     ck_init
@@ -72,29 +99,37 @@ ck_tar() {
             continue
         fi
 
-        if [[ $LINE =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+        if [[ $LINE =~ ^~ ]]; then  # explicit home path, e.g., ~/Downloads
             #TBD
         fi
 
         LIST=$LIST" $LINE"
     done < "$CK_SYNC_LIST"
 
-    local CMD="tar -cf $FILENAME -C $HOME $LIST"
+    local CMD="tar -cf ${FILENAME?} -C ${HOME?} $LIST"
     echo "Executing:\t$CMD" && eval $CMD
 }
 
+# make a GPG-encrypted archive of everything in the synchronization list
 ck_gpg() {
     if [[ -z "$1" ]]; then
-        echo '[FATAL] please specify a filename for the archive'
+        e 'please specify a filename for the archive'
         exit 1
     fi
     ck_tar "$@"
 
     local FILENAME=$1
-    local TMP_FILENAME=/tmp/ck_`head /dev/urandom | tr -dc A-Za-z0-9 | head -c10`.gpg
+    local TMP_RND=`head /dev/urandom | tr -dc A-Za-z0-9 | head -c10`
+    local TMP_FILENAME=/tmp/ck_${TMP_RND}.gpg
 
-    local CMD="gpg --symmetric --output $TMP_FILENAME $FILENAME"
+
+    if [[ -z "$CK_PASSPHRASE" ]]; then
+        local CMD="gpg --symmetric --output ${TMP_FILENAME?} $FILENAME"
+    else
+        local CMD="gpg --batch --passphrase ${CK_PASSPHRASE?} --symmetric --output ${TMP_FILENAME?} $FILENAME"
+    fi
     echo "Executing:\t$CMD" && eval $CMD
+    #FIXME: what if gpg fails?
 
     CMD="mv $TMP_FILENAME $FILENAME"
     echo "Executing:\t$CMD" && eval $CMD
@@ -106,54 +141,73 @@ ck_sync() {
     #TBD
 }
 
+# check in to synchronize everything from the remote
 ck_sync_in() {
     ck_init
 
     local CMD=$CK_SYNC_IN_COMMAND
     echo "Executing:\t$CMD" && eval $CMD
 
-    local TMP_TAR=/tmp/ck.tar
-    local TMP_DIR=/tmp/ck
-    rm -f $TMP_TAR; rm -rf $TMP_DIR && mkdir -p $TMP_DIR
+    # cleanup first
+    rm -f $CK_TMP_TAR
+    rm -rf $CK_TMP_DIR && mkdir -p $CK_TMP_DIR
 
-    CMD="gpg --output $TMP_TAR --decrypt $CK_LOCAL"
+    if [[ -z "$CK_PASSPHRASE" ]]; then
+        CMD="gpg --output ${CK_TMP_TAR?} --decrypt ${CK_TMP_GPG?}"
+    else
+        CMD="gpg --batch --passphrase ${CK_PASSPHRASE?} --output ${CK_TMP_TAR?} --decrypt ${CK_TMP_GPG?}"
+    fi
+    echo "Executing:\t$CMD" && eval $CMD
+    if [ $? -ne 0 ]; then
+        wtf "GPG decryption failed (bad passphrase!)"
+        exit 1
+    fi
+
+    CMD="tar -xf ${CK_TMP_TAR?} -C ${CK_TMP_DIR?}"
     echo "Executing:\t$CMD" && eval $CMD
 
-    CMD="tar -xf $TMP_TAR -C $TMP_DIR"
-    echo "Executing:\t$CMD" && eval $CMD
-
-    local LINE=
+    local LINE= T=0 S=0
     while IFS= read -r LINE; do
         # skip empty lines and comments
         if [[ -z $LINE || $LINE =~ ^# ]]; then
             continue
         fi
 
-        if [[ $LINE =~ ^~ ]]; then # explicit home path, e.g., ~/Downloads
+        if [[ $LINE =~ ^~ ]]; then  # explicit home path, e.g., ~/Downloads
             #TBD
         fi
 
-        local SRC="$TMP_DIR/$LINE"
+        T=$((T+1))
+        local SRC="${CK_TMP_DIR}$LINE"
         if [[ -d "$SRC" ]]; then
             SRC="$SRC/"
         elif [[ -f "$SRC" ]]; then
             SRC="$SRC"
         else
-            echo "[FATAL] '$LINE' is in the sync list, but not found in the remote archive" && echo
-            exit 1
+            w "'$LINE' is in your sync list, but not found on the remote! skipping that..."
+            continue
         fi
-        CMD="rsync -hav --delete $SRC $HOME/${LINE?}"
-        echo "Executing:\t$CMD" && eval $CMD
+        CMD="rsync -hav --delete '${SRC?}' '$HOME/${LINE?}'"
+        echo "Executing:\t$CMD" && eval $CMD && S=$((S+1))
     done < "$CK_SYNC_LIST"
+
+    ok "$S/$T targets successfully synchronized in"
+    if [ $S -ne $T ]; then
+        exit 1
+    fi
 }
 
+# check out to synchronize everything to the remote
 ck_sync_out() {
     ck_init
 
-    ck_gpg $CK_LOCAL
+    ck_gpg $CK_TMP_GPG
 
     local CMD=$CK_SYNC_OUT_COMMAND
-    echo "Executing:\t$CMD" && eval $CMD
+    echo "Executing:\t$CMD" ###&& eval $CMD
+    if [ $? -eq 0 ]; then
+        ok "everything synchronized out"
+    fi
 }
 
 ck_back() {
@@ -222,7 +276,7 @@ case $SUBCOMMAND in
         ;;
 
     * )
-        echo "[FATAL] invalid subcommand '$1'. Try 'ck --help' for more information."
+        e "invalid subcommand '$1'. Try 'ck --help' for more information."
         exit 1
         ;;
 esac
