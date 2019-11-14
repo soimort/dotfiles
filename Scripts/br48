@@ -5,47 +5,54 @@
 # - xsel
 
 br48() {
-    local filename=$1
-    if [ ! -r "$filename" ]; then
-        echo [ERROR] file \"$filename\" does not exist
-        exit 1
-    fi
+    local res=
+    shopt -s lastpipe  # make the last pipeline segment run in the current shell
 
-    local i=0 in_yaml=false author date source url
-    while read -r line; do
-        if [[ $in_yaml = true ]]; then
-            if [[ $line =~ ^'author: ' ]]; then
-                author=${line#author: }
-            elif [[ $line =~ ^'date: ' ]]; then
-                date=${line#date: }
-            elif [[ $line =~ ^'source: ' ]]; then
-                source=${line#source: }
-            elif [[ $line =~ ^'url: ' ]]; then
-                url=${line#url: }
-
-            elif [[ $line = '---' ]]; then
-                # end of YAML metadata
-                in_yaml=false
-            fi
-
-        elif [[ $i = 0 && $line = '---' ]]; then
-            # start of YAML metadata
-            in_yaml=true
+    for filename in "$@"; do
+        if [ ! -r "$filename" ]; then
+            echo [ERROR] file \"$filename\" does not exist
+            continue
         fi
 
-        (( i = i + 1 ))
-    done < $filename
+        local i=0 in_yaml=false author date source url
+        while IFS= read -r line || [ -n "$line" ]; do
+            if [[ $in_yaml = true ]]; then
+                if [[ $line =~ ^'author: ' ]]; then
+                    author=${line#author: }
+                elif [[ $line =~ ^'date: ' ]]; then
+                    date=${line#date: }
+                elif [[ $line =~ ^'source: ' ]]; then
+                    source=${line#source: }
+                elif [[ $line =~ ^'url: ' ]]; then
+                    url=${line#url: }
 
-    ( echo "<a href='$url'>$author - $source - $date</a>" &&
-          echo "<blockquote>" &&
-          breakdown $filename &&
-          echo "</blockquote>" ) | xsel -b
+                elif [[ $line = '---' ]]; then
+                    # end of YAML metadata
+                    in_yaml=false
+                fi
+
+            elif [[ $i = 0 && $line = '---' ]]; then
+                # start of YAML metadata
+                in_yaml=true
+            fi
+
+            (( i = i + 1 ))
+        done < $filename
+
+        local temp=
+        ( echo "<a href='$url'>$author - $source - $date</a>" &&
+              echo "<blockquote>" &&
+              breakdown $filename &&
+              echo "</blockquote>" ) | { read -r -d '' temp; res=$res$temp; }
+    done
+
+    echo $res | xsel -b
 }
 
 
-if [ ! $# -eq 1 ]; then
+if [ $# -eq 0 ]; then
     echo "Usage:"
-    echo "  br48 FILE"
+    echo "  br48 [FILES]"
     exit 1
 fi
 
