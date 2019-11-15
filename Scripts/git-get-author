@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+#
+# Get the current git author name & email.
+
+NAME=`git config user.name`
+EMAIL=`git config user.email`
+
+echo "$NAME <$EMAIL>"

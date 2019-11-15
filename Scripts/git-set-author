@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+#
+# Set the current git author name & email.
+
+. prelude
+
+if [ $# -le 1 ]; then
+    echo 'Usage:'
+    echo '  git-set-author NAME EMAIL'
+    exit 1
+fi
+
+if [ $PWD = $HOME ]; then
+    e 'setting author for $HOME is not allowed'; exit 1
+fi
+
+if [ ! -d $PWD/.git ]; then
+    e 'current directory is not a git repository (maybe its parent is?)'; exit 1
+fi
+
+git config user.name "$1" && git config user.email "$2"
