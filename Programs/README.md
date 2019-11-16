@@ -12,7 +12,18 @@ Feature tweaks:
 
 
 
-## mate-terminal (unforked)
+## mate-terminal (terminal emulator forked from [mate-terminal](https://github.com/mate-desktop/mate-terminal))
+
+Dependencies: `mate-desktop`, `vte3`, `libsm`
+
+Sources:
+
+- **1.20** (***GTK+3***) https://github.com/soimort/mate-terminal/tree/1.20
+- **1.23** (***GTK+3***) https://github.com/soimort/mate-terminal
+
+Feature tweaks:
+
+1. Hide the close button on tabs.
 
 Enable switching tabs with Ctrl-(Shift-)Tab:
 
@@ -22,20 +33,14 @@ $ gsettings set org.mate.terminal.global ctrl-tab-switch-tabs true
 
 
 
-## mi-caja (file manager forked from caja)
-
-Enable switching tabs with Ctrl-(Shift-)Tab:
-
-```
-$ gsettings set org.mate.caja.preferences ctrl-tab-switch-tabs true
-```
+## mi-caja (file manager forked from [caja](https://github.com/mate-desktop/caja))
 
 Dependencies: `mate-desktop`, `mate-common`
 
 Sources:
 
 - **1.16** (***GTK+2***) https://github.com/soimort/caja
-- **1.23.2** (***GTK+3***) https://github.com/soimort/mi-caja
+- **1.23** (***GTK+3***) https://github.com/soimort/mi-caja
 
 Feature tweaks:
 
@@ -43,9 +48,27 @@ Feature tweaks:
 2. Log all tab activities.
 3. Hide the close button on tabs.
 
+Enable switching tabs with Ctrl-(Shift-)Tab:
+
+```
+$ gsettings set org.mate.caja.preferences ctrl-tab-switch-tabs true
+```
 
 
-## moe (image viewer forked from eom)
+
+## moe (image viewer forked from [eom](https://github.com/mate-desktop/eom))
+
+Dependencies: `mate-desktop`, `mate-common`
+
+Sources:
+
+- **1.16** (***GTK+2***) https://github.com/soimort/moe/tree/1.16
+- **1.23** (***GTK+3***) https://github.com/soimort/moe
+
+Feature tweaks:
+
+1. Get rid of the menubar.
+2. Do not confirm unsaved images when closing.
 
 Get rid of toolbar and statusbar completely:
 
@@ -59,18 +82,6 @@ Enable the `fullscreen` plugin (activating fullscreen mode with double-click):
 ```
 $ gsettings set org.mate.eom.plugins active-plugins "['fullscreen']"
 ```
-
-Dependencies: `mate-desktop`, `mate-common`
-
-Sources:
-
-- **1.16** (***GTK+2***) https://github.com/soimort/moe/tree/1.16
-- **1.23** (***GTK+3***) https://github.com/soimort/moe
-
-Feature tweaks:
-
-1. Get rid of the menubar.
-2. Do not confirm unsaved images when closing.
 
 
 
@@ -124,4 +135,4 @@ Version: **3.30.1.2-1**
 
 Feature tweaks:
 
-* Remove the "Battery Low" warning.
+1. Remove the "Battery Low" warning.
