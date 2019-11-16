@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+#
+# List all saved Chromium sessions in the current working directory.
+
+. prelude
+
+# FIXME: suppress "no matches found"
+if ls $HOME/.config/chromium/Default/Current\ Session* 1>/dev/null 2>&1; then
+    for SESSION_FILENAME in $HOME/.config/chromium/Default/Current\ Session*; do
+        SESSION=${SESSION_FILENAME#$HOME/.config/chromium/Default/Current\ Session}
+        if [[ -z $SESSION ]]; then
+            echo '(default)'
+        else
+            echo $SESSION
+        fi
+    done
+else
+    e 'no saved session is found'; exit 404
+fi

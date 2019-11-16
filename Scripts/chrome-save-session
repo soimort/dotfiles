@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-
-T=`date +"%y%m%d-%H%M"`
-mv ~/.config/chromium/Default/Current\ Session ~/.config/chromium/Default/Current\ Session_$T
-mv ~/.config/chromium/Default/Current\ Tabs ~/.config/chromium/Default/Current\ Tabs_$T

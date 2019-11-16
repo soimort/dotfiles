@@ -1,8 +1,0 @@
-#!/usr/bin/env zsh
-
-if [ -r ~/.config/chromium/Default/Current\ Session_$1 ]; then
-    cp ~/.config/chromium/Default/Current\ Session_$1 ~/.config/chromium/Default/Current\ Session
-fi
-if [ -r ~/.config/chromium/Default/Current\ Tabs_$1 ]; then
-    cp ~/.config/chromium/Default/Current\ Tabs_$1 ~/.config/chromium/Default/Current\ Tabs
-fi

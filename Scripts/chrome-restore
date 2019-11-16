@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+#
+# Restore a saved Chromium session.
+
+. prelude
+
+if [ $# -ne 1 ]; then
+    echo 'Usage:'
+    echo '  chrome-restore NAME'
+    exit 1
+fi
+
+SESSION_FILENAME="$HOME/.config/chromium/Default/Current Session"
+TABS_FILENAME="$HOME/.config/chromium/Default/Current Tabs"
+
+SESSION_SAVE_FILENAME="$HOME/.config/chromium/Default/Current Session[$1]"
+TABS_SAVE_FILENAME="$HOME/.config/chromium/Default/Current Tabs[$1]"
+
+if [[ -r "$SESSION_SAVE_FILENAME" && -r "$TABS_SAVE_FILENAME" ]]; then
+
+    if [[ -r "$SESSION_FILENAME" || -r "$TABS_FILENAME" ]]; then
+        read -q "REPLY?current session already exists, overwrite? [y/N]"
+        if [[ $REPLY = "n" ]]; then
+            exit 1
+        fi
+        echo
+    fi
+
+    cp $SESSION_SAVE_FILENAME $SESSION_FILENAME && cp $TABS_SAVE_FILENAME $TABS_FILENAME &&
+        ok 'session saved'
+
+else
+    e 'session is not found, or it is incomplete'; exit 404
+fi
