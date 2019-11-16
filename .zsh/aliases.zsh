@@ -56,6 +56,7 @@ alias xyc="proxychains4 -q"
 # misc
 alias ds="du -hs * | sort -hr | less"
 alias wg="wget --no-check-certificate -U 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'"
+alias ts="date +'%y%m%d-%H%M'"
 
 # Arch
 alias pac='pacman'
