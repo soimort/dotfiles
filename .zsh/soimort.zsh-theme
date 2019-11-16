@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # Oh My Zsh theme
 # @since        2015-12-23
-# @lastChanged  2018-05-04
+# @lastChanged  2019-11-16
 # @author       Mort Yao <soi@mort.ninja>
 
 local ret_status="%(?:%{$fg[green]%}[%{$reset_color%}\
@@ -28,3 +28,6 @@ long_prompt() {
     PROMPT='%{$fg_bold[green]%}%p %{$fg[white]%}%c $(git_prompt_info) %{$reset_color%}
 ${ret_status} '
 }
+
+# overwrite terminal title: show current working directory only
+ZSH_THEME_TERM_TITLE_IDLE="%1~"
