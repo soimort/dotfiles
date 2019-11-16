@@ -30,4 +30,4 @@ ${ret_status} '
 }
 
 # overwrite terminal title: show current working directory only
-ZSH_THEME_TERM_TITLE_IDLE="%1~"
+ZSH_THEME_TERM_TITLE_IDLE="%1~/"
