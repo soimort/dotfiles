@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+#
+# Save the current Emacs session in the current working directory.
+
+. prelude
+
+if [ $# -ne 1 ]; then
+    echo 'Usage:'
+    echo '  emacs-save NAME'
+    exit 1
+fi
+
+if [[ -r '.emacs.desktop.lock' ]]; then
+    w 'current session is locked by an emacs process; you might want to close it before saving'
+fi
+
+if [[ -r '.emacs.desktop' && -r '.emacs.elscreen' ]]; then
+    DESKTOP_FILENAME=".emacs.desktop[$1]"
+    ELSCREEN_FILENAME=".emacs.elscreen[$1]"
+
+    if [[ -r "$DESKTOP_FILENAME" || -r "$ELSCREEN_FILENAME" ]]; then
+        read -q "REPLY?a session named '$1' already exists, overwrite? [y/N]"
+        if [[ $REPLY = "n" ]]; then
+            exit 1
+        fi
+        echo
+    fi
+
+    cp .emacs.desktop $DESKTOP_FILENAME && cp .emacs.elscreen $ELSCREEN_FILENAME &&
+        ok 'session saved'
+
+else
+    e 'current session is not found, or it is incomplete'; exit 404
+fi

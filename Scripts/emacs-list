@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+#
+# List all saved Emacs sessions in the current working directory.
+
+. prelude
+
+# FIXME: suppress "no matches found"
+if ls .emacs.elscreen* 1>/dev/null 2>&1; then
+    for ELSCREEN_FILENAME in .emacs.elscreen*; do
+        SESSION=${ELSCREEN_FILENAME#.emacs.elscreen}
+        if [[ -z $SESSION ]]; then
+            echo '(default)'
+        else
+            echo $SESSION
+        fi
+    done
+else
+    e 'no saved session is found'; exit 404
+fi

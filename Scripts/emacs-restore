@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+#
+# Restore a saved Emacs session in the current working directory.
+
+. prelude
+
+if [ $# -ne 1 ]; then
+    echo 'Usage:'
+    echo '  emacs-restore NAME'
+    exit 1
+fi
+
+if [[ -r '.emacs.desktop.lock' ]]; then
+    w 'current session is locked by an emacs process; you might want to close it before restoring'
+fi
+
+DESKTOP_FILENAME=".emacs.desktop[$1]"
+ELSCREEN_FILENAME=".emacs.elscreen[$1]"
+if [[ -r "$DESKTOP_FILENAME" && -r "$ELSCREEN_FILENAME" ]]; then
+
+    if [[ -r '.emacs.desktop' || -r '.emacs.elscreen' ]]; then
+        read -q "REPLY?current session already exists, overwrite? [y/N]"
+        if [[ $REPLY = "n" ]]; then
+            exit 1
+        fi
+        echo
+    fi
+
+    cp $DESKTOP_FILENAME .emacs.desktop && cp $ELSCREEN_FILENAME .emacs.elscreen &&
+        ok 'session restored'
+
+else
+    e 'session is not found, or it is incomplete'; exit 404
+fi
