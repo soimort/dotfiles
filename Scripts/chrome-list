@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 #
-# List all saved Chromium sessions in the current working directory.
+# List all saved Chromium sessions.
 
 . prelude
 

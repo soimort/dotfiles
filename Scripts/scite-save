@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+#
+# Save the current SciTE session.
+
+. prelude
+
+if [ $# -ne 1 ]; then
+    echo 'Usage:'
+    echo '  scite-save NAME'
+    exit 1
+fi
+
+SESSION_FILENAME="$HOME/.SciTE.session"
+
+SESSION_SAVE_FILENAME="$HOME/.SciTE.session[$1]"
+
+if [[ -r "$SESSION_FILENAME" ]]; then
+
+    if [[ -r "$SESSION_SAVE_FILENAME" ]]; then
+        read -q "REPLY?a session named '$1' already exists, overwrite? [y/N]"
+        if [[ $REPLY = "n" ]]; then
+            exit 1
+        fi
+        echo
+    fi
+
+    cp $SESSION_FILENAME $SESSION_SAVE_FILENAME &&
+        ok 'session saved'
+
+else
+    e 'current session is not found'; exit 404
+fi

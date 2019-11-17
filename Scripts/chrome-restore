@@ -27,7 +27,7 @@ if [[ -r "$SESSION_SAVE_FILENAME" && -r "$TABS_SAVE_FILENAME" ]]; then
     fi
 
     cp $SESSION_SAVE_FILENAME $SESSION_FILENAME && cp $TABS_SAVE_FILENAME $TABS_FILENAME &&
-        ok 'session saved'
+        ok 'session restored'
 
 else
     e 'session is not found, or it is incomplete'; exit 404
