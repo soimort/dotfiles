@@ -7,7 +7,7 @@ import select
 import subprocess
 import sys
 import time
-from os import environ, makedirs
+from os import environ, makedirs, path
 from pathlib import Path
 from urllib.parse import quote, unquote
 
@@ -183,13 +183,23 @@ def main():
 
     # show help if necessary
     if len(sys.argv) == 1:
-        print('Usage: mi-casa WORKSPACE_FILE [WORKSPACE_NAME ...]')
+        print('Usage: mi-casa SESSION_FILE [WORKSPACE_NAME ...]')
         exit(1)
 
     # read workspace file
     workspace_filename, workspace_names = sys.argv[1], sys.argv[2:]
-    with open(workspace_filename) as f:
-        all_workspaces = read_mur_file(f)
+    try:
+        with open(workspace_filename) as f:
+            all_workspaces = read_mur_file(f)
+    except FileNotFoundError:
+        workspace_filename = path.join(Path.home(), '%s.mur' % workspace_filename)
+        try:
+            with open(workspace_filename) as f:
+                all_workspaces = read_mur_file(f)
+        except FileNotFoundError:
+            print_with_colors('[fatal] session file "%s" not found (you need to create this file first)' % workspace_filename, YELLOW)
+            exit(1)
+
     print_with_colors("all workspaces: %s" % all_workspaces, BLUE)
 
     # check if specified workspace names exist
@@ -217,6 +227,16 @@ def main():
                     exit(1)
             all_workspaces[workspace_name]['locations'][i] = uri
 
+    # validate that there is at least one workspace
+    if not workspace_names:
+        print_with_colors('[fatal] session file "%s" should contain at least one workspace name' % workspace_filename, YELLOW)
+        exit(1)
+
+    # every workspace should have at least one location; if not, use HOME as default
+    for workspace_name in workspace_names:
+        if not all_workspaces[workspace_name]['locations']:
+            all_workspaces[workspace_name]['locations'] = ['file://%s' % quote(str(Path.home()))]
+
     # open caja processes
     procs = []
     caja_version = subprocess.check_output(['caja', '--version'])\
@@ -231,23 +251,23 @@ def main():
             procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
 
     else:  # caja_application_load_session() that loads last-session
-        home = Path.home()
-        last_session = "%s/.config/caja/last-session" % Path.home()
-        with open(last_session, 'w') as f:
+        caja_session_filename = '%s.caja' % workspace_filename
+        params = ['caja', '--session', caja_session_filename]
+        with open(caja_session_filename, 'w') as f:
             f.write("""<?xml version='1.0' encoding='UTF-8'?>
 <session>
   <history></history>\n""")
-        with open(last_session, 'a') as f:
+        with open(caja_session_filename, 'a') as f:
             for workspace_name in workspace_names:
-                # window order is nondeterministic
-                f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://%s'>\n" % home)
+                # window order is nondeterministic!
+                f.write("  <window type='navigation' geometry='1366x704+0+0' location='file://%s'>\n" % Path.home())
                 for loc in all_workspaces[workspace_name]['locations']:
                     f.write("    <slot location='%s'/>\n" % loc)
                 f.write("  </window>\n")
             f.write("</session>\n")
 
         # need to suppress stderr for this version
-        procs.append(subprocess.Popen(['caja'], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
+        procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
 
     # main loop
     notebook = None  # stores last notebook
