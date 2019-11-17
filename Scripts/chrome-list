@@ -4,10 +4,12 @@
 
 . prelude
 
+w "use something like 'USERDATA=_ent chrome-list' for other user data dirs"
+
 # FIXME: suppress "no matches found"
-if ls $HOME/.config/chromium/Default/Current\ Session* 1>/dev/null 2>&1; then
-    for SESSION_FILENAME in $HOME/.config/chromium/Default/Current\ Session*; do
-        SESSION=${SESSION_FILENAME#$HOME/.config/chromium/Default/Current\ Session}
+if ls $HOME/.config/chromium$USERDATA/Default/Current\ Session* 1>/dev/null 2>&1; then
+    for SESSION_FILENAME in $HOME/.config/chromium$USERDATA/Default/Current\ Session*; do
+        SESSION=${SESSION_FILENAME#$HOME/.config/chromium$USERDATA/Default/Current\ Session}
         if [[ -z $SESSION ]]; then
             echo '(default)'
         else

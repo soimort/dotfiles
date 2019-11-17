@@ -10,11 +10,13 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-SESSION_FILENAME="$HOME/.config/chromium/Default/Current Session"
-TABS_FILENAME="$HOME/.config/chromium/Default/Current Tabs"
+w "use something like 'USERDATA=_ent chrome-save' for other user data dirs"
 
-SESSION_SAVE_FILENAME="$HOME/.config/chromium/Default/Current Session[$1]"
-TABS_SAVE_FILENAME="$HOME/.config/chromium/Default/Current Tabs[$1]"
+SESSION_FILENAME="$HOME/.config/chromium$USERDATA/Default/Current Session"
+TABS_FILENAME="$HOME/.config/chromium$USERDATA/Default/Current Tabs"
+
+SESSION_SAVE_FILENAME="$HOME/.config/chromium$USERDATA/Default/Current Session[$1]"
+TABS_SAVE_FILENAME="$HOME/.config/chromium$USERDATA/Default/Current Tabs[$1]"
 
 if [[ -r "$SESSION_FILENAME" && -r "$TABS_FILENAME" ]]; then
 
