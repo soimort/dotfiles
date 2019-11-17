@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+#
+# Open the "ent" Chromium session.
+
+USERDATA=_ent
+chromium --user-data-dir=$HOME/.config/chromium$USERDATA 2>/dev/null&

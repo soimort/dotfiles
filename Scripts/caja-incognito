@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-CAJA_LAST_SESSION=$HOME/.config/caja/last-session
-
-rm -f $CAJA_LAST_SESSION
-#setsid caja &>/dev/null &
-setsid gdb -ex run caja &>/dev/null

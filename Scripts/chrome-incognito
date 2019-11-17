@@ -1,3 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env zsh
+#
+# Open an incognito Chromium session.
+
+read -q "REPLY?this could mess up your last tabs if some updated extensions pop up a regular tab, continue? [y/N]"
+if [[ $REPLY = "n" ]]; then
+    exit 1
+fi
+echo
 
 chromium --incognito 2>/dev/null&
