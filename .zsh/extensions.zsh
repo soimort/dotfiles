@@ -4,7 +4,9 @@ magic-enter() {
     if [[ -z $BUFFER ]]; then
         clear; echo $fg_bold[white]$PWD$reset_color
 
-        echo -n $fg_bold[blue]"User:\t"; git-get-author; echo -n $reset_color
+        if [[ $PWD =~ "/home/" ]]; then
+            echo -n $fg_bold[blue]"User:\t"; git-get-author; echo -n $reset_color
+        fi
 
         local TMP=`git-list-origin`
         if [[ -n $TMP ]]; then
