@@ -1,0 +1,17 @@
+#!/usr/bin/env zsh
+#
+# List all origin URLs of the current git repository.
+
+# FIXME: multiple URLs
+ALL=`git remote get-url --all origin 2>/dev/null`
+PUSH=`git remote get-url --push origin 2>/dev/null`
+
+if [[ $ALL = $PUSH ]]; then
+    RES="$ALL"
+else
+    RES="$ALL\t$PUSH (push-only)"
+fi
+
+if [[ -n $RES ]]; then
+    echo $RES
+fi
