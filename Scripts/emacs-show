@@ -29,5 +29,7 @@ if [[ -r "$ELSCREEN_FILENAME" ]]; then
 
     echo $RES
 else
-    e 'session is not found, or it is incomplete'; exit 404
+    if [ $# -ne 0 ]; then
+        e 'session is not found, or it is incomplete'; exit 404
+    fi
 fi
