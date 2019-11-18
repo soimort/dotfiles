@@ -416,26 +416,74 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ## Xmonad
 
+### Standard commands
+
+<kbd>Super-Shift-Enter</kbd>
+Launch terminal
+
+<kbd>Super-p</kbd>
+Launch dmenu
+
+<kbd>Super-Shift-C</kbd>
+Close the focused window
+
+<kbd>Super-Space</kbd>
+Rotate through the available layout algorithms
+
+<kbd>Super-j</kbd>
+Move focus to the next window
+
+<kbd>Super-k</kbd>
+Move focus to the previous window
+
+<kbd>Super-Shift-J</kbd>
+Swap the focused window with the next window
+
+<kbd>Super-Shift-K</kbd>
+Swap the focused window with the previous window
+
+<kbd>Super-l</kbd>
+Expand the master area
+
+<kbd>Super-h</kbd>
+Shrink the master area
+
+<kbd>Super-,</kbd>
+Increment the number of windows in the master area
+
+<kbd>Super-.</kbd>
+Deincrement the number of windows in the master area
+
+<kbd>Super-q</kbd>
+Restart xmonad
+
+<kbd>Super-Shift-Q</kbd>
+Quit xmonad
+
 ### Customized commands
 
-<kbd>Win-\<down\></kbd> Next workspace
+<kbd>Super-PgDn</kbd> or
+<kbd>Super-Down</kbd> Switch to next workspace
 
-<kbd>Win-\<up\></kbd> Previous workspace
+<kbd>Super-PgUp</kbd> or
+<kbd>Super-Up</kbd> Switch to previous workspace
 
-<kbd>Win-\<right\></kbd> Move window to next workspace
+<kbd>Super-Shift-PgDn</kbd> or
+<kbd>Super-Shift-Down</kbd> Move window to next workspace
 
-<kbd>Win-\<left\></kbd> Move window to previous workspace
+<kbd>Super-Shift-PgUp</kbd> or
+<kbd>Super-Shift-Up</kbd> Move window to previous workspace
 
-<kbd>Win-Shift-\<down\></kbd> Next screen
+<kbd>Super-Tab</kbd> Toggle workspaces
 
-<kbd>Win-Shift-\<up\></kbd> Previous screen
+<kbd>Super-Right</kbd> Switch to next screen
 
-<kbd>Win-Shift-\<right\></kbd> Move window to next screen
+<kbd>Super-Left</kbd> Switch to previous screen
 
-<kbd>Win-Shift-\<left\></kbd> Move window to previous screen
+<kbd>Super-Shift-Right</kbd> Move window to next screen
 
-<kbd>Win-\<tab\></kbd> Toggle workspaces
+<kbd>Super-Shift-Left</kbd> Move window to previous screen
 
-<kbd>Win-Shift-L</kbd> Lock screen
+<kbd>Super-Shift-L</kbd> Lock screen
 
-<kbd>Win-Shift-P</kbd> Take a screenshot
+<kbd>Super-Shift-P</kbd> Take screenshot
