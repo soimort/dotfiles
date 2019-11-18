@@ -2,7 +2,20 @@
 
 magic-enter() {
     if [[ -z $BUFFER ]]; then
-        clear; echo -n $fg_bold[green]$PWD : $reset_color
+        clear; echo $fg_bold[white]$PWD$reset_color
+
+        echo -n $fg_bold[blue]"User:\t"; git-get-author; echo -n $reset_color
+
+        local TMP=`git-list-origin`
+        if [[ -n $TMP ]]; then
+            echo $fg_bold[blue]"Origin:\t$TMP$reset_color"
+        fi
+
+        TMP=`emacs-show`
+        if [[ -n $TMP ]]; then
+            echo $fg_bold[green]"Emacs session:\n\t$TMP$reset_color"
+        fi
+
         git status 2>/dev/null
     fi
     zle accept-line
