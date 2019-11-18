@@ -1,0 +1,33 @@
+#!/usr/bin/env zsh
+#
+# Show the content of a saved Emacs session in the current working directory.
+
+. prelude
+
+if [ $# -gt 1 ]; then
+    echo 'Usage:'
+    echo '  emacs-show [NAME]'
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    ELSCREEN_FILENAME=".emacs.elscreen"
+else
+    ELSCREEN_FILENAME=".emacs.elscreen[$1]"
+fi
+
+if [[ -r "$ELSCREEN_FILENAME" ]]; then
+    RES=
+    TEXT=$(cat $ELSCREEN_FILENAME)
+    TEXTS=("${(@s/) (/)TEXT}")
+    for T in $TEXTS; do
+        S=${T#\(\(}; S=${S%\)\)}
+        SS=("${(@s/ . /)S}")
+        R=$SS[2]; R=${R#\"}; R=${R%\"}
+        RES="$R $RES"
+    done
+
+    echo $RES
+else
+    e 'session is not found, or it is incomplete'; exit 404
+fi
