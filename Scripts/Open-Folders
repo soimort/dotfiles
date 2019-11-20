@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# DEPRECATED in favor of mi-casa!
 CAJA_LAST_SESSION=$HOME/.config/caja/last-session
 
 EFLAG=0
