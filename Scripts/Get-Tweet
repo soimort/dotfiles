@@ -18,51 +18,59 @@ from you_get.extractors.twitter import twitter_download
 
 site_info = 'Twitter'
 
+def get_url(url):
+    m = re.match('^https?://twitter\.com/[^/]+/status/(\d+)', url)
+    assert m
+    item_id = m.group(1)
+
+    cont = get_content(url + '?lang=en')
+    #headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0'}
+    screen_name = r1(r'data-screen-name="([^"]*)"', cont)
+    author = r1(r'<meta\s+property="og:title"\s+content="([^"]*) on Twitter"', cont)
+    data_time = float(r1(r'data-time="(\d+)"', cont))
+    data_time = datetime.fromtimestamp(data_time).strftime('%a %d %b %Y')
+
+    quotetweet_link = r1(r'"QuoteTweet-link js-nav" href="([^"]*)"', cont)
+
+    page_title = unescape_html(r1(r'<title>(.*)</title>', cont))
+    t = unescape_html(r1(r'<meta\s+property="og:description"\s+content="“([^"]*)”"', cont))
+    log.w(page_title.split('\n')[0].split(': ')[0])
+    outf = open(item_id + '.pt', 'w')
+    outf.write('---\n')
+    outf.write('author: %s\n' % author)
+    outf.write('date: %s\n' % data_time)
+    outf.write('source: %s\n' % 'Twitter')
+    outf.write('url: %s\n' % url)
+    outf.write('---\n')
+    outf.write(t)
+    outf.write('\n')
+    outf.close()
+
+    s = re.findall(r'property="og:image"\s*content="([^"]+:large)"', cont)
+    for i in s:
+        image_url = ':'.join(i.split(':')[:-1]) + ':orig'
+        filename = parse.unquote(image_url.split('/')[-1])
+        title = '.'.join(filename.split('.')[:-1])
+        title = '%s_%s' % (item_id, title)
+        ext = image_url.split(':')[-2].split('.')[-1]
+        size = int(get_head(image_url)['Content-Length'])
+        download_urls(urls=[image_url],
+                      title=title,
+                      ext=ext,
+                      total_size=size,
+                      output_dir='.')
+    if not s:
+        try:
+            twitter_download(url)
+        except:
+            pass
+
+    if quotetweet_link:
+        get_url('https://twitter.com%s' % quotetweet_link)
+
 def main():
     for url in sys.argv[1:]:
-        m = re.match('^https?://twitter\.com/[^/]+/status/(\d+)', url)
-        assert m
-        item_id = m.group(1)
-
-        cont = get_content(url + '?lang=en')
-        #headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0'}
-        screen_name = r1(r'data-screen-name="([^"]*)"', cont)
-        author = r1(r'<meta\s+property="og:title"\s+content="([^"]*) on Twitter"', cont)
-        data_time = float(r1(r'data-time="(\d+)"', cont))
-        data_time = datetime.fromtimestamp(data_time).strftime('%a %d %b %Y')
-
-        page_title = unescape_html(r1(r'<title>(.*)</title>', cont))
-        t = unescape_html(r1(r'<meta\s+property="og:description"\s+content="“([^"]*)”"', cont))
-        log.w(page_title.split('\n')[0].split(': ')[0])
-        outf = open(item_id + '.pt', 'w')
-        outf.write('---\n')
-        outf.write('author: %s\n' % author)
-        outf.write('date: %s\n' % data_time)
-        outf.write('source: %s\n' % 'Twitter')
-        outf.write('url: %s\n' % url)
-        outf.write('---\n')
-        outf.write(t)
-        outf.write('\n')
-        outf.close()
-
-        s = re.findall(r'property="og:image"\s*content="([^"]+:large)"', cont)
-        for i in s:
-            image_url = ':'.join(i.split(':')[:-1]) + ':orig'
-            filename = parse.unquote(image_url.split('/')[-1])
-            title = '.'.join(filename.split('.')[:-1])
-            title = '%s_%s' % (item_id, title)
-            ext = image_url.split(':')[-2].split('.')[-1]
-            size = int(get_head(image_url)['Content-Length'])
-            download_urls(urls=[image_url],
-                          title=title,
-                          ext=ext,
-                          total_size=size,
-                          output_dir='.')
-        if not s:
-            try:
-                twitter_download(url)
-            except:
-                pass
+        get_url(url)
 
 if __name__ == '__main__':
     main()
