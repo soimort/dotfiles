@@ -1,4 +1,15 @@
 
+;; python.el
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil
+                  python-indent 4
+                  python-indent-offset 4)))
+(with-eval-after-load 'python
+  (define-key python-mode-map (kbd "<tab>") 'python-indent-shift-right)
+  (define-key python-mode-map (kbd "<S-iso-lefttab>") 'python-indent-shift-left) ; <S-tab> or <backtab> not work
+  )
+
 ;; asm-mode
 (defun my-asm-mode-hook ()
   ;; you can use `comment-dwim' (M-;) for this kind of behaviour anyway
