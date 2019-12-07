@@ -220,7 +220,12 @@ get() {
             local FILENAME=$PREFIX${url##*/}
             # TODO: fix ext
             # TODO: set $UA?
-            $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" || break
+            if [ -f "$FILENAME" ]; then
+                log.w "file \"$FILENAME\" already exists!"
+                return 1
+            else
+                $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" || break
+            fi
         fi
     done
     return 0
