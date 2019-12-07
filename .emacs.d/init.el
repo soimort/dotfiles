@@ -2,7 +2,7 @@
 ;;; @prog         emacs
 ;;; @lastProgVers 26.1
 ;;; @since        2015-12-23
-;;; @lastChanged  2019-03-15
+;;; @lastChanged  2019-12-07
 ;;; @author       Mort Yao <soi@mort.ninja>
 
 ;; Custom File
@@ -73,6 +73,7 @@
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#101f10")
 (set-face-foreground 'highlight nil)
+(set-face-background 'highlight "#104f10") ; tango-dark uses yellow as highlight background, which looks bad
 
 ;; Show paren mode
 (show-paren-mode 1)
