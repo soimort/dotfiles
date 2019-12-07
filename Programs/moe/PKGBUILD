@@ -4,7 +4,7 @@
 
 _pkgname=moe
 pkgname=${_pkgname}
-pkgver=1.20.0.r192.g2778c22
+pkgver=1.20.0.r194.gc92fb91
 pkgrel=1
 pkgdesc="An image viewing and cataloging program for MATE"
 url="https://mate-desktop.org"
