@@ -128,46 +128,44 @@
 ;; agda-mode [arch:agda]
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
+;; my agda-mode dark theme
+(custom-set-faces
+ '(agda2-highlight-keyword-face ((t (:foreground "MediumSeaGreen"))))
 
-;; agda-mode theme for dark background
-;; https://www.reddit.com/r/agda/comments/5pwip4/show_off_your_agda_emacs_colours/
-(let ((base03    "#002b36")
-      (base02    "#073642")
-      (base01    "#586e75")
-      (base00    "#657b83")
-      (base0     "#839496")
-      (base1     "#93a1a1")
-      (base2     "#eee8d5")
-      (base3     "#fdf6e3")
-      (yellow    "#b58900")
-      (orange    "#cb4b16")
-      (red       "#dc322f")
-      (magenta   "#d33682")
-      (violet    "#6c71c4")
-      (blue      "#268bd2")
-      (cyan      "#2aa198")
-      (green     "#859900"))
-  (custom-set-faces
-   `(agda2-highlight-keyword-face ((t (:foreground ,orange))))
-   `(agda2-highlight-string-face ((t (:foreground ,magenta))))
-   `(agda2-highlight-number-face ((t (:foreground ,violet))))
-   `(agda2-highlight-symbol-face ((((background ,base3)) (:foreground ,base01))))
-   `(agda2-highlight-primitive-type-face ((t (:foreground ,blue))))
-   `(agda2-highlight-bound-variable-face ((t nil)))
-   `(agda2-highlight-inductive-constructor-face ((t (:foreground ,green))))
-   `(agda2-highlight-coinductive-constructor-face ((t (:foreground ,yellow))))
-   `(agda2-highlight-datatype-face ((t (:foreground ,blue))))
-   `(agda2-highlight-field-face ((t (:foreground ,red))))
-   `(agda2-highlight-function-face ((t (:foreground ,blue))))
-   `(agda2-highlight-module-face ((t (:foreground ,violet))))
-   `(agda2-highlight-postulate-face ((t (:foreground ,blue))))
-   `(agda2-highlight-primitive-face ((t (:foreground ,blue))))
-   `(agda2-highlight-record-face ((t (:foreground ,blue))))
-   `(agda2-highlight-dotted-face ((t nil)))
-   `(agda2-highlight-operator-face ((t nil)))
-   `(agda2-highlight-error-face ((t (:foreground ,red :underline t))))
-   `(agda2-highlight-unsolved-meta-face ((t (:background ,base03 :foreground ,yellow))))
-   `(agda2-highlight-unsolved-constraint-face ((t (:background ,base03 :foreground ,yellow))))
-   `(agda2-highlight-termination-problem-face ((t (:background ,orange :foreground ,base03))))
-   `(agda2-highlight-incomplete-pattern-face ((t (:background ,orange :foreground ,base03))))
-   `(agda2-highlight-typechecks-face ((t (:background ,cyan :foreground ,base03))))))
+ '(agda2-highlight-module-face ((t (:foreground "LightGreen" :weight bold))))
+ '(agda2-highlight-record-face ((t (:foreground "LightGreen"))))
+
+ '(agda2-highlight-field-face ((t (:foreground "PaleGreen"))))
+
+ '(agda2-highlight-datatype-face ((t (:foreground "Green"))))
+ '(agda2-highlight-operator-face ((t (:foreground "DarkGreen"))))
+
+ '(agda2-highlight-inductive-constructor-face ((t (:foreground "SpringGreen"))))
+ '(agda2-highlight-coinductive-constructor-face ((t (:foreground "SpringGreen"))))
+
+ '(agda2-highlight-function-face ((t (:foreground "Chartreuse"))))
+
+ '(agda2-highlight-bound-variable-face ((t (:foreground "Gold"))))
+ '(agda2-highlight-generalizable-variable-face ((t (:foreground "Gold"))))
+
+ '(agda2-highlight-number-face ((t (:foreground "Khaki"))))
+ '(agda2-highlight-string-face ((t (:foreground "Khaki"))))
+
+ '(agda2-highlight-postulate-face ((t (:foreground "Yellow" :weight bold))))
+ '(agda2-highlight-primitive-face ((t (:foreground "Yellow" :weight bold))))
+ '(agda2-highlight-primitive-type-face ((t (:foreground "Green" :weight bold))))
+
+ '(agda2-highlight-coverage-problem-face ((t (:background "DarkGreen"))))
+ '(agda2-highlight-unsolved-meta-face ((t (:background "Red"))))
+ '(agda2-highlight-unsolved-constraint-face ((t (:background "Red"))))
+ ;; TODO: agda2-highlight-termination-problem-face
+ ;; TODO: agda2-highlight-positivity-problem-face
+ ;; TODO: agda2-highlight-deadcode-face
+ ;; TODO: agda2-highlight-catchall-clause-face
+ ;; TODO: agda2-highlight-confluence-problem-face
+ ;; TODO: agda2-highlight-missing-definition-face
+ ;; TODO: agda2-highlight-typechecks-face
+ '(agda2-highlight-error-face ((t (:background "Red" :underline t))))
+
+ ;; TODO: agda2-highlight-macro-face
+ )
