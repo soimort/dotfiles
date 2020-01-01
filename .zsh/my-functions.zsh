@@ -230,3 +230,26 @@ get() {
     done
     return 0
 }
+
+pre() {
+    if [[ -z "$1" ]]; then
+        # no param -- show help message
+        echo 'Usage: pre PREFIX FILE...'
+        return 0
+    fi
+
+    local PREFIX="[$1] "
+    shift
+    log.d "prefix set: $PREFIX"
+
+    for FILENAME in "$@"; do
+        if [ ! -f "$FILENAME" ]; then
+            log.w "file \"$FILENAME\" does not exist!"
+            return 1
+        else
+            NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
+            mv $FILENAME $NEW_FILENAME
+        fi
+    done
+    return 0
+}
