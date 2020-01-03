@@ -2,7 +2,7 @@
 # @prog         zsh
 # @lastProgVers 5.7.1
 # @since        2015-12-23
-# @lastChanged  2019-09-16
+# @lastChanged  2020-01-03
 # @author       Mort Yao <soi@mort.ninja>
 
 # Common settings
@@ -70,7 +70,7 @@ GOPATH=~/go
 path+=("${GOPATH}/bin")
 # cabal
 CABAL_HOME="${HOME}/.cabal"
-path+=("${CABAL_HOME}/bin")
+path=("${CABAL_HOME}/bin" $path)
 # smackage
 SMACKAGE_HOME="${HOME}/.smackage"
 path+=("${SMACKAGE_HOME}/bin")
