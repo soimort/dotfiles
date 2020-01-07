@@ -169,3 +169,7 @@
 
  ;; TODO: agda2-highlight-macro-face
  )
+(add-hook 'agda2-mode-hook
+          '(lambda ()
+             (custom-set-faces
+              '(font-lock-comment-face ((t (:foreground "DarkSeaGreen")))))))
