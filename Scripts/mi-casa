@@ -331,6 +331,9 @@ def main():
                             write_mur_file(f, debug=False)
                         print('workspace saved: %s' % workspace_filename)
 
+                    elif text == 'filename':
+                        print(workspace_filename)
+
                     elif text == 'exit':
                         with open(workspace_filename, 'w') as f:
                             write_mur_file(f, debug=False)
@@ -345,6 +348,7 @@ def main():
                         print('time\t\t Show the current time')
                         print('snap\t\t Take a snapshot')
                         print('save\t\t Save to the workspace file')
+                        print('filename\t Show the workspace filename')
                         print('exit\t\t Save to the workspace file and exit')
 
                     elif text:
