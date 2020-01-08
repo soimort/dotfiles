@@ -6,6 +6,7 @@ import datetime
 import select
 import subprocess
 import sys
+import tempfile
 import time
 from os import environ, makedirs, path
 from pathlib import Path
@@ -181,13 +182,24 @@ def write_mur_file(f, debug=True):
 def main():
     global all_workspaces, ws, ns, nn, s
 
-    # show help if necessary
     if len(sys.argv) == 1:
-        print('Usage: mi-casa SESSION_FILE [WORKSPACE_NAME ...]')
-        exit(1)
+        # create temporary workspace file
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', delete=False) as f:
+            f.write('default\n')
+            workspace_filename = f.name
+        print_with_colors('[warning] creating temp session file "%s"' % workspace_filename, BOLD, YELLOW)
+        workspace_names = []
+
+    else:
+        # show help
+        if sys.argv[1] in ['--help', '-h']:
+            print('Usage: mi-casa SESSION_FILE [WORKSPACE_NAME ...]')
+            exit(1)
+
+        # use existing workspace file
+        workspace_filename, workspace_names = sys.argv[1], sys.argv[2:]
 
     # read workspace file
-    workspace_filename, workspace_names = sys.argv[1], sys.argv[2:]
     try:
         with open(workspace_filename) as f:
             all_workspaces = read_mur_file(f)
