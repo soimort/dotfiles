@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Start the default monitored file management session.
+#
+# Dependencies:
+#   tmux, htop, mi-casa/caja
+
+tmux new-session -d 'htop'
+# if something goes wrong, show error message forever
+tmux split-window -l 1 -v "setsid mi-casa $HOME/_.mur || sleep infinity"
+tmux -2 attach-session -d
