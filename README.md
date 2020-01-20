@@ -246,6 +246,10 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 ### Nonstandard ElScreen commands
 
+<kbd>M-s \<left\></kbd> Move the current screen to the left
+
+<kbd>M-s \<right\></kbd> Move the current screen to the right
+
 <kbd>M-s r</kbd> Remember (save current session)
 
 <kbd>M-s \<SPC\></kbd> Open all buffers in individual screens
