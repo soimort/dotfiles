@@ -27,6 +27,11 @@
 ;; text-mode
 (add-hook 'text-mode-hook 'flyspell-mode)
 
+;; org-mode
+;; fix custom keybinding
+(eval-after-load 'org
+  '(define-key org-mode-map (kbd "<C-tab>") 'elscreen-next))
+
 ;; markdown-mode [elpa]
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (setq markdown-command "pandoc")
