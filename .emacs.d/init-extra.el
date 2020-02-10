@@ -124,11 +124,14 @@
        (kbd "M-<up>") (lambda () (interactive) (scroll-down 4)))))
 
 ;; hol-mode [aur:hol]
-(autoload 'hol "/opt/hol/tools/hol-mode"
-  "Runs a HOL session in a comint window.
-   With a numeric prefix argument, runs it niced to that level
-   or at level 10 with a bare prefix. " t)
-;(load "/opt/hol/tools/hol-mode")
+;(autoload 'hol "/opt/hol/tools/hol-mode"
+;  "Runs a HOL session in a comint window.
+;   With a numeric prefix argument, runs it niced to that level
+;   or at level 10 with a bare prefix. " t)
+;(add-to-list 'auto-mode-alist '("Script\\.sml\\'" . holscript-mode)) ; won't work if hol not loaded
+(condition-case nil
+    (load "/opt/hol/tools/hol-mode")
+  (error nil))
 
 ;; agda-mode [arch:agda]
 (load-file (let ((coding-system-for-read 'utf-8))
