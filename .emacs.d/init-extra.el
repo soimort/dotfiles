@@ -133,9 +133,11 @@
     (load "/opt/hol/tools/hol-mode")
   (error nil))
 
-;; agda-mode [arch:agda]
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; agda-mode
+(condition-case nil
+    (load-file (let ((coding-system-for-read 'utf-8))
+                 (shell-command-to-string "agda-mode locate")))
+  (error nil))
 ;; my agda-mode dark theme
 (custom-set-faces
  '(agda2-highlight-keyword-face ((t (:foreground "MediumSeaGreen"))))
