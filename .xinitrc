@@ -14,4 +14,10 @@ xscreensaver &
 # start SSH agent
 eval $(ssh-agent)
 
+# start ibus
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+ibus-daemon --daemonize --replace --xim
+
 exec xmonad
