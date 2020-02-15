@@ -74,6 +74,10 @@ Editing certain files by initializing `emacs` with explicit parameters will not 
 
 <kbd>C-x b</kbd> Switch buffer
 
+<kbd>C-x Left</kbd> Switch to previous buffer
+
+<kbd>C-x Right</kbd> Switch to next buffer
+
 <kbd>C-x k</kbd> Kill buffer
 
 <kbd>C-x h</kbd> Select entire buffer
