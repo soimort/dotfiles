@@ -65,7 +65,7 @@ def get_url(url):
         except:
             pass
 
-    if quotetweet_link:
+    if quotetweet_link and 'https://twitter.com%s' % quotetweet_link != url:
         get_url('https://twitter.com%s' % quotetweet_link)
 
 def main():
