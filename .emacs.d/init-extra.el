@@ -111,6 +111,8 @@
     (load "/usr/share/emacs/site-lisp/ProofGeneral/generic/proof-site")
   (error nil))
 (add-hook 'proof-mode-hook 'flyspell-prog-mode)
+(add-hook 'proof-mode-hook
+          (lambda () (set-input-method "TeX")))
 ;; fix custom keybinding
 (eval-after-load 'coq
   '(progn
@@ -130,8 +132,13 @@
 ;   or at level 10 with a bare prefix. " t)
 ;(add-to-list 'auto-mode-alist '("Script\\.sml\\'" . holscript-mode)) ; won't work if hol not loaded
 (condition-case nil
-    (load "/opt/hol/tools/hol-mode")
+    (progn
+      (load "/opt/hol/tools/hol-mode")
+      (load "/opt/hol/tools/hol-input")
+      (add-hook 'holscript-mode-hook
+                (lambda () (set-input-method "Hol"))))
   (error nil))
+
 
 ;; agda-mode
 (condition-case nil
