@@ -223,14 +223,14 @@
 ;; More
 ;; ----
 
-(when (require 'elscreen nil 'noerror)
-  (load "~/.emacs.d/init-elscreen.el"))
-
-(when (require 'powerline nil 'noerror)
-  (powerline-default-theme))
-
 (setq init-extra "~/.emacs.d/init-extra.el")
 (if (file-exists-p init-extra)
     (load init-extra)
     ;(condition-case nil (load init-extra) (error nil))
-)
+  )
+
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme))
+
+(when (require 'elscreen nil 'noerror)
+  (load "~/.emacs.d/init-elscreen.el"))
