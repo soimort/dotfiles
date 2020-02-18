@@ -229,8 +229,8 @@
     ;(condition-case nil (load init-extra) (error nil))
   )
 
-(when (require 'powerline nil 'noerror)
-  (powerline-default-theme))
-
 (when (require 'elscreen nil 'noerror)
   (load "~/.emacs.d/init-elscreen.el"))
+
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme))
