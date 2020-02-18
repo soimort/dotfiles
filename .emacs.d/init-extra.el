@@ -139,6 +139,16 @@
                 (lambda () (set-input-method "Hol"))))
   (error nil))
 
+(eval-after-load 'holscript-mode
+  '(progn
+     (define-key holscript-mode-map
+       (kbd "C-c C-l")
+       (lambda () (interactive)
+         (mark-whole-buffer)
+         (copy-region-as-hol-definition (region-beginning) (region-end) 0 nil)
+         (deactivate-mark))
+         )))
+
 
 ;; agda-mode
 (condition-case nil
