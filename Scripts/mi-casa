@@ -330,7 +330,24 @@ def main():
                             print_with_colors('[error] notebook does not exist', YELLOW)
 
                     elif text == 'stat':
-                        pass ### TODO
+                        stat_sum = 0
+                        for workspace_name in ws:
+                            if workspace_name in nn:
+                                # loaded
+                                notebook = nn[workspace_name]
+                                stat_len = len(s[notebook])
+                                stat_loaded = ''
+                            elif workspace_name in all_workspaces:
+                                # not loaded
+                                stat_len = len(all_workspaces[workspace_name]['locations'])
+                                stat_loaded = '(not loaded)'
+                            else:
+                                # invalid / removed
+                                continue
+
+                            print('%-20s : %s %s' % (workspace_name, stat_len, stat_loaded))
+                            stat_sum += stat_len
+                        print('%-20s   %s' % ('', stat_sum))
 
                     elif text == 'time':
                         current_time = datetime.datetime.now()
@@ -362,6 +379,7 @@ def main():
                     ### TODO
                     elif text == 'help':
                         print('name NEW_NAME\t Rename the current workspace')
+                        print('stat\t\t Show the session statistics')
                         print('time\t\t Show the current time')
                         print('snap\t\t Take a snapshot')
                         print('save\t\t Save to the workspace file')
