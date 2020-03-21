@@ -506,6 +506,7 @@ def main():
                                     is_window_just_closing = False
 
                                 # remove page from notebook
+                                print_with_colors("tab closed: %s" % s[notebook][page_num][1], GREEN, BOLD)
                                 s[notebook].pop(page_num)
                                 if s[notebook] == []:
                                     # if it's the last page, remove notebook then
@@ -513,7 +514,7 @@ def main():
                                     del nn[ns[notebook]['name']]
                                     del ns[notebook]
 
-                                    print_with_colors("workspace closed" % ns, GREEN, BOLD)
+                                    print_with_colors("workspace closed: %s" % ns, GREEN, BOLD)
                                     is_window_closing = False
 
                             elif action == "page reordered":
