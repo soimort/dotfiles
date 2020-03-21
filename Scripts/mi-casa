@@ -336,17 +336,20 @@ def main():
                                 # loaded
                                 notebook = nn[workspace_name]
                                 stat_len = len(s[notebook])
-                                stat_loaded = ''
+                                stat_loaded = True
+                                stat_sum += stat_len
                             elif workspace_name in all_workspaces:
                                 # not loaded
                                 stat_len = len(all_workspaces[workspace_name]['locations'])
-                                stat_loaded = '(not loaded)'
+                                stat_loaded = False
                             else:
                                 # invalid / removed
                                 continue
 
-                            print('%-20s : %s %s' % (workspace_name, stat_len, stat_loaded))
-                            stat_sum += stat_len
+                            if stat_loaded:
+                                print('%-20s : %s' % (workspace_name, stat_len))
+                            else:
+                                print('%-20s : (%s)' % (workspace_name, stat_len))
                         print('%-20s   %s' % ('', stat_sum))
 
                     elif text == 'time':
