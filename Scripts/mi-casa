@@ -2,6 +2,7 @@
 #
 # Dependencies: python (3.5+), zenity
 
+import argparse
 import datetime
 import select
 import subprocess
@@ -179,10 +180,24 @@ def write_mur_file(f, debug=True):
         print(mur_screen)
     f.write(mur)
 
+
 def main():
     global all_workspaces, ws, ns, nn, s
 
-    if len(sys.argv) == 1:
+    # parse arguments to get workspace_filename & workspace_names
+    parser = argparse.ArgumentParser(prog='mi-casa', usage='mi-casa SESSION',
+                                     description='',
+                                     add_help=True)
+    #parser.add_argument('--foo', help='foo help')
+    parser.add_argument('--debug', action='store_true', default=False,
+                        help='show detailed information for debugging')
+    parser.add_argument('-w', '--workspace-name', action='append', dest='workspace_names',
+                        metavar='WORKSPACE_NAME', help='open a workspace')
+    parser.add_argument('SESSION', nargs='?', help=argparse.SUPPRESS)
+    #parser.add_argument('SESSIONS', nargs='*', help=argparse.SUPPRESS)
+    args = parser.parse_args()
+
+    if args.SESSION is None:
         # create temporary workspace file
         with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', delete=False) as f:
             f.write('default\n')
@@ -191,13 +206,8 @@ def main():
         workspace_names = []
 
     else:
-        # show help
-        if sys.argv[1] in ['--help', '-h']:
-            print('Usage: mi-casa SESSION_FILE [WORKSPACE_NAME ...]')
-            exit(1)
-
         # use existing workspace file
-        workspace_filename, workspace_names = sys.argv[1], sys.argv[2:]
+        workspace_filename, workspace_names = args.SESSION, args.workspace_names or []
 
     # read workspace file
     try:
@@ -318,6 +328,9 @@ def main():
                             ws[ws.index(old_name)] = new_name
                         else:
                             print_with_colors('[error] notebook does not exist', YELLOW)
+
+                    elif text == 'stat':
+                        pass ### TODO
 
                     elif text == 'time':
                         current_time = datetime.datetime.now()
@@ -501,7 +514,7 @@ def main():
                             print_with_colors("s: %s" % s, BLUE)
 
                             with open(workspace_filename, 'w') as f:
-                                write_mur_file(f)
+                                write_mur_file(f, debug=args.debug)
 
                         flag, last_proc_ts = True, time.time()
                 else:
