@@ -533,7 +533,8 @@ def main():
                             lastp[notebook] = page_num
 
                         if is_loading_finished and not is_window_closing:
-                            print_with_colors("s: %s" % s, BLUE)
+                            if args.debug:
+                                print_with_colors("s: %s" % s, BLUE)
 
                             if not s:
                                 print_with_colors('[warning] no more active workspace. you might close the monitor now.', BOLD, YELLOW)
