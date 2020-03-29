@@ -138,7 +138,7 @@ unset-emblem() {
 
 
 # Set the color of folder(s).
-# Avaiable icons: ~/Pictures/icons/Adwaita/places
+# Available icons: ~/Pictures/icons/Adwaita/places
 fcolor() {
     if [[ -z "$1" ]]; then
         # no param -- show help message
