@@ -3,7 +3,7 @@
 
 _pkgname=caja
 pkgname=mi-$_pkgname
-pkgver=1.16.2.r10.gb9951eb
+pkgver=1.16.2.r12.ge0ff86a
 pkgrel=1
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
