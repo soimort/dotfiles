@@ -292,6 +292,12 @@ def main():
                 f.write("  </window>\n")
             f.write("</session>\n")
 
+        # check if session file has acceptable size (oversized file will crash caja)
+        caja_session_filesize = path.getsize(caja_session_filename)
+        if caja_session_filesize >= 65536:  # this is hardcoded!
+            print_with_colors('[fatal] oversized session file (%s)' % caja_session_filesize, YELLOW)
+            exit(1)
+
         # need to suppress stderr for this version
         procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
 
