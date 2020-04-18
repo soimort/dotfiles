@@ -222,7 +222,7 @@ get() {
             # TODO: set $UA?
             if [ -f "$FILENAME" ]; then
                 log.w "file \"$FILENAME\" already exists!"
-                return 1
+                continue
             else
                 $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" || break
             fi
@@ -245,7 +245,7 @@ pre() {
     for FILENAME in "$@"; do
         if [ ! -f "$FILENAME" ]; then
             log.w "file \"$FILENAME\" does not exist!"
-            return 1
+            continue
         else
             NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
             mv $FILENAME $NEW_FILENAME
