@@ -6,9 +6,14 @@ from you_get.common import *
 
 def orig(url):
     m = url.split('/')
-    title = m[10][3:][:-4]
+    if m[10][0:3] == 'lg_':
+        filename = m[10][3:]
+        title = m[10][3:][:-4]
+    else:
+        filename = m[10]
+        title = m[10][:-4]
     src = 'https://green-img-news-dwango-jp-prod.s3.amazonaws.com/uploads/medium/file/%s/%s' % \
-        ('/'.join(m[6:10]), m[10][3:])
+        ('/'.join(m[6:10]), filename)
     return (src, title)
 
 def main():
