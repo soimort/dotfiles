@@ -74,5 +74,8 @@ path=("${CABAL_HOME}/bin" $path)
 # smackage
 SMACKAGE_HOME="${HOME}/.smackage"
 path+=("${SMACKAGE_HOME}/bin")
+# opam configuration
+# eval $(opam env)
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 #log.p $(checkt 'ok')
