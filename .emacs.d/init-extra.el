@@ -149,6 +149,12 @@
          (deactivate-mark))
          )))
 
+;; ott-mode
+(condition-case nil
+    (progn
+      (load (concat (getenv "HOME") "/.opam/default/share/emacs/site-lisp/ott-mode.el")))
+  (error nil))
+
 
 ;; agda-mode
 (condition-case nil
