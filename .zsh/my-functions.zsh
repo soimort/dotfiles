@@ -253,3 +253,26 @@ pre() {
     done
     return 0
 }
+
+prefix() {
+    if [[ -z "$1" ]]; then
+        # no param -- show help message
+        echo 'Usage: prefix PREFIX FILE...'
+        return 0
+    fi
+
+    local PREFIX="$1"
+    shift
+    log.d "prefix set: $PREFIX"
+
+    for FILENAME in "$@"; do
+        if [ ! -f "$FILENAME" ]; then
+            log.w "file \"$FILENAME\" does not exist!"
+            continue
+        else
+            NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
+            mv $FILENAME $NEW_FILENAME
+        fi
+    done
+    return 0
+}
