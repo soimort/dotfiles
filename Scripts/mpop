@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+exit_code=0
+
+for filename in "$@"; do
+    mime_type=`file -0 --mime-type -- "$filename" | cut -d $'\0' -f2 | cut -d ' ' -f2`
+    ext=
+    case $mime_type in
+        'image/gif' )
+            ext='gif'
+            ;;
+        'image/jpeg' )
+            ext='jpg'
+            ;;
+        'image/png' )
+            ext='png'
+            ;;
+        'image/webp' )
+            ext='webp'
+            ;;
+        'image/x-ms-bmp' )
+            ext='bmp'
+            ;;
+        * )
+            #ext=${i##*.}
+            ;;
+    esac
+
+    if [ -f "$filename" ]; then
+        if [ -z "$ext" ]; then
+            echo "UNSUPPORTED FILE TYPE: $filename"
+            exit_code=1
+        else
+            setsid moe -n "$filename" &
+        fi
+    else
+        echo "FILE NOT FOUND: $filename"
+        exit_code=1
+    fi
+done
+
+exit $exit_code

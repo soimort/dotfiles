@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+exit_code=0
+
+for filename in "$@"; do
+    continue
+done
+
+exit $exit_code
