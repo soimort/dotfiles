@@ -11,39 +11,58 @@ site_info = 'DMM R18'
 def main():
     for arg in sys.argv[1:]:
         cont = get_content(arg)
-        cid = re.findall(r'cid=([^/]+)/', cont)[0]
-        print("ID:\t\t%s" % cid)
-        title = re.findall(r'<title>(.*?) - ', cont)[0]
-        print("Title:\t\t%s" % title)
-        performers = re.findall(r'<span id="performer">[^>]*>([^<]+)</', cont)
-        if performers:
-            print("Performer:\t%s" % performers[0])
+        try:
+            cid = re.findall(r'cid=([^/]+)/', cont)[0]
+            print("ID:\t\t%s" % cid)
+            title = re.findall(r'<title>(.*?) - ', cont)[0]
+            print("Title:\t\t%s" % title)
+            performers = re.findall(r'<span id="performer">[^>]*>([^<]+)</', cont)
+            if performers:
+                print("Performer:\t%s" % performers[0])
 
-        if re.search(r'/mono/', arg):
-            cover_url = 'https://pics.dmm.co.jp/mono/movie/adult/%s/%spl.jpg' % (cid, cid)
-        else:
-            cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
-        cover_title = '%spl' % cid
-        ext, size = 'jpg', url_size(cover_url)
-        download_urls(urls=[cover_url],
-                      title=cover_title,
-                      output_dir='.',
-                      total_size=size,
-                      ext=ext,
-                      merge=False)
-
-        samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont) or \
-            re.findall('//pics.dmm.com/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
-        for samp in samps:
-            url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
-            title = '%sjp-%s' % (samp[1], samp[2])
-            ext, size = 'jpg', url_size(url)
-            download_urls(urls=[url],
-                          title=title,
+            if re.search(r'/mono/', arg):
+                cover_url = 'https://pics.dmm.co.jp/mono/movie/adult/%s/%spl.jpg' % (cid, cid)
+            else:
+                cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
+            cover_title = '%spl' % cid
+            ext, size = 'jpg', url_size(cover_url)
+            download_urls(urls=[cover_url],
+                          title=cover_title,
                           output_dir='.',
                           total_size=size,
                           ext=ext,
                           merge=False)
+
+            samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont) or \
+                re.findall('//pics.dmm.com/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
+            for samp in samps:
+                url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
+                title = '%sjp-%s' % (samp[1], samp[2])
+                ext, size = 'jpg', url_size(url)
+                download_urls(urls=[url],
+                              title=title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
+
+        except:  # when age check is in effect
+            cid = re.findall(r'cid=([^/]+)/', arg)[0]
+            print("ID:\t\t%s" % cid)
+
+            i = 0
+            while True:
+                i += 1
+                url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (cid, cid, i)
+                title = '%sjp-%s' % (cid, i)
+                ext, size = 'jpg', url_size(url)
+                if size <= 2732: break
+                download_urls(urls=[url],
+                              title=title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
 
     return
 
