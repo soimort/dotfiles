@@ -65,15 +65,15 @@ mc() {
 48get() {
     for url in "$@"; do
         if [[ $url =~ "7gogo\.jp" ]]; then
-            Get-755 $url || break
+            Get-755 $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
-            Get-Insta $url || break
+            Get-Insta $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "twitter\.com" ]]; then
-            Get-Tweet $url || break
+            Get-Tweet $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "plus\.google\.com" ]]; then
-            gugutasu $url || break
+            gugutasu $url || log.e "failed to get \"$url\""
         else
-            wget $url || break
+            wget $url || log.e "failed to get \"$url\""
             local filename=${url##*/}
             if [[ -r $filename ]]; then
                 fix-ext $filename
@@ -208,13 +208,13 @@ get() {
 
     for url in "$@"; do
         if [[ $url =~ "7gogo\.jp" && ! ($url =~ "stat\.7gogo\.jp") ]]; then
-            $XYC Get-755 $url || break
+            $XYC Get-755 $url || log.e "failed to get \"$url\""
 
         elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
-            $XYC Get-Insta $url || break
+            $XYC Get-Insta $url || log.e "failed to get \"$url\""
 
         elif [[ $url =~ "twitter\.com" ]]; then
-            $XYC Get-Tweet $url || break
+            $XYC Get-Tweet $url || log.e "failed to get \"$url\""
 
         else
             local FILENAME=$PREFIX${url##*/}
@@ -224,7 +224,8 @@ get() {
                 log.w "file \"$FILENAME\" already exists!"
                 continue
             else
-                $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" || break
+                $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" ||
+                    log.e "failed to get \"$url\""
             fi
         fi
     done
