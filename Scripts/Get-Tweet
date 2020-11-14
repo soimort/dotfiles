@@ -19,9 +19,9 @@ from you_get.extractors.twitter import twitter_download
 site_info = 'Twitter'
 
 def get_url(url):
-    m = re.match('^https?://twitter\.com/([^/]+)/status/(\d+)', url)
+    m = re.match('^https?://(mobile\.)?twitter\.com/([^/]+)/status/(\d+)', url)
     assert m
-    screen_name, item_id = m.group(1), m.group(2)
+    screen_name, item_id = m.group(2), m.group(3)
     page_title = "{} [{}]".format(screen_name, item_id)
     log.w(page_title.split('\n')[0].split(': ')[0])
 
