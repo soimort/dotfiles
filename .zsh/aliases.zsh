@@ -47,6 +47,7 @@ alias remote="git remote"
 alias rm="git rm"
 alias tag="git tag"
 alias unstage="git unstage"
+alias stashp="git stash push"
 
 # networking
 alias i="ping -c 3 www.google.com"
