@@ -6,7 +6,7 @@ from you_get.common import *
 
 def orig(url):
     m = url.split('/')
-    if m[10][0:3] == 'lg_':
+    if m[10][0:3] in ['lg_', 'md_', 'sm_']:
         filename = m[10][3:]
         title = m[10][3:][:-4]
     else:
