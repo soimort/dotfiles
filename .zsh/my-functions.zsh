@@ -73,11 +73,9 @@ mc() {
         elif [[ $url =~ "plus\.google\.com" ]]; then
             gugutasu $url || log.e "failed to get \"$url\""
         else
-            wget $url || log.e "failed to get \"$url\""
             local filename=${url##*/}
-            if [[ -r $filename ]]; then
-                fix-ext $filename
-            fi
+            filename=${filename%%\?*}
+            wget -O $filename $url || log.e "failed to get \"$url\""
         fi
     done
 }
