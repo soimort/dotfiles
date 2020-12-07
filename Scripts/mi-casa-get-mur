@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+#
+# Extract all URLs from a caja session file and print in mur format.
+#
+# FIXME: very slow since it calls python to decode a URL every time!
+
+. prelude
+
+urldec() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: urldec STRING'
+        return 1
+    fi
+
+    python -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1"
+}
+
+if [ $# -ne 1 ]; then
+    echo 'Usage:'
+    echo '  mi-casa-get-mur CAJA_SESSION_FILE'
+    exit 1
+fi
+
+while IFS= read -r line
+do
+    if [[ "$line" =~ "<slot " ]]; then
+        local url=${line##*<slot location=\'}
+        url=${url%%\'/>}
+
+        url=`urldec $url`
+        if [[ "$line" =~ "file://" ]]; then
+            echo "${url##file://}"
+        else
+            echo "$url"
+        fi
+    elif [[ "$line" =~ "<window " ]]; then
+        echo
+        echo '***'
+    fi
+done < "$1"
