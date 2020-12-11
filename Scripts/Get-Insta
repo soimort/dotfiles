@@ -24,7 +24,7 @@ def main():
         title = m.group(2)
         log.w(title)
 
-        cont = get_content(url)
+        cont = get_content(url, headers=fake_headers)
         #data = re.search(r'window\.__additionalDataLoaded\(\'[^\']+\',(.*)\);</script>', cont)
         #post = json.loads(data.group(1))
         data = re.search(r'window\._sharedData\s*=\s*(.*);</script>', cont)
