@@ -348,8 +348,8 @@ def main():
                         for _workspace_name in ws:
                             if _workspace_name in nn:
                                 # loaded
-                                notebook = nn[_workspace_name]
-                                stat_len = len(s[notebook])
+                                _notebook = nn[_workspace_name]
+                                stat_len = len(s[_notebook])
                                 stat_loaded = True
                                 stat_sum += stat_len
                             elif _workspace_name in all_workspaces:
