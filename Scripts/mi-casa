@@ -178,7 +178,10 @@ def write_mur_file(f, debug=True):
 
     if debug:
         print(mur_screen)
-    f.write(mur)
+    try:
+        f.write(mur)
+    except OSError as err:
+        subprocess.run(['zenity', '--error', '--text=Monitor has stopped.\n\nOS error: {0}'.format(err)])
 
 
 def main():
