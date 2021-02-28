@@ -1,11 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 if [ -n "$1" ]; then
     if [ -n "$2" ]; then
         DELAY="-delay $2"
     fi
-    if [ -n "$3" ]; then
-        RESIZE="-resize $3"
+
+    if [ -n "$4" ]; then
+        RESIZE="-resize $4"
     fi
-    convert -colors 128 -loop 0 $RESIZE $DELAY $1/*.png $1.gif
+
+    L=`echo $1/*.png`
+    l=("${(@s/ /)L}")
+
+    R=`echo ${(Oa)l}`
+    r=("${(@s/ /)R}")
+
+    if [ "$3" = "r" ]; then
+        echo -colors 128 -loop 0 $RESIZE $DELAY $l $r[2,$#r-1] $1.gif | xargs convert
+    else
+        echo -colors 128 -loop 0 $RESIZE $DELAY $l $1.gif | xargs convert
+    fi
+else
+    echo "Usage: Make-GIF folder [delay] [r/n] [resize]"
 fi
