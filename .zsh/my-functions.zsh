@@ -75,7 +75,8 @@ mc() {
         else
             local filename=${url##*/}
             filename=${filename%%\?*}
-            wget -O $filename $url || log.e "failed to get \"$url\""
+            # skip downloads that would overwrite existing files
+            wget -nc -O $filename $url || log.e "failed to get \"$url\""
         fi
     done
 }
