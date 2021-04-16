@@ -67,7 +67,8 @@ mc() {
         if [[ $url =~ "7gogo\.jp" ]]; then
             Get-755 $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
-            Get-Insta $url || log.e "failed to get \"$url\""
+            Get-Insta $url || log.e "failed to get text from \"$url\""
+            you-get -c "$HOME/instagram.com_cookies.txt" $url || log.e "failed to get images from \"$url\""
         elif [[ $url =~ "twitter\.com" ]]; then
             Get-Tweet $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "plus\.google\.com" ]]; then
