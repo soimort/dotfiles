@@ -10,26 +10,31 @@ site_info = 'modelpress'
 
 def main():
     for arg in sys.argv[1:]:
-        download_list = []
         cont = get_content(arg)
         details = re.findall(r'a href="(/photo/detail/\d+)"', cont)
-        for j in details:
-            url = "https://mdpr.jp%s" % j
-            download_list = []
+        details += re.findall(r'<meta property="og:url" content="https://mdpr.jp(/photo/detail/\d+)"', cont)
+        #images = re.findall(r'<img src="(https://img-mdpr\.freetls\.fastly\.net/article/[^?"]+)', cont)
+
+        i = 1
+        for detail in details:
+            photo_id = detail.split('/')[-1]
+
+            url = "https://mdpr.jp%s" % detail
             cont = get_content(url)
-            t = re.findall(r'"(https://cdn\.mdpr\.jp/photo/images/[^"]+/(w\d+c[^"]+))"', cont)
-            if not t:
-                t = re.findall(r'<meta property="og:image" content="([^?]+/([^?]+))?', cont)
-            for i in t:
-                urls, title = [i[0]], i[1]
-                ext, size = 'jpg', urls_size(urls)
-                print_info(site_info, title, ext, size)
-                download_urls(urls=urls,
-                              title=title,
-                              output_dir='.',
-                              total_size=size,
-                              ext=ext,
-                              merge=False)
+            orig = re.findall(r'<img src="(https://img-mdpr\.freetls\.fastly\.net/article/[^?]+)', cont)[0]
+            if not orig:
+                orig = re.findall(r'<meta property="og:image" content="([^?]+/([^?]+))?', cont)[0]
+            orig_id = orig.split('/')[-1].split('.')[-2]
+            title = '[%s] %s' % (photo_id, orig_id)
+
+            ext, size = 'jpg', url_size(orig)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[orig],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False)
 
     return
 
