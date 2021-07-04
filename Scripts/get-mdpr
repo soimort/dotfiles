@@ -12,6 +12,8 @@ def main():
     for arg in sys.argv[1:]:
         cont = get_content(arg)
         details = re.findall(r'a href="(/photo/detail/\d+)"', cont)
+        details += re.findall(r'a class="moki-image-link" href="(/photo/detail/\d+)"', cont)
+        details += re.findall(r'a class="moki-image-link is-noResize" href="(/photo/detail/\d+)"', cont)
         details += re.findall(r'<meta property="og:url" content="https://mdpr.jp(/photo/detail/\d+)"', cont)
         #images = re.findall(r'<img src="(https://img-mdpr\.freetls\.fastly\.net/article/[^?"]+)', cont)
 
