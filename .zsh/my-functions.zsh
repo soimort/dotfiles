@@ -218,6 +218,7 @@ get() {
 
         else
             local FILENAME=$PREFIX${url##*/}
+            FILENAME=${FILENAME%%\?*}
             # TODO: fix ext
             # TODO: set $UA?
             if [ -f "$FILENAME" ]; then
