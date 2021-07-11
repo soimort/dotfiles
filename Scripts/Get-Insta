@@ -57,7 +57,7 @@ def main():
         outf.write('\n')
         outf.close()
 
-        #instagram_download(url)
+        instagram_download(url)
 
 if __name__ == '__main__':
     main()
