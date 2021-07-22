@@ -30,16 +30,16 @@ br_pandoc() {
                     # end of YAML metadata
                     in_yaml=false
                 fi
-                echo $line
+                echo "$line"
 
             elif [[ $i = 0 && $line = '---' ]]; then
                 # start of YAML metadata
                 in_yaml=true
-                echo $line
+                echo "$line"
 
             elif [[ $line =~ ^'# ' || $line =~ ^'## ' || $line =~ ^'### ' ]]; then
                 # do not append line break on headings
-                echo && echo $line
+                echo && echo "$line"
 
             elif [[ $line =~ ^'_ ' ]]; then
                 echo "<em>${line#_ }</em>" \\
@@ -51,7 +51,7 @@ br_pandoc() {
                 echo "<em><strong>${line#___ }</strong></em>" \\
 
             else
-                echo $line \\
+                echo "$line" \\
             fi
 
             (( i = i + 1 ))
