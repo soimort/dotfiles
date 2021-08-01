@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+#
+# Show the memory usage of processes and their children based on names.
+#
+# FIXME:
+# - find children processes of firefox
+
+import subprocess
+import sys
+
+proc_poll = []
+
+def pmem(pid, level=0):
+    proc_status_filename = '/proc/%s/status' % pid
+    proc_children_filename = '/proc/%s/task/%s/children' % (pid, pid)
+
+    with open(proc_status_filename) as f:
+        for line in f:
+            if line.startswith('Name:'):
+                name = line.split('\t')[-1].strip()
+
+            if line.startswith('VmRSS:'):
+                assert line.split(' ')[-1] == 'kB\n'
+                vm_rss = line.split(' ')[-2]
+
+            if line.startswith('VmSwap:'):
+                assert line.split(' ')[-1] == 'kB\n'
+                vm_swap = line.split(' ')[-2]
+
+    vm_rss_mb = int(vm_rss) / 1024
+    vm_swap_mb = int(vm_swap) / 1024
+    total_mb = vm_rss_mb + vm_swap_mb
+    print('%s%s %s [%.2f MB] (%.2f MB ram, %.2f MB swap)' %
+        (' ' * level * 4, pid, name, total_mb, vm_rss_mb, vm_swap_mb))
+
+    with open(proc_children_filename) as f:
+        for line in f:
+            for children_pid in line.split(' ')[:-1]:
+                pmem(children_pid, level+1)
+
+    proc_poll.append(pid)
+    return (name, vm_rss, vm_swap)
+
+def main():
+    for proc_name in sys.argv[1:]:
+        pgrep_info = subprocess.run(['pgrep', proc_name], capture_output=True, encoding='utf-8')
+        for pid in pgrep_info.stdout.split('\n')[:-1]:
+            if pid not in proc_poll:
+                pmem(pid)
+                print()
+
+if __name__ == '__main__':
+    main()
