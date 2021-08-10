@@ -16,4 +16,5 @@ keycode  87 = End NoSymbol End
 ! keycode  88 = Down NoSymbol Down
 keycode  89 = Next NoSymbol Next NoSymbol Next
 keycode  90 = F12 F12 F12 F12 F12 F12 XF86Switch_VT_12 F12 F12 XF86Switch_VT_12 F12 F12 F12 F12 XF86Switch_VT_12
+keycode  91 =
 keycode  106 = Print Sys_Req Print Execute
