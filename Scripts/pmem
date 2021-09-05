@@ -14,24 +14,29 @@ proc_poll = []
 def pmem(pid, level=0):
     proc_status_filename = '/proc/%s/status' % pid
 
+    vm_rss = 0
+    vm_swap = 0
     with open(proc_status_filename) as f:
         for line in f:
             if line.startswith('Name:'):
                 name = line.split('\t')[-1].strip()
 
+            if line.startswith('State:'):
+                state = line.split('\t')[-1].strip()
+
             if line.startswith('VmRSS:'):
                 assert line.split(' ')[-1] == 'kB\n'
-                vm_rss = line.split(' ')[-2]
+                vm_rss = int(line.split(' ')[-2])
 
             if line.startswith('VmSwap:'):
                 assert line.split(' ')[-1] == 'kB\n'
-                vm_swap = line.split(' ')[-2]
+                vm_swap = int(line.split(' ')[-2])
 
-    vm_rss_mb = int(vm_rss) / 1024
-    vm_swap_mb = int(vm_swap) / 1024
+    vm_rss_mb = vm_rss / 1024
+    vm_swap_mb = vm_swap / 1024
     total_mb = vm_rss_mb + vm_swap_mb
-    print('%s%s %s [%.2f MB] (%.2f MB ram, %.2f MB swap)' %
-        (' ' * level * 4, pid, name, total_mb, vm_rss_mb, vm_swap_mb))
+    print('%s%s %s [%.2f MB] (%.2f MB ram, %.2f MB swap) state: %s' %
+        (' ' * level * 4, pid, name, total_mb, vm_rss_mb, vm_swap_mb, state))
 
     # traverse task threads and find all children
     for tid in os.listdir('/proc/%s/task/' % pid):
