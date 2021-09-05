@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# Launch firefox.
+
+setsid -f firefox &>/dev/null
