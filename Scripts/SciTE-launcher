@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+#
+# Launch SciTE with all sessions saved as $HOME/*.SciTE.session.
+# (one of them must be identical with $HOME/.SciTE.session if it exists)
+
+. prelude
+
+LAST_SESSION_FILENAME=$HOME/.SciTE.session
+
+if [[ ! -r "$LAST_SESSION_FILENAME" ]]; then
+    has_last_session=false
+    w "last session file '$LAST_SESSION_FILENAME' not found"
+else
+    has_last_session=true
+    t=`tail -n +20 $LAST_SESSION_FILENAME`
+fi
+
+flag=false
+for SESSION_FILENAME in $HOME/*.SciTE.session; do
+    if [[ -r "$SESSION_FILENAME" ]]; then
+        t1=`tail -n +3 $SESSION_FILENAME`
+
+        if [[ "$has_last_session" == true && "$t" == "$t1" ]]; then
+            flag=true
+            ok "last session is identical with '$SESSION_FILENAME'"
+        fi
+    fi
+done
+
+if [[ "$has_last_session" == true && "$flag" == false ]]; then
+    e "last session does not match any of the named session files, abort!"
+    return 1
+fi
+
+for SESSION_FILENAME in $HOME/*.SciTE.session; do
+    if [[ -r "$SESSION_FILENAME" ]]; then
+        ok "opening '$SESSION_FILENAME'..."
+        cp $SESSION_FILENAME $LAST_SESSION_FILENAME && sleep 2  # wait until copy is done
+        setsid -f scite &>/dev/null
+        sleep 2
+    fi
+done
+ok "all sessions loaded"
+
+return 0
