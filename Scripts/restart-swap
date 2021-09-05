@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# Restart system swapping.
+
+sudo swapoff -a && sudo swapon -a
