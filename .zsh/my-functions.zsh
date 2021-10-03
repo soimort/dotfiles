@@ -217,8 +217,9 @@ get() {
             $XYC Get-Tweet $url || log.e "failed to get \"$url\""
 
         else
-            local FILENAME=$PREFIX${url##*/}
+            local FILENAME=${url##*/}
             FILENAME=${FILENAME%%\?*}
+            FILENAME=$PREFIX$FILENAME
             # TODO: fix ext
             # TODO: set $UA?
             if [ -f "$FILENAME" ]; then
