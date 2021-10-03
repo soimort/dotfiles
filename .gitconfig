@@ -3,17 +3,17 @@
 	email = soi@mort.ninja
 	signingkey = 78203251
 [alias]
-	co = checkout
 	br = branch
 	ci = commit
-	st = status
-	su = status -uno
-	unstage = reset HEAD --
+	co = checkout
+	d = diff HEAD --
 	last = log -1 HEAD
 	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
         lll = log --pretty=format:'%h%x09%an%x09%ad%x09%s'
-	d = diff HEAD --
-	af = add -f
+	st = status
+	su = status -uno
+	unstage = reset HEAD --
+	yeet = push origin HEAD
 [color]
 	ui = auto
 [core]
