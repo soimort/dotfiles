@@ -46,16 +46,19 @@ def main():
             text = post['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text']
         except:
             text = ''
-        outf = open(title + '.pt', 'w')
-        outf.write('---\n')
-        outf.write('author: %s\n' % author)
-        outf.write('date: %s\n' % post_time)
-        outf.write('source: %s\n' % 'Instagram')
-        outf.write('url: %s\n' % url)
-        outf.write('---\n')
-        outf.write(text)
-        outf.write('\n')
-        outf.close()
+
+        try:
+            with open(title + '.pt', 'x') as outf:
+                outf.write('---\n')
+                outf.write('author: %s\n' % author)
+                outf.write('date: %s\n' % post_time)
+                outf.write('source: %s\n' % 'Instagram')
+                outf.write('url: %s\n' % url)
+                outf.write('---\n')
+                outf.write(text)
+                outf.write('\n')
+        except:
+            log.e("[Warning] File '%s' existed and will not be truncated." % (title + '.pt'))
 
         instagram_download(url)
 
