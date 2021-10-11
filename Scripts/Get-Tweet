@@ -41,16 +41,18 @@ def get_url(url):
     created_at = datetime.strptime(item['created_at'], '%a %b %d %X %z %Y').strftime('%a %d %b %Y')
     full_text = item['full_text']
 
-    outf = open(item_id + '.pt', 'w')
-    outf.write('---\n')
-    outf.write('author: %s\n' % author)
-    outf.write('date: %s\n' % created_at)
-    outf.write('source: %s\n' % 'Twitter')
-    outf.write('url: %s\n' % url)
-    outf.write('---\n')
-    outf.write(full_text)
-    outf.write('\n')
-    outf.close()
+    try:
+        with open(item_id + '.pt', 'x') as outf:
+            outf.write('---\n')
+            outf.write('author: %s\n' % author)
+            outf.write('date: %s\n' % created_at)
+            outf.write('source: %s\n' % 'Twitter')
+            outf.write('url: %s\n' % url)
+            outf.write('---\n')
+            outf.write(full_text)
+            outf.write('\n')
+    except:
+        log.e("[Warning] File '%s' existed and will not be truncated." % (item_id + '.pt'))
 
     if 'extended_entities' in item:
         media = item['extended_entities']['media']
