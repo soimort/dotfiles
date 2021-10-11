@@ -41,16 +41,19 @@ def main():
 
         title = '%s_%s' % (talk_id, post_id)
         log.w(title)
-        outf = open(title + '.pt', 'w')
-        outf.write('---\n')
-        outf.write('author: %s\n' % author)
-        outf.write('date: %s\n' % post_time)
-        outf.write('source: %s\n' % '755')
-        outf.write('url: %s\n' % url)
-        outf.write('---\n')
-        outf.write(text)
-        outf.write('\n')
-        outf.close()
+
+        try:
+            with open(title + '.pt', 'x') as outf:
+                outf.write('---\n')
+                outf.write('author: %s\n' % author)
+                outf.write('date: %s\n' % post_time)
+                outf.write('source: %s\n' % '755')
+                outf.write('url: %s\n' % url)
+                outf.write('---\n')
+                outf.write(text)
+                outf.write('\n')
+        except:
+            log.e("[Warning] File '%s' existed and will not be truncated." % (title + '.pt'))
 
         if images:
             image_url = images[0]
