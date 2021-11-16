@@ -10,6 +10,10 @@ site_info = 'modelpress'
 
 def main():
     for arg in sys.argv[1:]:
+        if re.search('mdpr\.jp/news/\d+', arg):
+            news_id = re.findall(r'mdpr\.jp/news/(\d+)', arg)[0]
+            arg = 'https://mdpr.jp/news/detail/%s' % news_id
+
         cont = get_content(arg)
         details = re.findall(r'a href="(/photo/detail/\d+)"', cont)
         details += re.findall(r'a class="moki-image-link" href="(/photo/detail/\d+)"', cont)
