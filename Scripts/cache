@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+#
+# Cache a URL locally.
+
+. prelude
+
+if [ -z "$1" ]; then
+    echo 'Usage:'
+    echo '  cache PREFIX URL...'
+    echo '  cache URL...'
+    return 0
+fi
+
+CACHE_DIR="$HOME/Downloads/_cache"
+mkdir -p $CACHE_DIR
+
+# if the first parameter is not a URL, it is a prefix
+if [[ ! $1 =~ "https?://" ]]
+then
+    local PREFIX="[$1] "
+    shift
+    #echo "prefix set: $PREFIX"  # FIXME: use log.d
+fi
+
+for url in "$@"
+do
+    local FILENAME=${url##*/}
+    FILENAME=${FILENAME%%\?*}
+    FILENAME=$PREFIX$FILENAME
+    FILENAME=$CACHE_DIR/$FILENAME
+    if [ -f "$FILENAME" ]
+    then
+	w "file \"$FILENAME\" already exists!"
+	continue
+    else
+        wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" &> /dev/null || e "failed to get \"$url\""
+        echo $FILENAME
+    fi
+done
+return 0
