@@ -39,26 +39,28 @@ def main():
                 log.e('[Warning] Cookies needed.')
             post = json.loads(data.group(1))
 
-        date = post['graphql']['shortcode_media']['taken_at_timestamp']
-        post_time = datetime.fromtimestamp(date).strftime('%a %d %b %Y')
-        author = post['graphql']['shortcode_media']['owner']['full_name']
-        try:
-            text = post['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text']
-        except:
-            text = ''
+        for item in post['items']:
+            title = item['code']
+            date = item['taken_at']
+            post_time = datetime.fromtimestamp(date).strftime('%a %d %b %Y')
+            author = item['user']['full_name']
+            try:
+                text = item['caption']['text']
+            except:
+                text = ''
 
-        try:
-            with open(title + '.pt', 'x') as outf:
-                outf.write('---\n')
-                outf.write('author: %s\n' % author)
-                outf.write('date: %s\n' % post_time)
-                outf.write('source: %s\n' % 'Instagram')
-                outf.write('url: %s\n' % url)
-                outf.write('---\n')
-                outf.write(text)
-                outf.write('\n')
-        except:
-            log.e("[Warning] File '%s' existed and will not be truncated." % (title + '.pt'))
+            try:
+                with open(title + '.pt', 'x') as outf:
+                    outf.write('---\n')
+                    outf.write('author: %s\n' % author)
+                    outf.write('date: %s\n' % post_time)
+                    outf.write('source: %s\n' % 'Instagram')
+                    outf.write('url: %s\n' % url)
+                    outf.write('---\n')
+                    outf.write(text)
+                    outf.write('\n')
+            except:
+                log.e("[Warning] File '%s' existed and will not be truncated." % (title + '.pt'))
 
         instagram_download(url)
 
