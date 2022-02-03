@@ -214,9 +214,9 @@
 
 ;; Turn off file variables
 ;; See: http://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables
-;(setq enable-local-variables nil
-;      enable-local-eval nil
-;      enable-dir-local-variables nil)
+(setq enable-local-variables nil
+      enable-local-eval nil
+      enable-dir-local-variables nil)
 
 
 
