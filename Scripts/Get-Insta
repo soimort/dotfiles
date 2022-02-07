@@ -27,9 +27,20 @@ def main():
         #post = json.loads(data.group(1))
         data = re.search(r'window\._sharedData\s*=\s*(.*);</script>', cont)
         try:
+            assert False # just use cookies
+
             info = json.loads(data.group(1))
             post = info['entry_data']['PostPage'][0]
             assert post
+
+            date = post['graphql']['shortcode_media']['taken_at_timestamp']
+            post_time = datetime.fromtimestamp(date).strftime('%a %d %b %Y')
+            author = post['graphql']['shortcode_media']['owner']['full_name']
+            try:
+                text = post['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text']
+            except:
+                text = ''
+
         except:
             load_cookies('/home/soimort/instagram.com_cookies.txt')
             cont = get_content(url, headers=fake_headers)
