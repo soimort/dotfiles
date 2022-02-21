@@ -64,7 +64,7 @@
 (set-cursor-color "#107f10")
 
 ;; Set default font family / size
-(set-default-font "Ubuntu Mono 12")
+(set-frame-font "Ubuntu Mono 12")
 
 ;; Show line numbers
 (global-linum-mode t)
