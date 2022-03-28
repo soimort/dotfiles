@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Download all images from dwango.
+# Download all images from dwango <https://news.dwango.jp/>.
 
 import json, re, sys
 from you_get.common import *
@@ -18,16 +18,18 @@ def orig(url):
         title = m[10][:-4]
     src = 'https://green-img-news-dwango-jp-prod.s3.amazonaws.com/uploads/medium/file/%s/%s' % \
         ('/'.join(m[6:10]), filename)
-    return (src, title)
+    return (src, '[dwango] %s' % title)
 
 def main():
     for arg in sys.argv[1:]:
-        download_list = []
-        cont = get_content(arg)
-        photos = re.findall(r'src="([^"]+)" alt="Sm ([^"]+)', cont)
+        # TODO: use get_content with fake headers
+        response = get_response(arg, faker=True)
+        page = str(response.data)
+
+        photos = re.findall(r'(https?://news-img\.dwango\.jp/[^"]+\.jpg)" alt="Sm', page)
 
         for photo in photos:
-            url, title = orig(photo[0])
+            url, title = orig(photo)
             ext, size = 'jpg', url_size(url)
             print_info(site_info, title, ext, size)
             download_urls(urls=[url],
