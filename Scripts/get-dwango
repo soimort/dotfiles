@@ -26,9 +26,9 @@ def main():
         response = get_response(arg, faker=True)
         page = str(response.data)
 
-        photos = re.findall(r'(https?://news-img\.dwango\.jp/[^"]+\.jpg)" alt="Sm', page)
+        photos = re.findall(r'(https?://news-img\.dwango\.jp/[^"]+\.(jpg|JPG|png|PNG))" alt="Sm', page)
 
-        for photo in photos:
+        for photo, extension in photos:
             url, title = orig(photo)
             ext, size = 'jpg', url_size(url)
             print_info(site_info, title, ext, size)
