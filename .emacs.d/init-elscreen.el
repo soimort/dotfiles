@@ -119,7 +119,8 @@
 
 ;; Enable elscreen-dnd
 ;; With elscreen-dnd, new screens are automatically created for each file drag & dropped
-(load "elscreen-dnd")
+;; Suppress the "Invalid function" error in Emacs 28
+(condition-case nil (load "elscreen-dnd") (error nil))
 (setq elscreen-dnp-drag-n-drop t)
 
 ;; Automatic store
