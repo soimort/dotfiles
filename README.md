@@ -32,6 +32,8 @@
 
 <kbd>M-x package-install RET elscreen RET</kbd> Install [ElScreen](https://melpa.org/#/elscreen)
 
+<kbd>M-x package-install RET powerline RET</kbd> Install [Powerline](https://melpa.org/#/powerline)
+
 
 
 ## Emacs
