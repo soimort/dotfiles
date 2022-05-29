@@ -78,15 +78,17 @@ path+=("${SMACKAGE_HOME}/bin")
 # eval $(opam env)
 test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 # pyenv configuration
-PYENV_ROOT="${HOME}/.pyenv"
-path=("${PYENV_ROOT}/bin" $path)
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+if [ -x /usr/bin/pyenv ]; then
+    PYENV_ROOT="${HOME}/.pyenv"
+    path=("${PYENV_ROOT}/bin" $path)
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+fi
 # ciao
 # @begin(87653063)@ - Do not edit these lines - added automatically!
 # You should customize CIAOPATH before this chunk if you place bundles in
 # places other than ~/.ciao
-if [ -x /home/soimort/Source/ciao/build/bin/ciao-env ] ; then
+if [ -x /home/soimort/Source/ciao/build/bin/ciao-env ]; then
   eval "$(/home/soimort/Source/ciao/build/bin/ciao-env --sh)"
 fi
 # @end(87653063)@ - End of automatically added lines.
