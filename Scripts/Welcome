@@ -23,6 +23,11 @@ welcome_init() {
         xmodmap ~/.Xmodmap
         killall -q xbindkeys; xbindkeys
 
+        #
+        if [[ $HOSTNAME == "Hope" ]]; then
+            killall devilspie2 && devilspie2&
+        fi
+
         # connect to SFTP remote points using nautilus
         if [[ $HOSTNAME == "Seele" ]]; then
             nautilus sftp://soimort@hope 2>/dev/null&
