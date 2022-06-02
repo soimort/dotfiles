@@ -1,4 +1,9 @@
 #!/bin/sh
+#
+# Show the dzen calendar. (for xmonad only)
+#
+# Dependencies:
+# - dzen2
 
 pkill -f "dzen2 -title-name calendar"
 

@@ -1,4 +1,10 @@
 #!/bin/zsh
+#
+# Show the dzen quotes. (for xmonad only)
+#
+# Dependencies:
+# - dzen2
+# - fortune-mod
 
 pkill -f "dzen2 -title-name quotes"
 
