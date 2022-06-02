@@ -3,6 +3,9 @@
 # Markdown flavor that preserves literal line breaks
 # and supports line-based strong & em.
 #
+# Dependencies:
+# - pandoc
+
 BR_VERSION=0.1.0.1
 
 br_version() {
