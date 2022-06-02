@@ -2,16 +2,6 @@
 
 
 
-## gnome-shell
-
-Version: **3.32.2+11+g1c6abf378-2**
-
-Feature tweaks:
-
-* Saturate appmenu icon again (reverting [1c117c46](https://gitlab.gnome.org/GNOME/gnome-shell/commit/1c117c469a23a0d2608abf39c86caca251bc1d5a)).
-
-
-
 ## mate-terminal (terminal emulator forked from [mate-terminal](https://github.com/mate-desktop/mate-terminal))
 
 Dependencies: `mate-desktop`, `vte3`, `libsm`
@@ -95,17 +85,6 @@ Feature tweaks:
 2. Disable the one-click list sorting.
 3. Do not repeat a non-existing item in "Loop one" mode (which is just hogging CPU and completely freezes the `vlc` process).
    * Related issues: <https://forum.videolan.org/viewtopic.php?t=140820>
-
-
-
-## scite-gtk2 (text editor)
-
-Version: **4.0.5-1**
-
-Feature tweaks:
-
-1. Build with ***GTK+2***.
-2. Use "`?`" instead of the verbose "`Untitled`" string.
 
 
 
