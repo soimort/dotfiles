@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #
+# Convert a Breakdown file to HTML.
+#
 # Dependencies:
 # - breakdown
 # - xsel
@@ -40,10 +42,8 @@ br48() {
         done < $filename
 
         local temp=
-        ( echo "<strong>$author - $source - $date</strong>" &&
-              # Tumblr seems to start treating posts with external links as spams
-              # and stop showing them in search results (2020-04-08)
-              #( echo "<a href='$url'>$author - $source - $date</a>" &&
+        #( echo "<strong>$author - $source - $date</strong>" &&
+        ( echo "<strong><a href='$url'>$author - $source - $date</a></strong>" &&
               echo "<blockquote>" &&
               breakdown $filename &&
               echo "</blockquote>" ) | { read -r -d '' temp; res=$res$temp; }
