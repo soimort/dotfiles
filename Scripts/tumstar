@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+#
+# Show recent Tumblr posts with >=50 notes.
+#
+# Usage:
+# $ tumstar USERNAME
+#
+# Dependencies:
+# - you-get
 
 import sys, json
 from urllib.parse import unquote
