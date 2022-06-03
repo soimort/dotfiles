@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+#
+# Record a sub-location.
+
+SESSIONS="$HOME/Sessions"
+DATE=`date +"%y%m%d"`
+
+SESSION_FILENAME="$SESSIONS/$DATE.term"
+
+echo -n $PWD"\n  " >> $SESSION_FILENAME
+echo "sub-location recorded in $SESSION_FILENAME"

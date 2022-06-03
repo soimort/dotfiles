@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+#
+# Record a location.
+
+SESSIONS="$HOME/Sessions"
+DATE=`date +"%y%m%d"`
+
+SESSION_FILENAME="$SESSIONS/$DATE.term"
+
+echo $PWD >> $SESSION_FILENAME
+echo "location recorded in $SESSION_FILENAME"
