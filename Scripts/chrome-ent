@@ -1,6 +1,13 @@
 #!/usr/bin/env zsh
 #
 # Open the "ent" Chromium session.
+# [DEPRECATED]
 
 USERDATA=_ent
-chromium --user-data-dir=$HOME/.config/chromium$USERDATA 2>/dev/null&
+
+# Prevent gnome-keyring-daemon CPU hogging (see: https://gist.github.com/noromanba/5793161)
+# Alternatively, flags can also be put in: /etc/chromium.d/default-flags
+# Note that this will disable Google account sign-ins
+CHROMIUM_FLAGS='--password-store=basic'
+
+chromium $CHROMIUM_FLAGS --user-data-dir=$HOME/.config/chromium$USERDATA 2>/dev/null&
