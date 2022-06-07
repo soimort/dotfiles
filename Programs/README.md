@@ -2,18 +2,18 @@
 
 
 
-## mate-terminal (terminal emulator forked from [mate-terminal](https://github.com/mate-desktop/mate-terminal))
+## mate-terminal
 
-Dependencies: `mate-desktop`, `vte3`, `libsm`
+**terminal emulator forked from [mate-terminal](https://github.com/mate-desktop/mate-terminal)**
 
 Sources:
 
+- **1.26** (***GTK+3***) https://github.com/soimort/mate-terminal
 - **1.20** (***GTK+3***) https://github.com/soimort/mate-terminal/tree/1.20
-- **1.23** (***GTK+3***) https://github.com/soimort/mate-terminal
 
 Feature tweaks:
 
-1. Hide the close button on tabs.
+- Hiding the close buttons of tabs.
 
 Enable switching tabs with Ctrl-(Shift-)Tab:
 
@@ -23,20 +23,20 @@ $ gsettings set org.mate.terminal.global ctrl-tab-switch-tabs true
 
 
 
-## mi-caja (file manager forked from [caja](https://github.com/mate-desktop/caja))
+## mi-caja
 
-Dependencies: `mate-desktop`, `mate-common`
+**file manager forked from [caja](https://github.com/mate-desktop/caja)**
 
 Sources:
 
+- **1.26** (***GTK+3***) https://github.com/soimort/mi-caja
 - **1.16** (***GTK+2***) https://github.com/soimort/caja
-- **1.23** (***GTK+3***) https://github.com/soimort/mi-caja
 
 Feature tweaks:
 
-1. Load last-session on startup (for 1.16 only since it does not have the `-t` option).
-2. Log all tab activities.
-3. Hide the close button on tabs.
+- Condensed UI, hiding the close buttons of tabs.
+- Logging all tab activities (to be used by [mi-casa](https://github.com/soimort/dotfiles/blob/master/Scripts/mi-casa) for session management).
+- Loading last-session on startup (for 1.16 only since it does not have the `-t` option).
 
 Enable switching tabs with Ctrl-(Shift-)Tab:
 

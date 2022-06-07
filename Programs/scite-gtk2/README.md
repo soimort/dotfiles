@@ -2,6 +2,8 @@
 
 ***(Deprecated in favor of `geany-git`)***
 
+**NOTE: this package will not build on newer versions of gcc.**
+
 Version: **4.0.5-1**
 
 Feature tweaks:
