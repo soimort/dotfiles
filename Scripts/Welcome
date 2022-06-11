@@ -1,58 +1,58 @@
 #!/usr/bin/env zsh
 #
-# Start everything you need.
+# Start everything I need.
 #
 # Dependencies:
-#   xmodmap, xbindkeys, xdotool
-#   nautilus, chromium, scite
-#   tmux, htop, mi-casa/caja
+# - sshfs
+# - xmodmap, xbindkeys, xdotool
+# - nautilus, scite
+# - tmux, htop, mi-casa/caja
 
+set -x
 . prelude
 
-HOSTNAME=`hostname`
+#HOST=`hostname`
 
 welcome_init() {
-    if [[ $HOSTNAME == "Babbage" ]]; then
-        # workspace computer
-        true
+    if [[ $HOST == "Ada" ]]; then
 
-    else
-        # home computer
+        # mount SSHFS locally
+        sshfs soimort@Hope:/ /mnt/Hope
+        sshfs soimort@Seele:/ /mnt/Seele
+
+    elif [[ $HOST == "Hope" ]]; then
 
         # initialize X key bindings
         xmodmap ~/.Xmodmap
         killall -q xbindkeys; xbindkeys
 
-        #
-        if [[ $HOSTNAME == "Hope" ]]; then
-            killall devilspie2 && devilspie2&
-        fi
+        # start devilspie2
+        killall -q devilspie2 && devilspie2&
+
+        # mount SSHFS locally
+        sshfs soimort@Ada:/ /mnt/Ada
+        sshfs soimort@Seele:/ /mnt/Seele
+
+        # TBD: obsolete this in favor of SSHFS
+        # connect to SFTP remote points using nautilus
+        nautilus sftp://soimort@seele sftp://seele 2>/dev/null&
+        sleep 2  # wait a short while until it's done
+
+    elif [[ $HOST == "Seele" ]]; then
+
+        # initialize X key bindings
+        xmodmap ~/.Xmodmap
+        killall -q xbindkeys; xbindkeys
 
         # connect to SFTP remote points using nautilus
-        if [[ $HOSTNAME == "Seele" ]]; then
-            nautilus sftp://soimort@hope 2>/dev/null&
-        elif [[ $HOSTNAME == "Hope" ]]; then
-            nautilus sftp://soimort@seele sftp://seele 2>/dev/null&
-        fi
+        nautilus sftp://soimort@hope 2>/dev/null&
         sleep 2  # wait a short while until it's done
 
     fi
 }
 
 welcome_start() {
-    if [[ $HOSTNAME == "Babbage" ]]; then
-        # workspace computer
-
-        chromium 2>/dev/null&
-
-        scite 2>/dev/null&
-
-    else
-        # home computer
-
-        scite 2>/dev/null&
-
-    fi
+    scite 2>/dev/null&
 }
 
 # Start the default monitored file management session.
