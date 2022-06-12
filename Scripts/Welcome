@@ -27,7 +27,7 @@ welcome_init() {
         killall -q xbindkeys; xbindkeys
 
         # start devilspie2
-        killall -q devilspie2 && devilspie2&
+        killall -q devilspie2; devilspie2&
 
         # mount SSHFS locally
         sshfs soimort@Ada:/ /mnt/Ada
