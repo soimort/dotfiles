@@ -39,13 +39,13 @@ br48() {
             fi
 
             (( i = i + 1 ))
-        done < $filename
+        done < "$filename"
 
         local temp=
         #( echo "<strong>$author - $source - $date</strong>" &&
         ( echo "<strong><a href='$url'>$author - $source - $date</a></strong>" &&
               echo "<blockquote>" &&
-              breakdown $filename &&
+              breakdown "$filename" &&
               echo "</blockquote>" ) | { read -r -d '' temp; res=$res$temp; }
     done
 

@@ -58,7 +58,7 @@ br_pandoc() {
             fi
 
             (( i = i + 1 ))
-        done < $filename | pandoc
+        done < "$filename" | pandoc
     done
 }
 
