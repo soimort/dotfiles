@@ -42,8 +42,8 @@ br48() {
         done < "$filename"
 
         local temp=
-        #( echo "<strong>$author - $source - $date</strong>" &&
-        ( echo "<strong><a href='$url'>$author - $source - $date</a></strong>" &&
+        ( echo "<strong>$author - $source - $date</strong>" &&
+        #( echo "<strong><a href='$url'>$author - $source - $date</a></strong>" &&
               echo "<blockquote>" &&
               breakdown "$filename" &&
               echo "</blockquote>" ) | { read -r -d '' temp; res=$res$temp; }
