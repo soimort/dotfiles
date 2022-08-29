@@ -53,11 +53,6 @@ function {
     done
 } $HOME/.zsh/*.zsh(N) $HOME/.zsh/private/*.zsh(N)
 
-# Initialize Projects & Source
-function {
-    local i && for i in "${*[@]}"; do . $i; done
-} $HOME/{Projects,Source}/*.init.sh(N)
-
 # Misc.
 # Scripts & Tools
 path+=("$HOME/Scripts")
@@ -84,13 +79,10 @@ if [ -x /usr/bin/pyenv ]; then
     eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
 fi
-# ciao
-# @begin(87653063)@ - Do not edit these lines - added automatically!
-# You should customize CIAOPATH before this chunk if you place bundles in
-# places other than ~/.ciao
-if [ -x /home/soimort/Source/ciao/build/bin/ciao-env ]; then
-  eval "$(/home/soimort/Source/ciao/build/bin/ciao-env --sh)"
-fi
-# @end(87653063)@ - End of automatically added lines.
+
+# Initialize Projects & Source
+function {
+    local i && for i in "${*[@]}"; do . $i; done
+} $HOME/{Projects,Source}/*.init.sh(N)
 
 #log.p $(checkt 'ok')
