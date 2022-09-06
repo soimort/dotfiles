@@ -17,7 +17,8 @@ site_info = 'Instagram'
 def main():
     for url in sys.argv[1:]:
         m = re.match('https?://(www\.)?instagram\.com/.*p/([^/]+)', url) or \
-            re.match('https?://(www\.)?instagram\.com/.*tv/([^/]+)', url)
+            re.match('https?://(www\.)?instagram\.com/.*tv/([^/]+)', url) or \
+            re.match('https?://(www\.)?instagram\.com/.*reel/([^/]+)', url)
         assert m
         title = m.group(2)
         log.w(title)
