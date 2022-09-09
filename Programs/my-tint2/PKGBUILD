@@ -1,0 +1,44 @@
+# Maintainer: Mort Yao
+# Contributor: Alexander F. Rødseth <xyproto@archlinux.org>
+# Contributor: Blue Peppers <bluepeppers@archlinux.us>
+# Contributor: Stefan Husmann <stefan-husmann@t-online.de>
+# Contributor: Yannick LM <LMyannicklm1337@gmail.com>
+
+_pkgname=tint2
+pkgname=my-$_pkgname-git
+pkgver=17.0.1.r3.g03f7240
+pkgrel=1
+pkgdesc='Basic, good-looking task manager for WMs'
+arch=(x86_64)
+url='https://github.com/soimort/my-tint2'
+license=(GPL2)
+depends=(gtk3 imlib2 startup-notification)
+makedepends=(cmake git ninja setconf)
+provides=(tint2)
+conflicts=(tint2)
+replaces=(tint2)
+source=("${_pkgname}::git+https://github.com/soimort/my-tint2.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_pkgname
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g' | sed 's/^v//'
+}
+
+prepare() {
+  setconf $_pkgname/get_version.sh VERSION="$pkgver"
+}
+
+build() {
+  mkdir -p build
+  cd build
+  cmake ../$_pkgname \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DENABLE_TINT2CONF=1 \
+    -GNinja
+  ninja
+}
+
+package() {
+  DESTDIR="$pkgdir" ninja -C build install
+}
