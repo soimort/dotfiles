@@ -26,7 +26,8 @@ def main():
         response = get_response(arg, faker=True)
         page = str(response.data)
 
-        photos = re.findall(r'(https?://news-img\.dwango\.jp/[^"]+\.(jpg|JPG|png|PNG))" alt="Sm', page)
+        photos = re.findall(r'(https?://news-img\.dwango\.jp/[^"]+\.(jpg|JPG|jpeg|JPEG|png|PNG))" alt="Sm', page)
+        photos += re.findall(r'"og:image" content="(https?://news-img\.dwango\.jp/[^"]+\.(jpg|JPG|jpeg|JPEG|png|PNG))"', page)
 
         for photo, extension in photos:
             url, title = orig(photo)
