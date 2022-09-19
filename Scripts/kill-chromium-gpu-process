@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# Kill chromium's gpu process that freezes the UI sometimes.
+
+pgrep -f '/usr/lib/chromium/chromium --type=gpu-process' | xargs kill
