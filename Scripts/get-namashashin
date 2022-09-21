@@ -1,0 +1,65 @@
+#!/usr/bin/env python
+
+# Download nama-shashin preview images.
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+def main():
+    for arg in sys.argv[1:]:
+        # TODO: use get_content with fake headers
+        response = get_response(arg, faker=True)
+        page = str(response.data, encoding='utf-8')
+
+        # Legacy HKT48 online shop
+        if re.match(r'https?://ec.hkt48.jp/', arg):
+            site_info = 'ec.hkt48.jp'
+
+            name = re.findall(r'<meta property="og:title" content="([^"]+)"', page)[0]
+            name = ''.join(name.split(' ')[-2:])
+
+            matches = re.findall(r'<div class="slide-item"><img src="([^"]+)"', page)
+            for match in matches:
+                image = 'https://ec.hkt48.jp%s' % match
+                photo_id = image.split('/')[-1].split('.')[0]
+                title = '[%s] %s' % (name, photo_id)
+
+                ext, size = 'jpg', url_size(image)
+                print_info(site_info, title, ext, size)
+                download_urls(urls=[image],
+                              title=title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
+
+        # New HKT48 online shop
+        elif re.match(r'https?://official-goods-store.jp/', arg):
+            site_info = 'official-goods-store.jp'
+
+            name = re.findall(r'<title>([^<]+) - HKT48 OFFICIAL GOODS STORE</title>', page)[0]
+            name = ''.join(name.split(' ')[-2:])
+
+            matches = re.findall(r"'(https://[\w-]+\.[\w-]+\.amazonaws\.com/product/[\w-]+/\w+.jpg)'", page)
+            for match in matches:
+                image = match
+                photo_id = image.split('/')[-1].split('.')[0]
+                title = '[%s] %s' % (name, photo_id)
+
+                ext, size = 'jpg', url_size(image)
+                print_info(site_info, title, ext, size)
+                download_urls(urls=[image],
+                              title=title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
+
+
+
+
+    return
+
+if __name__ == '__main__':
+    main()
