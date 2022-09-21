@@ -56,7 +56,33 @@ def main():
                               ext=ext,
                               merge=False)
 
+        # AKB48 online shop
+        elif re.match(r'https?://shop.akb48.co.jp/', arg):
+            site_info = 'shop.akb48.co.jp'
 
+            name = re.findall(r' ([^ ]+) \| AKB48 Official Shop</title>', page)[0]
+
+            product_id = re.findall(r'/detail/(\d+)', arg)[0]
+            api_url = 'https://shop.akb48.co.jp/api/v1/products/%s' % product_id
+            response = get_response(api_url, faker=True)
+            content = str(response.data, encoding='utf-8')
+            data = json.loads(content)
+            code = data['image']['code']
+            count = data['image']['count']
+
+            for i in range(1, count+1):
+                image = 'https://dwd7slh0nmufg.cloudfront.net/img/products/%s_p%02d_500.jpg' % (code, i)
+                photo_id = image.split('/')[-1].split('.')[0]
+                title = '[%s] %s' % (name, photo_id)
+
+                ext, size = 'jpg', url_size(image)
+                print_info(site_info, title, ext, size)
+                download_urls(urls=[image],
+                              title=title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
 
 
     return
