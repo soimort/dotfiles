@@ -135,6 +135,16 @@ unset-emblem() {
         gio set -t unset "$i" metadata::emblems
     done
 }
+fav() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: fav DIRECTORY'
+        return 1
+    fi
+
+    for i in "$@"; do
+        gio set -t stringv "$i" metadata::emblems favorite
+    done
+}
 
 
 # Set the color of folder(s).
