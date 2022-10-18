@@ -39,6 +39,7 @@ def main():
             site_info = 'official-goods-store.jp'
 
             name = re.findall(r'<title>([^<]+) - HKT48 OFFICIAL GOODS STORE</title>', page)[0]
+            name = re.search(r'(\D*)$', name).group(1)
             name = ''.join(name.split(' ')[-2:])
 
             matches = re.findall(r"'(https://[\w-]+\.[\w-]+\.amazonaws\.com/product/[\w-]+/\w+.jpg)'", page)
