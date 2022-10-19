@@ -256,8 +256,8 @@ pre() {
     log.d "prefix set: $PREFIX"
 
     for FILENAME in "$@"; do
-        if [ ! -f "$FILENAME" ]; then
-            log.w "file \"$FILENAME\" does not exist!"
+        if [[ ! -f "$FILENAME" && ! -d "$FILENAME" ]]; then
+            log.w "file or directory \"$FILENAME\" does not exist!"
             continue
         else
             NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
@@ -279,8 +279,8 @@ prefix() {
     log.d "prefix set: $PREFIX"
 
     for FILENAME in "$@"; do
-        if [ ! -f "$FILENAME" ]; then
-            log.w "file \"$FILENAME\" does not exist!"
+        if [[ ! -f "$FILENAME" && ! -d "$FILENAME" ]]; then
+            log.w "file or directory \"$FILENAME\" does not exist!"
             continue
         else
             NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
