@@ -47,13 +47,18 @@ def main():
                               merge=False)
 
         except:  # when age check is in effect
+            log.w('Age check is in effect...')
             cid = re.findall(r'cid=([^/]+)', arg)[0]
+            if re.findall(r'/digital/([^/]+)', arg)[0] == 'videoc':
+                category = 'amateur'
+            else:
+                category = 'video'
             print("ID:\t\t%s" % cid)
 
             i = 0
             while True:
                 i += 1
-                url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (cid, cid, i)
+                url = 'https://pics.dmm.co.jp/digital/%s/%s/%sjp-%s.jpg' % (category, cid, cid, i)
                 title = '%sjp-%s' % (cid, i)
                 ext, size = 'jpg', url_size(url)
                 if size <= 2732: break
