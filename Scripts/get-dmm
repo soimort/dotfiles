@@ -55,6 +55,17 @@ def main():
                 category = 'video'
             print("ID:\t\t%s" % cid)
 
+            cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
+            cover_title = '%spl' % cid
+            ext, size = 'jpg', url_size(cover_url)
+            if not size <= 2732:
+                download_urls(urls=[cover_url],
+                              title=cover_title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
+
             i = 0
             while True:
                 i += 1
@@ -73,6 +84,17 @@ def main():
             cid_1, cid_2 = r1('^([a-z]+)', cid), r1('(\d+)$', cid)
             cid = '%s00%s' % (cid_1, cid_2)
             print("ID:\t\t%s" % cid)
+
+            cover_url = 'http://pics.dmm.co.jp/digital/video/%s/%spl.jpg' % (cid, cid)
+            cover_title = '%spl' % cid
+            ext, size = 'jpg', url_size(cover_url)
+            if not size <= 2732:
+                download_urls(urls=[cover_url],
+                              title=cover_title,
+                              output_dir='.',
+                              total_size=size,
+                              ext=ext,
+                              merge=False)
 
             i = 0
             while True:
