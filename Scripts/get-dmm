@@ -14,7 +14,7 @@ def main():
         try:
             cid = re.findall(r'cid=([^/]+)/', cont)[0]
             print("ID:\t\t%s" % cid)
-            title = re.findall(r'<title>(.*?) - ', cont)[0]
+            title = (re.findall(r'<title>(.*?) - ', cont) or re.findall(r'<title>(.*?)<', cont))[0]
             print("Title:\t\t%s" % title)
             performers = re.findall(r'<span id="performer">[^>]*>([^<]+)</', cont)
             if performers:
