@@ -247,7 +247,7 @@ get() {
 pre() {
     if [[ -z "$1" ]]; then
         # no param -- show help message
-        echo 'Usage: pre PREFIX FILE...'
+        log.w 'Usage: pre PREFIX FILE...'
         return 0
     fi
 
@@ -261,7 +261,29 @@ pre() {
             continue
         else
             NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
-            mv $FILENAME $NEW_FILENAME
+            log.i "$FILENAME => $NEW_FILENAME"
+            mv -- "$FILENAME" "$NEW_FILENAME"
+        fi
+    done
+    return 0
+}
+
+unpre() {
+    if [[ -z "$1" ]]; then
+        # no param -- show help message
+        log.w 'Usage: unpre FILE...'
+        return 0
+    fi
+
+    for FILENAME in "$@"; do
+        if [[ ! -f "$FILENAME" && ! -d "$FILENAME" ]]; then
+            log.w "file or directory \"$FILENAME\" does not exist!"
+            continue
+        else
+            NEW_FILENAME=`basename $FILENAME`
+            NEW_FILENAME=`dirname $FILENAME`/${NEW_FILENAME#*] }  # double ## will remove all prefixes
+            log.i "$FILENAME => $NEW_FILENAME"
+            mv -- "$FILENAME" "$NEW_FILENAME"
         fi
     done
     return 0
@@ -270,7 +292,7 @@ pre() {
 prefix() {
     if [[ -z "$1" ]]; then
         # no param -- show help message
-        echo 'Usage: prefix PREFIX FILE...'
+        log.w 'Usage: prefix PREFIX FILE...'
         return 0
     fi
 
@@ -284,7 +306,8 @@ prefix() {
             continue
         else
             NEW_FILENAME=`dirname $FILENAME`/$PREFIX`basename $FILENAME`
-            mv $FILENAME $NEW_FILENAME
+            log.i "$FILENAME => $NEW_FILENAME"
+            mv -- "$FILENAME" "$NEW_FILENAME"
         fi
     done
     return 0
