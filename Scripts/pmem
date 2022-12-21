@@ -19,23 +19,23 @@ def pmem(pid, level=0):
     with open(proc_status_filename) as f:
         for line in f:
             if line.startswith('Name:'):
-                name = line.split('\t')[-1].strip()
+                name = line.split()[-1]
 
             if line.startswith('State:'):
-                state = line.split('\t')[-1].strip()
+                state = line.split()[-1]
 
             if line.startswith('VmRSS:'):
-                assert line.split(' ')[-1] == 'kB\n'
-                vm_rss = int(line.split(' ')[-2])
+                assert line.split()[-1] == 'kB'
+                vm_rss = int(line.split()[-2])
 
             if line.startswith('VmSwap:'):
-                assert line.split(' ')[-1] == 'kB\n'
-                vm_swap = int(line.split(' ')[-2])
+                assert line.split()[-1] == 'kB'
+                vm_swap = int(line.split()[-2])
 
     vm_rss_mb = vm_rss / 1024
     vm_swap_mb = vm_swap / 1024
     total_mb = vm_rss_mb + vm_swap_mb
-    print('%s%s %s [%.2f MB] (%.2f MB ram, %.2f MB swap) state: %s' %
+    print('%s%s %s [%.2f MB] (%.2f MB ram, %.2f MB swap) %s' %
         (' ' * level * 4, pid, name, total_mb, vm_rss_mb, vm_swap_mb, state))
 
     # traverse task threads and find all children
