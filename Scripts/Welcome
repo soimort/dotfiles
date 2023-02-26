@@ -27,9 +27,11 @@ welcome_init() {
         killall -q xbindkeys; xbindkeys
 
         # start devilspie2
-        killall -q devilspie2; setsid devilspie2
+        killall -q devilspie2; setsid -f devilspie2
 
         # mount SSHFS locally
+        ## FIXME: why does Ada always prompt for password?
+        ## echo $ALICE | sshfs -o password_stdin soimort@Ada:/ /mnt/Ada
         sshfs soimort@Ada:/ /mnt/Ada
         sshfs soimort@Seele:/ /mnt/Seele
 
