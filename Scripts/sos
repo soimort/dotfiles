@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+#
+# Play the Morse code of "SOS".
+
+while true; do
+    # S  ...
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+
+    sleep 0.6
+
+    # O  ---
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+
+    sleep 0.6
+
+    # S  ...
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+
+    sleep 1.4
+done

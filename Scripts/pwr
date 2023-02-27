@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+#
+# Play the Morse code of "PWR".
+
+while true; do
+    # P  .--.
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+
+    sleep 0.6
+
+    # W  .--
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+
+    sleep 0.6
+
+    # R  .-.
+    play -q -n synth 0.2 sin 880
+    sleep 0.2
+    play -q -n synth 0.6 sin 880
+    sleep 0.2
+    play -q -n synth 0.2 sin 880
+
+    sleep 1.4
+done
