@@ -25,6 +25,12 @@ elseif get_application_name() == "Task Manager - Chromium" then
    maximize_vertically()
    undecorate_window()
 
+elseif get_process_name() == "caja" then
+   unmaximize()
+   set_window_geometry(1080, 27, 1920, 1023)
+   maximize_vertically()
+   undecorate_window()
+
 --elseif get_process_name() == "chromium" then
 --   unmaximize()
 --   set_window_geometry(1080, 27, 1920, 1023)
