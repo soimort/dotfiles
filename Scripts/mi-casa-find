@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+#
+# Find a target string in a mi-casa session.
+
+. prelude
+
+if [ $# -le 1 ]; then
+    echo 'Usage:'
+    echo '  mi-casa-find SESSION TARGET'
+    exit 1
+fi
+
+SESSION=$1
+TEXT=$2
+
+if [[ -r "$SESSION" ]]; then
+    grep -- "$TEXT" "$SESSION"
+elif [[ -r "$HOME/$SESSION.mur" ]]; then
+    grep -- "$TEXT" "$HOME/$SESSION.mur"
+else
+    e 'no such session'
+fi
