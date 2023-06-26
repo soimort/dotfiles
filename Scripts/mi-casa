@@ -282,7 +282,10 @@ def main():
             params = ['caja', '-t']
             params.extend(all_workspaces[workspace_name]['locations'])
 
-            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
+            if args.debug:
+                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
+            else:  # suppress stderr
+                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
 
     else:  # caja_application_load_session() that loads last-session
         caja_session_filename = '%s.caja' % workspace_filename
@@ -306,8 +309,10 @@ def main():
             print_with_colors('[fatal] oversized session file (%s)' % caja_session_filesize, YELLOW)
             exit(1)
 
-        # need to suppress stderr for this version
-        procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
+        if args.debug:
+            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
+        else:  # suppress stderr
+            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
 
     # main loop
     notebook = None  # stores last notebook
