@@ -366,6 +366,33 @@ def main():
                                 print('%-20s : (%s)' % (_workspace_name, stat_len))
                         print('%-20s   %s' % ('', stat_sum))
 
+                    elif text.startswith('find '):
+                        target = text[5:]
+                        for _workspace_name in ws:
+                            if _workspace_name in nn:
+                                # loaded
+                                _notebook = nn[_workspace_name]
+                                uris = [unquote(page[1]) for page in s[_notebook]]
+                                find_loaded = True
+                            elif _workspace_name in all_workspaces:
+                                # not loaded
+                                uris = [unquote(loc) for loc in all_workspaces[_workspace_name]['locations']]
+                                find_loaded = False
+                            else:
+                                # invalid / removed
+                                continue
+
+                            uris_found = []
+                            for uri in uris:
+                                if target in uri: uris_found.append(uri)
+                            if len(uris_found) > 0:
+                                if find_loaded:
+                                    print('%-20s : ' % _workspace_name)
+                                else:
+                                    print('%-20s : (not loaded)' % _workspace_name)
+                                for uri_found in uris_found:
+                                    print(uri_found)
+
                     elif text == 'time':
                         current_time = datetime.datetime.now()
                         print(current_time)
@@ -397,6 +424,7 @@ def main():
                     elif text == 'help':
                         print('name NEW_NAME\t Rename the current workspace')
                         print('stat\t\t Show the session statistics')
+                        print('find\t\t Find a target URI in the session')
                         print('time\t\t Show the current time')
                         print('snap\t\t Take a snapshot')
                         print('save\t\t Save to the session file')
