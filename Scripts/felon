@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+#
+# Fetch original images of a tweet.  (temporary script)
+
+. prelude
+
+if [ $# -le 1 ]; then
+    echo 'Usage:'
+    echo '  felon TWEET_URL TWIMG_URL...'
+    exit 0
+fi
+
+TWEET_URL=$1
+shift
+
+if [[ "$TWEET_URL" =~ '^https://twitter.com/(\w*)/(\w*)/(\w*)' ]]; then
+    tweet_id=$match[3]
+else
+    e 'not a valid tweet URL'
+    exit 1
+fi
+
+for url in "$@"; do
+    url=${url%%\?*}.jpg:orig
+    if [[ "$url" =~ '^https://pbs.twimg.com/media/([^.]*)' ]]; then
+        filename=${tweet_id}_$match[1].jpg
+    else
+        e 'not a valid twimg URL'
+        exit 2
+    fi
+    wget --show-progress --no-clobber --no-check-certificate -U "$UA" -O "$filename" -- "$url"
+done
