@@ -18,6 +18,64 @@ from you_get.extractors.twitter import twitter_download
 
 site_info = 'Twitter'
 
+def get_url2(url):
+    m = re.match('^https?://(mobile\.)?twitter\.com/([^/]+)/status/(\d+)', url)
+    assert m
+    screen_name, item_id = m.group(2), m.group(3)
+    page_title = "{} [{}]".format(screen_name, item_id)
+    log.w(page_title.split('\n')[0].split(': ')[0])
+
+    api_url = 'https://cdn.syndication.twimg.com/tweet-result?id=%s' % item_id
+    content = get_content(api_url)
+    info = json.loads(content)
+    save(item_id, info)
+
+def save(item_id, info):
+    author = info['user']['name']
+    url = 'https://twitter.com/%s/status/%s' % (info['user']['screen_name'], item_id)
+    created_at = datetime.strptime(info['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%a %d %b %Y')
+    full_text = info['text']
+
+    try:
+        with open(item_id + '.pt', 'x') as outf:
+            outf.write('---\n')
+            outf.write('author: %s\n' % author)
+            outf.write('date: %s\n' % created_at)
+            outf.write('source: %s\n' % 'Twitter')
+            outf.write('url: %s\n' % url)
+            outf.write('---\n')
+            outf.write(full_text)
+            outf.write('\n')
+    except:
+        log.e("[Warning] File '%s' existed and will not be truncated." % (item_id + '.pt'))
+
+    output_dir = '.'
+    if 'photos' in info:
+        for photo in info['photos']:
+            photo_url = photo['url']
+            title = item_id + '_' + photo_url.split('.')[-2].split('/')[-1]
+            urls = [ photo_url + ':orig' ]
+            size = urls_size(urls)
+            ext = photo_url.split('.')[-1]
+
+            download_urls(urls, title, ext, size, output_dir)
+
+    if 'video' in info:
+        for mediaDetail in info['mediaDetails']:
+            variants = mediaDetail['video_info']['variants']
+            variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
+            title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
+            urls = [ variants[-1]['url'] ]
+            size = urls_size(urls)
+            mime, ext = variants[-1]['content_type'], 'mp4'
+
+            download_urls(urls, title, ext, size, output_dir)
+
+    if 'quoted_tweet' in info:
+        item_id = info['quoted_tweet']['id_str']
+        save(item_id, info['quoted_tweet'])
+
+
 def get_url(url):
     m = re.match('^https?://(mobile\.)?twitter\.com/([^/]+)/status/(\d+)', url)
     assert m
@@ -84,7 +142,7 @@ def get_url(url):
 
 def main():
     for url in sys.argv[1:]:
-        get_url(url)
+        get_url2(url)
 
 if __name__ == '__main__':
     main()
