@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+# Find out the original tweet URL from tweet ID, or from a downloaded image file prefixed with tweet ID.
+
+import json, re, sys
+from you_get.common import *
+
+def main():
+    for arg in sys.argv[1:]:
+        tweet_id = arg.split('/')[-1].split('_')[0]
+        api_url = 'https://cdn.syndication.twimg.com/tweet-result?id=%s' % tweet_id
+        content = get_content(api_url)
+        info = json.loads(content)
+        user = info['user']['screen_name']
+        tweet_url = 'https://twitter.com/%s/status/%s' % (user, tweet_id)
+        print(tweet_url)
+
+    return
+
+if __name__ == '__main__':
+    main()
