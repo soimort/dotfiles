@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+# Download all images from B.L.T.web <https://bltweb.jp/>.
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'bltweb.jp'
+
+def main():
+    for arg in sys.argv[1:]:
+        cont = get_content(arg)
+        imgs = re.findall(r'(https://bltweb.jp/wp/wp-content/uploads/[^" -]+)"', cont)
+        imgs = list(set(imgs))
+
+        for img in imgs:
+            img_id = img.split('/')[-1].split('.')[0]
+
+            title = '[bltweb.jp] %s' % img_id
+
+            ext, size = 'jpg', url_size(img)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False)
+
+    return
+
+if __name__ == '__main__':
+    main()
