@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Launch the steam client.
+
+steam -noverifyfiles -nobootstrapupdate -skipinitialbootstrap -norepairfiles -overridepackageurl
