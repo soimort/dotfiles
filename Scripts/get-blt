@@ -11,11 +11,12 @@ site_info = 'bltweb.jp'
 def main():
     for arg in sys.argv[1:]:
         cont = get_content(arg)
-        imgs = re.findall(r'(https://bltweb.jp/wp/wp-content/uploads/[^" -]+)"', cont)
-        imgs = list(set(imgs))
+        imgs = re.findall(r'(https://bltweb.jp/wp/wp-content/uploads/[^" ]+)"', cont)
+        imgs_t =  re.findall(r'(https://bltweb.jp/wp/wp-content/uploads/[^" ]+-\d+x\d+\.jpg)"', cont)
+        imgs = set([ i for i in imgs if i not in imgs_t ])
 
         for img in imgs:
-            img_id = img.split('/')[-1].split('.')[0]
+            img_id = ''.join(img.split('/')[-1].split('.')[:-1])
 
             title = '[bltweb.jp] %s' % img_id
 
