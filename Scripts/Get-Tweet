@@ -25,6 +25,8 @@ def get_url3(url):
     info = json.loads(content)
     result = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries'][0]['content']['itemContent']['tweet_results']['result']
 
+    if 'tweet' in result: result = result['tweet']  # some weird tweets
+
     item_id = result['rest_id']
     author = result['core']['user_results']['result']['legacy']['name']
     screen_name = result['core']['user_results']['result']['legacy']['screen_name']
