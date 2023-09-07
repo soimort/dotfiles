@@ -23,58 +23,62 @@ def get_url3(url):
     text = p.stdout.decode('utf-8').strip().split('\n')
     content = base64.b64decode(text[5]).decode('utf-8')
     info = json.loads(content)
-    result = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries'][0]['content']['itemContent']['tweet_results']['result']
+    entries = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries']
+    for i, entry in enumerate(entries):
+        if 'itemContent' not in entry['content']: continue
+        if 'tweet_results' not in entry['content']['itemContent']: continue
+        result = entry['content']['itemContent']['tweet_results']['result']
 
-    if 'tweet' in result: result = result['tweet']  # some weird tweets
+        if 'tweet' in result: result = result['tweet']  # some weird tweets
 
-    item_id = result['rest_id']
-    author = result['core']['user_results']['result']['legacy']['name']
-    screen_name = result['core']['user_results']['result']['legacy']['screen_name']
-    url = 'https://twitter.com/%s/status/%s' % (screen_name, item_id)
-    created_at = datetime.strptime(result['legacy']['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%a %-d %b %Y')
-    full_text = result['legacy']['full_text']
+        item_id = result['rest_id']
+        author = result['core']['user_results']['result']['legacy']['name']
+        screen_name = result['core']['user_results']['result']['legacy']['screen_name']
+        url = 'https://twitter.com/%s/status/%s' % (screen_name, item_id)
+        created_at = datetime.strptime(result['legacy']['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%a %-d %b %Y')
+        full_text = result['legacy']['full_text']
 
-    try:
-        with open(item_id + '.pt', 'x') as outf:
-            outf.write('---\n')
-            outf.write('author: %s\n' % author)
-            outf.write('date: %s\n' % created_at)
-            outf.write('source: %s\n' % 'Twitter')
-            outf.write('url: %s\n' % url)
-            outf.write('---\n')
-            outf.write(full_text)
-            outf.write('\n')
-    except:
-        log.e("[Warning] File '%s' existed and will not be truncated." % (item_id + '.pt'))
+        try:
+            with open(item_id + '.pt', 'x') as outf:
+                outf.write('---\n')
+                outf.write('author: %s\n' % author)
+                outf.write('date: %s\n' % created_at)
+                outf.write('source: %s\n' % 'Twitter')
+                outf.write('url: %s\n' % url)
+                outf.write('---\n')
+                outf.write(full_text)
+                outf.write('\n')
+        except:
+            log.e("[Warning] File '%s' existed and will not be truncated." % (item_id + '.pt'))
 
-    item = result['legacy']
+        item = result['legacy']
 
-    if 'extended_entities' in item:
-        media = item['extended_entities']['media']
-        output_dir = '.'
-        for medium in media:
-            if 'video_info' in medium:
-                variants = medium['video_info']['variants']
-                variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
-                title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
-                urls = [ variants[-1]['url'] ]
-                size = urls_size(urls)
-                mime, ext = variants[-1]['content_type'], 'mp4'
+        if 'extended_entities' in item:
+            media = item['extended_entities']['media']
+            output_dir = '.'
+            for medium in media:
+                if 'video_info' in medium:
+                    variants = medium['video_info']['variants']
+                    variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
+                    title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
+                    urls = [ variants[-1]['url'] ]
+                    size = urls_size(urls)
+                    mime, ext = variants[-1]['content_type'], 'mp4'
 
-                download_urls(urls, title, ext, size, output_dir)
+                    download_urls(urls, title, ext, size, output_dir)
 
-            else:
-                title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
-                urls = [ medium['media_url_https'] + ':orig' ]
-                size = urls_size(urls)
-                ext = medium['media_url_https'].split('.')[-1]
+                else:
+                    title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
+                    urls = [ medium['media_url_https'] + ':orig' ]
+                    size = urls_size(urls)
+                    ext = medium['media_url_https'].split('.')[-1]
 
-                download_urls(urls, title, ext, size, output_dir)
+                    download_urls(urls, title, ext, size, output_dir)
 
-    if 'quoted_status_permalink' in item:
-        quoted_url = item['quoted_status_permalink']['expanded']
-        log.w('>>> QUOTED: %s' % quoted_url)
-        get_url3(quoted_url)
+        if 'quoted_status_permalink' in item:
+            quoted_url = item['quoted_status_permalink']['expanded']
+            log.w('>>> QUOTED: %s' % quoted_url)
+            get_url3(quoted_url)
 
     return
 
