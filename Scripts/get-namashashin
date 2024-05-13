@@ -42,7 +42,8 @@ def main():
             name = re.search(r'(\D*)$', name).group(1)
             name = ''.join(name.split(' ')[-2:])
 
-            matches = re.findall(r"'(https://[\w-]+\.[\w-]+\.amazonaws\.com/product/[\w-]+/\w+.jpg)'", page)
+            #matches = re.findall(r"'(https://[\w-]+\.[\w-]+\.amazonaws\.com/product/[\w-]+/\w+.jpg)'", page)
+            matches = re.findall(r"'(https://assets\.official-goods-store\.jp/product/[\w-]+/\w+.jpg)'", page)
             for match in matches:
                 image = match
                 photo_id = image.split('/')[-1].split('.')[0]
