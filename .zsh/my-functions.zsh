@@ -44,6 +44,28 @@ mc() {
     fi
 }
 
+mcer() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: mcer DIRECTORY'
+        return 1
+    fi
+
+    OLD_PWD=$PWD
+    OLD_OLDPWD=$OLDPWD
+    TMP=$1
+    if [ -d ${TMP%/*} ]; then
+        mkdir -p $TMP && cd $TMP
+        echo "Executing command under: $TMP"
+        shift 1
+        $@
+        popd -0 >/dev/null
+        cd $OLD_OLDPWD && cd $OLD_PWD  # make sure 'cd -' returns to previous dir
+    else
+        echo "Path '${TMP%/*}' does not exist!"
+        return 1
+    fi
+}
+
 48go() {
     if [[ -z "$ARCHIVE_PATH" ]]; then
         echo 'Please set $ARCHIVE_PATH first.'
