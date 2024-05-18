@@ -16,7 +16,7 @@ from you_get.common import *
 from you_get.util import *
 from you_get.extractors.twitter import twitter_download
 
-site_info = 'Twitter'
+site_info = 'X'
 
 def get_url3(url):
     m = re.match(r'https?://x.com/(.*)', url)
@@ -38,7 +38,7 @@ def get_url3(url):
         item_id = result['rest_id']
         author = result['core']['user_results']['result']['legacy']['name']
         screen_name = result['core']['user_results']['result']['legacy']['screen_name']
-        url = 'https://twitter.com/%s/status/%s' % (screen_name, item_id)
+        url = 'https://x.com/%s/status/%s' % (screen_name, item_id)
         created_at = datetime.strptime(result['legacy']['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%a %-d %b %Y')
         full_text = result['legacy']['full_text']
 
@@ -47,7 +47,7 @@ def get_url3(url):
                 outf.write('---\n')
                 outf.write('author: %s\n' % author)
                 outf.write('date: %s\n' % created_at)
-                outf.write('source: %s\n' % 'Twitter')
+                outf.write('source: %s\n' % 'X')
                 outf.write('url: %s\n' % url)
                 outf.write('---\n')
                 outf.write(full_text)
