@@ -91,7 +91,7 @@ mcer() {
         elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
             Get-Insta $url || log.e "failed to get \"$url\""
             #you-get -c "$HOME/instagram.com_cookies.txt" $url || log.e "failed to get images from \"$url\""
-        elif [[ $url =~ "twitter\.com" ]]; then
+        elif [[ $url =~ "twitter\.com" || $url =~ "x\.com" ]]; then
             Get-Tweet $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "plus\.google\.com" ]]; then
             gugutasu $url || log.e "failed to get \"$url\""

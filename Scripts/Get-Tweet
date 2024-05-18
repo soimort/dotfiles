@@ -19,6 +19,10 @@ from you_get.extractors.twitter import twitter_download
 site_info = 'Twitter'
 
 def get_url3(url):
+    m = re.match(r'https?://x.com/(.*)', url)
+    if m is not None:
+        url = 'https://twitter.com/' + m.group(1)
+
     p = subprocess.run(['yt-dlp', '--cookies-from-browser', 'chromium', '-s', '--dump-pages', url], capture_output=True)
     text = p.stdout.decode('utf-8').strip().split('\n')
     content = base64.b64decode(text[5]).decode('utf-8')
