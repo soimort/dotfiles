@@ -95,6 +95,16 @@ mcer() {
             Get-Tweet $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "plus\.google\.com" ]]; then
             gugutasu $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "bltweb\.jp" ]]; then
+            get-blt $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "bubkaweb\.com" ]]; then
+            get-bubka $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "mdpr\.jp" ]]; then
+            get-mdpr $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "official-goods-store\.jp" || $url =~ "shop\.akb48\.co\.jp" ]]; then
+            get-namashashin $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "popnroll\.tv" ]]; then
+            get-popnroll $url || log.e "failed to get \"$url\""
         else
             local filename=${url##*/}
             filename=${filename%%\?*}

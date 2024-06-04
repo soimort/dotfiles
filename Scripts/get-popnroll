@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import json, re, sys
+from urllib import parse
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'popnroll.tv'
+
+def main():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*'
+    }
+
+    for arg in sys.argv[1:]:
+        cont = get_content(arg, headers=headers)
+        article_id = re.match('https?://popnroll\.tv/articles/(\d+)', arg).group(1)
+        imgs = re.findall(r'url\("(https?://img\.popnroll\.tv/uploads/news_image/image/[^"]+)"', cont) + \
+            re.findall(r'"img":"(https?://img\.popnroll\.tv/uploads/news_image/image/[^"]+)"', cont) + \
+            re.findall(r'<img src="(https://img.popnroll.tv/uploads/news_item/image/[^"]+)"', cont) + \
+            re.findall(r'url\("(https?://img\.popnroll\.tv/uploads/news_item/image/%s/[^"]+)"' % article_id, cont)
+
+        for img in imgs:
+            img_1 = re.match('(https?://img\.popnroll\.tv/uploads/news_\w+/image/\d+/)(thumb|medium|large)_(.+)', img).group(1)
+            img_2 = re.match('(https?://img\.popnroll\.tv/uploads/news_\w+/image/\d+/)(thumb|medium|large)_(.+)', img).group(3)
+            img_src = img_1 + img_2
+
+            img_id = ''.join(img_src.split('/')[-1].split('.')[:-1])
+
+            title = '[popnroll.tv] %s' % parse.unquote(img_id)
+
+            ext, size = 'jpg', url_size(img_src, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img_src],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+    return
+
+if __name__ == '__main__':
+    main()

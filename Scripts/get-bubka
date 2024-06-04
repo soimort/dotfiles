@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'bubkaweb.com'
+
+def main():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*'
+    }
+
+    for arg in sys.argv[1:]:
+        cont = get_content(arg, headers=headers)
+        imgs = re.findall(r'\d" srcset="(https?://www.bubkaweb.com/wp-content/uploads/[^, "]+)', cont)
+        for img in imgs:
+            img_t = re.match(r'(https?://www.bubkaweb.com/wp-content/uploads/([.a-zA-Z0-9_/-]+))-\d+x\d+\.jpg', img)
+            if img_t:  # scaled
+                img_src = '.'.join(img.split('.')[:-2]) + '.' + \
+                    '-'.join(img.split('.')[:-1][-1].split('-')[:-1]) + '.' + \
+                    img.split('.')[-1]
+            else:
+                img_src = img
+
+            img_id = ''.join(img_src.split('/')[-1].split('.')[:-1])
+
+            title = '[bubkaweb.com] %s' % img_id
+
+            ext, size = 'jpg', url_size(img, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img_src],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+    return
+
+if __name__ == '__main__':
+    main()
