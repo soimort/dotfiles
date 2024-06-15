@@ -26,10 +26,10 @@ def main():
             img_1 = re.match('(https?://img\.popnroll\.tv/uploads/news_\w+/image/\d+/)(thumb|medium|large)_(.+)', img).group(1)
             img_2 = re.match('(https?://img\.popnroll\.tv/uploads/news_\w+/image/\d+/)(thumb|medium|large)_(.+)', img).group(3)
             img_src = img_1 + img_2
-
+            img_pid = img_src.split('/')[-2]
             img_id = ''.join(img_src.split('/')[-1].split('.')[:-1])
 
-            title = '[popnroll.tv] %s' % parse.unquote(img_id)
+            title = '[popnroll.tv] [%s] %s' % (img_pid, parse.unquote(img_id))
 
             ext, size = 'jpg', url_size(img_src, headers=headers)
             print_info(site_info, title, ext, size)
