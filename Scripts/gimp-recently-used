@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+#
+# Print the list of XCF documents recently used by GIMP.
+
+from os import environ
+from pathlib import Path
+from urllib.parse import unquote
+import xml.etree.ElementTree as ET
+
+
+def read_recently_used(xbel_filename):
+    """Read from recently-used.xbel and return a list of documents recently used by GIMP."""
+
+    r = []
+    tree = ET.parse(xbel_filename)
+    root = tree.getroot()
+    for child in root:
+        if child.tag == 'bookmark':
+            mime_type = ''
+            gimp_used = False
+            href = child.attrib['href']
+            for k in child[0][0]:
+                if k.tag == '{http://www.freedesktop.org/standards/shared-mime-info}mime-type':
+                    mime_type = k.attrib['type']
+                if k.tag == '{http://www.freedesktop.org/standards/desktop-bookmarks}applications':
+                    for l in k:
+                        if l.attrib['name'] == 'GNU Image Manipulation Program':
+                            gimp_used = True
+            if gimp_used and mime_type == 'image/xcf':
+                if unquote(href)[:7] == 'file://':
+                    r.append(unquote(href)[7:])
+    return r
+
+
+home = Path.home()
+config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % home
+local_share_dir = environ.get('XDG_DATA_HOME') or '%s/.local/share' % home
+xbel_filename = '%s/recently-used.xbel' % local_share_dir
+
+u = read_recently_used(xbel_filename)
+
+for document in u:
+    print(document)
