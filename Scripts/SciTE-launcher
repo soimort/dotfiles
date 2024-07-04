@@ -28,8 +28,12 @@ for SESSION_FILENAME in $HOME/*.SciTE.session; do
 done
 
 if [[ "$has_last_session" == true && "$flag" == false ]]; then
-    e "last session does not match any of the named session files, abort!"
-    return 1
+    e "last session does not match any of the named session files!"
+    e "to force launching, check session files manually and call SciTE-launcher --force"
+
+    if [[ $1 != "--force" ]]; then
+        return 1
+    fi
 fi
 
 for SESSION_FILENAME in $HOME/*.SciTE.session; do
