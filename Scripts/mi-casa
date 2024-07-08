@@ -197,6 +197,8 @@ def main():
                                      description='',
                                      add_help=True)
     #parser.add_argument('--foo', help='foo help')
+    parser.add_argument('--dry-run', action='store_true', default=False,
+                        help='print only the parsed result of workspaces and exit')
     parser.add_argument('--debug', action='store_true', default=False,
                         help='show detailed information for debugging')
     parser.add_argument('-w', '--workspace-name', action='append', dest='workspace_names',
@@ -270,6 +272,9 @@ def main():
     for workspace_name in workspace_names:
         if not all_workspaces[workspace_name]['locations']:
             all_workspaces[workspace_name]['locations'] = ['file://%s' % quote(str(Path.home()))]
+
+    if args.dry_run:
+        return
 
     # open caja processes
     procs = []
