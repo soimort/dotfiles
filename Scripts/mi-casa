@@ -3,7 +3,7 @@
 # A caja launcher/monitor that saves the current session on the fly.
 #
 # - uses my own fork of caja:
-#   https://github.com/soimort/caja (1.16, GTK 2)  or  https://github.com/soimort/mi-caja (1.23.2, GTK 3)
+#   https://github.com/soimort/caja (1.16, GTK 2)  or  https://github.com/soimort/mi-caja (1.26, GTK 3)
 # - reads/writes in mur format: https://github.com/soimort/mur
 # - dependencies: python (3.5+), zenity
 
