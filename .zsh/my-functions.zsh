@@ -20,6 +20,7 @@ urldec() {
     python -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1"
 }
 
+# TODO: deprecated in favor of mcer?
 doin() {
     if [[ -z "$1" || -z "$2" ]]; then
         echo 'Usage: doin DIRECTORY COMMAND...'
@@ -31,7 +32,7 @@ doin() {
 
 mc() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: mc DIRECTORY'
+        log.w 'Usage: mc DIRECTORY'
         return 1
     fi
 
@@ -39,14 +40,14 @@ mc() {
     if [ -d ${TMP%/*} ]; then
         mkdir -p $TMP && cd $TMP
     else
-        echo "Path '${TMP%/*}' does not exist!"
+        log.e "Path '${TMP%/*}' does not exist!"
         return 1
     fi
 }
 
 mcer() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: mcer DIRECTORY'
+        log.w 'Usage: mcer DIRECTORY'
         return 1
     fi
 
@@ -55,13 +56,13 @@ mcer() {
     TMP=$1
     if [ -d ${TMP%/*} ]; then
         mkdir -p $TMP && cd $TMP
-        echo "Executing command under: $TMP"
+        log.i "Executing command under: $TMP"
         shift 1
         $@
         popd -0 >/dev/null
         cd $OLD_OLDPWD && cd $OLD_PWD  # make sure 'cd -' returns to previous dir
     else
-        echo "Path '${TMP%/*}' does not exist!"
+        log.e "Path '${TMP%/*}' does not exist!"
         return 1
     fi
 }
