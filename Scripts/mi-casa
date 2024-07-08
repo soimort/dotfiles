@@ -514,6 +514,8 @@ def main():
                             # reserve variable slot to be used by 'page added'
 
                         else:
+                            # FIXME: this may raise a "ValueError: not enough values to unpack"
+                            # we should check if we have a valid action here
                             notebook, page_num = info.split(' ')
                             page_num = int(page_num)
 
