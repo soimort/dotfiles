@@ -352,8 +352,11 @@ def main():
         except KeyboardInterrupt:
             print_with_colors('\n[warning] Ctrl-C pressed. brutally terminating...', BOLD, YELLOW)
             break
-        except:
-            raise
+        except Exception as err:
+            # child process may produce invalid output to parse, pass rather than crash
+            print_with_colors('[error] exception while parsing the log:', YELLOW)
+            print_with_colors(err, YELLOW)
+            pass
 
     observer.stop()
     observer.join()
