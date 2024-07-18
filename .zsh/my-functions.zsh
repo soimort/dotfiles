@@ -168,6 +168,45 @@ unset-emblem() {
         gio set -t unset "$i" metadata::emblems
     done
 }
+
+mark() {
+    if [[ -z "$1" || -z "$2" || -z "$3" ]]; then
+        echo 'Usage: mark ICON_THEME TYPE FILE...'
+        return 1
+    fi
+
+    local FOLDER_ICON="$HOME/.icons/$1/512x512/places/folder-$2.png"
+    local EMBLEM_TYPE="$2"
+    local EMBLEM_ICON="$HOME/.icons/$1/512x512/emblems/emblem-$2.png"
+    shift 2
+    for FILENAME in "$@"; do
+        if [ -d "$FILENAME" ]; then
+            log.i "Setting custom icon for folder: $FILENAME"
+            gio set "$FILENAME" metadata::custom-icon "file://$FOLDER_ICON"
+        else
+            log.i "Setting custom emblem for file: $FILENAME"
+            gio set -t stringv "$FILENAME" metadata::emblems "$EMBLEM_TYPE"
+        fi
+    done
+}
+unmark() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: unmark FILE...'
+        return 1
+    fi
+
+    for FILENAME in "$@"; do
+        if [ -d "$FILENAME" ]; then
+            log.i "Unsetting custom icon for folder: $FILENAME"
+            gio set -t unset "$FILENAME" metadata::custom-icon
+        else
+            log.i "Unsetting custom emblem for file: $FILENAME"
+            gio set -t unset "$FILENAME" metadata::emblems
+        fi
+    done
+}
+
+# [TODO] deprecated in favor of mark/unmark
 fav() {
     if [[ -z "$1" ]]; then
         echo 'Usage: fav DIRECTORY'
@@ -179,7 +218,7 @@ fav() {
     done
 }
 
-
+# [TODO] deprecated in favor of mark/unmark
 # Set the color of folder(s).
 # Available icons: ~/Pictures/icons/Adwaita/places
 fcolor() {
