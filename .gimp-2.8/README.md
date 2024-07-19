@@ -10,6 +10,8 @@
     * Install: `CFLAGS=-g gimptool-2.0 --install colour-match.c`
 * **Layer effects** (`layerfx`)
 <http://registry.gimp.org/node/186>
+* **Text outliner**
+<http://pete.nu/downloads/text-outliner.py>
 
 
 ## Scripts
