@@ -5,7 +5,7 @@
 # - uses my own fork of gimp-2.8:
 #   https://github.com/soimort/gimp
 # - reads/writes in mur format: https://github.com/soimort/mur
-# - dependencies: python (3.5+), watchdog
+# - dependencies: python (3.7+), watchdog
 
 import argparse
 from os import environ, path
@@ -204,6 +204,7 @@ def main():
     # filter nonexistent documents
     s_invalid = [i for i in s_init if not path.isfile(i)]
     s_init = [i for i in s_init if path.isfile(i)]
+    s_init = list(dict.fromkeys(s_init))  # remove duplicates
     if s_invalid:
         print_with_colors("[panic] some initial documents not found: %s" % s_invalid, RED, BOLD)
     print_with_colors("initial documents: %s" % s_init, BLUE)
