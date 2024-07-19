@@ -19,10 +19,12 @@ from gimpfu import *
 # Adds a new layer beneath the given layer. Return value is the new layer
 def add_new_layer_beneath(image, layer):
 	# Get the layer position.
-	pos = 0;
-	for i in range(len(image.layers)):
-		if(image.layers[i] == layer):
-			pos = i
+	#pos = 0;
+	#for i in range(len(image.layers)):
+	#	if(image.layers[i] == layer):
+	#		pos = i
+	position = pdb.gimp_image_get_item_position(image, layer)
+	parent_layer = layer.parent
 
 	if image.base_type is RGB:
 		type = RGBA_IMAGE
@@ -31,7 +33,8 @@ def add_new_layer_beneath(image, layer):
 
 	# Add a new layer below the selected one
 	new_layer = gimp.Layer(image, "text outline", image.width, image.height, type, 100, NORMAL_MODE)
-	image.add_layer(new_layer, pos+1)
+	#image.add_layer(new_layer, pos+1)
+	pdb.gimp_image_insert_layer(image, new_layer, parent_layer, position+1)
 	return new_layer
 
 # Selects the contents of the given layer, then grows it by "thickness"
