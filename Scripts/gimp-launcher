@@ -300,10 +300,11 @@ def main():
                             if info != '(null)':
                                 if info[:7] == 'file://':
                                     loc = unquote(info)[7:]
-                                    s.append(loc)
+                                    if loc not in s:
+                                        s.append(loc)
                                     if args.debug:
                                         print_with_colors("loaded document: %s" % loc, BLUE, BOLD)
-                                    if len(s) == len(s_init):
+                                    if len(s) >= len(s_init):
                                         is_loading_finished = True
                                         if args.debug:
                                             print_with_colors("loading finished", BLUE, BOLD)
