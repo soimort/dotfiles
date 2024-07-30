@@ -53,6 +53,9 @@ br_pandoc() {
             elif [[ $line =~ ^'___ ' ]]; then
                 echo "<em><strong>${line#___ }</strong></em>" \\
 
+            elif [[ $line = '\' ]]; then
+                echo " "
+
             else
                 echo "$line" \\
             fi
