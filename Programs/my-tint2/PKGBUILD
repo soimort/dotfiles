@@ -6,7 +6,7 @@
 
 _pkgname=tint2
 pkgname=my-$_pkgname-git
-pkgver=17.0.1.r3.g03f7240
+pkgver=17.0.2.r17.gfa6f0fe
 pkgrel=1
 pkgdesc='Basic, good-looking task manager for WMs'
 arch=(x86_64)
