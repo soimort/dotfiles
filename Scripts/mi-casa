@@ -201,11 +201,26 @@ def main():
                         help='print only the parsed result of workspaces and exit')
     parser.add_argument('--debug', action='store_true', default=False,
                         help='show detailed information for debugging')
+    parser.add_argument('--no-rlwrap', action='store_true', default=False,
+                        help='do not invoke rlwrap')
     parser.add_argument('-w', '--workspace-name', action='append', dest='workspace_names',
                         metavar='WORKSPACE_NAME', help='open a workspace')
     parser.add_argument('SESSION', nargs='?', help=argparse.SUPPRESS)
     #parser.add_argument('SESSIONS', nargs='*', help=argparse.SUPPRESS)
     args = parser.parse_args()
+
+    # invoke rlwrap if possible
+    if not args.no_rlwrap:
+        try:
+            subprocess.run(['rlwrap', '--version'], capture_output=True)
+        except FileNotFoundError:
+            print_with_colors('[warning] rlwrap not found', BOLD, YELLOW)
+        else:
+            wrapped_args = sys.argv + ['--no-rlwrap']
+            if args.debug:
+                print_with_colors('[info] invoking rlwrap on: %s' % wrapped_args, BOLD, GREEN)
+            subprocess.run(['rlwrap'] + wrapped_args)
+            return
 
     if args.SESSION is None:
         # create temporary session file
