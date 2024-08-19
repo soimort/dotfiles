@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+#
+# List all X windows recorded in ~/tint2.session.
+
+local filename="$HOME/tint2.session"
+while IFS= read -r line || [ -n "$line" ]; do
+    if [[ $line =~ '.win=' ]]; then
+        local win_id=${line#*win=}
+        xwininfo -id $win_id | head -2 | tail -1
+    fi
+done < "$filename"
