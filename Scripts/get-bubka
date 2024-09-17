@@ -4,7 +4,7 @@ import json, re, sys
 from you_get.common import *
 from you_get.util import *
 
-site_info = 'bubkaweb.com'
+site_info = 'idol-culture.jp'
 
 def main():
     headers = {
@@ -15,9 +15,9 @@ def main():
 
     for arg in sys.argv[1:]:
         cont = get_content(arg, headers=headers)
-        imgs = re.findall(r'\d" srcset="(https?://www.bubkaweb.com/wp-content/uploads/[^, "]+)', cont)
+        imgs = re.findall(r'\d" srcset="(https?://www.idol-culture.jp/wp-content/uploads/[^, "]+)', cont)
         for img in imgs:
-            img_t = re.match(r'(https?://www.bubkaweb.com/wp-content/uploads/([.a-zA-Z0-9_/-]+))-\d+x\d+\.jpg', img)
+            img_t = re.match(r'(https?://www.idol-culture.jp/wp-content/uploads/([.a-zA-Z0-9_/-]+))-\d+x\d+\.jpg', img)
             if img_t:  # scaled
                 img_src = '.'.join(img.split('.')[:-2]) + '.' + \
                     '-'.join(img.split('.')[:-1][-1].split('-')[:-1]) + '.' + \
@@ -27,7 +27,7 @@ def main():
 
             img_id = ''.join(img_src.split('/')[-1].split('.')[:-1])
 
-            title = '[bubkaweb.com] %s' % img_id
+            title = '[idol-culture.jp] %s' % img_id
 
             ext, size = 'jpg', url_size(img, headers=headers)
             print_info(site_info, title, ext, size)

@@ -98,7 +98,7 @@ mcer() {
             gugutasu $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "bltweb\.jp" ]]; then
             get-blt $url || log.e "failed to get \"$url\""
-        elif [[ $url =~ "bubkaweb\.com" ]]; then
+        elif [[ $url =~ "bubkaweb\.com" || $url =~ "idol-culture\.jp" ]]; then
             get-bubka $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "mdpr\.jp" ]]; then
             get-mdpr $url || log.e "failed to get \"$url\""
