@@ -100,6 +100,8 @@ mcer() {
             get-blt $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "bubkaweb\.com" || $url =~ "idol-culture\.jp" ]]; then
             get-bubka $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "smart-flash\.jp" ]]; then
+            get-flash $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "mdpr\.jp" ]]; then
             get-mdpr $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "official-goods-store\.jp" || $url =~ "shop\.akb48\.co\.jp" ]]; then
@@ -110,7 +112,7 @@ mcer() {
             local filename=${url##*/}
             filename=${filename%%\?*}
             # skip downloads that would overwrite existing files
-            wget -nc -O $filename $url || log.e "failed to get \"$url\""
+            wget -nc -O $filename -- $url || log.e "failed to get \"$url\""
         fi
     done
 }

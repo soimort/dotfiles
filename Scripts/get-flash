@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'smart-flash.jp'
+
+def main():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*'
+    }
+
+    for arg in sys.argv[1:]:
+        if re.match(r'^https?://smart-flash.jp/gravure/\d+/?$', arg):
+            arg = arg + '/image/1/'
+
+        cont = get_content(arg, headers=headers)
+        imgs = re.findall(r"<img src='(https://data\.smart-flash\.jp/wp-content/uploads/[^']+)", cont)
+
+        for img in imgs:
+            img_id = ''.join(img.split('/')[-1].split('.')[:-1])
+
+            title = '[smart-flash.jp] %s' % img_id
+
+            ext, size = 'jpg', url_size(img, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+    return
+
+if __name__ == '__main__':
+    main()
