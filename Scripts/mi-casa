@@ -6,6 +6,16 @@
 #   https://github.com/soimort/caja (1.16, GTK 2)  or  https://github.com/soimort/mi-caja (1.26, GTK 3)
 # - reads/writes in mur format: https://github.com/soimort/mur
 # - dependencies: python (3.5+), zenity
+#
+# [FIXME] Solve the lag receiving "page added" and "page removed" signals.
+#   When a new tab is added, the following signals are immediately captured:
+#     page switched, slot added
+#   Only after switching a tab, the following signals are captured:
+#     page added, page switched, location updated
+#   When a tab is removed, the following signals are immediately captured:
+#     page switched
+#   Only after switching a tab, the following signals are captured:
+#     page removed, page switched
 
 import argparse
 import datetime
@@ -511,7 +521,7 @@ def main():
                     print_with_colors('\n[warning] stdin has been closed. closing monitor...', BOLD, YELLOW)
                     break
 
-            # FIXME: with sleep() there's always some delay until new output ready
+            # FIXME: there's a lag receiving "page added" and "page removed" signals (problem with sleep()?)
             for proc_stdout in select.select([proc.stdout for proc in procs], [], [], 0)[0]:
                 # non-blocking read from external process
                 line = proc_stdout.readline()
