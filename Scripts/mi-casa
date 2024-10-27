@@ -14,7 +14,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from os import environ, makedirs, path
+from os import environ, makedirs, path, setpgrp
 from pathlib import Path
 from urllib.parse import quote, unquote
 
@@ -216,10 +216,13 @@ def main():
         except FileNotFoundError:
             print_with_colors('[warning] rlwrap not found', BOLD, YELLOW)
         else:
-            wrapped_args = sys.argv + ['--no-rlwrap']
+            wrapped_args = sys.argv + ['--no-rlwrap']  # important!
             if args.debug:
                 print_with_colors('[info] invoking rlwrap on: %s' % wrapped_args, BOLD, GREEN)
-            subprocess.run(['rlwrap'] + wrapped_args)
+            try:
+                subprocess.run(['rlwrap'] + wrapped_args)
+            except KeyboardInterrupt:  # when SIGINT received (TODO: how to make rlwrap python ignore SIGINT?)
+                print_with_colors('[warning] monitor forcibly closed.', BOLD, YELLOW)
             return
 
     if args.SESSION is None:
@@ -303,9 +306,11 @@ def main():
             params.extend(all_workspaces[workspace_name]['locations'])
 
             if args.debug:
-                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
+                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE,
+                                              preexec_fn=setpgrp))  # do not forward SIGINT to caja
             else:  # suppress stderr
-                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
+                procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                              preexec_fn=setpgrp))  # do not forward SIGINT to caja
 
     else:  # caja_application_load_session() that loads last-session
         caja_session_filename = '%s.caja' % workspace_filename
@@ -330,9 +335,11 @@ def main():
             exit(1)
 
         if args.debug:
-            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE))
+            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE,
+                                          preexec_fn=setpgrp))  # do not forward SIGINT to caja
         else:  # suppress stderr
-            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL))
+            procs.append(subprocess.Popen(params, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                          preexec_fn=setpgrp))  # do not forward SIGINT to caja
 
     # main loop
     notebook = None  # stores last notebook
@@ -626,8 +633,8 @@ def main():
                 time.sleep(0.2)  # don't wanna burn my CPU
 
         except KeyboardInterrupt:
-            print_with_colors('\n[warning] Ctrl-C pressed. brutally terminating...', BOLD, YELLOW)
-            break
+            print_with_colors('\n[warning] Ctrl-C pressed!', BOLD, YELLOW)
+            pass
         except Exception as err:
             # child process may produce invalid output to parse, pass rather than crash
             print_with_colors('[error] exception while parsing the log:', YELLOW)
