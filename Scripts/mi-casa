@@ -7,15 +7,19 @@
 # - reads/writes in mur format: https://github.com/soimort/mur
 # - dependencies: python (3.5+), zenity
 #
-# [FIXME] Solve the lag receiving "page added" and "page removed" signals.
-#   When a new tab is added, the following signals are immediately captured:
-#     page switched, slot added
-#   Only after switching a tab, the following signals are captured:
-#     page added, page switched, location updated
-#   When a tab is removed, the following signals are immediately captured:
-#     page switched
-#   Only after switching a tab, the following signals are captured:
-#     page removed, page switched
+# [FIXME]
+# 1. Solve the lag receiving "page added" and "page removed" signals.
+#    When a new tab is added, the following signals are immediately captured:
+#      page switched, slot added
+#    Only after switching a tab, the following signals are captured:
+#      page added, page switched, location updated
+#    When a tab is removed, the following signals are immediately captured:
+#      page switched
+#    Only after switching a tab, the following signals are captured:
+#      page removed, page switched
+#
+# 2. Starting a large session may fail "all workspaces loaded",
+#    leaving all workspaces unloaded. (race condition?)
 
 import argparse
 import datetime
