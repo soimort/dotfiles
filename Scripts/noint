@@ -1,0 +1,18 @@
+#!/usr/bin/env zsh
+#
+# Execute a command, but do not send SIGINT to the terminal when C-c is pressed.
+#
+# See also:
+# https://github.com/hanslub42/rlwrap/issues/106
+
+#. prelude
+
+if [ $# -le 0 ]; then
+    echo 'Usage:'
+    echo '  noint COMMAND ARGS...'
+    exit 1
+fi
+
+stty intr undef
+$@
+stty intr ^c
