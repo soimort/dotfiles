@@ -512,6 +512,9 @@ def main():
                     if notebook in s:
                         current_page_num = lastp.get(notebook, 0)
                         current_uri = s[notebook][current_page_num][1] if current_page_num < len(s[notebook]) else ''
+                        current_uri = unquote(current_uri)
+                        if current_uri.startswith('file://'):
+                            current_uri = current_uri[7:]
                         print_inline_with_colors("%s: %s> " % (current_workspace_name, current_uri), BOLD)
                     else:
                         print_inline_with_colors("%s> " % current_workspace_name, BOLD)
@@ -678,6 +681,9 @@ def main():
                 if notebook in s:
                     current_page_num = lastp.get(notebook, 0)
                     current_uri = s[notebook][current_page_num][1] if current_page_num < len(s[notebook]) else ''
+                    current_uri = unquote(current_uri)
+                    if current_uri.startswith('file://'):
+                        current_uri = current_uri[7:]
                     print_inline_with_colors("%s: %s> " % (current_workspace_name, current_uri), BOLD)
                 else:
                     print_inline_with_colors("%s> " % current_workspace_name, BOLD)
