@@ -104,6 +104,8 @@ mcer() {
             get-flash $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "mdpr\.jp" ]]; then
             get-mdpr $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "music-culture\.info" ]]; then
+            get-music-culture $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "official-goods-store\.jp" || $url =~ "shop\.akb48\.co\.jp" ]]; then
             get-namashashin $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "popnroll\.tv" ]]; then
