@@ -415,15 +415,15 @@ def main():
                                 continue
 
                             uris_found = []
-                            for uri in uris:
-                                if target in uri: uris_found.append(uri)
+                            for (index, uri) in enumerate(uris):
+                                if target in uri: uris_found.append((index, uri))
                             if len(uris_found) > 0:
                                 if find_loaded:
                                     print('%-20s : ' % _workspace_name)
                                 else:
                                     print('%-20s : (not loaded)' % _workspace_name)
-                                for uri_found in uris_found:
-                                    print(uri_found)
+                                for (index, uri) in uris_found:
+                                    print('%-4s %s' % (index, uri))
 
                     elif text == 'time':
                         current_time = datetime.datetime.now()
