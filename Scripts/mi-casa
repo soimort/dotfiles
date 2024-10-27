@@ -72,7 +72,7 @@ all_workspaces = {}  # stores all workspace locations, indexed by workspace name
 ws = []              # an ordered list of all workspace names
 ns = {}              # stores active workspace name, indexed by notebook
 nn = {}              # stores active notebook, indexed by workspace name
-s = {}               # stores (slot, uri), indexed by notebook & page_num
+s = {}               # stores (slot_UID, uri), indexed by notebook & page_num
 
 def search(slot):
     """Find a given slot in s and return its (notebook, page_num)."""
@@ -466,8 +466,15 @@ def main():
                     elif text:
                         print_with_colors('[error] unrecognized command', YELLOW)
 
-                    current_workspace_name = ns[notebook]['name'] if notebook in ns else ''
-                    print_inline_with_colors('%s> ' % current_workspace_name, BOLD)  # print prompt again
+                    # print prompt again
+                    current_workspace_name = ns.get(notebook, {}).get('name', '')
+                    if notebook in s:
+                        current_page_num = lastp.get(notebook, 0)
+                        current_uri = s[notebook][current_page_num][1] if current_page_num < len(s[notebook]) else ''
+                        print_inline_with_colors("%s: %s> " % (current_workspace_name, current_uri), BOLD)
+                    else:
+                        print_inline_with_colors("%s> " % current_workspace_name, BOLD)
+
                 else:
                     # an empty line means stdin has been closed (caused by Ctrl-D)
                     print_with_colors('\n[warning] stdin has been closed. closing monitor...', BOLD, YELLOW)
@@ -625,8 +632,15 @@ def main():
 
             current_ts = time.time()
             if flag and current_ts - last_proc_ts > .25:
-                current_workspace_name = ns[notebook]['name'] if notebook in ns else ''
-                print_inline_with_colors('%s> ' % current_workspace_name, BOLD)  # print prompt
+                # print prompt
+                current_workspace_name = ns.get(notebook, {}).get('name', '')
+                if notebook in s:
+                    current_page_num = lastp.get(notebook, 0)
+                    current_uri = s[notebook][current_page_num][1] if current_page_num < len(s[notebook]) else ''
+                    print_inline_with_colors("%s: %s> " % (current_workspace_name, current_uri), BOLD)
+                else:
+                    print_inline_with_colors("%s> " % current_workspace_name, BOLD)
+
                 flag = False
 
             if is_loading_finished and not is_window_closing:
