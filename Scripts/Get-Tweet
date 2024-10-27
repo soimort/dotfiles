@@ -18,6 +18,12 @@ from you_get.extractors.twitter import twitter_download
 
 site_info = 'X'
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept': '*/*'
+}
+
 def get_url3(url):
     m = re.match(r'https?://x.com/(.*)', url)
     if m is not None:
@@ -66,18 +72,18 @@ def get_url3(url):
                     variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
                     title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
                     urls = [ variants[-1]['url'] ]
-                    size = urls_size(urls)
+                    size = urls_size(urls, headers=headers)
                     mime, ext = variants[-1]['content_type'], 'mp4'
 
-                    download_urls(urls, title, ext, size, output_dir)
+                    download_urls(urls, title, ext, size, output_dir, headers=headers)
 
                 else:
                     title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
                     urls = [ medium['media_url_https'] + ':orig' ]
-                    size = urls_size(urls)
+                    size = urls_size(urls, headers=headers)
                     ext = medium['media_url_https'].split('.')[-1]
 
-                    download_urls(urls, title, ext, size, output_dir)
+                    download_urls(urls, title, ext, size, output_dir, headers=headers)
 
         if 'quoted_status_permalink' in item:
             quoted_url = item['quoted_status_permalink']['expanded']
