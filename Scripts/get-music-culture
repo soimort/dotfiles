@@ -15,7 +15,8 @@ def main():
 
     for arg in sys.argv[1:]:
         cont = get_content(arg, headers=headers)
-        imgs = re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" alt=""', cont)
+        imgs = re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" alt="', cont)
+        imgs += re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" data-title="', cont)
         imgs = list(set(imgs))
         for img in imgs:
             img_id = img.split('/')[-2]
