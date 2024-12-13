@@ -110,6 +110,8 @@ mcer() {
             get-namashashin $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "popnroll\.tv" ]]; then
             get-popnroll $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "thetv\.jp" ]]; then
+            get-thetv $url || log.e "failed to get \"$url\""
         else
             local filename=${url##*/}
             filename=${filename%%\?*}
