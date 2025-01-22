@@ -212,6 +212,39 @@ unmark() {
     done
 }
 
+has-marked() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: has-marked FILE...'
+        return 1
+    fi
+
+    for FILENAME in "$@"; do
+        if [ -d "$FILENAME" ]; then
+            # is a directory
+            gio info -a metadata::custom-icon "$FILENAME" | grep metadata::custom-icon >/dev/null
+            if [ $? -eq 0 ]; then echo $FILENAME; fi
+            gio info -a metadata::emblems "$FILENAME" | grep metadata::emblems >/dev/null
+            if [ $? -eq 0 ]; then echo $FILENAME; fi
+            for SUBFILENAME in $FILENAME/* $FILENAME/**/*; do
+                if [ -d "$SUBFILENAME" ]; then
+                    # is a directory
+                    gio info -a metadata::custom-icon "$SUBFILENAME" | grep metadata::custom-icon >/dev/null
+                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
+                    gio info -a metadata::emblems "$SUBFILENAME" | grep metadata::emblems >/dev/null
+                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
+                else
+                    # is a file
+                    gio info -a metadata::emblems "$SUBFILENAME" | grep metadata::emblems >/dev/null
+                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
+                fi
+            done
+        else
+            # is a known file
+            gio info -a metadata::emblems "$FILENAME" | grep metadata::emblems
+        fi
+    done
+}
+
 # [TODO] deprecated in favor of mark/unmark
 fav() {
     if [[ -z "$1" ]]; then
