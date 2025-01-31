@@ -29,11 +29,16 @@ def get_url3(url):
     if m is not None:
         url = 'https://twitter.com/' + m.group(1)
 
-    p = subprocess.run(['yt-dlp', '--cookies-from-browser', 'chromium', '-s', '--dump-pages', url], capture_output=True)
+    ##p = subprocess.run(['yt-dlp', '--cookies-from-browser', 'chromium', '-s', '--dump-pages', url], capture_output=True)
+    p = subprocess.run(['yt-dlp', '--cookies', '/home/soimort/twitter.com_cookies.txt', '-s', '--dump-pages', url], capture_output=True)
+    ##p = subprocess.run(['yt-dlp', '-s', '--dump-pages', url], capture_output=True)
     text = p.stdout.decode('utf-8').strip().split('\n')
-    content = base64.b64decode(text[5]).decode('utf-8')
+    ##content = base64.b64decode(text[5]).decode('utf-8')
+    content = base64.b64decode(text[3]).decode('utf-8')
+    ##content = base64.b64decode(text[6]).decode('utf-8')
     info = json.loads(content)
     entries = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries']
+    ##entries = info['data']['tweetResult']['result']['legacy']['entities']
     for i, entry in enumerate(entries):
         if 'itemContent' not in entry['content']: continue
         if 'tweet_results' not in entry['content']['itemContent']: continue
