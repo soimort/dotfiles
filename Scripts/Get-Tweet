@@ -77,13 +77,15 @@ def get_url3(url):
                     variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
                     title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
                     urls = [ variants[-1]['url'] ]
-                    size = urls_size(urls, headers=headers)
-                    if size == float('inf'):
-                        log.wtf('[WTF] Undetermined Content-Length: %s' % urls)
-                        exit(1)
-                    mime, ext = variants[-1]['content_type'], 'mp4'
+                    for url in urls:
+                        subprocess.run(['wget', '-q', '--show-progress', '-O', '%s/%s.mp4' % (output_dir, title), url])
+                    #size = urls_size(urls, headers=headers)
+                    #if size == float('inf'):
+                    #    log.wtf('[WTF] Undetermined Content-Length: %s' % urls)
+                    #    exit(1)
+                    #mime, ext = variants[-1]['content_type'], 'mp4'
 
-                    download_urls(urls, title, ext, size, output_dir, headers=headers)
+                    #download_urls(urls, title, ext, size, output_dir, headers=headers)
 
                 else:
                     title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
