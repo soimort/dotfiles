@@ -8,9 +8,15 @@ from you_get.util import *
 
 site_info = 'DMM R18'
 
+headers = {
+    'User-Agent': 'Googlebot',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept': '*/*'
+}
+
 def main():
     for arg in sys.argv[1:]:
-        cont = get_content(arg)
+        cont = get_content(arg, headers=headers)
         try:
             cid = re.findall(r'cid=([^/]+)/', cont)[0]
             print("ID:\t\t%s" % cid)
