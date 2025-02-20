@@ -347,7 +347,7 @@ get() {
                 log.w "file \"$FILENAME\" already exists!"
                 continue
             else
-                $XYC wget -q --show-progress --no-check-certificate -U "$UA" -O "$FILENAME" "$url" ||
+                $XYC wget -q --show-progress --no-check-certificate -U Googlebot -O "$FILENAME" "$url" ||
                     log.e "failed to get \"$url\""
             fi
         fi
