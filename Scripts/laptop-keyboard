@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Disable/re-enable the laptop's internal keyboard.
+#
+# See also: https://askubuntu.com/questions/160945/is-there-a-way-to-disable-a-laptops-internal-keyboard
+
+if [ $# -eq 0 ]; then
+    echo "Usage:"
+    echo "  laptop-keyboard [off|on]"
+    exit 0
+fi
+
+if [ "$1" = off ]; then
+    xinput float 'AT Translated Set 2 keyboard'
+elif [ "$1" = on ]; then
+    # "3" should be the number of [slave keyboard (#)] as shown in xinput list
+    xinput reattach 'AT Translated Set 2 keyboard' 3
+fi
