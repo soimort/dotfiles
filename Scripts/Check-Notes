@@ -52,6 +52,7 @@ config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
 
 
 def inspect_locs(locs):
+    file_not_found = False
     missing_hosts = set()
     missing_mps = set()
     for loc in locs:
@@ -82,6 +83,7 @@ def inspect_locs(locs):
                 if mp:
                     missing_mps.add(mp)
 
+            file_not_found = True
             print_inline_with_colors('file not found: ', YELLOW)
             print_with_colors(loc, YELLOW, BOLD)
 
@@ -93,7 +95,7 @@ def inspect_locs(locs):
         print_inline_with_colors('missing these media devices: ', RED)
         print_with_colors(list(missing_mps), RED, BOLD)
 
-    return bool(missing_hosts) or bool(missing_mps)
+    return file_not_found or bool(missing_hosts) or bool(missing_mps)
 
 
 def read_geany_session(geany_session_filename):
