@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Run firefox without WARNINGs.
+
+setsid -f firefox $@ &>/dev/null
