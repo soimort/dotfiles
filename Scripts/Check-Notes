@@ -1,0 +1,173 @@
+#!/usr/bin/env python
+#
+# Check if everything recorded in session files has existing paths.
+
+import glob
+import re
+from os import environ
+from pathlib import Path
+from urllib import parse
+
+
+# ANSI escape code
+RESET = 0
+BOLD = 1
+UNDERLINE = 4
+NEGATIVE = 7
+NO_BOLD = 21
+NO_UNDERLINE = 24
+POSITIVE = 27
+BLACK = 30
+RED = 31
+GREEN = 32
+YELLOW = 33
+BLUE = 34
+MAGENTA = 35
+CYAN = 36
+LIGHT_GRAY = 37
+DEFAULT = 39
+BLACK_BACKGROUND = 40
+RED_BACKGROUND = 41
+GREEN_BACKGROUND = 42
+YELLOW_BACKGROUND = 43
+BLUE_BACKGROUND = 44
+MAGENTA_BACKGROUND = 45
+CYAN_BACKGROUND = 46
+LIGHT_GRAY_BACKGROUND = 47
+DEFAULT_BACKGROUND = 49
+
+def print_with_colors(text, *colors):
+    """Print text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+        ";".join([str(color) for color in colors]), RESET, content=text))
+
+def print_inline_with_colors(text, *colors):
+    """Print inline text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+        ";".join([str(color) for color in colors]), RESET, content=text), end='', flush=True)
+
+
+home = Path.home()
+config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
+
+
+def inspect_locs(locs):
+    missing_hosts = set()
+    missing_mps = set()
+    for loc in locs:
+        if not Path(loc).exists():
+            first = loc.split('/')[1]
+            if first == 'mnt':
+                try:
+                    host = loc.split('/')[2]
+                except:
+                    host = None
+                try:
+                    assert loc.split('/')[3:5] == ['run', 'media']
+                    mp = loc.split('/')[6]
+                except:
+                    mp = None
+
+                missing_hosts.add(host)
+                if mp:
+                    missing_mps.add(f'{host}::{mp}')
+
+            elif first == 'run':
+                try:
+                    assert loc.split('/')[1:3] == ['run', 'media']
+                    mp = loc.split('/')[4]
+                except:
+                    mp = None
+
+                if mp:
+                    missing_mps.add(mp)
+
+            print_inline_with_colors('file not found: ', YELLOW)
+            print_with_colors(loc, YELLOW, BOLD)
+
+    if bool(missing_hosts):
+        print_inline_with_colors('missing these remote hosts: ', RED)
+        print_with_colors(list(missing_hosts), RED, BOLD)
+
+    if bool(missing_mps):
+        print_inline_with_colors('missing these media devices: ', RED)
+        print_with_colors(list(missing_mps), RED, BOLD)
+
+    return bool(missing_hosts) or bool(missing_mps)
+
+
+def read_geany_session(geany_session_filename):
+    try:
+        with open(geany_session_filename) as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        raise
+
+    for line in lines:
+        if line.startswith('FILE_NAME_'):
+            loc = parse.unquote(line.split(';')[7], encoding='utf-8')
+            yield loc
+
+def check_geany_session():
+    geany_session_filename = f'{config_dir}/geany/session.conf'
+    locs = list(read_geany_session(geany_session_filename))
+
+    print_inline_with_colors('checking session file: ')
+    print_inline_with_colors(geany_session_filename, BOLD)
+    print_with_colors(' (%s locations)' % len(locs))
+
+    return inspect_locs(locs)
+
+
+def read_scite_session(scite_session_filename):
+    try:
+        with open(scite_session_filename) as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        raise
+
+    for line in lines:
+        m = re.match(r'buffer\.\d+\.path=(.+)', line)
+        if m:
+            loc = m.group(1)
+            yield loc
+
+def check_scite_session():
+    # last session
+    scite_session_filename = f'{home}/.SciTE.session'
+    locs = set(read_scite_session(scite_session_filename))
+    all_locs = locs
+
+    print_inline_with_colors('checking session file: ')
+    print_inline_with_colors(scite_session_filename, BOLD)
+    print_with_colors(' (%s locations)' % len(locs))
+
+    # every *.SciTE.session
+    scite_session_filenames = glob.glob('%s/*.SciTE.session' % home)
+    for scite_session_filename in scite_session_filenames:
+        locs = set(read_scite_session(scite_session_filename))
+        all_locs = all_locs.union(locs)
+
+        print_inline_with_colors('checking session file: ')
+        print_inline_with_colors(scite_session_filename, BOLD)
+        print_with_colors(' (%s locations)' % len(locs))
+
+    return inspect_locs(all_locs)
+
+
+if __name__ == '__main__':
+    flag = False
+    flag = check_geany_session() or flag
+    flag = check_scite_session() or flag
+
+    if flag:
+        print_with_colors('you need to mount the missing remote hosts and/or media devices', RED)
+        print_with_colors('or modify the session files manually.', RED)
+    else:
+        print_with_colors('everything recorded in session files has existing paths - good to go!', GREEN)
+        print_inline_with_colors('start geany session with: ', GREEN)
+        print_with_colors('$ Open-Notes', GREEN, BOLD)
+        print_inline_with_colors('start SciTE sessions with: ', GREEN)
+        print_with_colors('$ SciTE-launcher', GREEN, BOLD)
+
+    exit(flag)
