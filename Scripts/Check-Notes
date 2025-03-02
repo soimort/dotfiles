@@ -101,7 +101,7 @@ def read_geany_session(geany_session_filename):
         with open(geany_session_filename) as f:
             lines = f.readlines()
     except FileNotFoundError:
-        raise
+        return []
 
     for line in lines:
         if line.startswith('FILE_NAME_'):
@@ -124,7 +124,7 @@ def read_scite_session(scite_session_filename):
         with open(scite_session_filename) as f:
             lines = f.readlines()
     except FileNotFoundError:
-        raise
+        return []
 
     for line in lines:
         m = re.match(r'buffer\.\d+\.path=(.+)', line)
