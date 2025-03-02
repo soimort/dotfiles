@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Run gedit without WARNINGs.
+
+setsid -f gedit $@ &>/dev/null
