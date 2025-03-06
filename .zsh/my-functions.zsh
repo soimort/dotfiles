@@ -7,6 +7,21 @@ enable-magic-functions() {
     zle -N self-insert url-quote-magic
 }
 
+# Search for strings in the command history.
+# [FIXME] when a string contains a double quotation mark (")
+his() {
+    if [ -z "$1" ]; then
+        echo 'Usage: his STRING...'
+        return 1
+    fi
+
+    local str pat=grep
+    for str in "$@"; do
+        pat=$pat" -e \"$str\""
+    done
+    history | eval $pat | tac | less
+}
+
 rand() {
     head /dev/urandom | tr -dc A-Za-z0-9 | head -c10
 }
