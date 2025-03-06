@@ -7,18 +7,21 @@ enable-magic-functions() {
     zle -N self-insert url-quote-magic
 }
 
-# Search for strings in the command history.
-# [FIXME] when a string contains a double quotation mark (")
+# Search for strings (patterns actually) in the command history. (AND-matches)
+# [FIXME] when a string contains "/", "&", or "'"
+# <https://unix.stackexchange.com/questions/55359/how-to-run-grep-with-multiple-and-patterns>
 his() {
     if [ -z "$1" ]; then
         echo 'Usage: his STRING...'
         return 1
     fi
 
-    local str pat=grep
+    local str pat="awk '/" ##grep
     for str in "$@"; do
-        pat=$pat" -e \"$str\""
+        pat=$pat"/ && /"$str
+        ##pat=$pat" -e \"$str\""
     done
+    pat=$pat"/'"
     history | eval $pat | tac | less
 }
 
