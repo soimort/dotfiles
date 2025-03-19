@@ -558,6 +558,12 @@ def main():
 
                         is_just_last_slot = False
 
+                        if action not in ["page removed", "page switched"]:
+                            # always triggered first when initializing ("slot added")
+                            # if we're in the process of mass-closing, this is not triggered
+                            # FIXME: after mass-closing, need one more action to trigger this again
+                            is_tab_in_process_of_mass_closing = False
+
                         if action == "location updated":
                             # which notebook window and page_num? use window slot to decide
                             slot, uri = info.split(' ')
@@ -639,8 +645,33 @@ def main():
                                     is_window_closing = True
                                     is_window_just_closing = False
 
+                                closed_uri = s[notebook][page_num][1]
+                                closed_uri = unquote(closed_uri)
+                                if closed_uri.startswith('file://'):
+                                    closed_uri = closed_uri[7:]
+
+                                if Path(closed_uri).is_dir():
+                                    print_with_colors("tab closed: %s" % closed_uri, GREEN, BOLD)
+                                else:  # closed path does not exist -- mount point disconnected?
+                                    print_with_colors("tab closed: %s" % closed_uri, RED, BOLD)
+
+                                    if not is_tab_in_process_of_mass_closing:
+                                        # save snapshot
+                                        current_time = datetime.datetime.now()
+                                        snap_filename = '%s/%s.mur' %\
+                                            (mi_casa_snap_dir, '_'.join(str(current_time).split()))
+                                        with open(snap_filename, 'w') as f:
+                                            write_mur_file(f, debug=False)
+                                        print('snapshot saved: %s' % snap_filename)
+
+                                        is_tab_in_process_of_mass_closing = True
+
+                                        subprocess.run(['zenity', '--warning',
+                                                        '--text=Closing of tabs with nonexistent locations detected.\n\
+Check if your mount points are disconnected!\n\
+Snapshot saved in: %s' % snap_filename])
+
                                 # remove page from notebook
-                                print_with_colors("tab closed: %s" % s[notebook][page_num][1], GREEN, BOLD)
                                 s[notebook].pop(page_num)
                                 if s[notebook] == []:
                                     # if it's the last page, remove notebook then
