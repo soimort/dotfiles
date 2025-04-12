@@ -1,0 +1,149 @@
+#!/usr/bin/env python
+#
+# Check if everything recorded in session files has existing paths.
+
+import json
+import subprocess
+import sys
+import time
+from os import environ
+from pathlib import Path
+
+from you_get.common import *
+from you_get.util import *
+
+
+# ANSI escape code
+RESET = 0
+BOLD = 1
+UNDERLINE = 4
+NEGATIVE = 7
+NO_BOLD = 21
+NO_UNDERLINE = 24
+POSITIVE = 27
+BLACK = 30
+RED = 31
+GREEN = 32
+YELLOW = 33
+BLUE = 34
+MAGENTA = 35
+CYAN = 36
+LIGHT_GRAY = 37
+DEFAULT = 39
+BLACK_BACKGROUND = 40
+RED_BACKGROUND = 41
+GREEN_BACKGROUND = 42
+YELLOW_BACKGROUND = 43
+BLUE_BACKGROUND = 44
+MAGENTA_BACKGROUND = 45
+CYAN_BACKGROUND = 46
+LIGHT_GRAY_BACKGROUND = 47
+DEFAULT_BACKGROUND = 49
+
+def print_with_colors(text, *colors):
+    """Print text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+        ";".join([str(color) for color in colors]), RESET, content=text))
+
+def print_inline_with_colors(text, *colors):
+    """Print inline text with colors."""
+    print("\33[{}m{content}\33[{}m".format(
+        ";".join([str(color) for color in colors]), RESET, content=text), end='', flush=True)
+
+
+home = Path.home()
+config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
+
+site_info = 'Instagram'
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept': '*/*'
+}
+
+
+def main():
+    for url in sys.argv[1:]:
+        base_url = url.split('?')[0]
+        if base_url[-1] != '/': base_url += '/'
+        print_with_colors('base_url: ' + base_url, CYAN, BOLD)
+
+        media_id = base_url.split('/')[-2]
+        print_with_colors('media_id: ' + media_id, CYAN, BOLD)
+
+        img_index = 1
+        imgs = []
+        old_counter = 0
+        while True:
+            target_url = base_url + '?img_index=%s' % img_index
+
+            print_inline_with_colors('fetching ' + target_url + ' ... ', BLUE, BOLD)
+
+            # open process
+            procs = []
+            params = ['chromium']
+            params.extend(['--user-data-dir=browser_cookie3', '--headless', '--virtual-time-budget=10000', '--run-all-compositor-stages-before-draw', '--repl', target_url])
+            p = subprocess.Popen(params, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+            procs.append(p)
+
+            # wait a second
+            time.sleep(1)
+
+            js_code = 'm = ""; if (document.title != "Instagram") for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("img")) { m += target.src + " " }; m'
+
+            stdout_data = p.communicate(input=js_code)[0]
+            # strip ">>>" etc.
+            stdout_data = stdout_data[4:-6]
+            data = json.loads(stdout_data)
+            sources = data['result']['value'].split(' ')
+
+            if len(sources) > 1:  # m is not an empty string
+                source_num = 0
+                for source in sources:
+                    if source == '': continue
+                    if 's150x150' in source: continue
+                    filename = source.split('?')[0].split('/')[-1]
+                    flag = False
+                    for img in imgs:
+                        if filename in img:
+                            flag = True
+                            break
+                    if not flag:
+                        imgs.append(source)
+                        source_num += 1
+                if source_num > 0:
+                    old_counter = 0
+                    print('%s sources added' % source_num)
+                    img_index += 1
+                else:
+                    old_counter += 1
+                    if old_counter < 2:
+                        print('no new sources in this %s post' % old_counter)
+                        img_index += 1
+                    else:
+                        print('no new sources in 2 posts, finish!')
+                        break
+            else:  # m is empty, 'Instagram' random restriction occured
+                print_with_colors('retrying after 2s...', YELLOW, BOLD)
+                time.sleep(2)
+
+        for i, img in enumerate(imgs):
+            filename = img.split('?')[0].split('/')[-1].split('.')[0]
+            title = '[%s] [%s] %s' % (media_id, i + 1, filename)
+
+            ext, size = 'jpg', url_size(img, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+    return
+
+
+if __name__ == '__main__':
+    main()
