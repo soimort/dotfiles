@@ -90,7 +90,7 @@ def main():
             # wait a second
             time.sleep(1)
 
-            js_code = 'm = ""; if (document.title != "Instagram") for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("img")) { m += target.src + " " }; m'
+            js_code = 'm = ""; if (document.title != "Instagram") { for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("img")) { m += target.src + " " }; for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("video")) { m += target.src + " " } } m'
 
             stdout_data = p.communicate(input=js_code)[0]
             # strip ">>>" etc.
@@ -103,6 +103,9 @@ def main():
                 for source in sources:
                     if source == '': continue
                     if 's150x150' in source: continue
+                    if source.startswith('blob:'):
+                        print_with_colors('video found!', MAGENTA, BOLD)
+                        continue
                     filename = source.split('?')[0].split('/')[-1]
                     flag = False
                     for img in imgs:
