@@ -83,7 +83,7 @@ def main():
             # open process
             procs = []
             params = ['chromium']
-            params.extend(['--user-data-dir=browser_cookie3', '--headless', '--virtual-time-budget=10000', '--run-all-compositor-stages-before-draw', '--repl', target_url])
+            params.extend(['--user-data-dir=%s/chromium_temp' % config_dir, '--headless', '--virtual-time-budget=10000', '--run-all-compositor-stages-before-draw', '--repl', target_url])
             p = subprocess.Popen(params, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
             procs.append(p)
 
