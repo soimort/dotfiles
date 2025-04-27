@@ -106,20 +106,20 @@ def get_url3(url):
     return
 
 def get_url2(url):
-    m = re.match('^https?://(mobile\.)?twitter\.com/([^/]+)/status/(\d+)', url)
+    m = re.match('^https?://(mobile\.)?x\.com/([^/]+)/status/(\d+)', url)
     assert m
     screen_name, item_id = m.group(2), m.group(3)
     page_title = "{} [{}]".format(screen_name, item_id)
     log.w(page_title.split('\n')[0].split(': ')[0])
 
-    api_url = 'https://cdn.syndication.twimg.com/tweet-result?id=%s' % item_id
+    api_url = 'https://cdn.syndication.twimg.com/tweet-result?id=%s&token=!' % item_id
     content = get_content(api_url)
     info = json.loads(content)
     save(item_id, info)
 
 def save(item_id, info):
     author = info['user']['name']
-    url = 'https://twitter.com/%s/status/%s' % (info['user']['screen_name'], item_id)
+    url = 'https://x.com/%s/status/%s' % (info['user']['screen_name'], item_id)
     created_at = datetime.strptime(info['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%a %d %b %Y')
     full_text = info['text']
 
@@ -128,7 +128,7 @@ def save(item_id, info):
             outf.write('---\n')
             outf.write('author: %s\n' % author)
             outf.write('date: %s\n' % created_at)
-            outf.write('source: %s\n' % 'Twitter')
+            outf.write('source: %s\n' % 'X')
             outf.write('url: %s\n' % url)
             outf.write('---\n')
             outf.write(full_text)
@@ -142,10 +142,10 @@ def save(item_id, info):
             photo_url = photo['url']
             title = item_id + '_' + photo_url.split('.')[-2].split('/')[-1]
             urls = [ photo_url + ':orig' ]
-            size = urls_size(urls)
+            size = urls_size(urls, headers=headers)
             ext = photo_url.split('.')[-1]
 
-            download_urls(urls, title, ext, size, output_dir)
+            download_urls(urls, title, ext, size, output_dir, headers=headers)
 
     if 'video' in info:
         for mediaDetail in info['mediaDetails']:
@@ -154,10 +154,10 @@ def save(item_id, info):
             variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
             title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
             urls = [ variants[-1]['url'] ]
-            size = urls_size(urls)
+            size = urls_size(urls, headers=headers)
             mime, ext = variants[-1]['content_type'], 'mp4'
 
-            download_urls(urls, title, ext, size, output_dir)
+            download_urls(urls, title, ext, size, output_dir, headers=headers)
 
     if 'quoted_tweet' in info:
         item_id = info['quoted_tweet']['id_str']
@@ -230,7 +230,7 @@ def get_url(url):
 
 def main():
     for url in sys.argv[1:]:
-        get_url3(url)
+        get_url2(url)
 
 if __name__ == '__main__':
     main()
