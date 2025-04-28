@@ -25,6 +25,74 @@ headers = {
     'Accept': '*/*'
 }
 
+def get_url4(url):
+    m = re.match(r'https?://x.com/(.*)', url)
+    if m is not None:
+        url = 'https://twitter.com/' + m.group(1)
+
+    ##p = subprocess.run(['yt-dlp', '--cookies-from-browser', 'chromium', '-s', '--dump-pages', url], capture_output=True)
+    p = subprocess.run(['yt-dlp', '--cookies', '/home/soimort/twitter.com_cookies.txt',
+                        '--add-headers', 'User-Agent: python-requests/2.32.3',
+                        '-s', '--dump-pages', url], capture_output=True)
+    ##p = subprocess.run(['yt-dlp', '-s', '--dump-pages', url], capture_output=True)
+    text = p.stdout.decode('utf-8').strip().split('\n')
+    ##content = base64.b64decode(text[5]).decode('utf-8')
+    content = base64.b64decode(text[3]).decode('utf-8')
+    ##content = base64.b64decode(text[6]).decode('utf-8')
+    info = json.loads(content)
+    ##entries = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries']
+    result = info['data']['tweetResult']['result']
+
+    item_id = result['rest_id']
+    author = result['core']['user_results']['result']['legacy']['name']
+    screen_name = result['core']['user_results']['result']['legacy']['screen_name']
+    url = 'https://x.com/%s/status/%s' % (screen_name, item_id)
+    created_at = datetime.strptime(result['legacy']['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%a %-d %b %Y')
+    full_text = result['legacy']['full_text']
+
+    try:
+        with open(item_id + '.pt', 'x') as outf:
+            outf.write('---\n')
+            outf.write('author: %s\n' % author)
+            outf.write('date: %s\n' % created_at)
+            outf.write('source: %s\n' % 'X')
+            outf.write('url: %s\n' % url)
+            outf.write('---\n')
+            outf.write(full_text)
+            outf.write('\n')
+    except:
+        log.e("[Warning] File '%s' existed and will not be truncated." % (item_id + '.pt'))
+
+    item = result['legacy']
+
+    if 'extended_entities' in item:
+        media = item['extended_entities']['media']
+        output_dir = '.'
+        for medium in media:
+            if 'video_info' in medium:
+                variants = medium['video_info']['variants']
+                variants = sorted(variants, key=lambda kv: kv.get('bitrate', 0))
+                title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
+                urls = [ variants[-1]['url'] ]
+                for url in urls:
+                    subprocess.run(['wget', '-q', '--show-progress', '-O', '%s/%s.mp4' % (output_dir, title), url])
+
+            else:
+                title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
+                urls = [ medium['media_url_https'] + ':orig' ]
+                size = urls_size(urls, headers=headers)
+                ext = medium['media_url_https'].split('.')[-1]
+
+                download_urls(urls, title, ext, size, output_dir, headers=headers)
+
+    if 'quoted_status_permalink' in item:
+        quoted_url = item['quoted_status_permalink']['expanded']
+        log.w('>>> QUOTED: %s' % quoted_url)
+        get_url4(quoted_url)
+
+    return
+
+
 def get_url3(url):
     m = re.match(r'https?://x.com/(.*)', url)
     if m is not None:
@@ -115,6 +183,10 @@ def get_url2(url):
     api_url = 'https://cdn.syndication.twimg.com/tweet-result?id=%s&token=!' % item_id
     content = get_content(api_url)
     info = json.loads(content)
+
+    if 'user' not in info:
+        log.w(info['tombstone']['text']['text'])
+        raise Exception('NSFW')
     save(item_id, info)
 
 def save(item_id, info):
@@ -230,7 +302,14 @@ def get_url(url):
 
 def main():
     for url in sys.argv[1:]:
-        get_url2(url)
+        try:
+            get_url2(url)
+        except Exception as inst:
+            if inst.args[0] == 'NSFW':
+                get_url4(url)
+            else:
+                raise inst
+
 
 if __name__ == '__main__':
     main()
