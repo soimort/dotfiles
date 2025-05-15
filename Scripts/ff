@@ -2,4 +2,4 @@
 #
 # Run firefox without WARNINGs.
 
-setsid -f $HOME/Programs/firefox $@ &>/dev/null
+setsid -f $HOME/Programs/firefox/firefox $@ &>/dev/null
