@@ -49,6 +49,7 @@ doin() {
 }
 
 mc() {
+    # mkdir and chdir
     if [[ -z "$1" ]]; then
         log.w 'Usage: mc DIRECTORY'
         return 1
@@ -64,6 +65,7 @@ mc() {
 }
 
 mcer() {
+    # mkdir, chdir, execute and return
     if [[ -z "$1" ]]; then
         log.w 'Usage: mcer DIRECTORY'
         return 1
