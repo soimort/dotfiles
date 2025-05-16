@@ -147,7 +147,8 @@ waifu() {
         return 1
     fi
 
-    waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png
+    waifu2x-converter-cpp --scale-ratio $1 -i $2 -o $2_$1x.png 2>/dev/null ||
+    waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png 2>/dev/null
 }
 
 # Set custom icon / emblems of a file via GIO.
