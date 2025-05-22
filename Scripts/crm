@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Run chromium without WARNINGs.
+
+setsid -f $HOME/Programs/chrome-linux/chrome --user-data-dir=$HOME/.config/chromium-linux $@ &>/dev/null
