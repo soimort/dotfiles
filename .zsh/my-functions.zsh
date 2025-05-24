@@ -75,7 +75,12 @@ mcer() {
     OLD_OLDPWD=$OLDPWD
     TMP=$1
     if [ -d ${TMP%/*} ]; then
-        mkdir -p $TMP && cd $TMP
+        mkdir -p $TMP
+        if [ ! "$?" -eq 0 ]; then
+            return
+        fi
+
+        cd $TMP
         log.i "Executing command under: $TMP"
         shift 1
         $@
