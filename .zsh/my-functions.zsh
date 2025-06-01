@@ -71,9 +71,9 @@ mcer() {
         return 1
     fi
 
-    OLD_PWD=$PWD
-    OLD_OLDPWD=$OLDPWD
-    TMP=$1
+    local OLD_PWD=$PWD
+    local OLD_OLDPWD=$OLDPWD
+    local TMP=$1
     if [ -d ${TMP%/*} ]; then
         mkdir -p $TMP
         if [ ! "$?" -eq 0 ]; then
