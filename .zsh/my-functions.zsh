@@ -7,6 +7,19 @@ enable-magic-functions() {
     zle -N self-insert url-quote-magic
 }
 
+# Show the content of a script.
+what() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: what COMMAND'
+        return 1
+    fi
+
+    local WHICH_FILEPATH=`which $1`
+    if [ "$?" -eq 0 ]; then
+        less $WHICH_FILEPATH
+    fi
+}
+
 # Search for strings (patterns actually) in the command history. (AND-matches)
 # [FIXME] when a string contains "/", "&", or "'"
 # <https://unix.stackexchange.com/questions/55359/how-to-run-grep-with-multiple-and-patterns>
