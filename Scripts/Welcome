@@ -23,6 +23,17 @@ welcome_init() {
     elif [[ $HOST == "Hope" ]]; then
 
         # initialize X key bindings
+        xmodmap ~/.Xmodmap.k1000
+
+        # mount SSHFS locally
+        ## FIXME: why does Ada always prompt for password?
+        ## echo $ALICE | sshfs -o password_stdin soimort@Ada:/ /mnt/Ada
+        sshfs soimort@Ada:/ /mnt/Ada
+        sshfs soimort@Seele:/ /mnt/Seele
+
+    elif [[ $HOST == "Hope (obsolete)" ]]; then  # obsolete?!
+
+        # initialize X key bindings
         xmodmap ~/.Xmodmap
         killall -q xbindkeys; xbindkeys
 

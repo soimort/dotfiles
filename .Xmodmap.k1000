@@ -1,0 +1,4 @@
+! Modify X keymaps with:  xmodmap ~/.Xmodmap.k1000
+! Restore with:           setxkbmap -layout us
+
+keycode  127 = Print Sys_Req Print Execute
