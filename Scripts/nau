@@ -1,2 +1,5 @@
-#!/usr/bin/env bash
-setsid nautilus &>/dev/null &
+#!/bin/sh
+#
+# Run nautilus in a new session (suppressing both stdout and stderr).
+
+setsid -f nautilus $@ &>/dev/null

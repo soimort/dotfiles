@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+#
+# Run a desktop entry in a new session (suppressing both stdout and stderr).
+#
+# Examples:
+#   $ open-desktop steam-native
+#   $ open-desktop brave-browser
+
+local app_name="$1"
+if [[ -r "/usr/share/applications/$app_name.desktop" ]]; then
+    shift
+    gtk-launch "$app_name.desktop" $@ &>/dev/null
+else
+    echo "open-desktop: $app_name.desktop not found"
+    return 1
+fi

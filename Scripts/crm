@@ -1,5 +1,5 @@
 #!/bin/sh
 #
-# Run chromium without WARNINGs.
+# Run unmanaged chromium in a new session (suppressing both stdout and stderr).
 
 setsid -f $HOME/Programs/chrome-linux/chrome --user-data-dir=$HOME/.config/chromium-linux $@ &>/dev/null

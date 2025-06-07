@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+#
+# Run a program in a new session (suppressing both stdout and stderr).
+#
+# Examples:
+#   $ open gedit
+#   $ open gnome-clocks
+
+setsid -f $@ &>/dev/null

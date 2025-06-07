@@ -1,5 +1,5 @@
 #!/bin/sh
 #
-# Run gedit without WARNINGs.
+# Run gedit in a new session (suppressing both stdout and stderr).
 
 setsid -f gedit $@ &>/dev/null

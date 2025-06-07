@@ -1,5 +1,5 @@
 #!/bin/sh
 #
-# Run firefox without WARNINGs.
+# Run unmanaged firefox in a new session (suppressing both stdout and stderr).
 
 setsid -f $HOME/Programs/firefox/firefox $@ &>/dev/null
