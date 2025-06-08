@@ -251,35 +251,54 @@ unmark() {
     done
 }
 
+# Check if the given PATH is marked and/or contains any marked file/directory.
 has-marked() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: has-marked FILE...'
+        echo 'Usage: has-marked PATH...'
         return 1
     fi
 
+    local FILENAME SUBFILENAME TMP
     for FILENAME in "$@"; do
-        if [ -d "$FILENAME" ]; then
-            # is a directory
-            gio info -a metadata::custom-icon "$FILENAME" | grep metadata::custom-icon >/dev/null
-            if [ $? -eq 0 ]; then echo $FILENAME; fi
-            gio info -a metadata::emblems "$FILENAME" | grep metadata::emblems >/dev/null
-            if [ $? -eq 0 ]; then echo $FILENAME; fi
-            for SUBFILENAME in $FILENAME/* $FILENAME/**/*; do
-                if [ -d "$SUBFILENAME" ]; then
+        if [[ -d "$FILENAME" ]]; then
+            # is a known directory
+            # check its custom-icon
+            gio info -a metadata::custom-icon "$FILENAME" |
+                grep -o 'metadata::custom-icon: [^ ]*' | cut -d" " -f2 | read TMP
+            if [[ -n $TMP ]]; then echo $TMP $FILENAME; fi
+            # check its emblems
+            gio info -a metadata::emblems "$FILENAME" |
+                grep -o 'metadata::emblems: [^ ]*' | cut -d" " -f2 | read TMP
+            if [[ -n $TMP ]]; then echo $TMP $FILENAME; fi
+
+            # recursive globbing, equivalent to (${FILENAME}/)#* (allow NULL_GLOB)
+            for SUBFILENAME in ${FILENAME}**/*(N); do
+                if [[ -d "$SUBFILENAME" ]]; then
                     # is a directory
-                    gio info -a metadata::custom-icon "$SUBFILENAME" | grep metadata::custom-icon >/dev/null
-                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
-                    gio info -a metadata::emblems "$SUBFILENAME" | grep metadata::emblems >/dev/null
-                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
-                else
+                    # check its custom-icon
+                    gio info -a metadata::custom-icon "$SUBFILENAME" |
+                        grep -o 'metadata::custom-icon: [^ ]*' | cut -d" " -f2 | read TMP
+                    if [[ -n $TMP ]]; then echo $TMP $SUBFILENAME; fi
+                    # check its emblems
+                    gio info -a metadata::emblems "$SUBFILENAME" |
+                        grep -o 'metadata::emblems: [^ ]*' | cut -d" " -f2 | read TMP
+                    if [[ -n $TMP ]]; then echo $TMP $SUBFILENAME; fi
+
+                elif [[ -f "$SUBFILENAME" ]]; then
                     # is a file
-                    gio info -a metadata::emblems "$SUBFILENAME" | grep metadata::emblems >/dev/null
-                    if [ $? -eq 0 ]; then echo $SUBFILENAME; fi
+                    # check its emblems
+                    gio info -a metadata::emblems "$SUBFILENAME" |
+                        grep -o 'metadata::emblems: [^ ]*' | cut -d" " -f2 | read TMP
+                    if [[ -n $TMP ]]; then echo $TMP $SUBFILENAME; fi
                 fi
             done
-        else
+
+        elif [[ -f "$FILENAME" ]]; then
             # is a known file
-            gio info -a metadata::emblems "$FILENAME" | grep metadata::emblems
+            # check its emblems
+            gio info -a metadata::emblems "$FILENAME" |
+                grep -o 'metadata::emblems: [^ ]*' | cut -d" " -f2 | read TMP
+            if [[ -n $TMP ]]; then echo $TMP $FILENAME; fi
         fi
     done
 }
