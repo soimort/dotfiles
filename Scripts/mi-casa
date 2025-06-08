@@ -292,7 +292,7 @@ def main():
                     uri = 'file://%s' % quote(loc)
                 else:
                     print_with_colors('[fatal] local path "%s" not found' % loc, YELLOW)
-                    exit(1)
+                    if not args.dry_run: exit(1)
             all_workspaces[workspace_name]['locations'][i] = uri
 
     # validate that there is at least one workspace
