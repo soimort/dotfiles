@@ -2,6 +2,8 @@
 #
 # Launch SciTE with all sessions saved as $HOME/*.SciTE.session.
 # (one of them must be identical with $HOME/.SciTE.session if it exists)
+# NOTE: You should always use Check-Notes to check this reliably
+# then invoke SciTE-launcher --force
 
 . prelude
 
