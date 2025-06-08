@@ -1,5 +1,0 @@
-#!/bin/sh
-#
-# Run geany (no parameters) without WARNINGs.
-
-setsid -f geany &>/dev/null
