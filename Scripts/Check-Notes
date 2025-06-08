@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #
-# Check if everything recorded in session files has existing paths.
+# Check if every path recorded in session files exists.
 
 import glob
 import re
+import sys
 from os import environ
 from pathlib import Path
 from urllib import parse
@@ -50,12 +51,17 @@ def print_inline_with_colors(text, *colors):
 home = Path.home()
 config_dir = environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
 
+verbose = False
+
 
 def inspect_locs(locs):
+    # returns true if any path is missing
+
     file_not_found = False
     missing_hosts = set()
     missing_mps = set()
     for loc in locs:
+        if verbose: print_with_colors(loc, BLUE)
         if not Path(loc).exists():
             first = loc.split('/')[1]
             if first == 'mnt':
@@ -88,11 +94,11 @@ def inspect_locs(locs):
             print_with_colors(loc, YELLOW, BOLD)
 
     if bool(missing_hosts):
-        print_inline_with_colors('missing these remote hosts: ', RED)
+        print_inline_with_colors('probably missing these remote hosts: ', RED)
         print_with_colors(list(missing_hosts), RED, BOLD)
 
     if bool(missing_mps):
-        print_inline_with_colors('missing these media devices: ', RED)
+        print_inline_with_colors('probably missing these media devices: ', RED)
         print_with_colors(list(missing_mps), RED, BOLD)
 
     return file_not_found or bool(missing_hosts) or bool(missing_mps)
@@ -111,6 +117,8 @@ def read_geany_session(geany_session_filename):
             yield loc
 
 def check_geany_session():
+    # returns true if any path is missing
+
     geany_session_filename = f'{config_dir}/geany/session.conf'
     locs = list(read_geany_session(geany_session_filename))
 
@@ -135,10 +143,12 @@ def read_scite_session(scite_session_filename):
             yield loc
 
 def check_scite_session():
+    # returns true if any path is missing
+
     # last session
     scite_session_filename = f'{home}/.SciTE.session'
-    locs = set(read_scite_session(scite_session_filename))
-    all_locs = locs
+    last_locs = set(read_scite_session(scite_session_filename))
+    all_locs = locs = last_locs
 
     print_inline_with_colors('checking session file: ')
     print_inline_with_colors(scite_session_filename, BOLD)
@@ -148,6 +158,8 @@ def check_scite_session():
     scite_session_filenames = glob.glob('%s/*.SciTE.session' % home)
     for scite_session_filename in scite_session_filenames:
         locs = set(read_scite_session(scite_session_filename))
+        if locs == last_locs:
+            print_with_colors('(%s is identical with the last session)' % scite_session_filename, GREEN)
         all_locs = all_locs.union(locs)
 
         print_inline_with_colors('checking session file: ')
@@ -158,18 +170,22 @@ def check_scite_session():
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        verbose = True
+
     flag = False
     flag = check_geany_session() or flag
     flag = check_scite_session() or flag
 
     if flag:
-        print_with_colors('you need to mount the missing remote hosts and/or media devices', RED)
+        print_with_colors('you may need to mount the missing remote hosts and/or media devices', RED)
         print_with_colors('or modify the session files manually.', RED)
     else:
-        print_with_colors('everything recorded in session files has existing paths - good to go!', GREEN)
+        print_with_colors('every path recorded in session files already exists - good to go.', GREEN)
         print_inline_with_colors('start geany session with: ', GREEN)
-        print_with_colors('$ Open-Notes', GREEN, BOLD)
+        print_with_colors('$ open geany', GREEN, BOLD)
         print_inline_with_colors('start SciTE sessions with: ', GREEN)
-        print_with_colors('$ SciTE-launcher', GREEN, BOLD)
+        print_inline_with_colors('$ SciTE-launcher --force', GREEN, BOLD)
+        print_with_colors(' (safe if something is identical with the last session)', GREEN)
 
     exit(flag)
