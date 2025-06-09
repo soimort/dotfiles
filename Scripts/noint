@@ -5,9 +5,7 @@
 # See also:
 # https://github.com/hanslub42/rlwrap/issues/106
 
-#. prelude
-
-if [ $# -le 0 ]; then
+if [[ $# == 0 ]]; then
     echo 'Usage:'
     echo '  noint COMMAND ARGS...'
     exit 1
