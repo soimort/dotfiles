@@ -587,7 +587,9 @@ def main():
                                     if len(ns) == len(workspace_names):
                                         # all workspaces fully loaded
                                         is_loading_finished = True
-                                        print_with_colors("all workspaces loaded: %s" % ns, GREEN, BOLD)
+                                        current_time = datetime.datetime.now()
+                                        print_with_colors("(%s) all workspaces loaded: %s" %
+                                                          (current_time, ns), GREEN, BOLD)
 
                                         nn = { ns[notebook]['name']: notebook for notebook in ns }
 
