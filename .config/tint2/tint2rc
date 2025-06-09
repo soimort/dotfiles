@@ -102,7 +102,7 @@ urgent_nb_of_blink = 8
 task_maximum_size = 140 35
 task_padding = 2 2 2
 task_font = Roboto Condensed 10
-task_tooltip = 0
+task_tooltip = 1
 task_thumbnail = 0
 task_thumbnail_size = 210
 task_font_color = #ffffff 62
@@ -187,9 +187,9 @@ ac_disconnected_cmd =
 
 #-------------------------------------
 # Tooltip
-tooltip_show_timeout = 0.7
-tooltip_hide_timeout = 0.3
-tooltip_padding = 2 2
+tooltip_show_timeout = 0.2
+tooltip_hide_timeout = 0.2
+tooltip_padding = 8 8
 tooltip_background_id = 1
-tooltip_font_color = #000000 80
-tooltip_font = sans 10
+tooltip_font_color = #ffffff 90
+tooltip_font = Roboto Condensed 12
