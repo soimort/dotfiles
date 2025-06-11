@@ -18,8 +18,8 @@
 #    Only after switching a tab, the following signals are captured:
 #      page removed, page switched
 #
-# 2. Starting a large session may fail "all workspaces loaded",
-#    leaving all workspaces unloaded. (race condition?)
+# 2. Starting a large session may severely delay "all workspaces loaded",
+#    leaving all workspaces unloaded for a long time. (race condition? thumbnail loading?)
 
 import argparse
 import datetime
