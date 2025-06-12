@@ -6,14 +6,17 @@
 #   https://github.com/soimort/my-tint2
 # - dependencies: python (3.6+), wmctrl, xdotool
 #
-# [FIXME]
+# [TODO]
+# 0. Implement task reordering using wmctrl's skip_taskbar.
 # 1. Handle order_num >= 64.
 #    This essentially requires expanding the session logging size of my-tint2.
 # 2. Support multiple monitors.
-# 3. In addition to XRaiseWindow, implement XLowerWindow(display, w) provided by Xlib
+# 3. Integration with zenity.
+# 4. In addition to XRaiseWindow, implement XLowerWindow(display, w) provided by Xlib
 #    so as to control the window stacking order.
 #
 # Examples:
+#   $ xm-control list-windows - | wc -l
 #   $ xm-control bring-first :vlc
 #   $ xm-control bring-first :steamwebhelper
 #
@@ -246,14 +249,14 @@ if __name__ == '__main__':
         print('   (xm-control desktop                     [DESKTOP_NUM])')
         print('    xm-control print-active-window[-id]')
 
-        print('    xm-control list-windows                [DESKTOP_NUM][:PROC_NAME]')
-        print('    xm-control list[-tasks]                [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control list-windows                [DESKTOP_NUM|-][:PROC_NAME]')
+        print('    xm-control list[-tasks]                [DESKTOP_NUM|-][:PROC_NAME]')
 
-        print('    xm-control print-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
-        print('    xm-control go-to-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
-        print('    xm-control bring-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
-        print('    xm-control print-next[-task]           [DESKTOP_NUM][:PROC_NAME]')
-        print('    xm-control raise-next[-task]           [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control print-first[-task]          [DESKTOP_NUM|-][:PROC_NAME]')
+        print('    xm-control go-to-first[-task]          [DESKTOP_NUM|-][:PROC_NAME]')
+        print('    xm-control bring-first[-task]          [DESKTOP_NUM|-][:PROC_NAME]')
+        print('    xm-control print-next[-task]           [DESKTOP_NUM|-][:PROC_NAME]')
+        print('    xm-control raise-next[-task]           [DESKTOP_NUM|-][:PROC_NAME]')
 
         exit(0)
 
