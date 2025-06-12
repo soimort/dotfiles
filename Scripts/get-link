@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+#
+# Create symbolic links to PATHs in the current directory.
+CMD=get-link
+
+if [[ -z "$1" ]]; then
+    echo "Usage: $CMD PATH..."
+    return 1
+fi
+
+EXITCODE=0
+for ARG in "$@"; do
+    if [[ -r "$ARG" ]]; then
+        BASENAME=`basename "$ARG"`  # double quotes required for bash (but not zsh)
+        PREFIX=🔗  # alternative: $
+        ln -s "$ARG" "$PREFIX$BASENAME" &&
+            echo "$CMD: successfully created symbolic link '$PREFIX$BASENAME'"
+    else
+        echo>/dev/stderr "$CMD: failed to locate file: '$ARG'"
+        EXITCODE=1
+    fi
+done
+return $EXITCODE
