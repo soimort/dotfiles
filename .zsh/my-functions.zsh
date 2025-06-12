@@ -169,82 +169,113 @@ waifu() {
     waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png 2>/dev/null
 }
 
-# Set custom icon / emblems of a file via GIO.
-# see also: https://developer.gnome.org/gio/stable/gio.html
+
+
+# == custom icons / emblems via GIO ==
+# (see also: https://developer.gnome.org/gio/stable/gio.html)
+
+# Set custom icons.
 set-icon() {
     if [[ -z "$1" || -z "$2" ]]; then
-        echo 'Usage: set-icon DIRECTORY ICON'
+        echo 'Usage: set-icon ICON PATH...'
         return 1
     fi
 
-    gio set "$1" metadata::custom-icon "file://$2"
-}
-unset-icon() {
-    if [[ -z "$1" ]]; then
-        echo 'Usage: unset-icon DIRECTORY...'
-        return 1
-    fi
-
-    for i in "$@"; do
-        gio set -t unset "$i" metadata::custom-icon
+    local ICON=$1
+    shift
+    local FILENAME
+    for FILENAME in "$@"; do
+        gio set "$FILENAME" metadata::custom-icon "file://$ICON"
     done
 }
+
+# Unset custom icons.
+unset-icon() {
+    if [[ -z "$1" ]]; then
+        echo 'Usage: unset-icon PATH...'
+        return 1
+    fi
+
+    local FILENAME
+    for FILENAME in "$@"; do
+        gio set -t unset "$FILENAME" metadata::custom-icon
+    done
+}
+
+# Set emblems.
 set-emblem() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: set-emblem DIRECTORY [EMBLEMS]'
+        echo 'Usage: set-emblem PATH'
+        echo '       set-emblem EMBLEMS PATH'
         return 1
     fi
 
     if [[ -z "$2" ]]; then
         gio set -t stringv "$1" metadata::emblems default
     else
-        TMP=$1
+        local EMBLEMS=$1
         shift
-        gio set -t stringv "$TMP" metadata::emblems $@
+        local FILENAME
+        for FILENAME in "$@"; do
+            gio set -t stringv "$FILENAME" metadata::emblems $EMBLEMS
+        done
     fi
 }
+
+# Unset emblems.
 unset-emblem() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: unset-emblem DIRECTORY...'
+        echo 'Usage: unset-emblem PATH...'
         return 1
     fi
 
-    for i in "$@"; do
-        gio set -t unset "$i" metadata::emblems
+    local FILENAME
+    for FILENAME in "$@"; do
+        gio set -t unset "$FILENAME" metadata::emblems
     done
 }
 
+# Set custom icons for directories or emblems for files, using names in a given icon theme.
+# CAVEAT: newly added emblems are not working (need restart?)
 mark() {
     if [[ -z "$1" || -z "$2" || -z "$3" ]]; then
-        echo 'Usage: mark ICON_THEME TYPE FILE...'
+        echo 'Usage: mark ICON_THEME TYPE PATH...'
         return 1
     fi
 
     local FOLDER_ICON="$HOME/.icons/$1/512x512/places/folder-$2.png"
     local EMBLEM_TYPE="$2"
-    local EMBLEM_ICON="$HOME/.icons/$1/512x512/emblems/emblem-$2.png"
+    local EMBLEM_ICON="$HOME/.icons/$1/512x512/emblems/emblem-$2.png"  # where used?
     shift 2
+    local FILENAME
     for FILENAME in "$@"; do
-        if [ -d "$FILENAME" ]; then
+        if [[ -d "$FILENAME" ]]; then
+            # is a known directory, set custom-icon
             log.i "Setting custom icon for folder: $FILENAME"
             gio set "$FILENAME" metadata::custom-icon "file://$FOLDER_ICON"
-        else
+        elif [[ -f "$FILENAME" ]]; then
+            # is a known file, set emblems
             log.i "Setting custom emblem for file: $FILENAME"
             gio set -t stringv "$FILENAME" metadata::emblems "$EMBLEM_TYPE"
         fi
     done
 }
+
+# Unset custom icons for directories or emblems for files.
 unmark() {
     if [[ -z "$1" ]]; then
-        echo 'Usage: unmark FILE...'
+        echo 'Usage: unmark PATH...'
         return 1
     fi
 
+    local FILENAME
     for FILENAME in "$@"; do
-        if [ -d "$FILENAME" ]; then
+        if [[ -d "$FILENAME" ]]; then
+            # is a known directory, unset custom-icon
             log.i "Unsetting custom icon for folder: $FILENAME"
             gio set -t unset "$FILENAME" metadata::custom-icon
-        else
+        elif [[ -f "$FILENAME" ]]; then
+            # is a known file, unset emblems
             log.i "Unsetting custom emblem for file: $FILENAME"
             gio set -t unset "$FILENAME" metadata::emblems
         fi
@@ -303,7 +334,7 @@ has-marked() {
     done
 }
 
-# [TODO] deprecated in favor of mark/unmark
+# [TODO] DEPRECATED in favor of mark/unmark
 fav() {
     if [[ -z "$1" ]]; then
         echo 'Usage: fav DIRECTORY'
@@ -315,7 +346,7 @@ fav() {
     done
 }
 
-# [TODO] deprecated in favor of mark/unmark
+# [TODO] DEPRECATED in favor of mark/unmark
 # Set the color of folder(s).
 # Available icons: ~/Pictures/icons/Adwaita/places
 fcolor() {

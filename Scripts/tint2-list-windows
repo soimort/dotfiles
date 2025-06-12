@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 #
 # List all X windows recorded in ~/tint2.session.
+# DEPRECATED in favor of xm-control list-tasks
 
 local filename="$HOME/tint2.session"
 while IFS= read -r line || [ -n "$line" ]; do
