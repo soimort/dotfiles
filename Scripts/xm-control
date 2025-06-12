@@ -1,0 +1,384 @@
+#!/usr/bin/env python
+#
+# An auxiliary X11 controller.
+#
+# - uses my own fork of tint2, and assumes "$HOME/tint2.session" exists:
+#   https://github.com/soimort/my-tint2
+# - dependencies: python (3.6+), wmctrl, xdotool
+#
+# [FIXME]
+# 1. Handle order_num >= 64.
+#    This essentially requires expanding the session logging size of my-tint2.
+# 2. Support multiple monitors.
+# 3. In addition to XRaiseWindow, implement XLowerWindow(display, w) provided by Xlib
+#    so as to control the window stacking order.
+#
+# Examples:
+#   $ xm-control bring-first :vlc
+#   $ xm-control bring-first :steamwebhelper
+#
+# See also:
+#   https://linux.die.net/man/1/wmctrl
+#   https://www.freedesktop.org/wiki/Software/wmctrl/
+#   https://github.com/jordansissel/xdotool
+
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+
+def pid_to_name(pid: str) -> str | None:
+    """Convert pid to its process name.
+    """
+    proc_filename = f'/proc/{pid}/status'
+    with open(proc_filename) as f:
+        for line in f:
+            m = re.match(r'^Name:\s+(.*)', line)
+            if m:
+                return m.group(1)
+    return None
+
+
+def init_windows():
+    """Initialize ws.
+    """
+    wmctrl_p = subprocess.run(['wmctrl', '-l', '-p'], capture_output=True, encoding='utf-8')
+    for line in wmctrl_p.stdout.split('\n'):
+        m = re.match(r'^(\w+)\s+(-?\d+)\s+(\d+)\s+(\w+)\s+(.*)', line)
+        if m:
+            window_id, desktop_num, pid, host, title = m.groups()
+            window_id = hex(int(window_id, 16))  # normalize hexadecimal string
+
+            if desktop_num not in ws:
+                ws[desktop_num] = {}
+            ws[desktop_num][window_id] = {'pid': pid, 'host': host, 'title': title}
+
+            name = pid_to_name(pid)
+            ss[window_id] = {'desktop_num': desktop_num,
+                             'pid': pid, 'name': name, 'host': host, 'title': title}
+
+
+def init_tasks():
+    """Initialize ts0.
+    """
+    tint2_filename = f'{home}/tint2.session'
+    with open(tint2_filename) as f:
+        for line in f:
+            m = re.match(r'^session\[(\d+)\]\[(\d+)\]\[(\d+)\]\.(\w+)=(.*)', line)
+            if m:
+                monitor_num, desktop_num, order_num, prop_name, prop_value = m.groups()
+
+                # TODO: handle monitor_num other than 0!
+                if prop_name == 'win' and monitor_num == '0':
+                    if desktop_num not in ts0:
+                        ts0[desktop_num] = {}
+                    ts0[desktop_num][order_num] = prop_value
+
+                    if prop_value in ss:
+                        # NOTE: some windows are recorded by tint2 but not by wmctrl (e.g. "Picture in picture")
+                        # their desktop number is -1 and map state is IsUnMapped. just ignore them
+                        ss[prop_value]['order_num'] = order_num
+
+
+def init():
+    """Initialize everything.
+    """
+    init_windows()
+    init_tasks()
+
+
+def get_current_desktop_num() -> int:
+    """Return the current desktop number.
+    """
+    wmctrl_p = subprocess.run(['wmctrl', '-d'], capture_output=True, encoding='utf-8')
+    for line in wmctrl_p.stdout.split('\n'):
+        m = re.match(r'^(\d+)\s+(.)', line)
+        if m and m.group(2) == '*':
+            return int(m.group(1))
+    return -1  # when?
+
+
+def get_active_window_id() -> str | None:
+    """Return window_id of the current active (focused) window.
+    """
+    xdotool_p = subprocess.run(['xdotool', 'getactivewindow'], capture_output=True, encoding='utf-8')
+    for line in xdotool_p.stdout.split('\n'):
+        m = re.match(r'^(\d+)', line)
+        if m:
+            return hex(int(m.group(1)))
+    return None  # when?
+
+
+def list_windows(desktop_num: str = '', name: str = ''):
+    """List all windows with given desktop_num and name.
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    for n in ws if not desktop_num else [desktop_num]:
+        for i in ws[n]:
+            if not name or name == ss[i]['name']:
+                print(i, ss[i])
+
+
+def list_tasks(desktop_num: str = '', name: str = ''):
+    """List all windows with given desktop_num and name, in taskbar order.
+    (NOTE: this shows only windows order_num 0..63, due to my-tint2 limitation)
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    for n in ts0 if not desktop_num else [desktop_num]:
+        for i in ts0[n]:
+            window_id = ts0[n][i]
+            if window_id in ss:
+                if not name or name == ss[window_id]['name']:
+                    print(window_id, ss[window_id])
+
+
+def get_first_task_window_id(desktop_num: str = '', name: str = '') -> str | None:
+    """Return window_id of the first window with given desktop_num and name, in taskbar order.
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    for n in ts0 if not desktop_num else [desktop_num]:
+        for i in ts0[n]:
+            window_id = ts0[n][i]
+            if window_id in ss:
+                if not name or name == ss[window_id]['name']:
+                    return window_id
+    return None
+
+
+def print_first_task(desktop_num: str = '', name: str = ''):
+    """Print the first window with given desktop_num and name, in taskbar order.
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    for n in ts0 if not desktop_num else [desktop_num]:
+        for i in ts0[n]:
+            window_id = ts0[n][i]
+            if window_id in ss:
+                if not name or name == ss[window_id]['name']:
+                    print(window_id, ss[window_id]); return
+
+
+def get_next_task_window_id(desktop_num: str = '-', name: str = '') -> str | None:
+    """Return window_id of the next window with given desktop_num and name, in taskbar order.
+    (should always limit to current desktop!)
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    current_order_num = ss[get_active_window_id()].get('order_num', 0)
+
+    for n in ts0 if not desktop_num else [desktop_num]:
+        for i in ts0[n]:
+            window_id = ts0[n][i]
+            if window_id in ss:
+                if not name or name == ss[window_id]['name']:
+                    if int(ss[window_id].get('order_num', 0)) > int(current_order_num):
+                        return window_id
+    return get_first_task_window_id(desktop_num, name)
+
+
+def print_next_task(desktop_num: str = '-', name: str = '') -> str | None:
+    """Print the next window with given desktop_num and name, in taskbar order.
+    (should always limit to current desktop!)
+    """
+    if desktop_num == '-':  # limit to current desktop
+        desktop_num = str(get_current_desktop_num())
+
+    current_order_num = ss[get_active_window_id()].get('order_num', 0)
+
+    for n in ts0 if not desktop_num else [desktop_num]:
+        for i in ts0[n]:
+            window_id = ts0[n][i]
+            if window_id in ss:
+                if not name or name == ss[window_id]['name']:
+                    if int(ss[window_id].get('order_num', 0)) > int(current_order_num):
+                        print(window_id, ss[window_id]); return
+    print_first_task(desktop_num, name)
+
+
+def switch_to_desktop(desktop_num: str):
+    """Switch to desktop_num.
+    """
+    ##os.system(f'echo wmctrl -s "{desktop_num}"')
+    os.system(f'wmctrl -s "{desktop_num}"')
+
+
+def go_to_first_task(desktop_num: str = '', name: str = ''):
+    """Switch to the desktop containing the first window with given desktop_num and name, in taskbar order.
+    """
+    window_id = get_first_task_window_id(desktop_num, name)
+    if window_id:
+        os.system(f'wmctrl -i -a "{window_id}"')
+
+
+def bring_first_task(desktop_num: str = '', name: str = ''):
+    """Raise the first window with given desktop_num and name, in taskbar order, to the current desktop.
+    """
+    window_id = get_first_task_window_id(desktop_num, name)
+    if window_id:
+        #current_desktop_num = str(get_current_desktop_num())
+        #os.system(f'wmctrl -i -r "{window_id}" -t "{current_desktop_num}"')
+        os.system(f'wmctrl -i -R "{window_id}"')
+
+
+def raise_next_task(desktop_num: str = '-', name: str = ''):
+    """Raise the next window with given desktop_num and name, in taskbar order, to the current desktop.
+    """
+    window_id = get_next_task_window_id(desktop_num, name)
+    if window_id:
+        os.system(f'wmctrl -i -R "{window_id}"')
+
+
+if __name__ == '__main__':
+    if len(sys.argv) <= 1:
+        print('Usage:')
+        print('    xm-control print-current-desktop[-num]')
+        print('    xm-control switch-to-desktop            DESKTOP_NUM')
+        print('   (xm-control desktop                     [DESKTOP_NUM])')
+        print('    xm-control print-active-window[-id]')
+
+        print('    xm-control list-windows                [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control list[-tasks]                [DESKTOP_NUM][:PROC_NAME]')
+
+        print('    xm-control print-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control go-to-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control bring-first[-task]          [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control print-next[-task]           [DESKTOP_NUM][:PROC_NAME]')
+        print('    xm-control raise-next[-task]           [DESKTOP_NUM][:PROC_NAME]')
+
+        exit(0)
+
+    home = Path.home()
+    config_dir = os.environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
+
+    ws = {}  # {pid, host, title} of windows, indexed by desktop_num, window_id
+    ts0 = {}  # window_id of tasks on monitor 0 [TODO], indexed by desktop_num, order_num
+    ss = {}  # {desktop_num, order_num(optional!), pid, name, host, title} of windows, indexed by window_id
+    init()
+
+    match sys.argv[1]:
+        case 'print-current-desktop-num' | 'print-current-desktop':
+            print(get_current_desktop_num())
+
+        case 'switch-to-desktop':
+            if len(sys.argv) != 3:
+                print('[error] wrong number of arguments')
+                exit(1)
+
+            n = int(sys.argv[2])
+            if n < 0:
+                print('[error] desktop numbers start at 0')
+                exit(1)
+            switch_to_desktop(str(n))
+
+        case 'desktop':
+            if len(sys.argv) != 3:
+                print(get_current_desktop_num())
+            else:
+                n = int(sys.argv[2])
+                if n < 0:
+                    print('[error] desktop numbers start at 0')
+                    exit(1)
+                switch_to_desktop(str(n))
+
+        case 'print-active-window-id' | 'print-active-window':
+            print(get_active_window_id())
+
+        case 'list-windows':
+            # '' - all windows in all desktops
+            # ':eog' - all eog windows in all desktops
+            # '1' - all windows in desktop 1
+            # '1:eog' - all eog windows in desktop 1
+            # '-' - all windows in current desktop
+            # '-:eog' - all eog windows in current desktop
+            if len(sys.argv) == 2:
+                list_windows(desktop_num='', name='')
+            else:
+                for v in sys.argv[2:]:
+                    if len(v.split(':')) >= 2:
+                        desktop_num, name = v.split(':')[0:2]
+                    else:
+                        desktop_num, name = v, ''
+                    list_windows(desktop_num=desktop_num, name=name)
+
+        case 'list-tasks' | 'list':
+            # '' - all tasks in all desktops
+            # ':eog' - all eog tasks in all desktops
+            # '1' - all tasks in desktop 1
+            # '1:eog' - all eog tasks in desktop 1
+            # '-' - all tasks in current desktop
+            # '-:eog' - all eog tasks in current desktop
+            if len(sys.argv) == 2:
+                list_tasks(desktop_num='', name='')
+            else:
+                for v in sys.argv[2:]:
+                    if len(v.split(':')) >= 2:
+                        desktop_num, name = v.split(':')[0:2]
+                    else:
+                        desktop_num, name = v, ''
+                    list_tasks(desktop_num=desktop_num, name=name)
+
+        case 'print-first-task' | 'print-first':
+            if len(sys.argv) == 2:
+                print_first_task(desktop_num='', name='')
+            for v in sys.argv[2:]:
+                if len(v.split(':')) >= 2:
+                    desktop_num, name = v.split(':')[0:2]
+                else:
+                    desktop_num, name = v, ''
+                print_first_task(desktop_num=desktop_num, name=name)
+
+        case 'go-to-first-task' | 'go-to-first':
+            if len(sys.argv) == 2:
+                go_to_first_task(desktop_num='', name='')
+            for v in sys.argv[2:]:
+                if len(v.split(':')) >= 2:
+                    desktop_num, name = v.split(':')[0:2]
+                else:
+                    desktop_num, name = v, ''
+                go_to_first_task(desktop_num=desktop_num, name=name)
+
+        case 'bring-first-task' | 'bring-first':
+            if len(sys.argv) == 2:
+                bring_first_task(desktop_num='', name='')
+            for v in sys.argv[2:]:
+                if len(v.split(':')) >= 2:
+                    desktop_num, name = v.split(':')[0:2]
+                else:
+                    desktop_num, name = v, ''
+                bring_first_task(desktop_num=desktop_num, name=name)
+
+        case 'print-next-task' | 'print-next':
+            if len(sys.argv) == 2:
+                print_next_task(desktop_num='-', name='')
+            for v in sys.argv[2:]:
+                if len(v.split(':')) >= 2:
+                    desktop_num, name = v.split(':')[0:2]
+                else:
+                    desktop_num, name = v, ''
+                print_next_task(desktop_num='-', name=name)  # always limit to current desktop
+
+        case 'raise-next-task' | 'raise-next':
+            if len(sys.argv) == 2:
+                raise_next_task(desktop_num='-', name='')
+            for v in sys.argv[2:]:
+                if len(v.split(':')) >= 2:
+                    desktop_num, name = v.split(':')[0:2]
+                else:
+                    desktop_num, name = v, ''
+                raise_next_task(desktop_num='-', name=name)  # always limit to current desktop
+
+        case _:
+            print('[error] unknown command')
+            exit(1)
+
+    exit(0)
