@@ -104,6 +104,7 @@ mcer() {
         return 1
     fi
 }
+alias in=mcer
 
 48go() {
     if [[ -z "$ARCHIVE_PATH" ]]; then
@@ -168,6 +169,8 @@ waifu() {
     waifu2x-converter-cpp --scale-ratio $1 -i $2 -o $2_$1x.png 2>/dev/null ||
     waifu2x-converter-cpp --scale_ratio $1 -i $2 -o $2_$1x.png 2>/dev/null
 }
+
+alias remove-background='nice -- rembg-alpha'
 
 
 
