@@ -4,7 +4,7 @@
 #
 # - uses my own fork of tint2, and assumes "$HOME/tint2.session" exists:
 #   https://github.com/soimort/my-tint2
-# - dependencies: python (3.6+), wmctrl, xdotool
+# - dependencies: python (3.10+), wmctrl, xdotool
 #
 # [TODO]
 # 0. Implement task reordering using wmctrl's skip_taskbar.
