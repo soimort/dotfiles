@@ -84,6 +84,8 @@ def main():
             procs = []
             params = ['chromium']
             params.extend(['--user-data-dir=%s/chromium_temp' % config_dir, '--headless', '--virtual-time-budget=10000', '--run-all-compositor-stages-before-draw', '--repl', target_url])
+            ##params = ['%s/Programs/chrome-linux/chrome' % home]
+            ##params.extend(['--user-data-dir=%s/chromium-linux' % config_dir, '--headless', '--virtual-time-budget=10000', '--run-all-compositor-stages-before-draw', '--repl', target_url])
             p = subprocess.Popen(params, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
             procs.append(p)
 
@@ -92,10 +94,16 @@ def main():
 
             js_code = 'm = ""; if (document.title != "Instagram") { for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("img")) { m += target.src + " " }; for (let target of document.getElementsByTagName("article")[0].getElementsByTagName("video")) { m += target.src + " " } } m'
 
+            ### document.body.innerHTML.search('Restricted Post')
+            ### {"result":{"description":"10341","type":"number","value":10341}}
+
             stdout_data = p.communicate(input=js_code)[0]
             # strip ">>>" etc.
             stdout_data = stdout_data[4:-6]
             data = json.loads(stdout_data)
+            if 'value' not in data['result']:
+                print_with_colors('no value extracted -- may be a Restricted Post!', RED, BOLD)
+                exit(1)
             sources = data['result']['value'].split(' ')
 
             if len(sources) > 1:  # m is not an empty string
