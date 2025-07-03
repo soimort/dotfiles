@@ -7,7 +7,7 @@
 # - dependencies: python (3.10+), wmctrl, xdotool
 #
 # [TODO]
-# 0. Implement task reordering using wmctrl's skip_taskbar.
+# 0. Improve task reordering.
 # 1. Handle order_num >= 64.
 #    This essentially requires expanding the session logging size of my-tint2.
 # 2. Support multiple monitors.
@@ -19,17 +19,21 @@
 #   $ xm-control list-windows - | wc -l
 #   $ xm-control bring-first :vlc
 #   $ xm-control bring-first :steamwebhelper
+#   $ xm-control read ~/Sessions/xm-control_list-tasks_250630_0 ~/Sessions/xm-control_list-tasks_250630_1
+#   $ xm-control reorder ~/Sessions/xm-control_list-tasks_250630_0 ~/Sessions/xm-control_list-tasks_250630_1
 #
 # See also:
 #   https://linux.die.net/man/1/wmctrl
 #   https://www.freedesktop.org/wiki/Software/wmctrl/
 #   https://github.com/jordansissel/xdotool
 
+import ast
 import os
 from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 
 
 def pid_to_name(pid: str) -> str | None:
@@ -139,6 +143,38 @@ def list_tasks(desktop_num: str = '', name: str = ''):
             if window_id in ss:
                 if not name or name == ss[window_id]['name']:
                     print(window_id, ss[window_id])
+
+
+def read_session(filename: str, reorder : bool = False):
+    """
+    """
+    session_filename = filename
+    with open(session_filename) as f:
+        for line in f:
+            m = re.match(r'^(0x\w+)\s+(\{.*\})', line)
+            if m:
+                window_id, info_str = m.groups()
+                info = ast.literal_eval(info_str)
+                desktop_num, order_num = info.get('desktop_num'), info.get('order_num')
+                title, name = info.get('title'), info.get('name')
+
+                flag = False
+                for n in ws:
+                    for i in ws[n]:
+                        if name == ss[i]['name'] and title == ss[i]['title']:
+                            flag = True
+                            print('[info]     found: %s %-2s %-10s %s' % (desktop_num, order_num, name, title))
+                            #print(i, ss[i])
+                            #print(desktop_num, order_num, title, name, window_id)
+
+                            if reorder:
+                                os.system(f'wmctrl -i -r "{i}" -t "{desktop_num}"')
+                                os.system(f'wmctrl -i -r "{i}" -b toggle,skip_taskbar')
+                                time.sleep(0.5)
+                                os.system(f'wmctrl -i -r "{i}" -b toggle,skip_taskbar')
+                                time.sleep(0.5)
+                if not flag:
+                    print('[info] NOT found: %s %-2s %-10s %s' % (desktop_num, order_num, name, title))
 
 
 def get_first_task_window_id(desktop_num: str = '', name: str = '') -> str | None:
@@ -258,6 +294,9 @@ if __name__ == '__main__':
         print('    xm-control print-next[-task]           [DESKTOP_NUM|-][:PROC_NAME]')
         print('    xm-control raise-next[-task]           [DESKTOP_NUM|-][:PROC_NAME]')
 
+        print('    xm-control read[-session]              FILENAME...')
+        print('    xm-control [read-session-and-]reorder  FILENAME...')
+
         exit(0)
 
     home = Path.home()
@@ -329,6 +368,22 @@ if __name__ == '__main__':
                     else:
                         desktop_num, name = v, ''
                     list_tasks(desktop_num=desktop_num, name=name)
+
+        case 'read-session' | 'read':
+            if len(sys.argv) == 2:
+                print('[error] wrong number of arguments')
+                exit(1)
+
+            for filename in sys.argv[2:]:
+                read_session(filename)
+
+        case 'read-session-and-reorder' | 'reorder':
+            if len(sys.argv) == 2:
+                print('[error] wrong number of arguments')
+                exit(1)
+
+            for filename in sys.argv[2:]:
+                read_session(filename, reorder=True)
 
         case 'print-first-task' | 'print-first':
             if len(sys.argv) == 2:
