@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Search a target regexp in a mi-casa session.
+# Search one or more target regexps in a mi-casa session.
 #
 # Examples:
 #   $ mi-casa-find 220604+250317 _res
@@ -13,15 +13,15 @@ import sys
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         print('Usage:')
-        print('    mi-casa-find SESSION TARGET')
+        print('    mi-casa-find SESSION TARGET...')
         exit(0)
 
     home = Path.home()
     config_dir = os.environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
 
-    session, target = sys.argv[1:]
+    session, targets = sys.argv[1], sys.argv[2:]
 
     if Path(session).is_file():
         session_filename = session
@@ -47,6 +47,10 @@ if __name__ == '__main__':
                 flag_workspace_starting = False
                 continue
             else:
-                m = re.match(rf'(.*{target}.*)', line)
-                if m:
-                    print('%-16s%s' % (workspace_name, m.group(0)))
+                flag = False
+                for target in targets:
+                    m = re.match(rf'(.*{target}.*)', line)
+                    if m:
+                        flag = True
+                if flag:
+                    print('%-16s%s' % (workspace_name, line))
