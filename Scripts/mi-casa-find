@@ -1,22 +1,52 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env python
 #
-# Find a target string in a mi-casa session.
+# Search a target regexp in a mi-casa session.
+#
+# Examples:
+#   $ mi-casa-find 220604+250317 _res
+#   $ mi-casa-find 220604+250317 _res$
 
-. prelude
+import os
+from pathlib import Path
+import re
+import sys
 
-if [ $# -le 1 ]; then
-    echo 'Usage:'
-    echo '  mi-casa-find SESSION TARGET'
-    exit 1
-fi
 
-SESSION=$1
-TEXT=$2
+if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        print('Usage:')
+        print('    mi-casa-find SESSION TARGET')
+        exit(0)
 
-if [[ -r "$SESSION" ]]; then
-    grep -- "$TEXT" "$SESSION"
-elif [[ -r "$HOME/$SESSION.mur" ]]; then
-    grep -- "$TEXT" "$HOME/$SESSION.mur"
-else
-    e 'no such session'
-fi
+    home = Path.home()
+    config_dir = os.environ.get('XDG_CONFIG_HOME') or '%s/.config' % Path.home()
+
+    session, target = sys.argv[1:]
+
+    if Path(session).is_file():
+        session_filename = session
+    elif Path(f'{home}/{session}.mur').is_file():
+        session_filename = f'{home}/{session}.mur'
+    else:
+        print('[error] session not found')
+        exit(1)
+
+    flag_workspace_starting = True
+    with open(session_filename) as f:
+        for line in f:
+            line = line.strip()
+            if line == '' or line[0] == '#':
+                continue
+
+            if line == '***':
+                flag_workspace_starting = True
+                continue
+
+            if flag_workspace_starting:
+                workspace_name = line
+                flag_workspace_starting = False
+                continue
+            else:
+                m = re.match(rf'(.*{target}.*)', line)
+                if m:
+                    print('%-16s%s' % (workspace_name, m.group(0)))
