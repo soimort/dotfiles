@@ -43,6 +43,12 @@ def get_url4(url):
     ##entries = info['data']['threaded_conversation_with_injections_v2']['instructions'][0]['entries']
     result = info['data']['tweetResult']['result']
 
+    if 'rest_id' not in result:
+        if 'tweet' not in result:
+            log.wtf(result['reason'])
+            exit(1)
+        result = result['tweet']
+
     item_id = result['rest_id']
     author = result['core']['user_results']['result']['legacy']['name']
     screen_name = result['core']['user_results']['result']['legacy']['screen_name']
