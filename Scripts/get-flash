@@ -14,8 +14,13 @@ def main():
     }
 
     for arg in sys.argv[1:]:
-        if re.match(r'^https?://smart-flash.jp/gravure/\d+/?$', arg):
-            arg = arg + '/image/1/'
+        if re.match(r'^https?://smart-flash.jp/(\w+)/(\d+)/?$', arg):
+            m = re.match(r'^https?://smart-flash.jp/(\w+)/(\d+)/?$', arg)
+            arg = 'https://smart-flash.jp/%s/%s/image/1/' % (m.group(1), m.group(2))
+
+        elif re.match(r'^https?://smart-flash.jp/(\w+)/([\w-]+)/(\d+)/?$', arg):
+            m = re.match(r'^https?://smart-flash.jp/(\w+)/([\w-]+)/(\d+)/?$', arg)
+            arg = 'https://smart-flash.jp/%s/%s/%s/image/1/' % (m.group(1), m.group(2), m.group(3))
 
         cont = get_content(arg, headers=headers)
         imgs = re.findall(r"<img src='(https://data\.smart-flash\.jp/wp-content/uploads/[^']+)", cont)
