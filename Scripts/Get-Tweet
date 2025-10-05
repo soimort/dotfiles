@@ -191,8 +191,11 @@ def get_url2(url):
     info = json.loads(content)
 
     if 'user' not in info:
-        log.w(info['tombstone']['text']['text'])
+        if info['tombstone']:
+            print(info['tombstone']['text']['text'])
         raise Exception('NSFW')
+    if 'name' not in info['user']:
+        raise Exception('WTF')
     save(item_id, info)
 
 def save(item_id, info):
@@ -311,7 +314,7 @@ def main():
         try:
             get_url2(url)
         except Exception as inst:
-            if inst.args[0] == 'NSFW':
+            if inst.args[0] in ['NSFW', 'WTF']:
                 get_url4(url)
             else:
                 raise inst
