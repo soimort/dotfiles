@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 for i in "$@"; do
+    bn=`basename "$i"`
+    dn=`dirname "$i"`
+    #echo $bn
+    #echo $dn
     T=`file -0 --mime-type -- "$i" | cut -d $'\0' -f2 | cut -d ' ' -f2`
     #echo $T
     case $T in
@@ -32,12 +36,13 @@ for i in "$@"; do
             t=${i##*.}
             ;;
     esac
-    if [ "$t" != "${i##*.}" ]; then
-        j=${i%%\?*}
+
+    if [ "$t" != "${bn##*.}" ]; then
+        j=${bn%%\?*}
         if [ -z "$j" ]; then
             j='noname'
         fi
-        echo $i '->' ${j%.*}.$t
-        mv -i -- "$i" "${j%.*}.$t"
+        echo $i '->' $dn/${j%.*}.$t
+        mv -i -- "$i" "$dn/${j%.*}.$t"
     fi
 done
