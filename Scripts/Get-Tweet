@@ -32,7 +32,7 @@ def get_url4(url):
 
     ##p = subprocess.run(['yt-dlp', '--cookies-from-browser', 'chromium', '-s', '--dump-pages', url], capture_output=True)
     p = subprocess.run(['yt-dlp', '--cookies', '/home/soimort/twitter.com_cookies.txt',
-                        '--add-headers', 'User-Agent: python-requests/2.32.3',
+                        '--add-headers', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
                         '-s', '--dump-pages', url], capture_output=True)
     ##p = subprocess.run(['yt-dlp', '-s', '--dump-pages', url], capture_output=True)
     text = p.stdout.decode('utf-8').strip().split('\n')
