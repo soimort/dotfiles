@@ -151,6 +151,8 @@ alias in=mcer
             get-popnroll $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "thetv\.jp" ]]; then
             get-thetv $url || log.e "failed to get \"$url\""
+        elif [[ $url =~ "amazon\.co\.jp" ]]; then
+            get-amazon $url || log.e "failed to get \"$url\""
         else
             local filename=${url##*/}
             filename=${filename%%\?*}
@@ -439,7 +441,7 @@ get() {
                 log.w "file \"$FILENAME\" already exists!"
                 continue
             else
-                $XYC wget -q --show-progress --no-check-certificate -U Googlebot -O "$FILENAME" "$url" ||
+                $XYC wget -q --show-progress --no-check-certificate -U 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36' -O "$FILENAME" "$url" ||
                     log.e "failed to get \"$url\""
             fi
         fi
