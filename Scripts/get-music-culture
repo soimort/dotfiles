@@ -17,9 +17,17 @@ def main():
         cont = get_content(arg, headers=headers)
         imgs = re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" alt="', cont)
         imgs += re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" data-title="', cont)
+        imgs += re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.png)" alt="', cont)
         imgs = list(set(imgs))
         img_id_pool = {}
         for img in imgs:
+            try:
+                dimension = int(re.search(r'/dimension=(\d+)', img).group(1))
+                if dimension <= 310:
+                    continue
+            except: pass
+
+            ext = img.split('.')[-1]
             img_id = img.split('/')[-2]
             if img_id in img_id_pool:
                 img_id_pool[img_id] += 1
@@ -31,7 +39,7 @@ def main():
             if img_id_pool[img_id] > 1:
                 title = '%s (%s)' % (title, img_id_pool[img_id])
 
-            ext, size = 'jpg', url_size(img_raw, headers=headers)
+            size = url_size(img_raw, headers=headers)
             print_info(site_info, title, ext, size)
             download_urls(urls=[img_raw],
                           title=title,
