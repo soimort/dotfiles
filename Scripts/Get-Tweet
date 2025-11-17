@@ -81,7 +81,8 @@ def get_url4(url):
                 title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
                 urls = [ variants[-1]['url'] ]
                 for url in urls:
-                    subprocess.run(['wget', '-q', '--show-progress', '-O', '%s/%s.mp4' % (output_dir, title), url])
+                    subprocess.run(['wget', '-q', '--show-progress', '-nc', '-O', '%s/%s.mp4' % (output_dir, title), url])
+                    subprocess.run(['ls', '-sh1', '%s/%s.mp4' % (output_dir, title)])
 
             else:
                 title = item_id + '_' + medium['media_url_https'].split('.')[-2].split('/')[-1]
@@ -155,7 +156,8 @@ def get_url3(url):
                     title = item_id + '_' + variants[-1]['url'].split('/')[-1].split('?')[0].split('.')[0]
                     urls = [ variants[-1]['url'] ]
                     for url in urls:
-                        subprocess.run(['wget', '-q', '--show-progress', '-O', '%s/%s.mp4' % (output_dir, title), url])
+                        subprocess.run(['wget', '-q', '--show-progress', '-nc', '-O', '%s/%s.mp4' % (output_dir, title), url])
+                        subprocess.run(['ls', '-sh1', '%s/%s.mp4' % (output_dir, title)])
                     #size = urls_size(urls, headers=headers)
                     #if size == float('inf'):
                     #    log.wtf('[WTF] Undetermined Content-Length: %s' % urls)
