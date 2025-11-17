@@ -44,7 +44,7 @@ def main():
             if not samps:
                 samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
             if not samps:
-                samps = re.findall('//awsimgsrc.dmm.co.jp/pics_dig/digital/video/(\w+)/(\w+\d+)-(\d+).jpg', cont)
+                samps = re.findall('//awsimgsrc.dmm.co.jp/pics_dig/digital/video/(\w+)/(\w+\d+v?)-(\d+).jpg', cont)
                 samps = set(samps)
             for samp in samps:
                 url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
