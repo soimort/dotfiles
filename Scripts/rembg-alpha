@@ -1,16 +1,23 @@
 #!/usr/bin/env python
+#
+# See also:
+#   https://github.com/danielgatis/rembg/blob/main/USAGE.md
 
 import sys
 
-from rembg import remove
+from rembg import remove, new_session
 
 def main():
+
+    model_name = "u2net"  # u2net_human_seg is not good
+    rembg_session = new_session(model_name)
+
     for arg in sys.argv[1:]:
         output_path = f'{arg}.rembg.png'
         with open(arg, 'rb') as i:
             with open(output_path, 'wb') as o:
                 data = i.read()
-                output = remove(data, alpha_matting=True, alpha_matting_erode_size=15)
+                output = remove(data, session=rembg_session, alpha_matting=True, alpha_matting_erode_size=15)
                 o.write(output)
 
 if __name__ == '__main__':
