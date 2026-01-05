@@ -15,7 +15,7 @@ def main():
 
     for arg in sys.argv[1:]:
         cont = get_content(arg, headers=headers)
-        imgs = re.findall(r'\d" srcset="(https?://www.idol-culture.jp/wp-content/uploads/[^, "]+)', cont)
+        imgs = re.findall(r'" srcset="(https?://www.idol-culture.jp/wp-content/uploads/[^, "]+)', cont)
         for img in imgs:
             img_t = re.match(r'(https?://www.idol-culture.jp/wp-content/uploads/([.a-zA-Z0-9_/-]+))-\d+x\d+\.jpg', img)
             if img_t:  # scaled
