@@ -668,10 +668,11 @@ def main():
 
                                         is_tab_in_process_of_mass_closing = True
 
-                                        subprocess.run(['zenity', '--warning',
-                                                        '--text=Closing of tabs with nonexistent locations detected.\n\
+                                        subprocess.Popen(['zenity', '--warning',
+                                                          '--text=Closing of tabs with nonexistent locations detected:\n\
+%s\n\
 Check if your mount points are disconnected!\n\
-Snapshot saved in: %s' % snap_filename])
+Snapshot saved in: %s' % (closed_uri, snap_filename)])
 
                                 # remove page from notebook
                                 s[notebook].pop(page_num)
