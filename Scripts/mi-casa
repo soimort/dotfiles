@@ -635,9 +635,11 @@ def main():
                                     workspace_name = ns[notebook]['name']
                                     all_workspaces[workspace_name]['locations'] = [page[1] for page in s[notebook]]
 
-                                    is_deleting_workspace = len(s[notebook]) == 1 and\
-                                        subprocess.run(['zenity', '--question',
-                                                        '--text=Delete this workspace?']).returncode == 0
+                                    # NOTE: zenity should not block the main process
+                                    # if there is no immediate user interaction
+                                    is_deleting_workspace = len(s[notebook]) == 1 and True#\
+                                    #    subprocess.run(['zenity', '--question',
+                                    #                    '--text=Delete this workspace?']).returncode == 0
                                     if is_deleting_workspace:
                                         # delete workspace
                                         del all_workspaces[workspace_name]
