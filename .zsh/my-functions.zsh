@@ -126,6 +126,10 @@ alias in=mcer
 
 48get() {
     for url in "$@"; do
+        if [[ ! $url =~ "https?://" ]]; then
+            url="https://"$url
+        fi
+
         if [[ $url =~ "7gogo\.jp" ]]; then
             Get-755 $url || log.e "failed to get \"$url\""
         elif [[ $url =~ "instagram\.com" && ! ($url =~ "cdninstagram\.com") ]]; then
@@ -262,6 +266,8 @@ mark() {
             # is a known file, set emblems
             log.i "Setting custom emblem for file: $FILENAME"
             gio set -t stringv "$FILENAME" metadata::emblems "$EMBLEM_TYPE"
+        else
+            log.e "File not found: $FILENAME"
         fi
     done
 }
@@ -283,6 +289,8 @@ unmark() {
             # is a known file, unset emblems
             log.i "Unsetting custom emblem for file: $FILENAME"
             gio set -t unset "$FILENAME" metadata::emblems
+        else
+            log.e "File not found: $FILENAME"
         fi
     done
 }
