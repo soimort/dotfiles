@@ -15,6 +15,35 @@ def main():
 
     for arg in sys.argv[1:]:
         cont = get_content(arg, headers=headers)
+        imgs = re.findall(r'/path/(\w+)/image/(\w+)/version/(\d+)/image\.(jpg)" alt="', cont)
+        imgs = list(set(imgs))
+        img_id_pool = {}
+        for img in imgs:
+            img_raw = 'https://image.jimcdn.com/app/cms/storage/image/path/%s/image/%s/version/%s/image.%s' % (img[0], img[1], img[2], img[3])
+
+            img_id = img[2]
+            ext = img[3]
+            if img_id in img_id_pool:
+                img_id_pool[img_id] += 1
+            else:
+                img_id_pool[img_id] = 1
+
+            title = '[music-culture.info] %s' % img_id
+            if img_id_pool[img_id] > 1:
+                title = '%s (%s)' % (title, img_id_pool[img_id])
+
+            size = url_size(img_raw, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img_raw],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+        continue ### TODO: remove obsolete code
+
         imgs = re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" alt="', cont)
         imgs += re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.jpg)" data-title="', cont)
         imgs += re.findall(r'(https://image\.jimcdn\.com/app/cms/image/transf/[^/]+/path/\w+/image/\w+/version/\d+/image\.png)" alt="', cont)
