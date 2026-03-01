@@ -44,13 +44,15 @@ if __name__ == '__main__':
 
             if flag_workspace_starting:
                 workspace_name = line
+                num = 0
                 flag_workspace_starting = False
                 continue
             else:
                 flag = False
+                num += 1
                 for target in targets:
                     m = re.match(rf'(.*{target}.*)', line)
                     if m:
                         flag = True
                 if flag:
-                    print('%-16s%s' % (workspace_name, line))
+                    print('%-20s%3d %s' % (workspace_name, num, line))
