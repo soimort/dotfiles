@@ -53,12 +53,13 @@ Dependencies: `mate-desktop`, `mate-common`
 Sources:
 
 - **1.16** (***GTK+2***) https://github.com/soimort/moe/tree/1.16
-- **1.23** (***GTK+3***) https://github.com/soimort/moe
+- **1.26** (***GTK+3***) https://github.com/soimort/moe/tree/1.26
 
 Feature tweaks:
 
 1. Get rid of the menubar.
 2. Do not confirm unsaved images when closing.
+3. (1.26 only) Show full URI in window title.
 
 Get rid of toolbar and statusbar completely:
 
