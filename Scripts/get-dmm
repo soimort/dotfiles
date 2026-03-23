@@ -18,7 +18,7 @@ def main():
     for arg in sys.argv[1:]:
         cont = get_content(arg, headers=headers)
         try:
-            cid = re.findall(r'cid=([^/]+)/', cont)[0]
+            cid = re.findall(r'(content_id|cid)=(\w+)', cont)[0][1]
             print("ID:\t\t%s" % cid)
             title = (re.findall(r'<title>(.*?) - ', cont) or re.findall(r'<title>(.*?)<', cont))[0]
             print("Title:\t\t%s" % title)
@@ -44,8 +44,9 @@ def main():
             if not samps:
                 samps = re.findall('//pics.dmm.co.jp/digital/video/(\w+)/(\w+)-(\d+).jpg', cont)
             if not samps:
-                samps = re.findall('//awsimgsrc.dmm.co.jp/pics_dig/digital/video/(\w+)/(\w+\d+v?)-(\d+).jpg', cont)
+                samps = re.findall('//awsimgsrc.dmm.co.jp/pics_dig/digital/video/(\w+)/(\w+)(?<!jp)-(\d+).jpg', cont)
                 samps = set(samps)
+
             for samp in samps:
                 url = 'https://pics.dmm.co.jp/digital/video/%s/%sjp-%s.jpg' % (samp[0], samp[1], samp[2])
                 title = '%sjp-%s' % (samp[1], samp[2])
