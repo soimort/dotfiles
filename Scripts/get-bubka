@@ -29,7 +29,7 @@ def main():
 
             title = '[bubka] %s' % img_id
 
-            ext, size = 'jpg', url_size(img, headers=headers)
+            ext, size = 'jpg', url_size(img_src, headers=headers)
             print_info(site_info, title, ext, size)
             download_urls(urls=[img_src],
                           title=title,
