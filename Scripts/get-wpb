@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import json, re, sys
+from you_get.common import *
+from you_get.util import *
+
+site_info = 'WPB (wpb.shueisha.co.jp)'
+
+def main():
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept': '*/*'
+    }
+
+    for arg in sys.argv[1:]:
+        cont = get_content(arg, headers=headers)
+        imgs = re.findall(r'<img class="c-pict__src" src="(/gravure/news/[^"]+)" alt=""', cont)
+
+        for img in imgs:
+            img_src = 'https://wpb.shueisha.co.jp%s' % img
+            img_id = ''.join(img_src.split('/')[-1].split('.')[:-1])
+
+            title = '[wpb.shueisha.co.jp] %s' % img_id
+
+            ext, size = 'webp', url_size(img_src, headers=headers)
+            print_info(site_info, title, ext, size)
+            download_urls(urls=[img_src],
+                          title=title,
+                          output_dir='.',
+                          total_size=size,
+                          ext=ext,
+                          merge=False,
+                          headers=headers)
+
+    return
+
+if __name__ == '__main__':
+    main()
