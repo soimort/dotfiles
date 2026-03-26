@@ -9,11 +9,15 @@ import sys
 def main():
     for filename in sys.argv[1:]:
         fullname = os.path.abspath(filename)
-        p = subprocess.run(['file', '-b', filename], capture_output=True)
+        p = subprocess.run(['file', '-bL', filename], capture_output=True)  # --brief --dereference
         result = p.stdout.decode('utf-8').strip()
         m = re.search(r', ((\d+)\s*x\s*(\d+))', result)
         if m is not None:
             print('%s x %s' % (m.group(2), m.group(3)))
+            # show "non-technical" metadata (descriptive fields like titles, authors, and descriptions)
+            p = subprocess.run(['exiftool', '-Title', '-Description', '-Caption-Abstract', '-Artist', '-Copyright', '-Keywords', filename], capture_output=True)
+            result = p.stdout.decode('utf-8').strip()
+            print(result)
         else:
             p = subprocess.run(['ffprobe', filename], capture_output=True)
             result = p.stderr.decode('utf-8').strip()
@@ -26,6 +30,12 @@ def main():
             m = re.search(r'Duration: ([\d:.]+)', result)
             if m is not None:
                 print('%s s' % m.group(1))
+            m = re.search(r'title\s+: (.+)', result)
+            if m is not None:
+                print('title:\t%s' % m.group(1))
+            m = re.search(r'artist\s+: (.+)', result)
+            if m is not None:
+                print('artist:\t%s' % m.group(1))
 
 
 if __name__ == '__main__':
