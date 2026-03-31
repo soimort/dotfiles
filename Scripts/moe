@@ -1,0 +1,75 @@
+#!/bin/zsh
+#
+# A command-line wrapper for launching the eom image viewer.
+# It removes window decoration automatically.
+# Can be modified and used as an alternative to GNOME Shell extension "Pixel Saver".
+#
+# Dependencies: xdotool, xprop
+#
+# Written by Gemini:
+#   https://gemini.google.com/app/30b5204829795fe4
+
+# 1. Pre-flight check
+if ! command -v eom >/dev/null 2>&1; then
+    print "Error: eom is not installed." >&2
+    exit 1
+fi
+
+# Function to get only the visible, "real" eom window IDs
+get_eom_wins() {
+    # --onlyvisible ignores the hidden leader/communication windows
+    # --class is more specific than --classname
+    xdotool search --onlyvisible --class "eom" 2>/dev/null
+}
+
+# Capture existing windows before we start
+BEFORE_WINS=($(get_eom_wins))
+
+# Start eom
+eom "$@" &
+EOM_PID=$!
+
+# 2. Identify the NEW visible window ID
+NEW_WIN_ID=""
+for i in {1..50}; do
+    CURRENT_WINS=($(get_eom_wins))
+
+    for win in $CURRENT_WINS; do
+        # Check if this window was NOT present before
+        if [[ ! ${BEFORE_WINS[(r)$win]} == $win ]]; then
+            # Double-check that it has actual dimensions (not a ghost window)
+            eval $(xdotool getwindowgeometry --shell "$win")
+            if (( WIDTH > 1 && HEIGHT > 1 )); then
+                NEW_WIN_ID=$win
+                break 2
+            fi
+        fi
+    done
+    sleep 0.1
+done
+
+if [[ -z "$NEW_WIN_ID" ]]; then
+    # Fallback: if eom was already running, it might not have created a 'new'
+    # process but it should have created a new window.
+    # If we still can't find it, we exit.
+    print "Error: Could not detect the new eom image window." >&2
+    exit 1
+fi
+
+# 3. Remove decorations
+xprop -id "$NEW_WIN_ID" -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS "0x2, 0x0, 0x0, 0x0, 0x0"
+
+# 4. Center the window
+SCREEN_GEOM=($(xdotool getdisplaygeometry))
+SCREEN_WIDTH=$SCREEN_GEOM[1]
+SCREEN_HEIGHT=$SCREEN_GEOM[2]
+
+# Refresh geometry for the specific NEW_WIN_ID
+eval $(xdotool getwindowgeometry --shell "$NEW_WIN_ID")
+
+X=$(( (SCREEN_WIDTH - WIDTH) / 2 ))
+Y=$(( (SCREEN_HEIGHT - HEIGHT) / 2 ))
+
+xdotool windowmove "$NEW_WIN_ID" "$X" "$Y"
+
+exit 0
