@@ -9,20 +9,19 @@
 # Written by Gemini:
 #   https://gemini.google.com/app/30b5204829795fe4
 
-# 1. Pre-flight check
+# 1. Pre-flight & Setup
 if ! command -v eom >/dev/null 2>&1; then
     print "Error: eom is not installed." >&2
     exit 1
 fi
 
-# Function to get only the visible, "real" eom window IDs
+SESSION_FILE="$HOME/moe-session"
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S.%N") # Using Nanoseconds for absolute uniqueness
+
 get_eom_wins() {
-    # --onlyvisible ignores the hidden leader/communication windows
-    # --class is more specific than --classname
     xdotool search --onlyvisible --class "eom" 2>/dev/null
 }
 
-# Capture existing windows before we start
 BEFORE_WINS=($(get_eom_wins))
 
 # Start eom
@@ -33,11 +32,8 @@ EOM_PID=$!
 NEW_WIN_ID=""
 for i in {1..50}; do
     CURRENT_WINS=($(get_eom_wins))
-
     for win in $CURRENT_WINS; do
-        # Check if this window was NOT present before
         if [[ ! ${BEFORE_WINS[(r)$win]} == $win ]]; then
-            # Double-check that it has actual dimensions (not a ghost window)
             eval $(xdotool getwindowgeometry --shell "$win")
             if (( WIDTH > 1 && HEIGHT > 1 )); then
                 NEW_WIN_ID=$win
@@ -49,27 +45,39 @@ for i in {1..50}; do
 done
 
 if [[ -z "$NEW_WIN_ID" ]]; then
-    # Fallback: if eom was already running, it might not have created a 'new'
-    # process but it should have created a new window.
-    # If we still can't find it, we exit.
-    print "Error: Could not detect the new eom image window." >&2
+    print "Error: Could not detect the new eom window." >&2
     exit 1
 fi
 
-# 3. Remove decorations
+# 3. Handle Title and Logging
+# Fetch the window title
+WIN_TITLE=$(xdotool getwindowname "$NEW_WIN_ID")
+LOG_LINE="${TIMESTAMP}\t${WIN_TITLE}"
+
+# Append to session file
+print "$LOG_LINE" >> "$SESSION_FILE"
+
+# 4. Remove decorations and Center
 xprop -id "$NEW_WIN_ID" -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS "0x2, 0x0, 0x0, 0x0, 0x0"
 
-# 4. Center the window
 SCREEN_GEOM=($(xdotool getdisplaygeometry))
-SCREEN_WIDTH=$SCREEN_GEOM[1]
-SCREEN_HEIGHT=$SCREEN_GEOM[2]
-
-# Refresh geometry for the specific NEW_WIN_ID
 eval $(xdotool getwindowgeometry --shell "$NEW_WIN_ID")
-
-X=$(( (SCREEN_WIDTH - WIDTH) / 2 ))
-Y=$(( (SCREEN_HEIGHT - HEIGHT) / 2 ))
-
+X=$(( (SCREEN_GEOM[1] - WIDTH) / 2 ))
+Y=$(( (SCREEN_GEOM[2] - HEIGHT) / 2 ))
 xdotool windowmove "$NEW_WIN_ID" "$X" "$Y"
+
+# 5. Wait for Window Closure
+# We poll xwininfo; when it fails, the window is gone.
+while xwininfo -id "$NEW_WIN_ID" >/dev/null 2>&1; do
+    sleep 0.5
+done
+
+# 6. Cleanup the specific line from the session file
+# Using a temporary file to safely handle concurrent access
+if [[ -f "$SESSION_FILE" ]]; then
+    # Create a pattern that matches the exact timestamp
+    # Use grep -v to keep everything EXCEPT this specific line
+    sed -i "/^${TIMESTAMP}/d" "$SESSION_FILE"
+fi
 
 exit 0
