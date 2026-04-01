@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 #
+# [OBSOLETE]
 # Restore a saved SciTE session.
 
 . prelude

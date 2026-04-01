@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 #
+# [OBSOLETE]
 # List all saved SciTE sessions.
 
 . prelude
