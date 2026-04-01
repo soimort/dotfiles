@@ -52,7 +52,8 @@ fi
 # 3. Handle Title and Logging
 # Fetch the window title
 WIN_TITLE=$(xdotool getwindowname "$NEW_WIN_ID")
-LOG_LINE="${TIMESTAMP}\t${WIN_TITLE}"
+#LOG_LINE="${TIMESTAMP}\t${WIN_TITLE}"
+LOG_LINE="${TIMESTAMP}\t$@"  # log command-line arguments instead
 
 # Append to session file
 print "$LOG_LINE" >> "$SESSION_FILE"
