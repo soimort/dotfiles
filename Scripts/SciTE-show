@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+#
+# Show all paths in a saved SciTE session (.SciTE.session).
+#
+# Written by Gemini:
+#   https://gemini.google.com/app/bf5fcff6f1ddd383
+
+import re
+import sys
+import os
+from pathlib import Path
+
+def process_file(filepath, print_filename=False):
+    """Parses the file for buffer paths and prints the results."""
+    pattern = re.compile(r'buffer\.(\d+)\.path=(.*)')
+
+    try:
+        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+            if print_filename:
+                print(f"--- {filepath} ---")
+
+            for line in f:
+                match = pattern.search(line)
+                if match:
+                    number, path = match.groups()
+                    print(f"{number}\t{path}")
+    except Exception as e:
+        print(f"Error reading {filepath}: {e}", file=sys.stderr)
+
+def main():
+    home = Path.home()
+    args = sys.argv[1:]
+
+    if not args:
+        # Case 2: No arguments, search $HOME/*.SciTE.session
+        sessions = list(home.glob("*.SciTE.session"))
+        if not sessions:
+            print("No .SciTE.session files found in home directory.", file=sys.stderr)
+            return
+
+        for session_file in sessions:
+            process_file(session_file, print_filename=True)
+
+    else:
+        # Case 1: Process command-line arguments
+        for arg in args:
+            arg_path = Path(arg)
+
+            if arg_path.exists():
+                process_file(arg_path)
+            else:
+                # Try $HOME/$ARG.SciTE.session
+                fallback_path = home / f"{arg}.SciTE.session"
+                if fallback_path.exists():
+                    process_file(fallback_path)
+                else:
+                    print(f"Error: File '{arg}' or fallback '{fallback_path}' not found.",
+                          file=sys.stderr)
+
+if __name__ == "__main__":
+    main()
