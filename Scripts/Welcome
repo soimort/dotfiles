@@ -17,41 +17,34 @@ welcome_init() {
     if [[ $HOST == "Ada" ]]; then
 
         # mount SSHFS locally
-        sshfs soimort@Hope:/ /mnt/Hope
-        sshfs soimort@Seele:/ /mnt/Seele
+        # use ServerAlive flags to prevent SSH freeze
+        sshfs soimort@Hope:/ /mnt/Hope -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
+        sshfs soimort@Seele:/ /mnt/Seele -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
 
     elif [[ $HOST == "Hope" ]]; then
 
-        # initialize X key bindings
+        # initialize X key bindings (external keyboard)
         xmodmap ~/.Xmodmap.k1000
-
-        # mount SSHFS locally
-        ## FIXME: why does Ada always prompt for password?
-        ## echo $ALICE | sshfs -o password_stdin soimort@Ada:/ /mnt/Ada
-        sshfs soimort@Ada:/ /mnt/Ada
-        sshfs soimort@Seele:/ /mnt/Seele
-
-    elif [[ $HOST == "Hope (obsolete)" ]]; then  # obsolete?!
-
-        # initialize X key bindings
-        xmodmap ~/.Xmodmap
-        killall -q xbindkeys; xbindkeys
+        # (OBSOLETE) initialize X key bindings
+        #xmodmap ~/.Xmodmap
+        #killall -q xbindkeys; xbindkeys
 
         # start devilspie2
-        killall -q devilspie2; setsid -f devilspie2
+        #killall -q devilspie2; setsid -f devilspie2
 
         # mount SSHFS locally
+        # use ServerAlive flags to prevent SSH freeze
         ## FIXME: why does Ada always prompt for password?
         ## echo $ALICE | sshfs -o password_stdin soimort@Ada:/ /mnt/Ada
-        sshfs soimort@Ada:/ /mnt/Ada
-        sshfs soimort@Seele:/ /mnt/Seele
+        sshfs soimort@Ada:/ /mnt/Ada -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
+        sshfs soimort@Seele:/ /mnt/Seele -o reconnect,ServerAliveInterval=15,ServerAliveCountMax=3
 
-        # TBD: obsolete this in favor of SSHFS
+        # (OBSOLETE, in favor of SSHFS)
         # connect to SFTP remote points using nautilus
-        nautilus sftp://soimort@seele sftp://seele 2>/dev/null&
-        sleep 2  # wait a short while until it's done
+        #nautilus sftp://soimort@seele sftp://seele 2>/dev/null&
+        #sleep 2  # wait a short while until it's done
 
-    elif [[ $HOST == "Seele" ]]; then
+    elif [[ $HOST == "Seele" ]]; then  # FIXME?
 
         # initialize X key bindings
         xmodmap ~/.Xmodmap
