@@ -187,5 +187,7 @@ if __name__ == '__main__':
         print_inline_with_colors('start SciTE sessions with: ', GREEN)
         print_inline_with_colors('$ SciTE-launcher --force', GREEN, BOLD)
         print_with_colors(' (safe if something is identical with the last session)', GREEN)
+        print_inline_with_colors('maximize all SciTE windows with: ', GREEN)
+        print_with_colors('$ for id in $(xdotool search --classname "scite"); do wmctrl -ir "$id" -b add,maximized_vert,maximized_horz; done', GREEN, BOLD)
 
     exit(flag)
