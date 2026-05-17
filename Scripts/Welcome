@@ -11,8 +11,6 @@
 set -x
 . prelude
 
-#HOST=`hostname`
-
 welcome_init() {
     if [[ $HOST == "Ada" ]]; then
 
@@ -58,10 +56,11 @@ welcome_init() {
 }
 
 welcome_start() {
-    scite 2>/dev/null&
+    Check-Notes
+
 }
 
-# Start the default monitored file management session.
+# (OBSOLETE) Start the default monitored file management session.
 welcome_home() {
     tmux new-session -d 'htop'
     # if something goes wrong, show error message forever
@@ -87,7 +86,6 @@ case $SUBCOMMAND in
     '')
         welcome_init
         welcome_start
-        welcome_home
         ;;
 
     * )
