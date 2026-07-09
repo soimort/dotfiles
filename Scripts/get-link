@@ -13,7 +13,7 @@ for ARG in "$@"; do
     if [[ -r "$ARG" ]]; then
         BASENAME=`basename "$ARG"`  # double quotes required for bash (but not zsh)
         PREFIX=🔗  # alternative: $
-        ln -si "$ARG" "$PREFIX$BASENAME" &&
+        ln -si --no-target-directory "$ARG" "$PREFIX$BASENAME" &&
             echo "$CMD: successfully created symbolic link '$PREFIX$BASENAME'"
     else
         echo>/dev/stderr "$CMD: failed to locate file: '$ARG'"
