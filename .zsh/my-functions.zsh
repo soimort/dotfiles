@@ -20,6 +20,7 @@ what() {
     fi
 }
 
+# [History] his
 # Search for strings (AND-matches) in the command history.
 # * https://unix.stackexchange.com/questions/55359/how-to-run-grep-with-multiple-and-patterns
 # * https://chatgpt.com/c/6b05386c-a530-83ed-8194-24cce224733f
@@ -57,7 +58,7 @@ urldec() {
     python -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1"
 }
 
-# TODO: deprecated in favor of mcer?
+# [Path] doin -- DEPRECATED in favor of mcer (in)
 doin() {
     if [[ -z "$1" || -z "$2" ]]; then
         echo 'Usage: doin DIRECTORY COMMAND...'
@@ -67,6 +68,7 @@ doin() {
     cd $1 && shift && $@ && cd -
 }
 
+# [Path] mc -- DEPRECATED in favor of mcer (in)
 mc() {
     # mkdir and chdir
     if [[ -z "$1" ]]; then
@@ -83,8 +85,9 @@ mc() {
     fi
 }
 
+# [Path] mcer (in)
+# mkdir, chdir, execute and return
 mcer() {
-    # mkdir, chdir, execute and return
     if [[ -z "$1" ]]; then
         log.w 'Usage: mcer DIRECTORY'
         return 1
@@ -94,13 +97,16 @@ mcer() {
     local OLD_OLDPWD=$OLDPWD
     local TMP=$1
     if [ -d ${TMP%/*} ]; then
-        mkdir -p $TMP
+        if [ ! -d $TMP ]; then
+            log.i "Making new dir: $TMP"
+            mkdir -p $TMP
+        fi
         if [ ! "$?" -eq 0 ]; then
             return
         fi
 
         cd $TMP
-        log.i "Executing command under: $TMP"
+        log.d "Executing command under: $TMP"
         shift 1
         $@
         popd -0 >/dev/null
