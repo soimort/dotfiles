@@ -118,6 +118,14 @@ mcer() {
 }
 alias in=mcer
 
+
+# [Download] yt_d
+# Download a YouTube video in mp4 format.
+yt_d() {
+    yt-dlp --js-runtimes quickjs -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b" --merge-output-format mp4 "$@"
+}
+
+# [Download] 48go -- DEPRECATED
 48go() {
     if [[ -z "$ARCHIVE_PATH" ]]; then
         echo 'Please set $ARCHIVE_PATH first.'
