@@ -20,22 +20,28 @@ what() {
     fi
 }
 
-# Search for strings (patterns actually) in the command history. (AND-matches)
-# [FIXME] when a string contains "/", "&", or "'"
-# <https://unix.stackexchange.com/questions/55359/how-to-run-grep-with-multiple-and-patterns>
+# Search for strings (AND-matches) in the command history.
+# * https://unix.stackexchange.com/questions/55359/how-to-run-grep-with-multiple-and-patterns
+# * https://chatgpt.com/c/6b05386c-a530-83ed-8194-24cce224733f
 his() {
-    if [ -z "$1" ]; then
+    if (( $# == 0 )); then
         echo 'Usage: his STRING...'
         return 1
     fi
 
-    local str pat="awk '/" ##grep
-    for str in "$@"; do
-        pat=$pat"/ && /"$str
-        ##pat=$pat" -e \"$str\""
-    done
-    pat=$pat"/'"
-    history | eval $pat | tac | less
+    history | awk -v n=$# '
+        BEGIN {
+            for (i = 1; i <= n; i++)
+                pat[i] = ARGV[i]
+            ARGC = 1
+        }
+        {
+            for (i = 1; i <= n; i++)
+                if (index($0, pat[i]) == 0)
+                    next
+            print
+        }
+    ' "$@" | tac | less
 }
 
 rand() {
